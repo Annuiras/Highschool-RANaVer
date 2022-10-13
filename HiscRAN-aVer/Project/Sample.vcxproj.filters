@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="ソース ファイル\ギャラリー">
+      <UniqueIdentifier>{8e31f703-f00c-425d-8472-31c3895052d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ゲーム">
+      <UniqueIdentifier>{2a5c3ca5-6170-42b2-a1f1-d931247046ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\タイトル">
+      <UniqueIdentifier>{bccfdc55-a5e8-455c-a3e2-6a8da2fcd58d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\モードセレクト">
+      <UniqueIdentifier>{9da57ffe-1fbe-4aa8-9e15-cda01195339e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\オプション">
+      <UniqueIdentifier>{f769b785-5949-419e-833e-3d84daf1fa97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\チュートリアル">
+      <UniqueIdentifier>{0fd1a02e-6bde-41c7-8df7-0d103c651f4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ゲーム\プレイヤー">
+      <UniqueIdentifier>{1dfa68e7-bf0c-4a30-833e-d801880541c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ゲーム\ステージ">
+      <UniqueIdentifier>{ef229a34-04cb-417f-84ad-9dc30c584332}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ゲーム\ステージ\ディテールポイント">
+      <UniqueIdentifier>{2adc6144-a808-47fb-9213-0111860a7e7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ゲーム\ステージ\障害物">
+      <UniqueIdentifier>{71794a3a-a883-4d91-980b-b6bd7613def4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ゲーム\ステージ\足場">
+      <UniqueIdentifier>{820efdcb-8351-4444-bbfa-04527d11f3a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ゲーム\ステージ\地面">
+      <UniqueIdentifier>{9131d772-f5ea-49ad-83d6-0940a92bdc67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ゲーム\ステージ\配置情報">
+      <UniqueIdentifier>{23d6de7e-4e20-47f3-95ac-6d126110cd25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ゲーム\ステージ\配置情報\ディテールポイント">
+      <UniqueIdentifier>{0095777a-11a1-4be6-8d7d-ed9c08b91b5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ゲーム\ステージ\配置情報\障害物">
+      <UniqueIdentifier>{702c205b-327d-490a-b2a0-20086364f5c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ゲーム\ステージ\配置情報\足場">
+      <UniqueIdentifier>{91ebb2a6-ad69-4cf6-829c-2e008feb54f2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="WinMain.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="GameApp.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Gallery.cpp">
+      <Filter>ソース ファイル\ギャラリー</Filter>
+    </ClCompile>
+    <ClCompile Include="GAME.cpp">
+      <Filter>ソース ファイル\ゲーム</Filter>
+    </ClCompile>
+    <ClCompile Include="Title.cpp">
+      <Filter>ソース ファイル\タイトル</Filter>
+    </ClCompile>
+    <ClCompile Include="ModeSelect.cpp">
+      <Filter>ソース ファイル\モードセレクト</Filter>
+    </ClCompile>
+    <ClCompile Include="Option.cpp">
+      <Filter>ソース ファイル\オプション</Filter>
+    </ClCompile>
+    <ClCompile Include="Tutorial.cpp">
+      <Filter>ソース ファイル\チュートリアル</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>ソース ファイル\ゲーム\プレイヤー</Filter>
+    </ClCompile>
+    <ClCompile Include="DetailPoint.cpp">
+      <Filter>ソース ファイル\ゲーム\ステージ\ディテールポイント</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage.cpp">
+      <Filter>ソース ファイル\ゲーム\ステージ</Filter>
+    </ClCompile>
+    <ClCompile Include="Obstacle.cpp">
+      <Filter>ソース ファイル\ゲーム\ステージ\障害物</Filter>
+    </ClCompile>
+    <ClCompile Include="Bar.cpp">
+      <Filter>ソース ファイル\ゲーム\ステージ\足場</Filter>
+    </ClCompile>
+    <ClCompile Include="Ground.cpp">
+      <Filter>ソース ファイル\ゲーム\ステージ\地面</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GameApp.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Gallery.h">
+      <Filter>ソース ファイル\ギャラリー</Filter>
+    </ClInclude>
+    <ClInclude Include="GAME.h">
+      <Filter>ソース ファイル\ゲーム</Filter>
+    </ClInclude>
+    <ClInclude Include="Title.h">
+      <Filter>ソース ファイル\タイトル</Filter>
+    </ClInclude>
+    <ClInclude Include="ModeSelect.h">
+      <Filter>ソース ファイル\モードセレクト</Filter>
+    </ClInclude>
+    <ClInclude Include="Option.h">
+      <Filter>ソース ファイル\オプション</Filter>
+    </ClInclude>
+    <ClInclude Include="Tutorial.h">
+      <Filter>ソース ファイル\チュートリアル</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>ソース ファイル\ゲーム\プレイヤー</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage.h">
+      <Filter>ソース ファイル\ゲーム\ステージ</Filter>
+    </ClInclude>
+    <ClInclude Include="DetailPoint.h">
+      <Filter>ソース ファイル\ゲーム\ステージ\ディテールポイント</Filter>
+    </ClInclude>
+    <ClInclude Include="Obstacle.h">
+      <Filter>ソース ファイル\ゲーム\ステージ\障害物</Filter>
+    </ClInclude>
+    <ClInclude Include="Bar.h">
+      <Filter>ソース ファイル\ゲーム\ステージ\足場</Filter>
+    </ClInclude>
+    <ClInclude Include="Ground.h">
+      <Filter>ソース ファイル\ゲーム\ステージ\地面</Filter>
+    </ClInclude>
+    <ClInclude Include="StageA_Bar.h">
+      <Filter>ソース ファイル\ゲーム\ステージ\配置情報\足場</Filter>
+    </ClInclude>
+    <ClInclude Include="StageA_DP.h">
+      <Filter>ソース ファイル\ゲーム\ステージ\配置情報\ディテールポイント</Filter>
+    </ClInclude>
+    <ClInclude Include="StageA_Obstacle.h">
+      <Filter>ソース ファイル\ゲーム\ステージ\配置情報\障害物</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
