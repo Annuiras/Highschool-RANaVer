@@ -1,0 +1,2 @@
+# Highschool-RANaVer
+ハイスクールRANのαバージョンです
