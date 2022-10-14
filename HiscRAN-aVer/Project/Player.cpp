@@ -15,7 +15,7 @@ CPlayer::CPlayer() :
 	m_StopX(0.0f),
 	m_HP(0),
 	m_DamageWait(0),
-	m_Startflg(/*true*/ false),//stageに呼び出されてからtrueに変更される。後で変更
+	m_Startflg(false),
 	m_deathflg(false),
 	m_JumpPower(0.0f),
 	m_Jumpflg(false),
@@ -110,23 +110,24 @@ void CPlayer::Update(void) {
 	//ゲーム開始切り替え
 	if (g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
-		//スピード反映
-		m_PosX += m_MoveX;
-
 		CPlayer::GameStart();
 	}
 
 	//待機中の場合の処理
 	if (!m_Startflg)
 	{
-		m_Motion.ChangeMotion(MOTION_WAIT);		
+		//m_Motion.ChangeMotion(MOTION_WAIT);		
 
+		m_SrcRect = m_Motion.GetSrcRect();
 
 		//オーバーした分初期化
 		m_OverX = 0;
 
+		return;
 	}
 
+	//オーバーした分初期化
+	m_OverX = 0;
 
 	//ダメージ中の動作
 	if (m_Motion.GetMotionNo() == MOTION_DAMAGE)
@@ -165,9 +166,10 @@ void CPlayer::Update(void) {
 
 	//重力反映
 	m_MoveY += GRAVITY;
+
 	//スピード反映
 	m_PosY += m_MoveY;
-
+	m_PosX += m_MoveX;
 
 	
 
@@ -353,8 +355,11 @@ void CPlayer::DebuggingRender() {
 		case MOTION_DAMAGE:
 			CGraphicsUtilities::RenderString(0, 90, MOF_XRGB(80, 80, 80), "現在モーション：MOTION_DAMAGE");
 			break;
-
 	}
+
+	//HP表示
+	CGraphicsUtilities::RenderString(0, 260, MOF_XRGB(80, 80, 80), "HP:%d", m_HP);
+
 }
 
 //解放

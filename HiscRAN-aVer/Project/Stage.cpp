@@ -339,15 +339,6 @@ void CStage::DebuggingRender() {
 	CGraphicsUtilities::RenderString(250, 0, MOF_COLOR_BLACK, "このステージ内での取得数  学力：%d　行動力：%d　想像力：%d　コミュ力：%d　魅力：%d",
 		m_gaku, m_kou, m_sou, m_komyu, m_miryoku);
 
-	if (m_spflg)
-	{
-		CGraphicsUtilities::RenderString(0, 300, MOF_XRGB(80, 80, 80), "SPフラグ:true");
-	}
-	else
-	{
-		CGraphicsUtilities::RenderString(0, 300, MOF_XRGB(80, 80, 80), "SPフラグ:false");
-	}
-
 	//地面デバック表示
 	g_ground.DebuggingRender();
 

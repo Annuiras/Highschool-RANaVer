@@ -83,17 +83,16 @@ void GAME::Update(void)
 		}
 	}
 	
-	//一時的なコメントアウトです
-	////F1でTitle画面へ
-	//if (g_pInput->IsKeyPush(MOFKEY_F1))
-	//{
-	//	gChangeScene = SCENENO_TITLE;
-	//}
-	////エンターキーでモードセレクト画面へ
-	//else if (g_pInput->IsKeyPush(MOFKEY_RETURN))
-	//{
-	//	gChangeScene = SCENENO_SELECTMODE;
-	//}
+	//F2でTitle画面へ
+	if (g_pInput->IsKeyPush(MOFKEY_F2))
+	{
+		gChangeScene = SCENENO_TITLE;
+	}
+	//エンターキーでモードセレクト画面へ
+	else if (g_pInput->IsKeyPush(MOFKEY_F3))
+	{
+		gChangeScene = SCENENO_SELECTMODE;
+	}
 
 	//一時的な追加です
 	//Pキーでフルスクリーンに切り替え
