@@ -16,9 +16,12 @@ private:
 	//モーションクラス
 	CSpriteMotionController	m_Motion;
 
+	//描画矩形
 	CRectangle				m_SrcRect;
 
+	//キャラクターテクスチャ
 	CTexture				m_Texture;
+
 	//プレイヤー座標
 	float					m_PosX;
 	float					m_PosY;
@@ -26,6 +29,7 @@ private:
 	float					m_MoveX;
 	float					m_MoveY;
 
+	//当たり判定幅
 	float m_hitboxX;
 	float m_hitboxY;
 
@@ -44,8 +48,8 @@ private:
 	//無敵時間
 	int					m_DamageWait;
 
-	//待機中フラグ true:待機
-	bool				m_standby;
+	//ゲーム開始フラグ
+	bool					m_Startflg;
 	//死亡フラグ
 	bool				m_deathflg;
 	//ジャンプパワー
@@ -55,8 +59,6 @@ private:
 	//大小ジャンプカウント
 	float				m_JumpCount;
 
-	//ゲーム開始フラグ
-	bool					m_Startflg;
 
 	//モーション種類定義
 	enum tag_MOTION {
@@ -82,17 +84,21 @@ public:
 	void DebuggingRender(void);
 
 	//足場当たり判定
-	bool CollosopnObje(CRectangle r);
-	void UPdeteCollisionObje(float y);
+	bool CollosopnBar(CRectangle r);
+	void UPdateCollisionBra(float y);
+
+	//地面の当たり判定
+	bool CollosopnGround(float y);
+	void UPdateCollisionGround(float y);
 
 	//障害物当たり判定
 	bool CollosopnOB(CRectangle r);
+	//障害物・敵と当たった場合
+	void UPdateCollisionOB(void);
 
-	//敵当たり判定
+
+	//敵当たり判定:未使用
 	bool CollosopnEnemy(CRectangle r);
-
-	//HP減
-	void UPdeteCollisionOB(void);
 
 	//オーバー値取得
 	float GetOver(void) { return m_OverX; }
@@ -110,6 +116,6 @@ public:
 	}
 
 	//ゲームスタート切り替え
-	bool GameStart();
+	void GameStart();
 
 };

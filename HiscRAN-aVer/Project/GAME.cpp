@@ -16,7 +16,7 @@
 extern int			gChangeScene;
 
 //プレイヤークラス
-CPlayer g_Plater;
+CPlayer g_Player;
 
 //ステージクラス
 CStage g_Stage;
@@ -30,14 +30,14 @@ GAME::~GAME()
 
 void GAME::Load(void)
 {
-	g_Plater.Load();
+	g_Player.Load();
 	g_Stage.Load();
 }
 
 //初期化
 void GAME::Initialize(void)
 {
-	g_Plater.Initialize();
+	g_Player.Initialize();
 
 	g_Stage.Initialize(s_stageAdp, s_stageAdpcount, s_stageAbar, s_stageAbarcount, s_stageAob, s_stageAobcount);
 }
@@ -46,10 +46,42 @@ void GAME::Initialize(void)
 void GAME::Update(void)
 {
 
-	g_Stage.Update(g_Plater.GetOver(),g_Plater.GetRect());
+	g_Stage.Update(g_Player.GetOver(),g_Player.GetRect());
 
-	g_Plater.Update();
+	g_Player.Update();
 
+	//地面との当たり判定
+	if (g_Player.CollosopnGround(g_Stage.g_ground.GetPosY())) {
+
+		g_Player.UPdateCollisionGround(g_Stage.g_ground.GetPosY());
+	}
+
+	//足場の高さ
+	for (int i = 0; i < BAR_MAX; i++)
+	{
+		if (!g_Stage.b_bar[i].Getshow()) {
+			continue;
+		}
+
+		if (g_Player.CollosopnBar(g_Stage.b_bar[i].GetRect())) {
+
+			g_Player.UPdateCollisionBra(g_Stage.b_bar[i].GetY());
+		}
+
+	}
+
+	//障害物
+	for (int i = 0; i < OB_VOLUME; i++)
+	{
+		if (!g_Stage.ob_array[i].Getshow()) {
+			continue;
+		}
+
+		if (g_Player.CollosopnOB(g_Stage.ob_array[i].GetRect())) {
+
+			g_Player.UPdateCollisionOB();
+		}
+	}
 	
 	//一時的なコメントアウトです
 	////F1でTitle画面へ
@@ -69,6 +101,16 @@ void GAME::Update(void)
 		g_pGraphics->ChangeScreenMode();
 	}
 
+	//一時的な追加です
+	//リスタート
+	if (g_pInput->IsKeyPush(MOFKEY_F1)) {
+
+		//初期化
+		g_Player.Initialize();
+
+		g_Stage.Initialize(s_stageAdp, s_stageAdpcount, s_stageAbar, s_stageAbarcount, s_stageAob, s_stageAobcount);
+
+	}
 
 }
 
@@ -82,16 +124,17 @@ void GAME::Render(void)
 	//CGraphicsUtilities::RenderString(10, 40, "F1キーでタイトル画面へ遷移");
 	//CGraphicsUtilities::RenderString(10, 70, "Enterキーでモードセレクト画面へ遷移");
 
-	g_Plater.Render();
+	g_Player.Render();
 
-
+	
 	g_Stage.DebuggingRender();
+	g_Player.DebuggingRender();
 }
 
 
 void GAME::Release(void)
 {
-	g_Plater.Release();
+	g_Player.Release();
 
 	g_Stage.Release();
 }

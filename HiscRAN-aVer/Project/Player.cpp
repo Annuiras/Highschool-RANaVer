@@ -2,19 +2,24 @@
 
 CPlayer::CPlayer() :
 	m_Texture(),
-	m_MoveX(0.0f),
-	m_MoveY(0.0f),
+	m_SrcRect(),
 	m_PosX(0.0f),
 	m_PosY(0.0f),
-	m_OverX(0.0f),
-	m_OverY(0.0f),
+	m_MoveX(0.0f),
+	m_MoveY(0.0f),
 	m_hitboxX(0.0f),
 	m_hitboxY(0.0f),
+	m_legsboxY(0.0f),
+	m_OverX(0.0f),
+	m_OverY(0.0f),
+	m_StopX(0.0f),
+	m_HP(0),
+	m_DamageWait(0),
+	m_Startflg(/*true*/ false),//stageに呼び出されてからtrueに変更される。後で変更
+	m_deathflg(false),
 	m_JumpPower(0.0f),
 	m_Jumpflg(false),
-	m_HP(0),
-	m_deathflg(false),
-	m_Startflg(/*true*/ false) //stageに呼び出されてからtrueに変更される。後で変更
+	m_JumpCount(0.0f)
 {
 
 }
@@ -79,19 +84,20 @@ void CPlayer::Initialize(void) {
 
 
 	m_PosX = 50;
-	m_PosY = 410;
+	m_PosY = 300;
 	m_MoveX = 7.0f;
 	m_MoveY = 0.0f;
 	m_JumpPower = 0.0f;
 	m_hitboxX = 100;
 	m_hitboxY = 150;
-	m_legsboxY = 140;
+	m_legsboxY = 100;
 	m_StopX = 50;
 	m_Jumpflg = false;
 	m_HP = 3;
 	m_DamageWait = 0;
 	m_deathflg = false;
-	m_standby = true;
+	m_Startflg = false;
+	m_OverX = 0;
 
 	m_Motion.ChangeMotion(MOTION_WAIT);
 
@@ -100,101 +106,70 @@ void CPlayer::Initialize(void) {
 //更新
 void CPlayer::Update(void) {
 
-	//待機中の場合の処理
-	if (!m_Startflg) {
 
-		m_OverX = 0;
-		m_SrcRect = m_Motion.GetSrcRect();
-
-		return;
-	}
-
-	//todo:ゲーム開始フラグの統一
-	//ゲームスタート
-	if (m_Startflg == true) {
-
-		//todo:MOTION_DAMAGEをセットする処理の追加
-		//セットしてないからこの処理の意味消えちゃってる
-		//ダメージ中の動作
-		if (m_Motion.GetMotionNo() == MOTION_DAMAGE)
-		{
-			//終了で待機に戻す
-			if (m_Motion.IsEndMotion())
-			{
-				m_Motion.ChangeMotion(MOTION_WAIT);
-			}
-		}
-
-		////Enter押した時走る
-		//if (g_pInput->IsKeyPush(MOFKEY_RETURN))
-		//{
-		//	if (!m_deathflg)
-		//	{
-		//		m_standby = false;
-		//	}
-		//	m_Motion.ChangeMotion(MOTION_MOVE);
-		//}
-
-
-		//ジャンプ処理
-		if (g_pInput->IsKeyHold(MOFKEY_SPACE)) {
-			m_JumpCount++;
-		}
-		//離したときにジャンプ処理
-		if (g_pInput->IsKeyPull(MOFKEY_SPACE) && !m_Jumpflg) {
-			//ジャンプ開始
-			m_Jumpflg = true;
-
-			if (m_JumpCount >= 15) {
-				m_MoveY = BIGJUMP;
-			}
-			else {
-				m_MoveY = SMALLJUMP;
-			}
-
-			m_Motion.ChangeMotion(MOTION_JUMPSTART);
-		}
-
-		//スライディング処理
-		if (g_pInput->IsKeyHold(MOFKEY_DOWN)) {
-
-		}
-
-
-		//重力反映
-		m_MoveY += GRAVITY;
+	//ゲーム開始切り替え
+	if (g_pInput->IsKeyPush(MOFKEY_RETURN))
+	{
 		//スピード反映
-		m_PosY += m_MoveY;
+		m_PosX += m_MoveX;
 
-		//地面着地
-		if (m_PosY >= 550)
+		CPlayer::GameStart();
+	}
+
+	//待機中の場合の処理
+	if (!m_Startflg)
+	{
+		m_Motion.ChangeMotion(MOTION_WAIT);		
+
+
+		//オーバーした分初期化
+		m_OverX = 0;
+
+	}
+
+
+	//ダメージ中の動作
+	if (m_Motion.GetMotionNo() == MOTION_DAMAGE)
+	{
+		//終了で待機に戻す
+		if (m_Motion.IsEndMotion())
 		{
-			if (m_Jumpflg) {
-				m_JumpCount = 0;
-			}
-			m_PosY = 550;
-			m_MoveY = 0;
-			m_Jumpflg = false;
+			m_Motion.ChangeMotion(MOTION_WAIT);
+		}
+	}
 
-			//移動モーション
-			if (m_Motion.GetMotionNo() == MOTION_JUMPSTART) {
-				m_Motion.ChangeMotion(MOTION_MOVE);
-			}
+	//ジャンプ処理
+	if (g_pInput->IsKeyHold(MOFKEY_SPACE)) {
+		m_JumpCount++;
+	}
+	//離したときにジャンプ処理
+	if (g_pInput->IsKeyPull(MOFKEY_SPACE) && !m_Jumpflg) {
+		//ジャンプ開始
+		m_Jumpflg = true;
+
+		if (m_JumpCount >= 15) {
+			m_MoveY = BIGJUMP;
+		}
+		else {
+			m_MoveY = SMALLJUMP;
 		}
 
-		//todo:アニメーションの再生が重複しているバグの解消->おそらくここ
-		//アニメーション再生
-		m_Motion.AddTimer(CUtilities::GetFrameSecond());
-		m_SrcRect = m_Motion.GetSrcRect();
-	}
-	else {
-		m_Motion.ChangeMotion(MOTION_WAIT);
+		m_Motion.ChangeMotion(MOTION_JUMPSTART);
 	}
 
-	//オーバーした分初期化
-	m_OverX = 0;
+	//スライディング処理
+	if (g_pInput->IsKeyHold(MOFKEY_DOWN)) {
+
+	}
+
+
+	//重力反映
+	m_MoveY += GRAVITY;
 	//スピード反映
-	m_PosX += m_MoveX;
+	m_PosY += m_MoveY;
+
+
+	
 
 	//画面上ではX位置動かないように調整
 	if (m_PosX > m_StopX) {
@@ -203,7 +178,6 @@ void CPlayer::Update(void) {
 		m_PosX = m_StopX;
 	}
 
-	//todo:アニメーションの再生が重複しているバグの解消->とここ
 	//アニメーション再生
 	m_Motion.AddTimer(CUtilities::GetFrameSecond());
 	m_SrcRect = m_Motion.GetSrcRect();
@@ -213,16 +187,65 @@ void CPlayer::Update(void) {
 		m_DamageWait--;
 	}
 }
-//todo:地面と接触した場合の関数の追加->
-//プロトタイプが参考になると思う、引数：地面の高さ
-//地面当たり判定
-bool CPlayer::CollosopnObje(CRectangle r) {
+
+//足場当たり判定
+bool CPlayer::CollosopnBar(CRectangle r) {
 	if (legsGetRect().CollisionRect(r))
 	{
 		return true;
 	}
 	return false;
 }
+
+
+//足場と当たった場合
+void CPlayer::UPdateCollisionBra(float y) {
+
+	m_PosY = y;
+	m_PosY -= m_hitboxY;
+
+	if (m_Jumpflg) {
+		m_JumpCount = 0;
+	}
+	m_MoveY = 0;
+	m_Jumpflg = false;
+
+	//移動モーション
+	if (m_Motion.GetMotionNo() != MOTION_MOVE) {
+		m_Motion.ChangeMotion(MOTION_MOVE);
+	}
+}
+
+//地面と当たり判定
+//float y:地面の高さ
+bool CPlayer::CollosopnGround(float y) {
+
+	//キャラのY座標＋当たり判定が地面高さより下しになった場合
+	if (m_PosY + m_hitboxY > y) {
+		return true;
+	}
+	return false;
+}
+
+//地面と当たった場合
+//float y:地面の高さ
+void CPlayer::UPdateCollisionGround(float y) {
+
+	m_PosY = y - m_hitboxY;
+
+	if (m_Jumpflg) {
+		m_JumpCount = 0;
+	}
+	m_MoveY = 0;
+	m_Jumpflg = false;
+
+	//移動モーション
+	if (m_Motion.GetMotionNo() == MOTION_WAIT) {
+		m_Motion.ChangeMotion(MOTION_MOVE);
+	}
+
+}
+
 
 //障害物と当たり判定
 bool CPlayer::CollosopnOB(CRectangle r) {
@@ -232,16 +255,44 @@ bool CPlayer::CollosopnOB(CRectangle r) {
 	{
 		return false;
 	}
-	if (GetRect().CollisionRect(r)) {
-
-		//todo:ここの無敵時間処理をUPdeteCollisionOBに移動してくれると見やすくてうれしい
-		m_DamageWait = 60;
+	if (GetRect().CollisionRect(r))
+	{
+		m_Motion.ChangeMotion(MOTION_DAMAGE);
 		return true;
 	}
 	return false;
 }
 
-//敵当たり判定
+
+//障害物・敵と当たった場合
+void CPlayer::UPdateCollisionOB() {
+
+	m_HP -= 1;
+	m_DamageWait = 60;
+	if (m_HP <= 0) {
+		m_deathflg = true;
+		m_HP = 0;
+	}
+}
+
+//ゲームスタート切り替え
+void CPlayer::GameStart()
+{
+	//待機モーションから移動モーションへ
+	//m_Motion.ChangeMotion(MOTION_MOVE);
+	if (m_Startflg) {
+
+		m_Startflg = false;
+
+	}
+	else
+	{
+		m_Startflg = true;
+
+	}
+}
+
+//未使用:敵当たり判定
 bool CPlayer::CollosopnEnemy(CRectangle r) {
 
 	//無敵時間中は判定しない
@@ -251,33 +302,11 @@ bool CPlayer::CollosopnEnemy(CRectangle r) {
 	}
 	if (GetRect().CollisionRect(r)) {
 		m_DamageWait = 60;
+		m_Motion.ChangeMotion(MOTION_DAMAGE);
 		return true;
 	}
 	return false;
 }
-
-//障害物・敵と当たった場合
-void CPlayer::UPdeteCollisionOB() {
-
-	m_HP -= 1;
-	if (m_HP <= 0) {
-		m_deathflg = true;
-		m_HP = 0;
-		m_standby = true;
-	}
-}
-
-//todo:ゲームスタートの切り替えの追加->この処理呼び出されてないからフラグ切り替えられないです
-//ゲームスタート切り替え
-bool CPlayer::GameStart() {
-	//待機モーションから移動モーションへ
-	m_Motion.ChangeMotion(MOTION_MOVE);
-	m_Startflg = true;
-	return true;
-}
-
-
-
 
 
 //描画
@@ -303,6 +332,29 @@ void CPlayer::Render()
 //デバック表示
 void CPlayer::DebuggingRender() {
 
+	switch (m_Motion.GetMotionNo())
+	{
+
+		case MOTION_WAIT:
+			CGraphicsUtilities::RenderString(0, 90, MOF_XRGB(80, 80, 80), "現在モーション：MOTION_WAIT");
+			break;
+
+		case MOTION_MOVE:
+			CGraphicsUtilities::RenderString(0, 90, MOF_XRGB(80, 80, 80), "現在モーション：MOTION_MOVE");
+			break;
+
+		case MOTION_JUMPSTART:
+			CGraphicsUtilities::RenderString(0, 90, MOF_XRGB(80, 80, 80), "現在モーション：MOTION_JUMPSTART");
+			break;
+
+		case MOTION_JUMPEND:
+			CGraphicsUtilities::RenderString(0, 90, MOF_XRGB(80, 80, 80), "現在モーション：MOTION_JUMPEND");
+			break;
+		case MOTION_DAMAGE:
+			CGraphicsUtilities::RenderString(0, 90, MOF_XRGB(80, 80, 80), "現在モーション：MOTION_DAMAGE");
+			break;
+
+	}
 }
 
 //解放
