@@ -101,6 +101,9 @@ private:
 	int	m_komyu;
 	int	m_miryoku;
 
+	//クリアフラグ
+	bool m_bClear;
+
 
 
 public:
@@ -117,8 +120,8 @@ public:
 	//DPと接触処理
 	void UPdeteCollisionDP(int dpt);
 
-	////障害物の当たり判定を取得する
-	//CRectangle GetObrect(int i);
+	//クリア判定の取得
+	bool GetClear(void);
 
 	//障害物
 	CObstacle ob_array[OB_VOLUME];

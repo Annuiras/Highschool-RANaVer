@@ -107,17 +107,10 @@ void CPlayer::Initialize(void) {
 void CPlayer::Update(void) {
 
 
-	//ゲーム開始切り替え
-	if (g_pInput->IsKeyPush(MOFKEY_RETURN))
-	{
-		CPlayer::GameStart();
-	}
-
 	//待機中の場合の処理
 	if (!m_Startflg)
 	{
-		//m_Motion.ChangeMotion(MOTION_WAIT);		
-
+		//表示矩形をセット
 		m_SrcRect = m_Motion.GetSrcRect();
 
 		//オーバーした分初期化
@@ -278,7 +271,7 @@ void CPlayer::UPdateCollisionOB() {
 }
 
 //ゲームスタート切り替え
-void CPlayer::GameStart()
+void CPlayer::GameStopPlayChange()
 {
 	//待機モーションから移動モーションへ
 	//m_Motion.ChangeMotion(MOTION_MOVE);
@@ -292,6 +285,13 @@ void CPlayer::GameStart()
 		m_Startflg = true;
 
 	}
+}
+
+//キャラが動いているか取得
+bool CPlayer::GetGameStopPlay() {
+
+	return m_Startflg;
+
 }
 
 //未使用:敵当たり判定

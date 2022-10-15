@@ -44,7 +44,7 @@ private:
 	float m_StopX;
 
 	//HP
-	int m_HP;
+	int				m_HP;
 	//無敵時間
 	int					m_DamageWait;
 
@@ -115,7 +115,10 @@ public:
 			m_PosX + m_hitboxX, m_PosY + m_hitboxY);
 	}
 
-	//ゲームスタート切り替え
-	void GameStart();
+	//ゲーム停止：再生切り替え
+	void GameStopPlayChange();
+
+	//キャラが動いているか取得
+	bool GetGameStopPlay();
 
 };

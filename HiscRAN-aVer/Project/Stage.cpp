@@ -25,7 +25,8 @@ CStage::CStage() :
 	m_obcount(0),
 	m_BakScroll(0.0f),
 	m_StageScroll(0.0f),
-	m_spflg(false)
+	m_spflg(false),
+	m_bClear(false)
 {}
 
 CStage::~CStage() {
@@ -84,6 +85,8 @@ void CStage::Initialize(DP_info* dpin, int dpco, BAR_info* barin, int barco, OB_
 	m_dpcount = 0;
 	m_obcount = 0;
 
+	//クリアフラグ初期化
+	m_bClear = false;
 
 	//足場
 	for (int i = 0; i < BAR_MAX; i++)
@@ -230,6 +233,14 @@ void CStage::Update(float over, CRectangle plrect) {
 		}
 
 	}
+
+	//クリアフラグ変更
+	if (m_StageScroll <= -37000||g_pInput->IsKeyPush(MOFKEY_0)) {
+
+		m_bClear = true;
+
+	}
+
 }
 
 //DPと当たった場合
@@ -344,6 +355,23 @@ void CStage::DebuggingRender() {
 
 	//DPデバック表示
 
+	//クリアフラグ表示
+	if (m_bClear)
+	{
+		CGraphicsUtilities::RenderString(500, 350, MOF_XRGB(255, 0, 0), "クリア!\nF1でリスタート");
+		CGraphicsUtilities::RenderString(0, 350, MOF_XRGB(80, 80, 80), "クリアフラグ:true");
+
+	}
+	else
+	{
+		CGraphicsUtilities::RenderString(0, 350, MOF_XRGB(80, 80, 80), "クリアフラグ:false");
+	}
+
+}
+
+bool CStage::GetClear(void) {
+
+	return m_bClear;
 
 }
 

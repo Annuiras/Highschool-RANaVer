@@ -46,9 +46,25 @@ void GAME::Initialize(void)
 void GAME::Update(void)
 {
 
+	//ゲーム開始切り替え
+	if (g_pInput->IsKeyPush(MOFKEY_RETURN)&&!g_Stage.GetClear())
+	{
+		g_Player.GameStopPlayChange();
+	}
+
+	//ステージ更新
 	g_Stage.Update(g_Player.GetOver(),g_Player.GetRect());
 
+
+	//プレイヤー更新
 	g_Player.Update();
+
+	//ステージクリアかつ開始状態の時実行
+	if (g_Stage.GetClear()&&g_Player.GetGameStopPlay()) {
+
+		g_Player.GameStopPlayChange();
+
+	}
 
 	//地面との当たり判定
 	if (g_Player.CollosopnGround(g_Stage.g_ground.GetPosY())) {
@@ -56,7 +72,7 @@ void GAME::Update(void)
 		g_Player.UPdateCollisionGround(g_Stage.g_ground.GetPosY());
 	}
 
-	//足場の高さ
+	//足場との当たり判定
 	for (int i = 0; i < BAR_MAX; i++)
 	{
 		if (!g_Stage.b_bar[i].Getshow()) {
@@ -70,7 +86,7 @@ void GAME::Update(void)
 
 	}
 
-	//障害物
+	//障害物との当たり判定
 	for (int i = 0; i < OB_VOLUME; i++)
 	{
 		if (!g_Stage.ob_array[i].Getshow()) {
