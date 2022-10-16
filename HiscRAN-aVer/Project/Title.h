@@ -1,5 +1,6 @@
 #pragma once
 #include	"Mof.h"
+#include "Define.h"
 
 #define		SCROLL_SPEED	1;
 

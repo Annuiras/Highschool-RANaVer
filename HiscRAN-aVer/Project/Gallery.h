@@ -1,4 +1,7 @@
 #pragma once
+
+#include	"Mof.h"
+
 class Gallery
 {
 private:
@@ -7,6 +10,8 @@ private:
 
 	//選択時の四角形
 	CTexture	m_SelectTexture;
+	CTexture	m_SelectTexture_s;
+
 
 	//最終容姿の台紙テクスチャ（バラ）
 	CTexture	m_LastApp[15];
@@ -18,21 +23,21 @@ private:
 	//最終容姿の台紙テクスチャ（バラ）座標格納
 	Vector2		pos[15] =
 	{
-		{60,60},
-		{180,60},
-		{300,60},
-		{420,60},
-		{540,60},
-		{60,260},
-		{180,260},
-		{300,260},
-		{420,260},
-		{540,260},
-		{60,460},
-		{180,460},
-		{300,460},
-		{420,460},
-		{540,460}
+		{60,40},
+		{180,40},
+		{300,40},
+		{420,40},
+		{540,40},
+		{60,240},
+		{180,240},
+		{300,240},
+		{420,240},
+		{540,240},
+		{60,440},
+		{180,440},
+		{300,440},
+		{420,440},
+		{540,440}
 	};
 
 	//最終容姿の台紙テクスチャ（ピックアップ用）
@@ -40,6 +45,7 @@ private:
 
 	CTexture	m_PickUp;
 	CTexture	m_Text;
+	CTexture	m_BackButton;
 
 	bool LastAddFlag[15] =
 	{
@@ -68,6 +74,5 @@ public:
 	void Render(void);
 	bool Load(void);
 	void Release(void);
-
 };
 

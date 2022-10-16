@@ -9,7 +9,7 @@
 
 //INCLUDE
 #include	"GameApp.h"
-
+#include	"Define.h"
 #include	"Title.h"
 #include	"ModeSelect.h"
 #include	"Tutorial.h"

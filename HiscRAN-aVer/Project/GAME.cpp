@@ -1,5 +1,6 @@
 #pragma once
 #include "GAME.h"
+#include "Define.h"
 #include "GameApp.h"
 #include "Player.h"
 #include "PlayerSkill.h"

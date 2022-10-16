@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bar.h" />
+    <ClInclude Include="Define.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="DetailPoint.h" />
     <ClInclude Include="Gallery.h" />

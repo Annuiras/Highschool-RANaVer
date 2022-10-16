@@ -1,17 +1,18 @@
-
-#include "GameApp.h"
+#include "Define.h"
 #include "Gallery.h"
 
 //変更するシーン（外部参照。実態はGameApp.cpp）
 extern int gChangeScene;
 
-#define MenuCnt (15)
+#define MenuCnt (16)
 
 int galleryCnt = 0;
 
 Gallery::Gallery() :
 	m_BackTexture(),
 	m_SelectTexture(),
+	m_SelectTexture_s(),
+	m_BackButton(),
 	m_PickUp(),
 	m_Text(),
 	gFont1(),
@@ -35,11 +36,15 @@ void Gallery::Initialize(void)
 //更新
 void Gallery::Update(void)
 {
-	//エンターキーでモードセレクト画面へ
-	if (g_pInput->IsKeyPush(MOFKEY_RETURN))
+	if (galleryCnt == 15 && g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
 		gChangeScene = SCENENO_SELECTMODE;
 	}
+	////エンターキーでモードセレクト画面へ
+	//if (g_pInput->IsKeyPush(MOFKEY_RETURN)) 
+	//{
+	//	gChangeScene = SCENENO_SELECTMODE;
+	//}
 	//F1キーでタイトル画面へ
 	if (g_pInput->IsKeyPush(MOFKEY_F1))
 	{
@@ -68,9 +73,13 @@ void Gallery::Update(void)
 	//下に下がる＝5つ先のものになる
 	if (g_pInput->IsKeyPush(MOFKEY_DOWN))
 	{
-		if (galleryCnt < MenuCnt - 1 && galleryCnt < 10)
+		if (galleryCnt < MenuCnt - 1 && galleryCnt <= 10)
 		{
 			galleryCnt += 5;
+		}
+		else if (galleryCnt > 10)
+		{
+			galleryCnt = 15;
 		}
 	}
 	//矢印キー上で選択が上がるようにする
@@ -83,6 +92,8 @@ void Gallery::Update(void)
 		}
 	}
 
+	//フラグ切り換え
+	//後日デバックに書き写し
 	if (g_pInput->IsKeyPush(MOFKEY_1))
 	{
 		if (LastAddFlag[0] == false)
@@ -274,106 +285,226 @@ void Gallery::Render(void)
 	//最終容姿台紙
 	//m_BackTexture.Render(10,50);
 
+	//最終容姿画像
 	for (int i = 0; i < 15; i++)
 	{
 		m_LastApp[i].Render(pos[i].x, pos[i].y);
 	}
 
-	m_PickUp.Render(766, 60);
-	m_Text.Render(766, 471);
+	//最終容姿表示位置
+	m_PickUp.Render(766, 40);
+
+	//テキストボックス
+	m_Text.Render(766, 461);
+
+	//戻るボタン
+	m_BackButton.Render(60, 650);
 
 	//フラグがfalseの場合、最終容姿を隠す処理
 	//画像に差し替える
 	if (LastAddFlag[0] == false)
 	{
-		CGraphicsUtilities::RenderFillRect(60, 60, 180, 260, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
+		CGraphicsUtilities::RenderFillRect(60, 40, 180, 240, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
 	}
 
 	if (LastAddFlag[1] == false)
 	{
-		CGraphicsUtilities::RenderFillRect(180, 60, 300, 260, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
+		CGraphicsUtilities::RenderFillRect(180, 40, 300, 240, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
 	}
 
 	if (LastAddFlag[2] == false)
 	{
-		CGraphicsUtilities::RenderFillRect(300, 60, 420, 260, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
+		CGraphicsUtilities::RenderFillRect(300, 40, 420, 240, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
 	}
 
 	if (LastAddFlag[3] == false)
 	{
-		CGraphicsUtilities::RenderFillRect(420, 60, 540, 260, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
+		CGraphicsUtilities::RenderFillRect(420, 40, 540, 240, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
 	}
 
 	if (LastAddFlag[4] == false)
 	{
-		CGraphicsUtilities::RenderFillRect(540, 60, 660, 260, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
+		CGraphicsUtilities::RenderFillRect(540, 40, 660, 240, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
 	}
 
 
-
+	//2段目
 	if (LastAddFlag[5] == false)
 	{
-		CGraphicsUtilities::RenderFillRect(60, 260, 180, 460, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
+		CGraphicsUtilities::RenderFillRect(60, 240, 180, 440, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
 	}
 
 	if (LastAddFlag[6] == false)
 	{
-		CGraphicsUtilities::RenderFillRect(180, 260, 300, 460, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
+		CGraphicsUtilities::RenderFillRect(180, 240, 300, 440, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
 	}
 
 	if (LastAddFlag[7] == false)
 	{
-		CGraphicsUtilities::RenderFillRect(300, 260, 420, 460, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
+		CGraphicsUtilities::RenderFillRect(300, 240, 420, 440, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
 	}
 
 	if (LastAddFlag[8] == false)
 	{
-		CGraphicsUtilities::RenderFillRect(420, 260, 540, 460, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
+		CGraphicsUtilities::RenderFillRect(420, 240, 540, 440, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
 	}
 
 	if (LastAddFlag[9] == false)
 	{
-		CGraphicsUtilities::RenderFillRect(540, 260, 660, 460, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
+		CGraphicsUtilities::RenderFillRect(540, 240, 660, 440, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
 	}
 
 
 
 
-
+	//三段目
 	if (LastAddFlag[10] == false)
 	{
-		CGraphicsUtilities::RenderFillRect(60, 460, 180, 660, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
+		CGraphicsUtilities::RenderFillRect(60, 440, 180, 640, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
 	}
 
 	if (LastAddFlag[11] == false)
 	{
-		CGraphicsUtilities::RenderFillRect(180, 460, 300, 660, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
+		CGraphicsUtilities::RenderFillRect(180, 440, 300, 640, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
 	}
 
 	if (LastAddFlag[12] == false)
 	{
-		CGraphicsUtilities::RenderFillRect(300, 460, 420, 660, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
+		CGraphicsUtilities::RenderFillRect(300, 440, 420, 640, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
 	}
 
 	if (LastAddFlag[13] == false)
 	{
-		CGraphicsUtilities::RenderFillRect(420, 460, 540, 660, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
+		CGraphicsUtilities::RenderFillRect(420, 440, 540, 640, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
 	}
 
 	if (LastAddFlag[14] == false)
 	{
-		CGraphicsUtilities::RenderFillRect(540, 460, 660, 660, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
+		CGraphicsUtilities::RenderFillRect(540, 440, 660, 640, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
 	}
 
-	//内容説明テキスト
+	//内容説明テキスト(最終容姿名)
 	const char* MenuString[MenuCnt] =
 	{
-		"姉御"
+		"姉御",
+		"クラスの人気者",
+		"ギャル",
+		"応援団長",
+		"図書室の長",
+		"オタク",
+		"インフルエンサー",
+		"委員長",
+		"高嶺の花",
+		"ヤンキー",
+		"スーパーレディ",
+		"お調子者",
+		"文学少女",
+		"中二病",
+		"神対応",
+		"戻る"
 	};
 
+	//内容説明テキスト（最終容姿説明）
 	const char* ExString[MenuCnt] =
 	{
-		"容姿の説明をここに入力してく\nださい。容姿の説明をここに入\n力してください。容姿の説明を\nここに入力してください。容姿\nの説明をここに入力してくださ"
+		//姉御の説明
+		"容姿の説明をここに入力してく\nださい。容姿の説明をここに入\n力してください。容姿の説明を\nここに入力してください。容姿\nの説明をここに入力してくださ",
+
+		//クラスの人気者の説明
+		"容姿の説明をここに入力してく\nださい。容姿の説明をここに入\n力してください。容姿の説明を\nここに入力してください。容姿\nの説明をここに入力してくださ",
+
+		//ギャルの説明
+		"容姿の説明をここに入力してく\nださい。容姿の説明をここに入\n力してください。容姿の説明を\nここに入力してください。容姿\nの説明をここに入力してくださ",
+
+		//応援団長
+		"容姿の説明をここに入力してく\nださい。容姿の説明をここに入\n力してください。容姿の説明を\nここに入力してください。容姿\nの説明をここに入力してくださ",
+
+		//図書室の長説明
+		"容姿の説明をここに入力してく\nださい。容姿の説明をここに入\n力してください。容姿の説明を\nここに入力してください。容姿\nの説明をここに入力してくださ",
+
+		//オタクの説明
+		"容姿の説明をここに入力してく\nださい。容姿の説明をここに入\n力してください。容姿の説明を\nここに入力してください。容姿\nの説明をここに入力してくださ",
+
+		//インフルエンサーの説明
+		"容姿の説明をここに入力してく\nださい。容姿の説明をここに入\n力してください。容姿の説明を\nここに入力してください。容姿\nの説明をここに入力してくださ",
+
+		//委員長の説明
+		"容姿の説明をここに入力してく\nださい。容姿の説明をここに入\n力してください。容姿の説明を\nここに入力してください。容姿\nの説明をここに入力してくださ",
+
+		//高嶺の花の説明
+		"容姿の説明をここに入力してく\nださい。容姿の説明をここに入\n力してください。容姿の説明を\nここに入力してください。容姿\nの説明をここに入力してくださ",
+
+		//ヤンキーの説明
+		"容姿の説明をここに入力してく\nださい。容姿の説明をここに入\n力してください。容姿の説明を\nここに入力してください。容姿\nの説明をここに入力してくださ",
+
+		//スーパーレディの説明
+		"容姿の説明をここに入力してく\nださい。容姿の説明をここに入\n力してください。容姿の説明を\nここに入力してください。容姿\nの説明をここに入力してくださ",
+
+		//お調子者の説明
+		"容姿の説明をここに入力してく\nださい。容姿の説明をここに入\n力してください。容姿の説明を\nここに入力してください。容姿\nの説明をここに入力してくださ",
+
+		//文学少女説明
+		"容姿の説明をここに入力してく\nださい。容姿の説明をここに入\n力してください。容姿の説明を\nここに入力してください。容姿\nの説明をここに入力してくださ",
+
+		//中二病の説明
+		"容姿の説明をここに入力してく\nださい。容姿の説明をここに入\n力してください。容姿の説明を\nここに入力してください。容姿\nの説明をここに入力してくださ",
+
+		//神対応
+		"容姿の説明をここに入力してく\nださい。容姿の説明をここに入\n力してください。容姿の説明を\nここに入力してください。容姿\nの説明をここに入力してくださ",
+
+		//戻るボタン説明
+		"エンターでメニュー画面に戻る\nもうちょいおしゃれな文章を考\nえてくださるとうれしいです！\nよろしくお願いしますね～。"
+	};
+
+	//内容説明テキスト（最終容姿説明）
+	const char* NoOpenExString[15] =
+	{
+		//姉御未解放説明
+		"コミュ力と想像力を上げると解\n放されるかも！頑張ってあげて\nみよう！",
+
+		//クラスの人気者未解放説明
+		"コミュ力と学力を上げると解放\nされるかも！頑張ってあげてみ\nよう！",
+
+		//ギャル未解放説明
+		"コミュ力と魅力を上げると解放\nされるかも！頑張ってあげてみ\nよう！",
+
+		//応援団長未解放説明
+		"コミュ力と行動力を上げると解\n放されるかも！頑張ってあげて\nみよう！",
+
+		//図書室の長未解放説明
+		"想像力と学力を上げると解放さ\nれるかも！頑張ってあげてみよ\nう！",
+
+		//オタク未解放説明
+		"想像力と行動力を上げると解放\nされるかも！頑張ってあげてみ\nよう！",
+
+		//インフルエンサー未解放説明
+		"想像力と魅力を上げると解放さ\nれるかも！頑張ってあげてみよ\nう！",
+
+		//委員長未解放説明
+		"学力と行動力を上げると解放さ\nれるかも！頑張ってあげてみよ\nう！",
+
+		//高嶺の花未解放説明
+		"学力と魅力を上げると解放され\nるかも！頑張ってあげてみよう\n！",
+
+		//ヤンキー未解放説明
+		"行動力と魅力を上げると解放さ\nれるかも！頑張ってあげてみよ\nう！",
+
+		//スーパーレディ未解放説明
+		"魅力をしっかり磨くと解放され\nるかも！頑張ってあげてみよう\n！",
+
+
+		//お調子者未解放説明
+		"行動力をしっかり見せつけると\n解放されるかも！頑張ってあげ\nてみよう！",
+
+		//文学少女未解放説明
+		"学力をしっかりあげると解放さ\nれるかも！頑張ってあげてみよ\nう！",
+
+		//中二病未解放説明
+		"想像力をすごく豊かにすると解\n放されるかも！頑張ってあげて\nみよう！",
+
+		//神対応未解放説明
+		"コミュ力をしっかり磨くと解放\nされるかも！頑張ってあげてみ\nよう！",
+
 	};
 
 	//1容姿ごとの矩形目安
@@ -397,95 +528,382 @@ void Gallery::Render(void)
 
 
 	//矩形数確認用
-	CGraphicsUtilities::RenderString(10, 100, "galleryCnt:%d", galleryCnt);
+	//デバックプログラムに移行
+	CGraphicsUtilities::RenderString(10, 100, MOF_COLOR_BLACK, "galleryCnt:%d", galleryCnt);
 
 	//現在選択矩形表示（黄色になる）
-	//線が細いので画像で四角形作ったのを読み込むかどうか検討中……
+	//線が細いので画像で四角形作ったのを読み込む
 	switch (galleryCnt)
 	{
 	case 0:
+		//選択時囲み枠を表示
 		m_SelectTexture.Render(pos[galleryCnt].x, pos[galleryCnt].y);
-		gFont1.RenderString(930, 471, MenuString[galleryCnt]);
-		gFont2.RenderString(766, 520, ExString[galleryCnt]);
 
+
+		//もし最終容姿解放フラグがFalseだった場合
 		if (!LastAddFlag[0])
 		{
+			//最終容姿を表示せず別画像を表示
 			m_PickUp.Render(766, 50);
+			//未解放時の表記にする
+			gFont1.RenderString(930, 471, "未解放");
+			gFont2.RenderString(766, 520, NoOpenExString[0]);
 		}
 		else
 		{
+			//最終容姿を表示
 			m_LastAppPic[0].Render(766, 50);
+			//最終容姿名
+			gFont1.RenderString(930, 471, MenuString[galleryCnt]);
+			//最終容姿説明
+			gFont2.RenderString(766, 520, ExString[galleryCnt]);
 		}
 		break;
 
 	case 1:
+
+		//選択時囲み枠を表示
 		m_SelectTexture.Render(pos[galleryCnt].x, pos[galleryCnt].y);
-		m_LastAppPic[1].Render(766, 50);
+
+		//もし最終容姿解放フラグがFalseだった場合
+		if (!LastAddFlag[1])
+		{
+			//最終容姿を表示せず別画像を表示
+			m_PickUp.Render(766, 50);
+			//未解放時の表記にする
+			gFont1.RenderString(930, 471, "未解放");
+			gFont2.RenderString(766, 520, NoOpenExString[1]);
+		}
+		else
+		{
+			//最終容姿を表示
+			m_LastAppPic[1].Render(766, 50);
+			//最終容姿名
+			gFont1.RenderString(930, 471, MenuString[galleryCnt]);
+			//最終容姿説明
+			gFont2.RenderString(766, 520, ExString[galleryCnt]);
+		}
 		break;
 
 	case 2:
+		//選択時囲み枠を表示
 		m_SelectTexture.Render(pos[galleryCnt].x, pos[galleryCnt].y);
-		m_LastAppPic[2].Render(766, 50);
+
+		//もし最終容姿解放フラグがFalseだった場合
+		if (!LastAddFlag[2])
+		{
+			//最終容姿を表示せず別画像を表示
+			m_PickUp.Render(766, 50);
+			//未解放時の表記にする
+			gFont1.RenderString(930, 471, "未解放");
+			gFont2.RenderString(766, 520, NoOpenExString[2]);
+		}
+		else
+		{
+			//最終容姿を表示
+			m_LastAppPic[2].Render(766, 50);
+			//最終容姿名
+			gFont1.RenderString(930, 471, MenuString[galleryCnt]);
+			//最終容姿説明
+			gFont2.RenderString(766, 520, ExString[galleryCnt]);
+		}
 		break;
 
 	case 3:
+		//選択時囲み枠を表示
 		m_SelectTexture.Render(pos[galleryCnt].x, pos[galleryCnt].y);
-		m_LastAppPic[3].Render(766, 50);
+
+		//もし最終容姿解放フラグがFalseだった場合
+		if (!LastAddFlag[3])
+		{
+			//最終容姿を表示せず別画像を表示
+			m_PickUp.Render(766, 50);
+			//未解放時の表記にする
+			gFont1.RenderString(930, 471, "未解放");
+			gFont2.RenderString(766, 520, NoOpenExString[3]);
+		}
+		else
+		{
+			//最終容姿を表示
+			m_LastAppPic[3].Render(766, 50);
+			//最終容姿名
+			gFont1.RenderString(930, 471, MenuString[galleryCnt]);
+			//最終容姿説明
+			gFont2.RenderString(766, 520, ExString[galleryCnt]);
+		}
 		break;
 
 	case 4:
+		//選択時囲み枠を表示
 		m_SelectTexture.Render(pos[galleryCnt].x, pos[galleryCnt].y);
-		m_LastAppPic[4].Render(766, 50);
+
+		//もし最終容姿解放フラグがFalseだった場合
+		if (!LastAddFlag[4])
+		{
+			//最終容姿を表示せず別画像を表示
+			m_PickUp.Render(766, 50);
+			//未解放時の表記にする
+			gFont1.RenderString(930, 471, "未解放");
+			gFont2.RenderString(766, 520, NoOpenExString[4]);
+		}
+		else
+		{
+			//最終容姿を表示
+			m_LastAppPic[4].Render(766, 50);
+			//最終容姿名
+			gFont1.RenderString(930, 471, MenuString[galleryCnt]);
+			//最終容姿説明
+			gFont2.RenderString(766, 520, ExString[galleryCnt]);
+		}
 		break;
 
 	case 5:
+		//選択時囲み枠を表示
 		m_SelectTexture.Render(pos[galleryCnt].x, pos[galleryCnt].y);
-		m_LastAppPic[5].Render(766, 50);
+
+		//もし最終容姿解放フラグがFalseだった場合
+		if (!LastAddFlag[5])
+		{
+			//最終容姿を表示せず別画像を表示
+			m_PickUp.Render(766, 50);
+			//未解放時の表記にする
+			gFont1.RenderString(930, 471, "未解放");
+			gFont2.RenderString(766, 520, NoOpenExString[5]);
+		}
+		else
+		{
+			//最終容姿を表示
+			m_LastAppPic[5].Render(766, 50);
+			//最終容姿名
+			gFont1.RenderString(930, 471, MenuString[galleryCnt]);
+			//最終容姿説明
+			gFont2.RenderString(766, 520, ExString[galleryCnt]);
+		}
 		break;
 
 	case 6:
+		//選択時囲み枠を表示
 		m_SelectTexture.Render(pos[galleryCnt].x, pos[galleryCnt].y);
-		m_LastAppPic[6].Render(766, 50);
+
+		//もし最終容姿解放フラグがFalseだった場合
+		if (!LastAddFlag[6])
+		{
+			//最終容姿を表示せず別画像を表示
+			m_PickUp.Render(766, 50);
+			//未解放時の表記にする
+			gFont1.RenderString(930, 471, "未解放");
+			gFont2.RenderString(766, 520, NoOpenExString[6]);
+		}
+		else
+		{
+			//最終容姿を表示
+			m_LastAppPic[6].Render(766, 50);
+			//最終容姿名
+			gFont1.RenderString(930, 471, MenuString[galleryCnt]);
+			//最終容姿説明
+			gFont2.RenderString(766, 520, ExString[galleryCnt]);
+		}
 		break;
 
 	case 7:
+		//選択時囲み枠を表示
 		m_SelectTexture.Render(pos[galleryCnt].x, pos[galleryCnt].y);
-		m_LastAppPic[7].Render(766, 50);
+
+		//もし最終容姿解放フラグがFalseだった場合
+		if (!LastAddFlag[7])
+		{
+			//最終容姿を表示せず別画像を表示
+			m_PickUp.Render(766, 50);
+			//未解放時の表記にする
+			gFont1.RenderString(930, 471, "未解放");
+			gFont2.RenderString(766, 520, NoOpenExString[7]);
+		}
+		else
+		{
+			//最終容姿を表示
+			m_LastAppPic[7].Render(766, 50);
+			//最終容姿名
+			gFont1.RenderString(930, 471, MenuString[galleryCnt]);
+			//最終容姿説明
+			gFont2.RenderString(766, 520, ExString[galleryCnt]);
+		}
 		break;
 
 	case 8:
+		//選択時囲み枠を表示
 		m_SelectTexture.Render(pos[galleryCnt].x, pos[galleryCnt].y);
-		m_LastAppPic[8].Render(766, 50);
+
+		//もし最終容姿解放フラグがFalseだった場合
+		if (!LastAddFlag[8])
+		{
+			//最終容姿を表示せず別画像を表示
+			m_PickUp.Render(766, 50);
+			//未解放時の表記にする
+			gFont1.RenderString(930, 471, "未解放");
+			gFont2.RenderString(766, 520, NoOpenExString[8]);
+		}
+		else
+		{
+			//最終容姿を表示
+			m_LastAppPic[8].Render(766, 50);
+			//最終容姿名
+			gFont1.RenderString(930, 471, MenuString[galleryCnt]);
+			//最終容姿説明
+			gFont2.RenderString(766, 520, ExString[galleryCnt]);
+		}
 		break;
 
 	case 9:
+		//選択時囲み枠を表示
 		m_SelectTexture.Render(pos[galleryCnt].x, pos[galleryCnt].y);
-		m_LastAppPic[9].Render(766, 50);
+
+		//もし最終容姿解放フラグがFalseだった場合
+		if (!LastAddFlag[9])
+		{
+			//最終容姿を表示せず別画像を表示
+			m_PickUp.Render(766, 50);
+			//未解放時の表記にする
+			gFont1.RenderString(930, 471, "未解放");
+			gFont2.RenderString(766, 520, NoOpenExString[9]);
+		}
+		else
+		{
+			//最終容姿を表示
+			m_LastAppPic[9].Render(766, 50);
+			//最終容姿名
+			gFont1.RenderString(930, 471, MenuString[galleryCnt]);
+			//最終容姿説明
+			gFont2.RenderString(766, 520, ExString[galleryCnt]);
+		}
 		break;
 
 	case 10:
+		//選択時囲み枠を表示
 		m_SelectTexture.Render(pos[galleryCnt].x, pos[galleryCnt].y);
-		m_LastAppPic[10].Render(766, 50);
+
+		//もし最終容姿解放フラグがFalseだった場合
+		if (!LastAddFlag[10])
+		{
+			//最終容姿を表示せず別画像を表示
+			m_PickUp.Render(766, 50);
+			//未解放時の表記にする
+			gFont1.RenderString(930, 471, "未解放");
+			gFont2.RenderString(766, 520, NoOpenExString[10]);
+		}
+		else
+		{
+			//最終容姿を表示
+			m_LastAppPic[10].Render(766, 50);
+			//最終容姿名
+			gFont1.RenderString(930, 471, MenuString[galleryCnt]);
+			//最終容姿説明
+			gFont2.RenderString(766, 520, ExString[galleryCnt]);
+		}
 		break;
 
 	case 11:
+		//選択時囲み枠を表示
 		m_SelectTexture.Render(pos[galleryCnt].x, pos[galleryCnt].y);
-		m_LastAppPic[11].Render(766, 50);
+
+		//もし最終容姿解放フラグがFalseだった場合
+		if (!LastAddFlag[11])
+		{
+			//最終容姿を表示せず別画像を表示
+			m_PickUp.Render(766, 50);
+			//未解放時の表記にする
+			gFont1.RenderString(930, 471, "未解放");
+			gFont2.RenderString(766, 520, NoOpenExString[11]);
+		}
+		else
+		{
+			//最終容姿を表示
+			m_LastAppPic[11].Render(766, 50);
+			//最終容姿名
+			gFont1.RenderString(930, 471, MenuString[galleryCnt]);
+			//最終容姿説明
+			gFont2.RenderString(766, 520, ExString[galleryCnt]);
+		}
 		break;
 
 	case 12:
+		//選択時囲み枠を表示
 		m_SelectTexture.Render(pos[galleryCnt].x, pos[galleryCnt].y);
-		m_LastAppPic[12].Render(766, 50);
+
+		//もし最終容姿解放フラグがFalseだった場合
+		if (!LastAddFlag[12])
+		{
+			//最終容姿を表示せず別画像を表示
+			m_PickUp.Render(766, 50);
+			//未解放時の表記にする
+			gFont1.RenderString(930, 471, "未解放");
+			gFont2.RenderString(766, 520, NoOpenExString[12]);
+		}
+		else
+		{
+			//最終容姿を表示
+			m_LastAppPic[12].Render(766, 50);
+			//最終容姿名
+			gFont1.RenderString(930, 471, MenuString[galleryCnt]);
+			//最終容姿説明
+			gFont2.RenderString(766, 520, ExString[galleryCnt]);
+		}
 		break;
 
 	case 13:
+		//選択時囲み枠を表示
 		m_SelectTexture.Render(pos[galleryCnt].x, pos[galleryCnt].y);
-		m_LastAppPic[13].Render(766, 50);
+
+		//もし最終容姿解放フラグがFalseだった場合
+		if (!LastAddFlag[13])
+		{
+			//最終容姿を表示せず別画像を表示
+			m_PickUp.Render(766, 50);
+			//未解放時の表記にする
+			gFont1.RenderString(930, 471, "未解放");
+			gFont2.RenderString(766, 520, NoOpenExString[13]);
+		}
+		else
+		{
+			//最終容姿を表示
+			m_LastAppPic[13].Render(766, 50);
+			//最終容姿名
+			gFont1.RenderString(930, 471, MenuString[galleryCnt]);
+			//最終容姿説明
+			gFont2.RenderString(766, 520, ExString[galleryCnt]);
+		}
 		break;
 
 	case 14:
+		//選択時囲み枠を表示
 		m_SelectTexture.Render(pos[galleryCnt].x, pos[galleryCnt].y);
-		m_LastAppPic[14].Render(766, 50);
+		//最終容姿名
+		gFont1.RenderString(930, 471, MenuString[galleryCnt]);
+		//最終容姿説明
+		gFont2.RenderString(766, 520, ExString[galleryCnt]);
+
+		//もし最終容姿解放フラグがFalseだった場合
+		if (!LastAddFlag[14])
+		{
+			//最終容姿を表示せず別画像を表示
+			m_PickUp.Render(766, 50);
+			//未解放時の表記にする
+			gFont1.RenderString(930, 471, "未解放");
+			gFont2.RenderString(766, 520, NoOpenExString[14]);
+		}
+		else
+		{
+			//最終容姿を表示
+			m_LastAppPic[14].Render(766, 50);
+		}
+		break;
+
+	case 15:
+		m_SelectTexture_s.Render(60, 650);
+		gFont1.RenderString(930, 471, MenuString[galleryCnt]);
+		gFont2.RenderString(766, 520, ExString[galleryCnt]);
+
+		m_PickUp.Render(766, 50);
+
 		break;
 	}
 
@@ -504,6 +922,17 @@ bool Gallery::Load(void)
 
 	//選択時の四角形
 	if (!m_SelectTexture.Load("Select.png"))
+	{
+		return false;
+	}
+
+	if (!m_SelectTexture_s.Load("Select_s.png"))
+	{
+		return false;
+	}
+
+	//戻るボタン
+	if (!m_BackButton.Load("BackButton.png"))
 	{
 		return false;
 	}
@@ -681,6 +1110,8 @@ void Gallery::Release(void)
 {
 	m_BackTexture.Release();
 	m_SelectTexture.Release();
+	m_SelectTexture_s.Release();
+	m_BackButton.Release();
 	gFont1.Release();
 
 	for (int i = 0; i < 15; i++)
