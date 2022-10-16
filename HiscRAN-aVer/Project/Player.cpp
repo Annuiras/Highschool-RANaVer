@@ -37,6 +37,12 @@ bool CPlayer::Load(void) {
 		return false;
 	}
 
+	////キャラクター読み込み
+	//if (!m_Texture.Load("主人公走りモーション試作左右反転y150.png")) {
+	//	return false;
+	//}
+
+
 	//アニメーション
 	SpriteAnimationCreate anim[] = {
 
@@ -46,12 +52,18 @@ bool CPlayer::Load(void) {
 			60,64,
 			TRUE,{{5,0,0},{5,1,0},{5,2,0},{5,3,0},{5,4,0},{5,5,0},{5,6,0},{5,7,0}}
 		},
-		//移動
 		{
 			"移動",
 			0,70,
 			60,64,
 			TRUE,{{5,0,0},{5,1,0},{5,2,0},{5,3,0},{5,4,0},{5,5,0}}
+
+			//仮モーション用
+			//"移動",
+			//0,0,
+			//150,150,
+			//TRUE,{{4,0,0},{4,1,0},{4,2,0},{4,3,0},{4,4,0},{4,5,0},{4,6,0},{4,7,0}}
+
 		},
 		//ジャンプ
 		{
@@ -61,7 +73,7 @@ bool CPlayer::Load(void) {
 			FALSE,{{5,0,0},{5,1,0},{5,2,0},{5,3,0}}
 		},
 		{
-			//使ってないですs
+			//使ってないです
 			"ジャンプ終了",
 			240,140,
 			60,64,
@@ -235,7 +247,7 @@ void CPlayer::UPdateCollisionGround(float y) {
 	m_Jumpflg = false;
 
 	//移動モーション
-	if (m_Motion.GetMotionNo() == MOTION_WAIT) {
+	if (m_Motion.GetMotionNo() != MOTION_MOVE) {
 		m_Motion.ChangeMotion(MOTION_MOVE);
 	}
 

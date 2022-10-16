@@ -1,5 +1,6 @@
 #pragma once
 #include "Mof.h"
+#include "RandomValue.h"
 #include "Ground.h"
 #include "DetailPoint.h"
 #include "Bar.h"
@@ -35,10 +36,35 @@ class CStage
 {
 private:
 
-
+	//乱数生成
+	RandomValue RandmuBak;
 
 	//背景テクスチャ
-	CTexture m_Bak;
+	//廊下始まり
+	CTexture m_BakStart;
+
+	//右扉
+	CTexture m_BakRdoor;
+	
+	//右壁
+	CTexture m_BakRwall;
+
+	//左扉
+	CTexture m_Bakldoor;
+
+	//左壁
+	CTexture m_Baklwall;
+
+	//二窓
+	CTexture m_BakWindow;
+
+	//階段
+	CTexture m_BakStairs;
+
+	//廊下終わり
+	CTexture m_BakEnd;
+
+	//SPステージテクスチャ
 	CTexture m_SPBak;
 
 	//DPの配置情報
@@ -77,6 +103,13 @@ private:
 	//ステージ用スクロール
 	float	m_StageScroll;
 
+	//中間背景用ランダム数値
+	//左側
+	int m_RandamuBakLeft;
+	//右側
+	int m_RandamuBakRight;
+
+
 	//座標位置
 	float					m_PosX;
 	float					m_PosY;
@@ -104,6 +137,9 @@ private:
 	//クリアフラグ
 	bool m_bClear;
 
+
+	//背景デバック用
+	float m_baklineX;
 
 
 public:

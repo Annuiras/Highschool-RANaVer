@@ -12,7 +12,7 @@ CStage::CStage() :
 	m_MoveY(0.0f),
 	m_Over(0.0f),
 	m_countbak(0),
-	m_Bak(),
+	m_BakStart(),
 	m_SPBak(),
 	m_dpinfo(NULL),
 	m_dpvolume(0),
@@ -26,7 +26,13 @@ CStage::CStage() :
 	m_BakScroll(0.0f),
 	m_StageScroll(0.0f),
 	m_spflg(false),
-	m_bClear(false)
+	m_gaku(0),
+	m_sou(0),
+	m_kou(0),
+	m_komyu(0),
+	m_miryoku(0),
+	m_bClear(false),
+	m_baklineX(0.0f)
 {}
 
 CStage::~CStage() {
@@ -36,7 +42,35 @@ CStage::~CStage() {
 bool CStage::Load() {
 
 	//背景画像の読み込み
-	if (!m_Bak.Load("rouka3-k.png")) {
+	if (!m_BakStart.Load("廊下始まり.png")) {
+		return false;
+	}
+
+	if (!m_BakRdoor.Load("右扉.png")) {
+		return false;
+	}
+
+	if (!m_BakRwall.Load("右壁.png")) {
+		return false;
+	}
+
+	if (!m_Bakldoor.Load("左扉.png")) {
+		return false;
+	}
+
+	if (!m_Baklwall.Load("左壁.png")) {
+		return false;
+	}
+
+	if (!m_BakStairs.Load("階段.png")) {
+		return false;
+	}
+
+	if (!m_BakWindow.Load("二窓.png")) {
+		return false;
+	}
+
+	if (!m_BakEnd.Load("廊下終わり.png")) {
 		return false;
 	}
 
@@ -81,12 +115,17 @@ void CStage::Initialize(DP_info* dpin, int dpco, BAR_info* barin, int barco, OB_
 	//障害物配置情報数
 	m_obvolume = obco;
 
+	//表示済みカウント初期化
 	m_barcount = 0;
 	m_dpcount = 0;
 	m_obcount = 0;
 
 	//クリアフラグ初期化
 	m_bClear = false;
+
+	//背景用ランダム数値初期化
+	m_RandamuBakLeft = RandmuBak.GetRandomNumbe(1, 6); 
+	m_RandamuBakRight = 0;
 
 	//足場
 	for (int i = 0; i < BAR_MAX; i++)
@@ -118,15 +157,13 @@ void CStage::Initialize(DP_info* dpin, int dpco, BAR_info* barin, int barco, OB_
 //
 void CStage::Update(float over, CRectangle plrect) {
 
-
-	//プレイヤーのオーバーした分だけ後ろに下げる
-	m_BakScroll -= over;
-	m_StageScroll -= over;
-
-
 	//背景カウント
 	if (m_BakScroll <= 0) {
-		m_BakScroll = m_Bak.GetWidth();
+
+		//初期化
+		m_BakScroll = m_BakStart.GetWidth();
+
+		//背景カウント
 		m_countbak += 1;
 
 		m_spflg = false;
@@ -137,6 +174,10 @@ void CStage::Update(float over, CRectangle plrect) {
 		}
 
 	}
+
+	//プレイヤーのオーバーした分だけ後ろに下げる
+	m_BakScroll -= over;
+	m_StageScroll -= over;
 
 	//表示済み足場数が足場情報数以下でスクロールが出現位置よりも小さくなったら
 	//※m_StageScrollはマイナス値です
@@ -235,7 +276,7 @@ void CStage::Update(float over, CRectangle plrect) {
 	}
 
 	//クリアフラグ変更
-	if (m_StageScroll <= -37000||g_pInput->IsKeyPush(MOFKEY_0)) {
+	if (m_StageScroll <= -38400||g_pInput->IsKeyPush(MOFKEY_0)) {
 
 		m_bClear = true;
 
@@ -296,16 +337,122 @@ void CStage::Render(void) {
 
 
 	//テクスチャの描画
+	//乱数使ってるけど配列とかでもいいかも
 	//同じテクスチャを繰り返しで画面端を超えるまで行う
-	int h = m_Bak.GetWidth();
+	int h = m_BakStart.GetWidth();
 	int sch = g_pGraphics->GetTargetWidth();
+
+
+	if (m_BakScroll <= 0) {
+		
+		//右側で表示していたものと同じものを左側で表示
+		m_RandamuBakLeft = m_RandamuBakRight;
+
+		//右側はランダムに数値を入れる
+		m_RandamuBakRight = RandmuBak.GetRandomNumbe(1,6);
+
+		//一番初めの背景
+		if (m_countbak == 0) {
+			m_RandamuBakLeft = 7;
+		}
+
+		//一番最後の背景
+		if (m_countbak + 1 == 30 ) {
+			m_RandamuBakRight = 8;
+		}
+	}
+
+
+	//背景スクロール値＝背景画像の横幅：だんだん減る
+	//初期値X:背景スクロール値/背景横幅のあまり引く背景横幅 
+	//条件	：Xが画面横幅よりも小さい場合
+	//増加量：X＋＝背景横幅
 	for (float x = ((int)m_BakScroll % h) - h; x < sch; x += h) {
 
-		//ここでSPステージ用の背景を表示させる感じやと思うけどやり方わからん
-		m_Bak.Render(x, 0.0f);
-
-		if (m_spflg)
+		//消えていく画像
+		if (x <= 0)
 		{
+			//最初と最後以外の中間を埋める背景
+			switch (m_RandamuBakLeft)
+			{
+
+				case 1:
+					m_BakRdoor.Render(x, 0.0f);
+					break;
+
+				case 2:
+					m_BakRwall.Render(x, 0.0f);
+					break;
+
+				case 3:
+					m_Bakldoor.Render(x, 0.0f);
+					break;
+
+				case 4:
+					m_Baklwall.Render(x, 0.0f);
+					break;
+
+				case 5:
+					m_BakWindow.Render(x, 0.0f);
+					break;
+
+				case 6:
+					m_BakStairs.Render(x, 0.0f);
+					break;
+
+				case 7:
+					m_BakStart.Render(x, 0.0f);
+					break;
+
+				case 8:
+					m_BakEnd.Render(x, 0.0f);
+					break;
+
+				default:
+					break;
+
+			}
+
+		}
+		else//出てくる画像
+		{
+			
+			//最初と最後以外の中間を埋める背景
+			switch (m_RandamuBakRight)
+			{
+
+			case 1:
+				m_BakRdoor.Render(x, 0.0f);
+				break;
+
+			case 2:
+				m_BakRwall.Render(x, 0.0f);
+				break;
+
+			case 3:
+				m_Bakldoor.Render(x, 0.0f);
+				break;
+
+			case 4:
+				m_Baklwall.Render(x, 0.0f);
+				break;
+
+			case 5:
+				m_BakWindow.Render(x, 0.0f);
+				break;
+
+			case 6:
+				m_BakStairs.Render(x, 0.0f);
+				break;
+
+			case 8:
+				m_BakEnd.Render(x, 0.0f);
+				break;
+
+			default:
+				break;
+
+			}
 
 		}
 	}
@@ -336,7 +483,14 @@ void CStage::Render(void) {
 //解放
 void CStage::Release(void) {
 
-	m_Bak.Release();
+	m_BakStart.Release();
+	m_BakRdoor.Release();
+	m_BakRwall.Release();
+	m_Bakldoor.Release();
+	m_Baklwall.Release();
+	m_BakWindow.Release();
+	m_BakStairs.Release();
+	m_BakEnd.Release();
 	m_SPBak.Release();
 }
 
@@ -366,6 +520,13 @@ void CStage::DebuggingRender() {
 	{
 		CGraphicsUtilities::RenderString(0, 350, MOF_XRGB(80, 80, 80), "クリアフラグ:false");
 	}
+
+
+	CGraphicsUtilities::RenderLine(m_BakScroll,0, m_BakScroll,g_pGraphics->GetTargetHeight(), MOF_COLOR_BLUE);
+
+
+	
+
 
 }
 

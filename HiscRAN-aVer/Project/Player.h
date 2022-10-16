@@ -121,4 +121,9 @@ public:
 	//ƒLƒƒƒ‰‚ª“®‚¢‚Ä‚¢‚é‚©æ“¾
 	bool GetGameStopPlay();
 
+	//À•Wæ“¾
+	float CircleX() { return m_PosX; }
+	float CircleY() { return m_PosY; }
+
+
 };

@@ -2,6 +2,7 @@
 #include "GAME.h"
 #include "GameApp.h"
 #include "Player.h"
+#include "PlayerSkill.h"
 #include "Stage.h"
 #include "Ground.h"
 #include "DetailPoint.h"
@@ -17,6 +18,9 @@ extern int			gChangeScene;
 
 //プレイヤークラス
 CPlayer g_Player;
+
+//プレイヤースキルクラス
+CPlayerSkill g_PlayerSkill;
 
 //ステージクラス
 CStage g_Stage;
@@ -37,8 +41,13 @@ void GAME::Load(void)
 //初期化
 void GAME::Initialize(void)
 {
+	//プレイヤー初期化
 	g_Player.Initialize();
 
+	//プレイヤースキル初期化
+	g_PlayerSkill.Initialize();
+
+	//ステージ初期化
 	g_Stage.Initialize(s_stageAdp, s_stageAdpcount, s_stageAbar, s_stageAbarcount, s_stageAob, s_stageAobcount);
 }
 
@@ -55,9 +64,12 @@ void GAME::Update(void)
 	//ステージ更新
 	g_Stage.Update(g_Player.GetOver(),g_Player.GetRect());
 
-
 	//プレイヤー更新
 	g_Player.Update();
+
+	//プレイヤースキル更新
+	g_PlayerSkill.Update();
+
 
 	//ステージクリアかつ開始状態の時実行
 	if (g_Stage.GetClear()&&g_Player.GetGameStopPlay()) {
@@ -132,6 +144,7 @@ void GAME::Update(void)
 void GAME::Render(void)
 {
 
+	//ステージ描画
 	g_Stage.Render();
 
 
@@ -139,11 +152,17 @@ void GAME::Render(void)
 	//CGraphicsUtilities::RenderString(10, 40, "F1キーでタイトル画面へ遷移");
 	//CGraphicsUtilities::RenderString(10, 70, "Enterキーでモードセレクト画面へ遷移");
 
+	//プレイヤー描画
 	g_Player.Render();
 
-	
+	//プレイヤースキル描画
+	g_PlayerSkill.Render();
+
+	//デバッグ描画
 	g_Stage.DebuggingRender();
 	g_Player.DebuggingRender();
+	g_PlayerSkill.RenderDebug();
+
 }
 
 

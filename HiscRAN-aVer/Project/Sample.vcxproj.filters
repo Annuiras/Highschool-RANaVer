@@ -105,6 +105,12 @@
     <ClCompile Include="Ground.cpp">
       <Filter>ソース ファイル\ゲーム\ステージ\地面</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerSkill.cpp">
+      <Filter>ソース ファイル\ゲーム\プレイヤー</Filter>
+    </ClCompile>
+    <ClCompile Include="RandomValue.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameApp.h">
@@ -154,6 +160,12 @@
     </ClInclude>
     <ClInclude Include="StageA_Obstacle.h">
       <Filter>ソース ファイル\ゲーム\ステージ\配置情報\障害物</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerSkill.h">
+      <Filter>ソース ファイル\ゲーム\プレイヤー</Filter>
+    </ClInclude>
+    <ClInclude Include="RandomValue.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
