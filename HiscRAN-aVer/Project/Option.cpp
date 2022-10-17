@@ -112,11 +112,14 @@ void Option::Update(void)
 	if (g_pInput->IsKeyPush(MOFKEY_F1))
 	{
 		gChangeScene = SCENENO_TITLE;
+		m_BGM.Stop();
 	}
 	//エンターキーでモードセレクト画面へ
 	else if (g_pInput->IsKeyPush(MOFKEY_0))
 	{
 		gChangeScene = SCENENO_SELECTMODE;
+		m_BGM.Stop();
+
 	}
 
 	//矢印キー右で選択が右に行くようにする
