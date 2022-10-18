@@ -42,9 +42,9 @@ bool CPlayer::Load(void) {
 		return false;
 	}
 
-	if (!m_TEX.Load("880×153RunMotion.png")) {
-		return false;
-	}
+	//if (!m_TEX.Load("880×153RunMotion.png")) {
+	//	return false;
+	//}
 
 	//アニメーション
 	SpriteAnimationCreate anim[] = {
@@ -343,7 +343,8 @@ void CPlayer::Render()
 	//m_Texture.Render(px, py, br);
 
 	//仮キャラ
-	m_TEX.Render(px, py);
+	//m_TEX.Render(px, py);
+	
 	//キャラクターの判定矩形
 	CGraphicsUtilities::RenderRect(GetRect(), MOF_COLOR_RED);
 	CGraphicsUtilities::RenderRect(legsGetRect(), MOF_COLOR_GREEN);
