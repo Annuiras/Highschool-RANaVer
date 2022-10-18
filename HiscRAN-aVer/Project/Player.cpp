@@ -32,16 +32,19 @@ CPlayer::~CPlayer() {
 //読み込み
 bool CPlayer::Load(void) {
 
-	//キャラクター読み込み
-	if (!m_Texture.Load("player.png")) {
-		return false;
-	}
-
 	////キャラクター読み込み
-	//if (!m_Texture.Load("主人公走りモーション試作左右反転y150.png")) {
+	//if (!m_Texture.Load("player.png")) {
 	//	return false;
 	//}
 
+	//キャラクター読み込み
+	if (!m_Texture.Load("880×153RunMotion.png")) {
+		return false;
+	}
+
+	if (!m_TEX.Load("880×153RunMotion.png")) {
+		return false;
+	}
 
 	//アニメーション
 	SpriteAnimationCreate anim[] = {
@@ -53,16 +56,16 @@ bool CPlayer::Load(void) {
 			TRUE,{{5,0,0},{5,1,0},{5,2,0},{5,3,0},{5,4,0},{5,5,0},{5,6,0},{5,7,0}}
 		},
 		{
-			"移動",
-			0,70,
-			60,64,
-			TRUE,{{5,0,0},{5,1,0},{5,2,0},{5,3,0},{5,4,0},{5,5,0}}
+			//"移動",
+			//0,70,
+			//60,64,
+			//TRUE,{{5,0,0},{5,1,0},{5,2,0},{5,3,0},{5,4,0},{5,5,0}}
 
 			//仮モーション用
-			//"移動",
-			//0,0,
-			//150,150,
-			//TRUE,{{4,0,0},{4,1,0},{4,2,0},{4,3,0},{4,4,0},{4,5,0},{4,6,0},{4,7,0}}
+			"移動",
+			0,0,
+			110,153,
+			TRUE,{{10,0,0},{10,1,0},{10,2,0},{10,3,0},{10,4,0},{10,5,0},{10,6,0},{10,7,0}}
 
 		},
 		//ジャンプ
@@ -100,8 +103,8 @@ void CPlayer::Initialize(void) {
 	m_MoveX = 7.0f;
 	m_MoveY = 0.0f;
 	m_JumpPower = 0.0f;
-	m_hitboxX = 100;
-	m_hitboxY = 150;
+	m_hitboxX = 160;
+	m_hitboxY = 185;
 	m_legsboxY = 100;
 	m_StopX = 50;
 	m_Jumpflg = false;
@@ -337,7 +340,10 @@ void CPlayer::Render()
 	float px = m_PosX;
 	float py = m_PosY;
 
-	m_Texture.Render(px, py, br);
+	//m_Texture.Render(px, py, br);
+
+	//仮キャラ
+	m_TEX.Render(px, py);
 	//キャラクターの判定矩形
 	CGraphicsUtilities::RenderRect(GetRect(), MOF_COLOR_RED);
 	CGraphicsUtilities::RenderRect(legsGetRect(), MOF_COLOR_GREEN);
@@ -378,4 +384,5 @@ void CPlayer::DebuggingRender() {
 void CPlayer::Release(void) {
 	m_Texture.Release();
 	m_Motion.Release();
+	m_TEX.Release();
 }

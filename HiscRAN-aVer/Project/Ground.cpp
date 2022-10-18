@@ -16,13 +16,13 @@ Ground::~Ground() {
 
 void Ground::Initialize(void) {
 
-	g_PosY = 600;
+	g_PosY = 700;
 
 }
 
 void Ground::Render() {
 
-	CGraphicsUtilities::RenderFillRect(GetRect(), MOF_COLOR_HGREEN);
+	CGraphicsUtilities::RenderRect(GetRect(), MOF_COLOR_HGREEN);
 }
 
 void Ground::DebuggingRender() {

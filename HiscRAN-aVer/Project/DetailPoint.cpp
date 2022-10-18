@@ -23,8 +23,8 @@ void DetailPoint::Initialize(void) {
 	dp_PosX = 0;
 	dp_PosY = 0;
 	dp_Type = 0;
-	dp_hitboxX = 30;
-	dp_hitboxY = 30;
+	dp_hitboxX = 80;
+	dp_hitboxY = 80;
 	dp_value = 0.5;
 	dp_Show = false;
 }

@@ -2,12 +2,12 @@
 #include	"Mof.h"
 
 //重力
-#define  GRAVITY	0.3f
+#define  GRAVITY	0.5f
 
 //大ジャンプ値
-#define  BIGJUMP	-13.0f
+#define  BIGJUMP	-15.0f
 //小ジャンプ値
-#define  SMALLJUMP	-6.0f
+#define  SMALLJUMP	-8.0f
 
 class CPlayer
 {
@@ -21,6 +21,9 @@ private:
 
 	//キャラクターテクスチャ
 	CTexture				m_Texture;
+
+	//仮キャラ
+	CTexture m_TEX;
 
 	//プレイヤー座標
 	float					m_PosX;
