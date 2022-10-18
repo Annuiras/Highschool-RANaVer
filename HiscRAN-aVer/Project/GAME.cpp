@@ -80,7 +80,7 @@ void GAME::Update(void)
 	}
 
 	//’n–Ê‚Æ‚Ì“–‚½‚è”»’è
-	if (g_Player.CollosopnGround(g_Stage.g_ground.GetPosY())) {
+	if (g_Player.CollosopnGround(g_Stage.g_ground.GetRect())) {
 
 		g_Player.UPdateCollisionGround(g_Stage.g_ground.GetPosY());
 	}

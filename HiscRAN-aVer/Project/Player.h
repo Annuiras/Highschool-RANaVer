@@ -5,9 +5,16 @@
 #define  GRAVITY	0.5f
 
 //大ジャンプ値
-#define  BIGJUMP	-15.0f
+#define  BIGJUMP -16.0f
 //小ジャンプ値
-#define  SMALLJUMP	-8.0f
+#define  SMALLJUMP	-15.0f
+
+//ToDo
+//最大スライディング値
+#define  SLIDING	100
+//スライディングクールタイム
+#define  SLIDINGCOOL 60
+
 
 class CPlayer
 {
@@ -55,19 +62,25 @@ private:
 	bool					m_Startflg;
 	//死亡フラグ
 	bool				m_deathflg;
-	//ジャンプパワー
-	float				m_JumpPower;
-	//ジャンプフラグ
-	bool				m_Jumpflg;
-	//大小ジャンプカウント
-	float				m_JumpCount;
 
+	//ジャンプフラグ     上に加算されている間のフラグ
+	bool					m_Jumpflg;
+
+	//大小ジャンプフラグ 大ジャンプ:true
+	bool					m_BSflg;
+	//大小ジャンプカウント
+	float					m_JumpCount;
+
+	//スライディングフラグ
+	float					m_Slidingflg;
 
 	//モーション種類定義
 	enum tag_MOTION {
 		MOTION_WAIT,
 		MOTION_MOVE,
 		MOTION_JUMPSTART,
+		//ToDo
+		MOTION_SLIDING,
 		MOTION_JUMPEND,
 		MOTION_DAMAGE,
 
@@ -84,6 +97,8 @@ public:
 	void Update(void);
 	void Render(void);
 	void Release(void);
+
+	//デバッグ表示
 	void DebuggingRender(void);
 
 	//足場当たり判定
@@ -91,7 +106,7 @@ public:
 	void UPdateCollisionBra(float y);
 
 	//地面の当たり判定
-	bool CollosopnGround(float y);
+	bool CollosopnGround(CRectangle r);
 	void UPdateCollisionGround(float y);
 
 	//障害物当たり判定
@@ -99,6 +114,10 @@ public:
 	//障害物・敵と当たった場合
 	void UPdateCollisionOB(void);
 
+	//スライディング判定
+	void JudSliding(CRectangle r);
+	//スライディング処理
+	void UPdateSliding(void);
 
 	//敵当たり判定:未使用
 	bool CollosopnEnemy(CRectangle r);
