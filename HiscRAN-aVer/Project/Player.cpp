@@ -19,7 +19,7 @@ CPlayer::CPlayer() :
 	m_deathflg(false),
 	m_Jumpflg(false),
 	m_JumpCount(0.0f),
-	m_BSflg(true),//todo
+	m_BSflg(true),
 	m_Slidingflg(false) {
 }
 
@@ -37,7 +37,7 @@ bool CPlayer::Load(void) {
 	//}
 
 	//キャラクター読み込み
-	if (!m_Texture.Load("880×153RunMotion.png")) {
+	if (!m_Texture.Load("走りジャンプモーション仮.png")) {
 		return false;
 	}
 
@@ -63,21 +63,20 @@ bool CPlayer::Load(void) {
 			//仮モーション用
 			"移動",
 			0,0,
-			110,153,
-			TRUE,{{10,0,0},{10,1,0},{10,2,0},{10,3,0},{10,4,0},{10,5,0},{10,6,0},{10,7,0}}
+			160,185,
+			TRUE,{{5,0,0},{5,1,0},{5,2,0},{5,3,0},{5,4,0},{5,5,0},{5,6,0},{5,7,0},{5,8,0},{5,9,0},{5,5,0},{5,11,0},{5,12,0},{5,13,0},{5,14,0},{5,15,0},{5,16,0}}
 
 		},
 		//ジャンプ
 		{
 			"ジャンプ開始",
-			0,140,
-			60,64,
-			FALSE,{{5,0,0},{5,1,0},{5,2,0},{5,3,0}}
+			0,185,
+			160,185,
+			FALSE,{{5,0,2}}
 		},
-		//スライディング（仮：攻撃）
-		//todo
+		//スライディング
 		{
-			"スライディング",
+			"スライディング",//（仮：攻撃）
 			0,350,
 			90,64,
 			TRUE,{{2,0,0},{2,1,0},{2,2,0},{2,3,0},{2,4,0},{2,5,0},{2,6,0}}
@@ -120,7 +119,7 @@ void CPlayer::Initialize(void) {
 	m_Startflg = false;
 	m_OverX = 0;
 
-	m_Slidingflg = false;//todo
+	m_Slidingflg = false;
 
 	m_Motion.ChangeMotion(MOTION_WAIT);
 
@@ -155,24 +154,7 @@ void CPlayer::Update(void) {
 		}
 	}
 
-	//スライディング処理GAMEに処理、判定を移動
-	if (g_pInput->IsKeyHold(MOFKEY_DOWN)) {
-
-		if (CollosopnBar(GetRect()) || CollosopnGround(GetRect())) {
-
-			m_Slidingflg = true;
-
-			m_Motion.ChangeMotion(MOTION_SLIDING);
-
-		}
-		
-	}
-	else
-	{
-		m_Slidingflg = false;
-	}
-
-	//todo
+	//hack：バグを発見したので修正依頼中です
 	//ジャンプ処理
 	if (g_pInput->IsKeyHold(MOFKEY_SPACE) && !m_Slidingflg && m_BSflg) {
 
@@ -186,11 +168,11 @@ void CPlayer::Update(void) {
 		m_Motion.ChangeMotion(MOTION_JUMPSTART);
 
 		//大小ジャンプ切り替え
-			//押している間に一定時間超えれば大ジャンプ
-			if (m_JumpCount >= 10&& m_BSflg) {
-   				m_MoveY = BIGJUMP;
-				m_BSflg = false;
-			}
+		//押している間に一定時間超えれば大ジャンプ
+		if (m_JumpCount >= 10&& m_BSflg) {
+   			m_MoveY = BIGJUMP;
+			m_BSflg = false;
+		}
 		
 
 	}
@@ -214,7 +196,7 @@ void CPlayer::Update(void) {
 
 	}
 
-	//todo
+	//下降中
 	if (m_MoveY >= 0) {
 		m_Jumpflg = false;
 	}
@@ -227,6 +209,28 @@ void CPlayer::Update(void) {
 	{
 		m_DamageWait--;
 	}
+}
+
+//スライディング処理
+void CPlayer::UPdateSliding(void) {
+
+
+	if (g_pInput->IsKeyHold(MOFKEY_DOWN)) {
+
+		//スライディングフラグ
+		m_Slidingflg = true;
+
+		//モーション変更
+		m_Motion.ChangeMotion(MOTION_SLIDING);
+
+	}
+	else
+	{
+		//スライディングフラグ
+		m_Slidingflg = false;
+	}
+
+
 }
 
 //足場当たり判定
@@ -262,25 +266,30 @@ void CPlayer::UPdateCollisionBra(float y) {
 bool CPlayer::CollosopnGround(CRectangle r) {
 
 	//地面矩形と判定
-	if (GetRect().CollisionRect(r))
+	if (legsGetRect().CollisionRect(r))
 	{
 		return true;
 	}
 	return false;
 }
+
 //地面と当たった場合
 //float y:地面の高さ
 void CPlayer::UPdateCollisionGround(float y) {
 
+	//地面の高さに移動
 	m_PosY = y - m_hitboxY;
 
+	//縦移動量
 	m_MoveY = 0;
 
+	//ジャンプしていない
 	m_Jumpflg = false;
 
-	//ToDo
+	//大ジャンプ可能
 	m_BSflg = true;
 
+	//ジャンプ対空時間
 	m_JumpCount = 0;
 
 
@@ -320,11 +329,33 @@ void CPlayer::UPdateCollisionOB() {
 	}
 }
 
+//todo HP増加
+void CPlayer::UpdateHP(void)
+{
+	m_HP += 1;
+}
+
+
+void CPlayer::UpdateSkillShock(void) {
+	
+
+	//押した時カウントスタート
+	if (g_pInput->IsKeyPush(MOFKEY_V))
+	{
+		m_CircleWait = 60;
+	}
+	//衝撃波のインターバルを減らす
+	if (m_CircleWait > 0)
+	{
+		m_CircleWait--;
+	}
+	
+
+}
+
 //ゲームスタート切り替え
 void CPlayer::GameStopPlayChange()
 {
-	//待機モーションから移動モーションへ
-	//m_Motion.ChangeMotion(MOTION_MOVE);
 	if (m_Startflg) {
 
 		m_Startflg = false;
@@ -375,7 +406,7 @@ void CPlayer::Render()
 	float px = m_PosX;
 	float py = m_PosY;
 
-	//m_Texture.Render(px, py, br);
+	m_Texture.Render(px, py, br);
 
 	//仮キャラ
 	//m_TEX.Render(px, py);
@@ -409,6 +440,10 @@ void CPlayer::DebuggingRender() {
 		case MOTION_DAMAGE:
 			CGraphicsUtilities::RenderString(0, 90, MOF_XRGB(80, 80, 80), "現在モーション：MOTION_DAMAGE");
 			break;
+		case MOTION_SLIDING:
+			CGraphicsUtilities::RenderString(0, 90, MOF_XRGB(80, 80, 80), "現在モーション：MOTION_SLIDING");
+			break;
+
 	}
 
 	//HP表示

@@ -147,7 +147,9 @@ public:
 	~CStage();
 
 	void Initialize(DP_info* dpin, int dpco, BAR_info* barin, int barco, OB_info* obin, int obco);
-	void Update(float over, CRectangle pl);
+	
+	//todo:à¯êîí«â¡ CRectangle pl2, float suckingX, float suckingY
+	void Update(float over, CRectangle pl,CRectangle pl2, float suckingX, float suckingY);
 	bool Load(void);
 	void Render(void);
 	void Release(void);

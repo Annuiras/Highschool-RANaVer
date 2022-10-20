@@ -3,7 +3,7 @@
 #include "Define.h"
 #include "GameApp.h"
 #include "Player.h"
-#include "PlayerSkill.h"
+//#include "PlayerSkill.h"
 #include "Stage.h"
 #include "Ground.h"
 #include "DetailPoint.h"
@@ -21,10 +21,13 @@ extern int			gChangeScene;
 CPlayer g_Player;
 
 //プレイヤースキルクラス
-CPlayerSkill g_PlayerSkill;
+//CPlayerSkill g_PlayerSkill;
 
 //ステージクラス
 CStage g_Stage;
+
+//デバッグフラグ
+bool Debuggingflg = true;
 
 GAME::GAME() {}
 
@@ -46,7 +49,7 @@ void GAME::Initialize(void)
 	g_Player.Initialize();
 
 	//プレイヤースキル初期化
-	g_PlayerSkill.Initialize();
+	//g_PlayerSkill.Initialize();
 
 	//ステージ初期化
 	g_Stage.Initialize(s_stageAdp, s_stageAdpcount, s_stageAbar, s_stageAbarcount, s_stageAob, s_stageAobcount);
@@ -63,13 +66,37 @@ void GAME::Update(void)
 	}
 
 	//ステージ更新
-	g_Stage.Update(g_Player.GetOver(),g_Player.GetRect());
+	g_Stage.Update(g_Player.GetOver(),g_Player.GetRect(),g_Player.SuckingRect(), g_Player.CircleX(), g_Player.CircleY());
 
 	//プレイヤー更新
 	g_Player.Update();
+	g_Player.UpdateSkillShock();
 
 	//プレイヤースキル更新
-	g_PlayerSkill.Update();
+	//g_PlayerSkill.Update();
+
+	//スライディング判定
+	//地面か足場に乗っている間下矢印キースライディング
+	for (int i = 0; i < BAR_MAX; i++)
+	{
+		if (!g_Stage.b_bar[i].Getshow()) {
+			continue;
+		}
+		//足場との判定
+		if (g_Player.CollosopnBar(g_Stage.b_bar[i].GetRect())) {
+
+			//スライディング判定
+			g_Player.UPdateSliding();
+
+		}
+	}
+	//地面との判定
+	if (g_Player.CollosopnGround(g_Stage.g_ground.GetRect())) {
+
+		//スライディング判定
+		g_Player.UPdateSliding();
+
+	}
 
 
 	//ステージクリアかつ開始状態の時実行
@@ -111,12 +138,15 @@ void GAME::Update(void)
 			g_Player.UPdateCollisionOB();
 		}
 	}
-	
+
+	//一時的な追加です
 	//F2でTitle画面へ
 	if (g_pInput->IsKeyPush(MOFKEY_F2))
 	{
 		gChangeScene = SCENENO_TITLE;
 	}
+
+	//一時的な追加です
 	//エンターキーでモードセレクト画面へ
 	else if (g_pInput->IsKeyPush(MOFKEY_F3))
 	{
@@ -127,6 +157,18 @@ void GAME::Update(void)
 	//Pキーでフルスクリーンに切り替え
 	if (g_pInput->IsKeyPush(MOFKEY_P)) {
 		g_pGraphics->ChangeScreenMode();
+	}
+
+	//一時的な追加です
+	//デバッグ表示非表示切り替え
+	if (g_pInput->IsKeyPush(MOFKEY_9)) {
+		if (Debuggingflg) {
+			Debuggingflg = false;
+		}
+		else
+		{
+			Debuggingflg = true;
+		}
 	}
 
 	//一時的な追加です
@@ -157,12 +199,15 @@ void GAME::Render(void)
 	g_Player.Render();
 
 	//プレイヤースキル描画
-	g_PlayerSkill.Render();
+	//g_PlayerSkill.Render();
 
 	//デバッグ描画
-	g_Stage.DebuggingRender();
-	g_Player.DebuggingRender();
-	g_PlayerSkill.RenderDebug();
+	if (Debuggingflg) {
+		g_Stage.DebuggingRender();
+		g_Player.DebuggingRender();
+		//g_PlayerSkill.RenderDebug();
+
+	}
 
 }
 

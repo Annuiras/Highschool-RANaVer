@@ -60,6 +60,11 @@ void Title::Update(void)
 	{
 		gChangeScene = SCENENO_SELECTMODE;
 	}
+
+	if (g_pInput->IsKeyPush(MOFKEY_F1))
+	{
+		gChangeScene = SCENENO_GAME;
+	}
 }
 
 //描画
@@ -79,8 +84,9 @@ void Title::Render(void)
 	m_TiTleUITexture.Render(g_pGraphics->GetTargetWidth() * 0.5 - m_TitleTexture.GetWidth() * 0.5, 500);
 
 
-	CGraphicsUtilities::RenderString(10, 10, "タイトル画面");
-	CGraphicsUtilities::RenderString(10, 40, "Enterキーで画面遷移");
+	CGraphicsUtilities::RenderString(10, 10, MOF_COLOR_BLACK, "タイトル画面");
+	CGraphicsUtilities::RenderString(10, 40,MOF_COLOR_BLACK, "Enterキーで画面遷移");
+	CGraphicsUtilities::RenderString(10, 70, MOF_COLOR_BLACK, "F1キーでゲーム画面遷移");
 }
 
 void Title::Release(void)

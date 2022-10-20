@@ -48,8 +48,6 @@ void DetailPoint::Start(float posy, int type) {
 
 void DetailPoint::Update(float over) {
 
-
-
 	//表示中に実行
 	if (dp_Show)
 	{
@@ -61,7 +59,61 @@ void DetailPoint::Update(float over) {
 		}
 	}
 
+	//todo:V押したとき切り替え
+	if (g_pInput->IsKeyPush(MOFKEY_V))
+	{
+		if (!dp_attraction)
+		{
+			dp_attraction = true;
+		}
+		else
+		{
+			dp_attraction = false;
+		}
+	}
+
+
 }
+
+
+void DetailPoint::UpdateFire(float sx, float sy)
+{
+	dp_SpeedX = sx;
+	dp_SpeedY = sy;
+	//todo *30は速度足りないため使ってます
+	dp_PosX -= dp_SpeedX * 30;
+	dp_PosY -= dp_SpeedY * 30;
+}
+
+
+
+//todo ゲームPGの教科書ⅠP100参照
+void DetailPoint::UpdateAtraction(float px, float py)
+{
+	//弾の発射位置
+	float stx = dp_PosX;
+	float sty = dp_PosY;
+
+	//開始地点 - プレイヤーの位置 方向計算
+	float dx = stx - px;
+	float dy = sty - py;
+
+	//距離計算
+	float d = sqrt(dx * dx + dy * dy);
+	if (d <= 0)
+	{
+		return;
+	}
+	//正規化で数字を1にすることで速度調整
+	dx /= d;
+	dy /= d;
+	if (dp_attraction)
+	{
+		UpdateFire(dx, dy);
+	}
+}
+
+
 
 //DPと当たり判定
 bool DetailPoint::CollosopnDP(CRectangle r) {

@@ -26,6 +26,13 @@ private:
 	float	dp_hitboxX;
 	float	dp_hitboxY;
 
+	//todo:スピード
+	float dp_SpeedX;
+	float dp_SpeedY;
+
+
+	//DP引き寄せ
+	bool dp_attraction;
 
 
 public:
@@ -41,6 +48,12 @@ public:
 	//[over]：プレイヤーのオーバー値
 	void Update(float over);
 	void DebuggingRender(void);
+
+	//todo DPをプレイヤーへ飛ばす
+	void UpdateAtraction(float px, float py);
+	//todo DP引き寄せ
+	void UpdateFire(float sx, float sy);
+
 
 	//DP（ポイント）当たり判定
 	bool CollosopnDP(CRectangle r);

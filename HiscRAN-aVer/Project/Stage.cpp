@@ -155,7 +155,7 @@ void CStage::Initialize(DP_info* dpin, int dpco, BAR_info* barin, int barco, OB_
 //更新
 //over:キャラクターのオーバー値
 //
-void CStage::Update(float over, CRectangle plrect) {
+void CStage::Update(float over, CRectangle plrect,CRectangle pl2, float suckingX, float suckingY) {
 
 	//背景カウント
 	if (m_BakScroll <= 0) {
@@ -258,7 +258,7 @@ void CStage::Update(float over, CRectangle plrect) {
 		ob_array[i].Update(over);
 	}
 
-	//DPとの当たり判定
+	//todo:DPとの当たり判定
 	for (int i = 0; i < DP_VOLUME; i++)
 	{
 		//非表示の場合は判定しない
@@ -266,13 +266,18 @@ void CStage::Update(float over, CRectangle plrect) {
 			continue;
 		}
 
-		if (dp_array[i].CollosopnDP(plrect)) {
+		//DPと接触判定
+		if (dp_array[i].CollosopnDP(pl2)) {
 
+			dp_array[i].UpdateAtraction(suckingX, suckingY);
+		}
+
+		if (dp_array[i].CollosopnDP(plrect)) {
 			//DPと接触した場合
 			UPdeteCollisionDP(dp_array[i].Gettype());
 			dp_array[i].Setshow(false);
-		}
 
+		}
 	}
 
 	//クリアフラグ変更

@@ -9,7 +9,6 @@
 //小ジャンプ値
 #define  SMALLJUMP	-15.0f
 
-//ToDo
 //最大スライディング値
 #define  SLIDING	100
 //スライディングクールタイム
@@ -46,6 +45,11 @@ private:
 	//当たり判定(足)
 	float m_legsboxY;
 
+	//todo:当たり判定(スキル)
+	float m_SkillA;
+	float m_SkillB;
+
+
 	//可動域オーバー値
 	float	m_OverX;
 	float	m_OverY;
@@ -55,8 +59,12 @@ private:
 
 	//HP
 	int				m_HP;
+
 	//無敵時間
 	int					m_DamageWait;
+
+	//衝撃波時間
+	int m_CircleWait;
 
 	//ゲーム開始フラグ
 	bool					m_Startflg;
@@ -79,7 +87,6 @@ private:
 		MOTION_WAIT,
 		MOTION_MOVE,
 		MOTION_JUMPSTART,
-		//ToDo
 		MOTION_SLIDING,
 		MOTION_JUMPEND,
 		MOTION_DAMAGE,
@@ -98,6 +105,9 @@ public:
 	void Render(void);
 	void Release(void);
 
+	//todo
+	void UpdateSkillShock(void);
+
 	//デバッグ表示
 	void DebuggingRender(void);
 
@@ -114,13 +124,15 @@ public:
 	//障害物・敵と当たった場合
 	void UPdateCollisionOB(void);
 
-	//スライディング判定
-	void JudSliding(CRectangle r);
 	//スライディング処理
 	void UPdateSliding(void);
 
 	//敵当たり判定:未使用
 	bool CollosopnEnemy(CRectangle r);
+	
+	//todo:HP増加処理
+	void UpdateHP(void);
+
 
 	//オーバー値取得
 	float GetOver(void) { return m_OverX; }
@@ -136,6 +148,18 @@ public:
 		return CRectangle(m_PosX, m_PosY + m_legsboxY,
 			m_PosX + m_hitboxX, m_PosY + m_hitboxY);
 	}
+
+	//todo プレイヤー吸い寄せ範囲
+	CRectangle SuckingRect() {
+		return CRectangle(m_PosX, m_PosY - 200,
+			m_PosX + m_hitboxX + 100, m_PosY + m_hitboxY + 600);
+	}
+	//todo:衝撃波当たり判定
+	CRectangle m_CircleRect() {
+		return CRectangle(m_PosX - m_SkillA, m_PosY - m_SkillA,
+			m_PosX + m_SkillB, m_PosY + m_SkillA);
+	}
+
 
 	//ゲーム停止：再生切り替え
 	void GameStopPlayChange();
