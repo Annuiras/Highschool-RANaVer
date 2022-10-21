@@ -31,6 +31,9 @@ CPlayer::~CPlayer() {
 //読み込み
 bool CPlayer::Load(void) {
 
+	//仮置きです
+	int n = 2;
+
 	////キャラクター読み込み
 	//if (!m_Texture.Load("player.png")) {
 	//	return false;
@@ -64,7 +67,8 @@ bool CPlayer::Load(void) {
 			"移動",
 			0,0,
 			160,185,
-			TRUE,{{5,0,0},{5,1,0},{5,2,0},{5,3,0},{5,4,0},{5,5,0},{5,6,0},{5,7,0},{5,8,0},{5,9,0},{5,5,0},{5,11,0},{5,12,0},{5,13,0},{5,14,0},{5,15,0},{5,16,0}}
+			TRUE,{{n,0,0},{n,1,0},{n,2,0},{n,3,0},{n,4,0},{n,5,0},{n,6,0},{n,7,0},{n,8,0},{n,9,0},{n,10,0}
+			,{n,11,0},{n,12,0},{n,13,0},{n,14,0},{n,15,0},{n,16,0}}
 
 		},
 		//ジャンプ
@@ -104,8 +108,8 @@ bool CPlayer::Load(void) {
 void CPlayer::Initialize(void) {
 
 
-	m_PosX = 50;
-	m_PosY = 300;
+	m_PosX = 0;
+	m_PosY = 500;
 	m_MoveX = 7.0f;
 	m_MoveY = 0.0f;
 	m_hitboxX = 160;
@@ -121,7 +125,7 @@ void CPlayer::Initialize(void) {
 
 	m_Slidingflg = false;
 
-	m_Motion.ChangeMotion(MOTION_WAIT);
+	m_Motion.ChangeMotion(MOTION_MOVE);
 
 }
 
