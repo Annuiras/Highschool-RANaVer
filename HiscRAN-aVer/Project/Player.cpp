@@ -158,7 +158,7 @@ void CPlayer::Update(void) {
 		}
 	}
 
-	//hack：バグを発見したので修正依頼中です
+
 	//ジャンプ処理
 	if (g_pInput->IsKeyHold(MOFKEY_SPACE) && !m_Slidingflg && m_BSflg) {
 
@@ -356,7 +356,7 @@ void CPlayer::UPdateCollisionOB() {
 	}
 }
 
-//todo HP増加
+//HP増加
 void CPlayer::UpdateHP(void)
 {
 	m_HP += 1;
