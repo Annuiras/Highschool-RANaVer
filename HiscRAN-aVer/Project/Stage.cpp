@@ -154,7 +154,9 @@ void CStage::Initialize(DP_info* dpin, int dpco, BAR_info* barin, int barco, OB_
 
 //更新
 //over:キャラクターのオーバー値
-//
+//plrect:プレイヤーの当たり判定矩形
+//pl2:スキル；吸い寄せ範囲矩形
+//suckingX,suckingY:プレイヤーのXY座標
 void CStage::Update(float over, CRectangle plrect,CRectangle pl2, float suckingX, float suckingY) {
 
 	//背景カウント
@@ -200,7 +202,8 @@ void CStage::Update(float over, CRectangle plrect,CRectangle pl2, float suckingX
 
 	}
 
-	//表示済みDP数がDP情報数以下でスクロールが出現位置よりも小さくなったら
+	//表示済みDP数がDP情報数以下で
+	//DPの情報数　表示数のスクロールが出現位置よりも小さくなったら
 	//※m_StageScrollはマイナス値です
 	if (m_dpcount < m_dpvolume && m_StageScroll < m_dpinfo[m_dpcount].Scroll)
 	{
@@ -258,7 +261,7 @@ void CStage::Update(float over, CRectangle plrect,CRectangle pl2, float suckingX
 		ob_array[i].Update(over);
 	}
 
-	//todo:DPとの当たり判定
+	//DPとの当たり判定
 	for (int i = 0; i < DP_VOLUME; i++)
 	{
 		//非表示の場合は判定しない
@@ -266,7 +269,7 @@ void CStage::Update(float over, CRectangle plrect,CRectangle pl2, float suckingX
 			continue;
 		}
 
-		//DPと接触判定
+		//DPと吸い込み判定矩形
 		if (dp_array[i].CollosopnDP(pl2)) {
 
 			dp_array[i].UpdateAtraction(suckingX, suckingY);

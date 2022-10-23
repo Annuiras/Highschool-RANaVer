@@ -99,7 +99,6 @@
     <ClCompile Include="ModeSelect.cpp" />
     <ClCompile Include="Obstacle.cpp" />
     <ClCompile Include="Option.cpp" />
-    <ClCompile Include="PlayerSkill.cpp" />
     <ClCompile Include="RandomValue.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="Title.cpp" />
@@ -118,7 +117,6 @@
     <ClInclude Include="ModeSelect.h" />
     <ClInclude Include="Obstacle.h" />
     <ClInclude Include="Option.h" />
-    <ClInclude Include="PlayerSkill.h" />
     <ClInclude Include="RandomValue.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="StageA_Bar.h" />

@@ -26,7 +26,7 @@ private:
 	float	dp_hitboxX;
 	float	dp_hitboxY;
 
-	//todo:スピード
+	//スピード
 	float dp_SpeedX;
 	float dp_SpeedY;
 
@@ -49,9 +49,9 @@ public:
 	void Update(float over);
 	void DebuggingRender(void);
 
-	//todo DPをプレイヤーへ飛ばす
+	//DPをプレイヤーへ飛ばす
 	void UpdateAtraction(float px, float py);
-	//todo DP引き寄せ
+	//DP引き寄せ
 	void UpdateFire(float sx, float sy);
 
 

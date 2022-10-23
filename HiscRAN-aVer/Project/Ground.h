@@ -25,7 +25,7 @@ public:
 	//地面矩形取得
 	CRectangle GetRect() {
 		return CRectangle(g_PosX, g_PosY,
-			g_PosX + g_pGraphics->GetTargetWidth(), g_PosY + g_pGraphics->GetTargetWidth() - g_PosY);
+			g_PosX + g_pGraphics->GetTargetWidth(), g_pGraphics->GetTargetWidth());
 	}
 
 	//地面Y座標取得

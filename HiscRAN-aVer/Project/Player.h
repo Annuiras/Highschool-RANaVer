@@ -45,7 +45,7 @@ private:
 	//当たり判定(足)
 	float m_legsboxY;
 
-	//todo:当たり判定(スキル)
+	//当たり判定(スキル)
 	float m_SkillA;
 	float m_SkillB;
 
@@ -82,6 +82,7 @@ private:
 	//スライディングフラグ
 	float					m_Slidingflg;
 
+
 	//モーション種類定義
 	enum tag_MOTION {
 		MOTION_WAIT,
@@ -105,7 +106,7 @@ public:
 	void Render(void);
 	void Release(void);
 
-	//todo
+	//わかんないこれ何?
 	void UpdateSkillShock(void);
 
 	//デバッグ表示
@@ -130,7 +131,7 @@ public:
 	//敵当たり判定:未使用
 	bool CollosopnEnemy(CRectangle r);
 	
-	//todo:HP増加処理
+	//HP増加処理
 	void UpdateHP(void);
 
 
@@ -149,12 +150,12 @@ public:
 			m_PosX + m_hitboxX, m_PosY + m_hitboxY);
 	}
 
-	//todo プレイヤー吸い寄せ範囲
+	//プレイヤー吸い寄せ範囲
 	CRectangle SuckingRect() {
 		return CRectangle(m_PosX, m_PosY - 200,
 			m_PosX + m_hitboxX + 100, m_PosY + m_hitboxY + 600);
 	}
-	//todo:衝撃波当たり判定
+	//衝撃波当たり判定
 	CRectangle m_CircleRect() {
 		return CRectangle(m_PosX - m_SkillA, m_PosY - m_SkillA,
 			m_PosX + m_SkillB, m_PosY + m_SkillA);

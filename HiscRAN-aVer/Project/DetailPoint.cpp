@@ -59,9 +59,10 @@ void DetailPoint::Update(float over) {
 		}
 	}
 
-	//todo:V押したとき切り替え
+	//V押したとき切り替え
 	if (g_pInput->IsKeyPush(MOFKEY_V))
 	{
+		//DP吸い寄せフラグ
 		if (!dp_attraction)
 		{
 			dp_attraction = true;
@@ -80,14 +81,15 @@ void DetailPoint::UpdateFire(float sx, float sy)
 {
 	dp_SpeedX = sx;
 	dp_SpeedY = sy;
-	//todo *30は速度足りないため使ってます
+	//*30は速度足りないため使ってます
 	dp_PosX -= dp_SpeedX * 30;
 	dp_PosY -= dp_SpeedY * 30;
 }
 
 
 
-//todo ゲームPGの教科書ⅠP100参照
+//ゲームPGの教科書ⅠP100参照
+//px,py：プレイヤーのXY座標
 void DetailPoint::UpdateAtraction(float px, float py)
 {
 	//弾の発射位置
