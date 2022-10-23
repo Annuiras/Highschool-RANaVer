@@ -181,6 +181,11 @@ void CPlayer::Update(void) {
 
 	}
 
+	//小ジャンプの何回もできるやつを阻止したやつ
+	if (g_pInput->IsKeyPull(MOFKEY_SPACE)) {
+		m_BSflg = false;
+	}
+
 
 
 	//重力反映
@@ -250,14 +255,25 @@ bool CPlayer::CollosopnBar(CRectangle r) {
 //足場と当たった場合
 void CPlayer::UPdateCollisionBra(float y) {
 
-	m_PosY = y;
-	m_PosY -= m_hitboxY;
+	//上昇中フラグがfalseになった時に上からバーに乗る
+	if (!m_Jumpflg) {
+		m_PosY = y;
+		m_PosY -= m_hitboxY;
 
-	m_JumpCount = 0;
-	
-	m_MoveY = 0;
-	m_Jumpflg = false;
-	m_BSflg = true;
+		m_MoveY = 0;
+
+		//ジャンプ終了後にクールタイム
+		m_JumpCount--;
+		if (m_JumpCount > 10)
+		{
+			m_JumpCount = 10;
+		}
+		else if (m_JumpCount <= 0)
+		{
+			m_BSflg = true;
+			m_JumpCount = 0;
+		}
+	}
 
 	//移動モーション
 	if (m_Motion.GetMotionNo() != MOTION_MOVE) {
@@ -290,11 +306,18 @@ void CPlayer::UPdateCollisionGround(float y) {
 	//ジャンプしていない
 	m_Jumpflg = false;
 
-	//大ジャンプ可能
-	m_BSflg = true;
+	//ジャンプ終了後にクールタイム
+	m_JumpCount--;
+	if (m_JumpCount > 10)
+	{
+		m_JumpCount = 10;
+	}
+	else if (m_JumpCount <= 0)
+	{
+		m_BSflg = true;
+		m_JumpCount = 0;
+	}
 
-	//ジャンプ対空時間
-	m_JumpCount = 0;
 
 
 	//移動モーション
