@@ -31,6 +31,9 @@ CPlayer::~CPlayer() {
 //読み込み
 bool CPlayer::Load(void) {
 
+	//仮置きです
+	int n = 2;
+
 	////キャラクター読み込み
 	//if (!m_Texture.Load("player.png")) {
 	//	return false;
@@ -64,7 +67,8 @@ bool CPlayer::Load(void) {
 			"移動",
 			0,0,
 			160,185,
-			TRUE,{{5,0,0},{5,1,0},{5,2,0},{5,3,0},{5,4,0},{5,5,0},{5,6,0},{5,7,0},{5,8,0},{5,9,0},{5,5,0},{5,11,0},{5,12,0},{5,13,0},{5,14,0},{5,15,0},{5,16,0}}
+			TRUE,{{n,0,0},{n,1,0},{n,2,0},{n,3,0},{n,4,0},{n,5,0},{n,6,0},{n,7,0},{n,8,0},{n,9,0},{n,10,0}
+			,{n,11,0},{n,12,0},{n,13,0},{n,14,0},{n,15,0},{n,16,0}}
 
 		},
 		//ジャンプ
@@ -104,13 +108,13 @@ bool CPlayer::Load(void) {
 void CPlayer::Initialize(void) {
 
 
-	m_PosX = -100;
+	m_PosX = 0;
 	m_PosY = 500;
 	m_MoveX = 7.0f;
 	m_MoveY = 0.0f;
 	m_hitboxX = 160;
 	m_hitboxY = 185;
-	m_legsboxY = 130;
+	m_legsboxY = 100;
 	m_StopX = 50;
 	m_Jumpflg = false;
 	m_HP = 3;
@@ -121,9 +125,7 @@ void CPlayer::Initialize(void) {
 
 	m_Slidingflg = false;
 
-	m_Motion.ChangeMotion(MOTION_WAIT);
-
-
+	m_Motion.ChangeMotion(MOTION_MOVE);
 
 }
 
@@ -156,6 +158,7 @@ void CPlayer::Update(void) {
 		}
 	}
 
+	//hack：バグを発見したので修正依頼中です
 	//ジャンプ処理
 	if (g_pInput->IsKeyHold(MOFKEY_SPACE) && !m_Slidingflg && m_BSflg) {
 
@@ -173,12 +176,11 @@ void CPlayer::Update(void) {
 		if (m_JumpCount >= 10&& m_BSflg) {
    			m_MoveY = BIGJUMP;
 			m_BSflg = false;
-		}		
+		}
+		
+
 	}
-		//小ジャンプの何回もできるやつを阻止したやつ
-	if (g_pInput->IsKeyPull(MOFKEY_SPACE)) {
-		m_BSflg = false;
-	}
+
 
 
 	//重力反映
@@ -248,25 +250,14 @@ bool CPlayer::CollosopnBar(CRectangle r) {
 //足場と当たった場合
 void CPlayer::UPdateCollisionBra(float y) {
 
-	//上昇中フラグがfalseになった時に上からバーに乗る
-	if (!m_Jumpflg) {
-		m_PosY = y;
-		m_PosY -= m_hitboxY;
+	m_PosY = y;
+	m_PosY -= m_hitboxY;
 
-		m_MoveY = 0;
-
-		//ジャンプ終了後にクールタイム
-		m_JumpCount--;
-		if (m_JumpCount > 10)
-		{
-			m_JumpCount = 10;
-		}
-		else if (m_JumpCount <= 0)
-		{
-			m_BSflg = true;
-			m_JumpCount = 0;
-		}
-	}
+	m_JumpCount = 0;
+	
+	m_MoveY = 0;
+	m_Jumpflg = false;
+	m_BSflg = true;
 
 	//移動モーション
 	if (m_Motion.GetMotionNo() != MOTION_MOVE) {
@@ -299,17 +290,11 @@ void CPlayer::UPdateCollisionGround(float y) {
 	//ジャンプしていない
 	m_Jumpflg = false;
 
-	//ジャンプ終了後にクールタイム
-	m_JumpCount--;
-	if (m_JumpCount > 10)
-	{
-		m_JumpCount = 10;
-	}
-	else if (m_JumpCount <= 0)
-	{
-		m_BSflg = true;
-		m_JumpCount = 0;
-	}
+	//大ジャンプ可能
+	m_BSflg = true;
+
+	//ジャンプ対空時間
+	m_JumpCount = 0;
 
 
 	//移動モーション
@@ -348,7 +333,7 @@ void CPlayer::UPdateCollisionOB() {
 	}
 }
 
-//HP増加
+//todo HP増加
 void CPlayer::UpdateHP(void)
 {
 	m_HP += 1;
@@ -430,6 +415,9 @@ void CPlayer::Render()
 	//仮キャラ
 	//m_TEX.Render(px, py);
 	
+	//キャラクターの判定矩形
+	CGraphicsUtilities::RenderRect(GetRect(), MOF_COLOR_RED);
+	CGraphicsUtilities::RenderRect(legsGetRect(), MOF_COLOR_GREEN);
 }
 
 //デバック表示
@@ -453,11 +441,9 @@ void CPlayer::DebuggingRender() {
 		case MOTION_JUMPEND:
 			CGraphicsUtilities::RenderString(0, 90, MOF_XRGB(80, 80, 80), "現在モーション：MOTION_JUMPEND");
 			break;
-
 		case MOTION_DAMAGE:
 			CGraphicsUtilities::RenderString(0, 90, MOF_XRGB(80, 80, 80), "現在モーション：MOTION_DAMAGE");
 			break;
-
 		case MOTION_SLIDING:
 			CGraphicsUtilities::RenderString(0, 90, MOF_XRGB(80, 80, 80), "現在モーション：MOTION_SLIDING");
 			break;
@@ -466,11 +452,6 @@ void CPlayer::DebuggingRender() {
 
 	//HP表示
 	CGraphicsUtilities::RenderString(0, 260, MOF_XRGB(80, 80, 80), "HP:%d", m_HP);
-
-	//キャラクターの判定矩形
-	CGraphicsUtilities::RenderRect(GetRect(), MOF_COLOR_RED);
-	CGraphicsUtilities::RenderRect(legsGetRect(), MOF_COLOR_GREEN);
-
 
 	//ジャンプフラグ表示
 	if (m_Jumpflg) {
