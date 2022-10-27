@@ -476,32 +476,32 @@ void CPlayer::DebuggingRender() {
 	//HP表示
 	CGraphicsUtilities::RenderString(0, 260, MOF_XRGB(80, 80, 80), "HP:%d", m_HP);
 
-	//ジャンプフラグ表示
-	if (m_Jumpflg) {
-		CGraphicsUtilities::RenderString(0, 400, MOF_XRGB(80, 80, 80), "m_Jumoflg=true");
-	}	
-	else
-	{
-		CGraphicsUtilities::RenderString(0, 400, MOF_XRGB(80, 80, 80), "m_Jumoflg=false");
-	}
+	////ジャンプフラグ表示
+	//if (m_Jumpflg) {
+	//	CGraphicsUtilities::RenderString(0, 400, MOF_XRGB(80, 80, 80), "m_Jumoflg=true");
+	//}	
+	//else
+	//{
+	//	CGraphicsUtilities::RenderString(0, 400, MOF_XRGB(80, 80, 80), "m_Jumoflg=false");
+	//}
 
-	//スライディングフラグ
-	if (m_Slidingflg) {
-		CGraphicsUtilities::RenderString(0, 430, MOF_XRGB(80, 80, 80), "m_Slidingflg=true");
-	}
-	else
-	{
-		CGraphicsUtilities::RenderString(0, 430, MOF_XRGB(80, 80, 80), "m_Slidingflg=false");
-	}
+	////スライディングフラグ
+	//if (m_Slidingflg) {
+	//	CGraphicsUtilities::RenderString(0, 430, MOF_XRGB(80, 80, 80), "m_Slidingflg=true");
+	//}
+	//else
+	//{
+	//	CGraphicsUtilities::RenderString(0, 430, MOF_XRGB(80, 80, 80), "m_Slidingflg=false");
+	//}
 
-	//大ジャンプフラグ
-	if (m_BSflg) {
-		CGraphicsUtilities::RenderString(0, 460, MOF_XRGB(80, 80, 80), "m_BSflg=true");
-	}
-	else
-	{
-		CGraphicsUtilities::RenderString(0, 460, MOF_XRGB(80, 80, 80), "m_BSflg=false");
-	}
+	////大ジャンプフラグ
+	//if (m_BSflg) {
+	//	CGraphicsUtilities::RenderString(0, 460, MOF_XRGB(80, 80, 80), "m_BSflg=true");
+	//}
+	//else
+	//{
+	//	CGraphicsUtilities::RenderString(0, 460, MOF_XRGB(80, 80, 80), "m_BSflg=false");
+	//}
 
 }
 

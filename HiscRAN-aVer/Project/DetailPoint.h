@@ -1,6 +1,8 @@
 #pragma once
 #include "Mof.h"
-#define DP_VOLUME	50
+
+//todo:ˆê‰æ–Ê‚É‘¶İ‚·‚éÅ‘åDP‚É•ÏX
+#define DP_VOLUME	10
 
 class DetailPoint
 {
