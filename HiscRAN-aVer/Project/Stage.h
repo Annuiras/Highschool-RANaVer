@@ -5,21 +5,30 @@
 #include "DetailPoint.h"
 #include "Bar.h"
 #include "Obstacle.h"
+//todo：共通定義ファイル
+#include "Define.h"
+
+//todo:一画面に存在する最大DPに変更
+#define DP_VOLUME	20
+
 
 ////DPの出現位置情報用構造体
+//todo:DP構造体の順番変えてます
 typedef struct tag_DP_POS
 {
-	float Pos_y;	//DP出現Y座標
 	float Scroll;	//DP出現スクロール値
+	float Pos_y;	//DP出現Y座標
 	int	Type;		//DPタイプ
 
 } DP_info;
 
 //障害物の出現位置情報用構造体
+//todo:障害物構造体の順番変えてます
 typedef struct tag_OBSTAClE_POS
-{
-	float Pos_y;	//障害物出現Y座標
+{	
 	float Scroll;	//障害物出現スクロール値
+	float Pos_y;	//障害物出現Y座標
+	int	Type;		//障害物タイプ
 
 } OB_info;
 
@@ -67,9 +76,31 @@ private:
 	//SPステージテクスチャ
 	CTexture m_SPBak;
 
-	//DPの配置情報
-	DP_info* m_dpinfo;
+	//todo:クリア用スクロール値
+	float	m_Scroll_Clear;
 
+	//todo:マップDPパターン添え字
+	int m_MapNo_DP;
+
+	//todo:マップOBパターン添え字
+	int m_MapNo_OB;
+
+
+	//todo:ステージDP構成を決める配列
+	int m_StageDPConstitution[DP_INFO_PATTERN] = { 1 };
+
+	//todo:ステージ障害物構成を決める配列
+	int m_StageOBConstitution[OB_INFO_PATTERN] = { 1 };
+
+
+	//todo:DPの配置情報受け取る配列
+	//[]:マップDPパターン情報数
+	//[]:マップDPパターン1枚分にいくつ構造体があるか
+	//DPの配置情報
+	DP_info m_dpinfo[DP_INFO_PATTERN][DP_INFO_STRUCT];
+
+
+	//todo:現在使用していません
 	//DPの情報数
 	int m_dpvolume;
 
@@ -86,10 +117,14 @@ private:
 	//表示済み足場数
 	int m_barcount;
 
+	//todo:DPの配置情報受け取る配列
+	//[]:マップパターン情報数
+	//[]:マップパターン1枚分にいくつ構造体があるか
+	//DPの配置情報
+	OB_info m_obinfo[OB_INFO_PATTERN][OB_INFO_STRUCT];
 
-	//障害物の配置情報
-	OB_info* m_obinfo;
 
+	//todo:現在使用していません
 	//障害物の情報数
 	int m_obvolume;
 
@@ -146,8 +181,12 @@ public:
 	CStage();
 	~CStage();
 
-	void Initialize(DP_info* dpin, int dpco, BAR_info* barin, int barco, OB_info* obin, int obco);
-	
+	//todo:引数を二次元配列に変更
+	//dpin[][]:DPの配置情報
+	//[]:マップパターンがいくつあるか
+	//[]:1マップパターンにいくつ構造体があるか
+	void Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info* barin, int barco, OB_info obin[][OB_INFO_STRUCT]);
+
 	//引数追加 CRectangle pl2, float suckingX, float suckingY
 	void Update(float over, CRectangle pl,CRectangle pl2, float suckingX, float suckingY);
 	bool Load(void);
@@ -170,6 +209,7 @@ public:
 	//足場クラス
 	Bar	b_bar[BAR_MAX];
 
+	//todo:一画面に表示するDPの数だけ用意
 	//DPクラス
 	DetailPoint dp_array[DP_VOLUME];
 

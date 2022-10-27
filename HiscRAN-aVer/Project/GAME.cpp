@@ -52,7 +52,7 @@ void GAME::Initialize(void)
 	//g_PlayerSkill.Initialize();
 
 	//ステージ初期化
-	g_Stage.Initialize(s_stageAdp, s_stageAdpcount, s_stageAbar, s_stageAbarcount, s_stageAob, s_stageAobcount);
+	g_Stage.Initialize(s_stageAdp,s_stageAbar, s_stageAbarcount, s_stageAOB);
 }
 
 //更新
@@ -133,7 +133,7 @@ void GAME::Update(void)
 			continue;
 		}
 
-		if (g_Player.CollosopnOB(g_Stage.ob_array[i].GetRect())) {
+		if (g_Player.CollosopnOB(g_Stage.ob_array[i].GetRect(g_Stage.ob_array[i].GetType()))) {
 
 			g_Player.UPdateCollisionOB();
 		}
@@ -178,7 +178,7 @@ void GAME::Update(void)
 		//初期化
 		g_Player.Initialize();
 
-		g_Stage.Initialize(s_stageAdp, s_stageAdpcount, s_stageAbar, s_stageAbarcount, s_stageAob, s_stageAobcount);
+		g_Stage.Initialize(s_stageAdp, s_stageAbar, s_stageAbarcount, s_stageAOB);
 
 	}
 

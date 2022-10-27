@@ -8,8 +8,7 @@ CObstacle::CObstacle() :
 	ob_Show(false),
 	ob_hitboxX(0.0f),
 	ob_hitboxY(0.0f),
-	ob_addX(0.0f),
-	ob_addY(0.0f)
+	ob_Type(0)
 
 {};
 
@@ -23,19 +22,19 @@ void  CObstacle::Initialize() {
 	ob_PosX = 0;
 	ob_PosY = 0;
 	ob_Show = false;
-	ob_hitboxX = 30;
-	ob_hitboxY = 30;
-	ob_addX = 0;
-	ob_addY = 0;
-
+	ob_hitboxX = 0;
+	ob_hitboxY = 0;
+	ob_Type = 0;
 }
 
 
-void CObstacle::Start(float posy) {
+void CObstacle::Start(float posy, int type) {
 
 	ob_PosX = g_pGraphics->GetTargetWidth();
 
 	ob_PosY = posy;
+
+	ob_Type = type;
 
 	ob_Show = true;
 }
@@ -61,6 +60,31 @@ void CObstacle::Render() {
 		return;
 	}
 
-	CGraphicsUtilities::RenderFillRect(GetRect(), MOF_COLOR_RED);
+	CGraphicsUtilities::RenderFillRect(GetRect(ob_Type), MOF_COLOR_RED);
 }
 
+CRectangle CObstacle::GetRect(int type){
+
+	//todo:タイプ別で大きさを変更
+	switch (type)
+	{
+
+	case 1:
+		return CRectangle(ob_PosX, ob_PosY,
+		ob_PosX + 30 , ob_PosY + 60);
+		break;
+
+	case 2:
+		return CRectangle(ob_PosX, ob_PosY,
+			ob_PosX + 60, ob_PosY + 30);
+		break;
+
+	case 3:
+		return CRectangle(ob_PosX, ob_PosY,
+			ob_PosX + 30, ob_PosY + 30);
+		break;
+
+	default:
+		break;
+	}
+}
