@@ -52,7 +52,7 @@ void GAME::Initialize(void)
 	//g_PlayerSkill.Initialize();
 
 	//ステージ初期化
-	g_Stage.Initialize(s_stageAdp,s_stageAbar, s_stageAbarcount, s_stageAOB);
+	g_Stage.Initialize(s_stageAdp,s_stageAbar, s_stageAOB);
 }
 
 //更新
@@ -77,13 +77,13 @@ void GAME::Update(void)
 
 	//スライディング判定
 	//地面か足場に乗っている間下矢印キースライディング
-	for (int i = 0; i < BAR_MAX; i++)
+	for (int i = 0; i < BAR_VOLUME; i++)
 	{
 		if (!g_Stage.b_bar[i].Getshow()) {
 			continue;
 		}
 		//足場との判定
-		if (g_Player.CollosopnBar(g_Stage.b_bar[i].GetRect())) {
+		if (g_Player.CollosopnBar(g_Stage.b_bar[i].GetRect(g_Stage.b_bar[i].Gettype()))) {
 
 			//スライディング判定
 			g_Player.UPdateSliding();
@@ -113,13 +113,13 @@ void GAME::Update(void)
 	}
 
 	//足場との当たり判定
-	for (int i = 0; i < BAR_MAX; i++)
+	for (int i = 0; i < BAR_VOLUME; i++)
 	{
 		if (!g_Stage.b_bar[i].Getshow()) {
 			continue;
 		}
 
-		if (g_Player.CollosopnBar(g_Stage.b_bar[i].GetRect())) {
+		if (g_Player.CollosopnBar(g_Stage.b_bar[i].GetRect(g_Stage.b_bar[i].Gettype()))) {
 
 			g_Player.UPdateCollisionBra(g_Stage.b_bar[i].GetY());
 		}
@@ -178,7 +178,7 @@ void GAME::Update(void)
 		//初期化
 		g_Player.Initialize();
 
-		g_Stage.Initialize(s_stageAdp, s_stageAbar, s_stageAbarcount, s_stageAOB);
+		g_Stage.Initialize(s_stageAdp, s_stageAbar, s_stageAOB);
 
 	}
 
@@ -203,8 +203,8 @@ void GAME::Render(void)
 
 	//デバッグ描画
 	if (Debuggingflg) {
-		g_Stage.DebuggingRender();
-		g_Player.DebuggingRender();
+		g_Stage.RenderDebugging();
+		g_Player.RenderDebugging();
 		//g_PlayerSkill.RenderDebug();
 
 	}

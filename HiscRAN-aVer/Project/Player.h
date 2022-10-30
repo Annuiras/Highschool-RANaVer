@@ -110,7 +110,7 @@ public:
 	void UpdateSkillShock(void);
 
 	//デバッグ表示
-	void DebuggingRender(void);
+	void RenderDebugging(void);
 
 	//足場当たり判定
 	bool CollosopnBar(CRectangle r);

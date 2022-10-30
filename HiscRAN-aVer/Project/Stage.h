@@ -8,10 +8,6 @@
 //todo：共通定義ファイル
 #include "Define.h"
 
-//todo:一画面に存在する最大DPに変更
-#define DP_VOLUME	20
-
-
 ////DPの出現位置情報用構造体
 //todo:DP構造体の順番変えてます
 typedef struct tag_DP_POS
@@ -34,10 +30,12 @@ typedef struct tag_OBSTAClE_POS
 
 
 //足場の出現位置情報用構造体
+//todo:障害物構造体内容を追加しました
 typedef struct tag_BAR_POS
-{
-	float Pos_y;	//足場出現Y座標
+{	
 	float Scroll;	//足場出現スクロール値
+	float Pos_y;	//足場出現Y座標
+	int	Type;		//足場タイプ（仮）
 
 } BAR_info;
 
@@ -85,12 +83,18 @@ private:
 	//todo:マップOBパターン添え字
 	int m_MapNo_OB;
 
+	//todo:マップ足場パターン添え字
+	int m_MapNo_Bar;
+
 
 	//todo:ステージDP構成を決める配列
 	int m_StageDPConstitution[DP_INFO_PATTERN] = { 1 };
 
 	//todo:ステージ障害物構成を決める配列
 	int m_StageOBConstitution[OB_INFO_PATTERN] = { 1 };
+
+	//todo:ステージ足場構成を決める配列
+	int m_StageBarConstitution[BAR_INFO_PATTERN] = { 1 };
 
 
 	//todo:DPの配置情報受け取る配列
@@ -99,37 +103,41 @@ private:
 	//DPの配置情報
 	DP_info m_dpinfo[DP_INFO_PATTERN][DP_INFO_STRUCT];
 
-
 	//todo:現在使用していません
 	//DPの情報数
-	int m_dpvolume;
+	//int m_dpvolume;
 
 	//表示済みDP数
 	int m_dpcount;
 
 
-	//足場の配置情報
-	BAR_info* m_barinfo;
+	//todo:OBの配置情報受け取る配列
+	//[]:マップOBパターン情報数
+	//[]:マップOBパターン1枚分にいくつ構造体があるか
+	//OBの配置情報
+	OB_info m_obinfo[OB_INFO_PATTERN][OB_INFO_STRUCT];
 
+	//todo:現在使用していません
+	//障害物の情報数
+	//int m_obvolume;
+
+	//表示済障害物
+	int m_obcount;
+
+	//todo:足場の配置情報受け取る配列
+	//[]:マップ足場パターン情報数
+	//[]:マップ足場パターン1枚分にいくつ構造体があるか
+	//足場の配置情報
+	BAR_info m_barinfo[OB_INFO_PATTERN][OB_INFO_STRUCT];
+
+	//todo:現在使用していません
 	//足場の情報数
 	int m_barvolume;
 
 	//表示済み足場数
 	int m_barcount;
 
-	//todo:DPの配置情報受け取る配列
-	//[]:マップパターン情報数
-	//[]:マップパターン1枚分にいくつ構造体があるか
-	//DPの配置情報
-	OB_info m_obinfo[OB_INFO_PATTERN][OB_INFO_STRUCT];
 
-
-	//todo:現在使用していません
-	//障害物の情報数
-	int m_obvolume;
-
-	//表示済障害物
-	int m_obcount;
 
 
 	//背景用スクロール値
@@ -185,14 +193,23 @@ public:
 	//dpin[][]:DPの配置情報
 	//[]:マップパターンがいくつあるか
 	//[]:1マップパターンにいくつ構造体があるか
-	void Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info* barin, int barco, OB_info obin[][OB_INFO_STRUCT]);
+	void Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INFO_STRUCT], OB_info obin[][OB_INFO_STRUCT]);
 
 	//引数追加 CRectangle pl2, float suckingX, float suckingY
 	void Update(float over, CRectangle pl,CRectangle pl2, float suckingX, float suckingY);
 	bool Load(void);
 	void Render(void);
 	void Release(void);
-	void DebuggingRender(void);
+	void RenderDebugging(void);
+
+	//足場生成
+	void OccurrenceBar(void);
+
+	//DP生成
+	void OccurrenceDP(void);
+
+	//障害物生成
+	void OccurrenceOB(void);
 
 	//DPと接触処理
 	void UPdeteCollisionDP(int dpt);
@@ -207,7 +224,7 @@ public:
 	Ground g_ground;
 
 	//足場クラス
-	Bar	b_bar[BAR_MAX];
+	Bar	b_bar[BAR_VOLUME];
 
 	//todo:一画面に表示するDPの数だけ用意
 	//DPクラス

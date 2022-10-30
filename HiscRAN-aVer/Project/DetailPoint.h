@@ -13,6 +13,22 @@ private:
 
 	bool dp_Show;
 
+	//todo:仮テクスチャ追加です
+	//仮テクスチャ：学力
+	CTexture dp_Textuer_Scholastic;
+
+	//仮テクスチャ：行動力
+	CTexture dp_Textuer_Action;
+
+	//仮テクスチャ：想像力
+	CTexture dp_Textuer_Imagination;
+
+	//仮テクスチャ：コミュ力
+	CTexture dp_Textuer_Communication;
+
+	//仮テクスチャ：魅力
+	CTexture dp_Textuer_Charm;
+
 	//DPタイプ
 	//１：学力
 	//２：行動力
@@ -45,11 +61,18 @@ public:
 	void Render(void);
 	void Initialize(void);
 
+	//todo:ロード追加です
+	bool Load(void);
+
+	//todo:リソース解放
+	void Release(void);
+
+	//表示開始
 	void Start(float posy, int type);
 
 	//[over]：プレイヤーのオーバー値
 	void Update(float over);
-	void DebuggingRender(void);
+	void RenderDebugging(void);
 
 	//DPをプレイヤーへ飛ばす
 	void UpdateAtraction(float px, float py);

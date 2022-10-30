@@ -20,7 +20,7 @@ public:
 
 	void Initialize(void);
 	void Render(void);
-	void DebuggingRender(void);
+	void RenderDebugging(void);
 
 	//’n–Ê‹éŒ`Žæ“¾
 	CRectangle GetRect() {
