@@ -444,7 +444,7 @@ void CPlayer::Render()
 }
 
 //デバック表示
-void CPlayer::DebuggingRender() {
+void CPlayer::RenderDebugging() {
 
 	switch (m_Motion.GetMotionNo())
 	{

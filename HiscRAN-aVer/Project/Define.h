@@ -16,6 +16,13 @@
 //（1マップ中にある障害物数＋1）
 #define OB_INFO_STRUCT 4
 
+//マップ足場パターン数
+#define BAR_INFO_PATTERN 15
+
+//足場1パターンの要素数
+//（1マップ中にある足場数＋1）
+#define BAR_INFO_STRUCT 4
+
 
 //存在するシーン
 enum tag_SCENENO {

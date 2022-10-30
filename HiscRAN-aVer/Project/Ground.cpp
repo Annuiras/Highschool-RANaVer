@@ -25,7 +25,7 @@ void Ground::Render() {
 	CGraphicsUtilities::RenderRect(GetRect(), MOF_COLOR_HGREEN);
 }
 
-void Ground::DebuggingRender() {
+void Ground::RenderDebugging() {
 
 	CGraphicsUtilities::RenderString(1060, g_PosY, MOF_XRGB(80, 80, 80), "ínñ çÇÇ≥ÅF%.1f", g_PosY);
 

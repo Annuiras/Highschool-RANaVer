@@ -2,11 +2,22 @@
 #include "Mof.h"
 #define OB_VOLUME 5
 
+#define OB_DESK_WIDTH 137
+#define OB_DESK_HEIGHT 180
 
 class CObstacle
 {
 
 private:
+
+	//todo:仮テクスチャ:椅子
+	CTexture	ob_Textuer_Desk;
+
+	////仮テクスチャ:
+	//CTexture	ob__Textuer;
+
+	////仮テクスチャ:
+	//CTexture	ob__Textuer;
 
 	float ob_PosX;
 	float ob_PosY;
@@ -14,14 +25,12 @@ private:
 	//表示フラグ:true：表示
 	bool ob_Show;
 
-	//当たり判定
-	float ob_hitboxX;
-	float ob_hitboxY;
+	//todo:障害物タイプ別横幅
+	float ob_HitWidth;
 
 	//todo:障害物種類（仮）
-	//1:椅子
-	//2:黒板消し
-	//3:ボール
+	//1:机
+	//2:２段机
 	int ob_Type;
 
 public:
@@ -30,11 +39,16 @@ public:
 	~CObstacle();
 
 	void Initialize(void);
+
+	//todo:ロード追加です
+	bool Load(void);
+
+
 	void Update(float over);
 	void Start(float posy,int type);
 
 	void Render(void);
-	void DebuggingRender(void);
+	void RenderDebugging(void);
 
 
 

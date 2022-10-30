@@ -8,6 +8,7 @@ DetailPoint::DetailPoint() :
 	dp_hitboxX(0.0f),
 	dp_hitboxY(0.0f),
 	dp_value(0.0f),
+	dp_Textuer_Scholastic(),
 	dp_Type(0)
 {};
 
@@ -16,6 +17,37 @@ DetailPoint::~DetailPoint() {
 
 
 };
+
+bool DetailPoint::Load() {
+
+	//todo;テクスチャ読み込み改善予定
+	//仮テクスチャ：学力
+	if (!dp_Textuer_Scholastic.Load("ハイスク素材　DP 学力　仮.png")) {
+		return false;
+	}
+
+	//仮テクスチャ：行動力
+	if (!dp_Textuer_Action.Load("ハイスク素材　DP 行動力　仮.png")) {
+		return false;
+	}
+
+	//仮テクスチャ：想像力
+	if (!dp_Textuer_Imagination.Load("ハイスク素材　DP 想像力　仮.png")) {
+		return false;
+	}
+
+	//仮テクスチャ：コミュ力
+	if (!dp_Textuer_Communication.Load("ハイスク素材　DP コミュ力　仮.png")) {
+		return false;
+	}
+
+	//仮テクスチャ：魅力
+	if (!dp_Textuer_Charm.Load("ハイスク素材　DP 魅力　仮.png")) {
+		return false;
+	}
+
+	return true;
+}
 
 //DPの数値初期化
 void DetailPoint::Initialize(void) {
@@ -139,26 +171,32 @@ void DetailPoint::Render(void) {
 
 	case 1:
 		//学力
-		CGraphicsUtilities::RenderFillRect(GetRect(), MOF_XRGB(222, 184, 135));
+		//仮テクスチャ表示です
+		dp_Textuer_Scholastic.Render(dp_PosX,dp_PosY);
+		//CGraphicsUtilities::RenderFillRect(GetRect(), MOF_XRGB(222, 184, 135));
 		break;
 
 	case 2:
 		//行動力
-		CGraphicsUtilities::RenderFillRect(GetRect(), MOF_COLOR_YELLOW);
+		dp_Textuer_Action.Render(dp_PosX,dp_PosY);
+		//CGraphicsUtilities::RenderFillRect(GetRect(), MOF_COLOR_YELLOW);
 		break;
 
 	case 3:
 		//想像力
+		//dp_Textuer_Imagination.Render(GetRect());
 		CGraphicsUtilities::RenderFillRect(GetRect(), MOF_XRGB(0, 191, 255));
 		break;
 
 	case 4:
 		//コミュ力
+		//dp_Textuer_Communication.Render(GetRect());
 		CGraphicsUtilities::RenderFillRect(GetRect(), MOF_XRGB(255, 99, 71));
 		break;
 
 	case 5:
 		//魅力
+		//dp_Textuer_Charm.Render(GetRect());
 		CGraphicsUtilities::RenderFillRect(GetRect(), MOF_XRGB(186, 85, 211));
 		break;
 
@@ -171,7 +209,7 @@ void DetailPoint::Render(void) {
 
 }
 
-void DetailPoint::DebuggingRender() {
+void DetailPoint::RenderDebugging() {
 
 	CGraphicsUtilities::RenderString(620, 660, MOF_XRGB(80, 80, 80), "コイン矩形 X:%.1f Y:%.1f", dp_hitboxX, dp_hitboxY);
 
@@ -181,3 +219,12 @@ void DetailPoint::DebuggingRender() {
 	//CGraphicsUtilities::RenderString(dp_PosX,dp_addY,dp_)
 }
 
+//todo:リリース処理を追加です
+void DetailPoint::Release(void) {
+
+	dp_Textuer_Scholastic.Release();
+	dp_Textuer_Action.Release();
+	dp_Textuer_Imagination.Release();
+	dp_Textuer_Communication.Release();
+	dp_Textuer_Charm.Release();
+}
