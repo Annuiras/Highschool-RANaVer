@@ -17,7 +17,6 @@ CStage::CStage() :
 	m_dpinfo(),
 	m_dpcount(0),
 	m_barinfo(),
-	m_barvolume(0),
 	m_barcount(0),
 	m_obinfo(),
 	m_obcount(0),
@@ -665,27 +664,27 @@ void CStage::RenderDebugging() {
 	//CGraphicsUtilities::RenderString(500, 720, MOF_XRGB(80, 80, 80), "720Yパターン12～14");
 
 
-	//DPデバック表示
-	//DPマップパターン現在表示
-	CGraphicsUtilities::RenderString(0, 700, MOF_XRGB(80, 80, 80), "マップDPパターン:%d", m_StageDPConstitution[m_MapNo_DP]);
+	////DPデバック表示
+	////DPマップパターン現在表示
+	//CGraphicsUtilities::RenderString(0, 700, MOF_XRGB(80, 80, 80), "マップDPパターン:%d", m_StageDPConstitution[m_MapNo_DP]);
 
-	//DPマップパターン全体表示
-	for (int i = 0; i < 15; i++)
-	{
-		CGraphicsUtilities::RenderString(40 * i, 680, MOF_XRGB(80, 80, 80), "%d", m_StageDPConstitution[i]);
+	////DPマップパターン全体表示
+	//for (int i = 0; i < 15; i++)
+	//{
+	//	CGraphicsUtilities::RenderString(40 * i, 680, MOF_XRGB(80, 80, 80), "%d", m_StageDPConstitution[i]);
 
-	}
+	//}
 
-	//表示済みDPカウント
-	CGraphicsUtilities::RenderString(0, 650, MOF_XRGB(80, 80, 80), "DPカウント%d", m_dpcount);
+	////表示済みDPカウント
+	//CGraphicsUtilities::RenderString(0, 650, MOF_XRGB(80, 80, 80), "DPカウント%d", m_dpcount);
 
-	//色DP対応を表示
-	CGraphicsUtilities::RenderString(0, 400, MOF_XRGB(222, 184, 135), "1:学力,    パターン0,5,10");
-	CGraphicsUtilities::RenderString(0, 430, MOF_COLOR_YELLOW, "2:行動力,  パターン1,6,11");
-	CGraphicsUtilities::RenderString(0, 460, MOF_XRGB(0, 191, 255), "3:想像力,  パターン2,7,12");
-	CGraphicsUtilities::RenderString(0, 490, MOF_XRGB(255, 99, 71), "4:コミュ力,パターン3,8,13");
-	CGraphicsUtilities::RenderString(0, 520, MOF_XRGB(186, 85, 211), "5:魅力,    パターン4,9,14");
-	CGraphicsUtilities::RenderString(0, 550, MOF_XRGB(80, 80, 80), "m_Scroll_Clear%f", m_Scroll_Clear);
+	////色DP対応を表示
+	//CGraphicsUtilities::RenderString(0, 400, MOF_XRGB(222, 184, 135), "1:学力,    パターン0,5,10");
+	//CGraphicsUtilities::RenderString(0, 430, MOF_COLOR_YELLOW, "2:行動力,  パターン1,6,11");
+	//CGraphicsUtilities::RenderString(0, 460, MOF_XRGB(0, 191, 255), "3:想像力,  パターン2,7,12");
+	//CGraphicsUtilities::RenderString(0, 490, MOF_XRGB(255, 99, 71), "4:コミュ力,パターン3,8,13");
+	//CGraphicsUtilities::RenderString(0, 520, MOF_XRGB(186, 85, 211), "5:魅力,    パターン4,9,14");
+	//CGraphicsUtilities::RenderString(0, 550, MOF_XRGB(80, 80, 80), "m_Scroll_Clear%f", m_Scroll_Clear);
 
 
 	////DP高さの対応
