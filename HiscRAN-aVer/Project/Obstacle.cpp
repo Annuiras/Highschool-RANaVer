@@ -15,7 +15,7 @@ CObstacle::~CObstacle() {
 }
 
 
-//todo:ロード追加です
+//ロード追加です
 bool CObstacle::Load(void) {
 
 	//仮テクスチャ：机
@@ -93,7 +93,7 @@ void CObstacle::Render() {
 
 CRectangle CObstacle::GetRect(int type){
 
-	//todo:タイプ別で大きさを変更
+	//タイプ別で大きさを変更
 	switch (type)
 	{
 	

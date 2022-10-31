@@ -30,7 +30,10 @@ void Bar::Start(float posy, int type) {
 
 	b_PosX = g_pGraphics->GetTargetWidth();
 	b_PosY = posy;
-	b_Type = type;//todo:タイプ初期化
+
+	//タイプ初期化
+	b_Type = type;
+
 	b_Show = true;
 
 	switch (type)
@@ -61,7 +64,7 @@ void Bar::Update(float over) {
 	{
 		b_PosX -= over;
 
-		//todo:幅をタイプ別に判定
+		//幅をタイプ別に判定
 		if (b_PosX + b_HitWidth < 0) {
 			b_Show = false;
 		}
@@ -85,7 +88,7 @@ void Bar::Render(void) {
 CRectangle Bar::GetRect(int type) {
 	
 
-	//todo:タイプ別で大きさを変更
+	//タイプ別で大きさを変更
 	//足場の大きさが中いが確定していないので仮置き
 	switch (type)
 	{

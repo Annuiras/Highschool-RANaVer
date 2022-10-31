@@ -1,7 +1,7 @@
 #pragma once
 #include "Mof.h"
 
-//todo:一画面に存在する最大DPに変更
+//一画面に存在する最大DP
 #define DP_VOLUME	10
 
 class DetailPoint
@@ -13,7 +13,7 @@ private:
 
 	bool dp_Show;
 
-	//todo:仮テクスチャ追加です
+	//仮テクスチャ追加です
 	//仮テクスチャ：学力
 	CTexture dp_Textuer_Scholastic;
 
@@ -64,7 +64,7 @@ public:
 	//todo:ロード追加です
 	bool Load(void);
 
-	//todo:リソース解放
+	//リソース解放
 	void Release(void);
 
 	//表示開始

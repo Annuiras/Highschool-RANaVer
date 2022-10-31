@@ -99,24 +99,23 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 	//スクロール値初期化
 	m_BakScroll = 0.0f;
 
-	//todo:ステージスクロール値初期化プラスの値に変更しました
-	//todo:試作：０からスタート
+	//ステージスクロール値初期化
 	m_StageScroll = g_pGraphics->GetTargetWidth()*2;
 
 	//背景カウント初期化
 	m_countbak = 0;
 
-	//todo:クリア用スクロール値初期化
+	//クリア判定用スクロール値初期化
 	m_Scroll_Clear = 0;
 
 
-	//todo:マップDPパターンランダムに初期化
+	//マップDPパターンランダムに初期化
 	for (int y = 0; y < DP_INFO_PATTERN; y++)
 	{
 		m_StageDPConstitution[y] = RandmuBak.GetRandomNumbe(0, 14);
 	}
 
-	//todo:デバッグ用の指定コマンド、必要に応じていじってください
+	//デバッグ用の指定コマンド、必要に応じていじってください
 	m_StageDPConstitution[0] = 0;
 	m_StageDPConstitution[1] = 1;
 	m_StageDPConstitution[2] = 2;
@@ -133,10 +132,11 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 	m_StageDPConstitution[13] = 13;
 	m_StageDPConstitution[14] = 14;
 
-	//todo:マップDPパターン添え字初期化
+	//マップDPパターン添え字初期化
 	m_MapNo_DP = 0;
 
-	//todo:DP配置情報コピー引数で受け取る場合の処理なのでなくなる可能性あり
+	//todo:DP配置情報コピー,
+	//引数で受け取る場合の処理なのでなくなる可能性あり
 	//マップ一枚の情報分
 	for (int y = 0; y < DP_INFO_PATTERN; y++)
 	{
@@ -149,13 +149,13 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 	}
 
 
-	//todo:マップOBパターンランダムに初期化
+	//マップOBパターンランダムに初期化
 	for (int y = 0; y < OB_INFO_PATTERN; y++)
 	{
 		m_StageOBConstitution[y] = RandmuBak.GetRandomNumbe(0, 14);
 	}
 
-	//todo:デバッグ用の指定コマンド、必要に応じていじってください
+	//デバッグ用の指定コマンド、必要に応じていじってください
 	m_StageOBConstitution[0] = 0;
 	m_StageOBConstitution[1] = 1;
 	m_StageOBConstitution[2] = 2;
@@ -172,11 +172,12 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 	m_StageOBConstitution[13] = 13;
 	m_StageOBConstitution[14] = 14;
 
-	//todo:マップOBパターン添え字初期化
+	//マップOBパターン添え字初期化
 	m_MapNo_OB = 0;
 
 	//障害物配置情報
-	//todo:障害物配置情報コピー引数で受け取る場合の処理なのでなくなる可能性あり
+	//todo:障害物配置情報コピー
+	//引数で受け取る場合の処理なのでなくなる可能性あり
 	//マップ一枚の情報分
 	for (int y = 0; y < OB_INFO_PATTERN; y++)
 	{
@@ -189,13 +190,13 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 	}
 
 
-	//todo:マップ足場パターンランダムに初期化
+	//マップ足場パターンランダムに初期化
 	for (int y = 0; y < BAR_INFO_PATTERN; y++)
 	{
 		m_StageBarConstitution[y] = RandmuBak.GetRandomNumbe(0, 14);
 	}
 
-	//todo:デバッグ用の指定コマンド、必要に応じていじってください
+	//デバッグ用の指定コマンド、必要に応じていじってください
 	m_StageBarConstitution[0] = 0;
 	m_StageBarConstitution[1] = 1;
 	m_StageBarConstitution[2] = 2;
@@ -212,11 +213,12 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 	m_StageBarConstitution[13] = 13;
 	m_StageBarConstitution[14] = 14;
 
-	//todo:マップOBパターン添え字初期化
+	//マップOBパターン添え字初期化
 	m_MapNo_Bar = 0;
 
 
-	//todo:足場配置情報コピー引数で受け取る場合の処理なのでなくなる可能性あり
+	//todo:足場配置情報コピー
+	//引数で受け取る場合の処理なのでなくなる可能性あり
 	//マップ一枚の情報分
 	for (int y = 0; y < BAR_INFO_PATTERN; y++)
 	{
@@ -294,7 +296,7 @@ void CStage::Update(float over, CRectangle plrect,CRectangle pl2, float suckingX
 	//プレイヤーのオーバーした分だけ後ろに下げる
 	m_BakScroll -= over;
 
-	//todo:試作ステージ生成用スクロール値
+	//ステージ生成用スクロール値
 	m_StageScroll += over;
 
 
@@ -303,7 +305,7 @@ void CStage::Update(float over, CRectangle plrect,CRectangle pl2, float suckingX
 	//ステージスクロール値
 	if (m_StageScroll >=g_pGraphics->GetTargetWidth()*2)
 	{
-		//todo:試作スクロール値リセット
+		//スクロール値リセット
 
 		m_StageScroll = 0;
 
@@ -358,7 +360,6 @@ void CStage::Update(float over, CRectangle plrect,CRectangle pl2, float suckingX
 		}
 	}
 
-	//todo:フラグを＋値に変更
 	//クリアフラグ変更
 	if (m_Scroll_Clear >= 38400||g_pInput->IsKeyPush(MOFKEY_0)) {
 
@@ -614,49 +615,49 @@ void CStage::RenderDebugging() {
 
 	CGraphicsUtilities::RenderLine(m_BakScroll,0, m_BakScroll,g_pGraphics->GetTargetHeight(), MOF_COLOR_BLUE);
 
-	////todo:足場デバック表示
-	////todo:足場マップパターン現在表示
+	////足場デバック表示
+	////足場マップパターン現在表示
 	//CGraphicsUtilities::RenderString(0, 700, "マップ足場パターン:%d", m_StageBarConstitution[m_MapNo_Bar]);
 
-	////todo:足場マップパターン全体表示
+	////足場マップパターン全体表示
 	//for (int i = 0; i < 15; i++)
 	//{
 	//	CGraphicsUtilities::RenderString(40 * i, 680, "%d", m_StageBarConstitution[i]);
 
 	//}
 
-	////todo:表示済み足場カウント
+	////表示済み足場カウント
 	//CGraphicsUtilities::RenderString(0, 650, "足場カウント%d", m_barcount);
 
-	//todo：足場高さの対応
+	//足場高さの対応
 	//CGraphicsUtilities::RenderString(500, 50, MOF_XRGB(80, 80, 80), "50Yパターン10～14");
 	//CGraphicsUtilities::RenderString(500, 250, MOF_XRGB(80, 80, 80), "250Yパターン5～9");
 	//CGraphicsUtilities::RenderString(500, 450, MOF_XRGB(80, 80, 80), "450Yパターン0～4");
 
 
 
-	////todo:OBデバック表示
-	////todo:OBマップパターン現在表示
+	////OBデバック表示
+	////OBマップパターン現在表示
 	//CGraphicsUtilities::RenderString(0, 700, "マップOBパターン:%d", m_StageOBConstitution[m_MapNo_OB]);
 
-	////todo:OBマップパターン全体表示
+	////OBマップパターン全体表示
 	//for (int i = 0; i < 15; i++)
 	//{
 	//	CGraphicsUtilities::RenderString(40 * i, 680, "%d", m_StageOBConstitution[i]);
 
 	//}
 
-	////todo:表示済みOBカウント
+	////表示済みOBカウント
 	//CGraphicsUtilities::RenderString(0, 650, "OBカウント%d", m_obcount);
 
-	////todo:色OB対応を表示
+	////色OB対応を表示
 	//CGraphicsUtilities::RenderString(0, 400, MOF_XRGB(80, 80, 80), "1:椅子,    パターン0,3,6,9,12");
 	//CGraphicsUtilities::RenderString(0, 430, MOF_XRGB(80, 80, 80), "2:黒板消し,パターン1,4,7,10,13");
 	//CGraphicsUtilities::RenderString(0, 460, MOF_XRGB(80, 80, 80), "3:ボール,  パターン2,5,8,11,14");
 	////CGraphicsUtilities::RenderString(0, 550, "m_Scroll_Clear%f", m_Scroll_Clear);
 
 
-	////todo：OB高さの対応
+	////OB高さの対応
 	//CGraphicsUtilities::RenderString(500, 144, MOF_XRGB(80, 80, 80), "144Yパターン0～2");
 	//CGraphicsUtilities::RenderString(500, 288, MOF_XRGB(80, 80, 80), "288Yパターン3～5");
 	//CGraphicsUtilities::RenderString(500, 432, MOF_XRGB(80, 80, 80), "432Yパターン6～8");
@@ -664,21 +665,21 @@ void CStage::RenderDebugging() {
 	//CGraphicsUtilities::RenderString(500, 720, MOF_XRGB(80, 80, 80), "720Yパターン12～14");
 
 
-	//todo:DPデバック表示
-	//todo:DPマップパターン現在表示
+	//DPデバック表示
+	//DPマップパターン現在表示
 	CGraphicsUtilities::RenderString(0, 700, MOF_XRGB(80, 80, 80), "マップDPパターン:%d", m_StageDPConstitution[m_MapNo_DP]);
 
-	//todo:DPマップパターン全体表示
+	//DPマップパターン全体表示
 	for (int i = 0; i < 15; i++)
 	{
 		CGraphicsUtilities::RenderString(40 * i, 680, MOF_XRGB(80, 80, 80), "%d", m_StageDPConstitution[i]);
 
 	}
 
-	//todo:表示済みDPカウント
+	//表示済みDPカウント
 	CGraphicsUtilities::RenderString(0, 650, MOF_XRGB(80, 80, 80), "DPカウント%d", m_dpcount);
 
-	//todo:色DP対応を表示
+	//色DP対応を表示
 	CGraphicsUtilities::RenderString(0, 400, MOF_XRGB(222, 184, 135), "1:学力,    パターン0,5,10");
 	CGraphicsUtilities::RenderString(0, 430, MOF_COLOR_YELLOW, "2:行動力,  パターン1,6,11");
 	CGraphicsUtilities::RenderString(0, 460, MOF_XRGB(0, 191, 255), "3:想像力,  パターン2,7,12");
@@ -687,7 +688,7 @@ void CStage::RenderDebugging() {
 	CGraphicsUtilities::RenderString(0, 550, MOF_XRGB(80, 80, 80), "m_Scroll_Clear%f", m_Scroll_Clear);
 
 
-	////todo：DP高さの対応
+	////DP高さの対応
 	//CGraphicsUtilities::RenderString(500, 50, MOF_XRGB(80, 80, 80), "50Yパターン10～14");
 	//CGraphicsUtilities::RenderString(500, 250, MOF_XRGB(80, 80, 80), "250Yパターン5～9");
 	//CGraphicsUtilities::RenderString(500, 450, MOF_XRGB(80, 80, 80), "450Yパターン0～4");
@@ -699,8 +700,7 @@ void CStage::RenderDebugging() {
 //足場生成
 void CStage::OccurrenceBar(void) {
 
-	//todo:マップの足場情報が終端要素かどうか検出
-	//todo:試作スクロール値の条件変更
+	//マップの足場情報が終端要素かどうか検出
 	if (m_barinfo[m_StageBarConstitution[m_MapNo_Bar]][m_barcount].Type > 10 && m_StageScroll <= 0)
 	{
 		//マップOBパターンを変更
@@ -719,7 +719,6 @@ void CStage::OccurrenceBar(void) {
 	}
 
 
-	//todo:処理を変更しました
 	//m_MapNo_Bar->マップパターン番号
 	//m_obcount->表示済み足場数
 	//マップパターン番号が用意している数以下のときかつ
@@ -753,8 +752,7 @@ void CStage::OccurrenceBar(void) {
 //ディテールポイント生成
 void CStage::OccurrenceDP(void) {
 
-	//todo:マップのDP情報が終端要素かどうか検出
-	//todo:試作スクロール値の条件変更
+	//マップのDP情報が終端要素かどうか検出
 	if (m_dpinfo[m_StageDPConstitution[m_MapNo_DP]][m_dpcount].Type > 10 && m_StageScroll <=0)
 	{
 		//マップパターンを変更
@@ -772,7 +770,6 @@ void CStage::OccurrenceDP(void) {
 
 	}
 
-	//todo:処理を変更しました
 	//m_MapNo_DP->マップパターン番号
 	//m_dpcount->表示済みDP数
 	//マップDPパターン番号が用意している数以下のときかつ
@@ -805,8 +802,7 @@ void CStage::OccurrenceDP(void) {
 //障害物OB生成
 void CStage::OccurrenceOB(void) {
 
-	//todo:マップのOB情報が終端要素かどうか検出
-	//todo:試作スクロール値の条件変更
+	//マップのOB情報が終端要素かどうか検出
 	if (m_obinfo[m_StageOBConstitution[m_MapNo_OB]][m_obcount].Type > 10 && m_StageScroll <= 0)
 	{
 		//マップOBパターンを変更
@@ -825,7 +821,6 @@ void CStage::OccurrenceOB(void) {
 	}
 
 
-	//todo:処理を変更しました
 	//m_MapNo_OB->マップパターン番号
 	//m_obcount->表示済みDP数
 	//マップパターン番号が用意している数以下のときかつ

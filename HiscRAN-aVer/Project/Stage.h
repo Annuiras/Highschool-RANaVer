@@ -5,11 +5,9 @@
 #include "DetailPoint.h"
 #include "Bar.h"
 #include "Obstacle.h"
-//todo：共通定義ファイル
 #include "Define.h"
 
 ////DPの出現位置情報用構造体
-//todo:DP構造体の順番変えてます
 typedef struct tag_DP_POS
 {
 	float Scroll;	//DP出現スクロール値
@@ -19,7 +17,6 @@ typedef struct tag_DP_POS
 } DP_info;
 
 //障害物の出現位置情報用構造体
-//todo:障害物構造体の順番変えてます
 typedef struct tag_OBSTAClE_POS
 {	
 	float Scroll;	//障害物出現スクロール値
@@ -30,7 +27,6 @@ typedef struct tag_OBSTAClE_POS
 
 
 //足場の出現位置情報用構造体
-//todo:障害物構造体内容を追加しました
 typedef struct tag_BAR_POS
 {	
 	float Scroll;	//足場出現スクロール値
@@ -74,65 +70,55 @@ private:
 	//SPステージテクスチャ
 	CTexture m_SPBak;
 
-	//todo:クリア用スクロール値
+	//クリア用スクロール値
 	float	m_Scroll_Clear;
 
-	//todo:マップDPパターン添え字
+	//マップDPパターン添え字
 	int m_MapNo_DP;
 
-	//todo:マップOBパターン添え字
+	//マップOBパターン添え字
 	int m_MapNo_OB;
 
-	//todo:マップ足場パターン添え字
+	//マップ足場パターン添え字
 	int m_MapNo_Bar;
 
 
-	//todo:ステージDP構成を決める配列
+	//ステージDP構成を決める配列
 	int m_StageDPConstitution[DP_INFO_PATTERN] = { 1 };
 
-	//todo:ステージ障害物構成を決める配列
+	//ステージ障害物構成を決める配列
 	int m_StageOBConstitution[OB_INFO_PATTERN] = { 1 };
 
-	//todo:ステージ足場構成を決める配列
+	//ステージ足場構成を決める配列
 	int m_StageBarConstitution[BAR_INFO_PATTERN] = { 1 };
 
 
-	//todo:DPの配置情報受け取る配列
+	//DPの配置情報受け取る配列
 	//[]:マップDPパターン情報数
 	//[]:マップDPパターン1枚分にいくつ構造体があるか
 	//DPの配置情報
 	DP_info m_dpinfo[DP_INFO_PATTERN][DP_INFO_STRUCT];
 
-	//todo:現在使用していません
-	//DPの情報数
-	//int m_dpvolume;
 
 	//表示済みDP数
 	int m_dpcount;
 
 
-	//todo:OBの配置情報受け取る配列
+	//OBの配置情報受け取る配列
 	//[]:マップOBパターン情報数
 	//[]:マップOBパターン1枚分にいくつ構造体があるか
 	//OBの配置情報
 	OB_info m_obinfo[OB_INFO_PATTERN][OB_INFO_STRUCT];
 
-	//todo:現在使用していません
-	//障害物の情報数
-	//int m_obvolume;
-
 	//表示済障害物
 	int m_obcount;
 
-	//todo:足場の配置情報受け取る配列
+	//足場の配置情報受け取る配列
 	//[]:マップ足場パターン情報数
 	//[]:マップ足場パターン1枚分にいくつ構造体があるか
 	//足場の配置情報
 	BAR_info m_barinfo[OB_INFO_PATTERN][OB_INFO_STRUCT];
 
-	//todo:現在使用していません
-	//足場の情報数
-	int m_barvolume;
 
 	//表示済み足場数
 	int m_barcount;
@@ -189,7 +175,6 @@ public:
 	CStage();
 	~CStage();
 
-	//todo:引数を二次元配列に変更
 	//dpin[][]:DPの配置情報
 	//[]:マップパターンがいくつあるか
 	//[]:1マップパターンにいくつ構造体があるか
@@ -226,7 +211,7 @@ public:
 	//足場クラス
 	Bar	b_bar[BAR_VOLUME];
 
-	//todo:一画面に表示するDPの数だけ用意
+	//一画面に表示するDPの数だけ用意
 	//DPクラス
 	DetailPoint dp_array[DP_VOLUME];
 

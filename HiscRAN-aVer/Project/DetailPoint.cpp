@@ -219,7 +219,7 @@ void DetailPoint::RenderDebugging() {
 	//CGraphicsUtilities::RenderString(dp_PosX,dp_addY,dp_)
 }
 
-//todo:リリース処理を追加です
+//リリース処理を追加です
 void DetailPoint::Release(void) {
 
 	dp_Textuer_Scholastic.Release();

@@ -10,7 +10,7 @@ class CObstacle
 
 private:
 
-	//todo:仮テクスチャ:椅子
+	//仮テクスチャ:椅子
 	CTexture	ob_Textuer_Desk;
 
 	////仮テクスチャ:
@@ -25,10 +25,10 @@ private:
 	//表示フラグ:true：表示
 	bool ob_Show;
 
-	//todo:障害物タイプ別横幅
+	//障害物タイプ別横幅
 	float ob_HitWidth;
 
-	//todo:障害物種類（仮）
+	//障害物種類（仮）
 	//1:机
 	//2:２段机
 	int ob_Type;
@@ -40,7 +40,7 @@ public:
 
 	void Initialize(void);
 
-	//todo:ロード追加です
+	//ロード追加です
 	bool Load(void);
 
 

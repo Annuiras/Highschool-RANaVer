@@ -5,7 +5,6 @@
 //vectorを使った動的配列試したけどうまく宣言できなかった
 
 
-//todo:マップパターンを二次配列変更
 //s_stageAbar
 //[]:マップ一枚の情報がいくつあるか(数値は省略可能)
 //[BAR_INFO_STRUCT]:マップ一枚分の情報にいくつ構造体があるか
@@ -14,7 +13,6 @@
 //2:中
 //3:小
 //仕様上、値を昇順にしないとうまく表示できない
-//todo:昇順に変更
 //スクロール値は0にならないため0.0fで出現はエラー
 //{0,0,100}->終端文字の役割、この要素を参照すると次のパターンに移行
 BAR_info s_stageAbar[][BAR_INFO_STRUCT] =
@@ -132,7 +130,3 @@ BAR_info s_stageAbar[][BAR_INFO_STRUCT] =
 	}
 
 };
-
-//todo:現状使用していないなくても機能しているなら、ステージ内部で完結できるかも
-//ステージ全体のDP数
-//int s_stageAdpcount = sizeof s_stageAdp / sizeof s_stageAdp[0]; ////_countof(s_stageAdp);

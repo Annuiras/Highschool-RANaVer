@@ -1,7 +1,7 @@
 #pragma once
 #include	"Mof.h"
 
-//todo:マップパターンの数を追加です
+//マップパターンの数を追加です
 
 //マップDPパターン数
 #define DP_INFO_PATTERN 15
