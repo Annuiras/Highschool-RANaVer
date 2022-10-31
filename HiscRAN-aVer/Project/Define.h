@@ -7,7 +7,20 @@
 #define DP_INFO_PATTERN 15
 
 //DP1パターンの要素数
+//（1マップ中にあるDP数＋1）
 #define DP_INFO_STRUCT 11
+
+
+//DPタイプ定義
+enum tag_DP_TYPE
+{
+	DP_TYPE_SCHOLASTIC,		//学力
+	DP_TYPE_ACTION,			//行動力
+	DP_TYPE_IMAGINATION,	//想像力
+	DP_TYPE_COMMUNICATION,  //コミュ力
+	DP_TYPE_CHARM			//魅力
+
+};
 
 //マップ障害物パターン数
 #define OB_INFO_PATTERN 15

@@ -13,28 +13,15 @@ private:
 
 	bool dp_Show;
 
-	//仮テクスチャ追加です
-	//仮テクスチャ：学力
-	CTexture dp_Textuer_Scholastic;
-
-	//仮テクスチャ：行動力
-	CTexture dp_Textuer_Action;
-
-	//仮テクスチャ：想像力
-	CTexture dp_Textuer_Imagination;
-
-	//仮テクスチャ：コミュ力
-	CTexture dp_Textuer_Communication;
-
-	//仮テクスチャ：魅力
-	CTexture dp_Textuer_Charm;
+	//DPテクスチャ
+	CTexture* dp_texture;
 
 	//DPタイプ
-	//１：学力
-	//２：行動力
-	//３：想像力
-	//４：コミュ力
-	//５：魅力
+	//0：学力
+	//1：行動力
+	//2：想像力
+	//3：コミュ力
+	//4：魅力
 	int dp_Type;
 
 	//ステータス上昇値
@@ -61,11 +48,8 @@ public:
 	void Render(void);
 	void Initialize(void);
 
-	//todo:ロード追加です
-	bool Load(void);
-
-	//リソース解放
-	void Release(void);
+	//DPテクスチャをセット
+	void SetTexture(CTexture* dptex);
 
 	//表示開始
 	void Start(float posy, int type);

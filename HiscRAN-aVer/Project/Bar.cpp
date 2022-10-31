@@ -1,3 +1,4 @@
+#pragma once
 #include "Bar.h"
 
 Bar::Bar() :

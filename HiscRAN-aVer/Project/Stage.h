@@ -70,6 +70,22 @@ private:
 	//SPステージテクスチャ
 	CTexture m_SPBak;
 
+	//仮テクスチャ追加です
+	//仮テクスチャ：学力
+	CTexture dp_Textuer_Scholastic;
+
+	//仮テクスチャ：行動力
+	CTexture dp_Textuer_Action;
+
+	//仮テクスチャ：想像力
+	CTexture dp_Textuer_Imagination;
+
+	//仮テクスチャ：コミュ力
+	CTexture dp_Textuer_Communication;
+
+	//仮テクスチャ：魅力
+	CTexture dp_Textuer_Charm;
+
 	//クリア用スクロール値
 	float	m_Scroll_Clear;
 

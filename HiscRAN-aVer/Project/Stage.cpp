@@ -75,13 +75,30 @@ bool CStage::Load() {
 		return false;
 	}
 
+	//DPテクスチャロード
+	//仮テクスチャ：学力
+	if (!dp_Textuer_Scholastic.Load("ハイスク素材　DP 学力　仮.png")) {
+		return false;
+	}
 
-	for (int i = 0; i < DP_VOLUME; i++)
-	{
-		if (!dp_array[i].Load()) {
+	//仮テクスチャ：行動力
+	if (!dp_Textuer_Action.Load("ハイスク素材　DP 行動力　仮.png")) {
+		return false;
+	}
 
-			return false;
-		}
+	//仮テクスチャ：想像力
+	if (!dp_Textuer_Imagination.Load("ハイスク素材　DP 想像力　仮.png")) {
+		return false;
+	}
+
+	//仮テクスチャ：コミュ力
+	if (!dp_Textuer_Communication.Load("ハイスク素材　DP コミュ力　仮.png")) {
+		return false;
+	}
+
+	//仮テクスチャ：魅力
+	if (!dp_Textuer_Charm.Load("ハイスク素材　DP 魅力　仮.png")) {
+		return false;
 	}
 
 	return true;
@@ -95,6 +112,7 @@ bool CStage::Load() {
 //obin:障害物の配置情報
 //obco:障害物の情報数
 void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INFO_STRUCT], OB_info obin[][OB_INFO_STRUCT]) {
+
 	//スクロール値初期化
 	m_BakScroll = 0.0f;
 
@@ -134,8 +152,7 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 	//マップDPパターン添え字初期化
 	m_MapNo_DP = 0;
 
-	//todo:DP配置情報コピー,
-	//引数で受け取る場合の処理なのでなくなる可能性あり
+	//DP配置情報コピー,
 	//マップ一枚の情報分
 	for (int y = 0; y < DP_INFO_PATTERN; y++)
 	{
@@ -174,9 +191,7 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 	//マップOBパターン添え字初期化
 	m_MapNo_OB = 0;
 
-	//障害物配置情報
-	//todo:障害物配置情報コピー
-	//引数で受け取る場合の処理なのでなくなる可能性あり
+	//障害物配置情報コピー
 	//マップ一枚の情報分
 	for (int y = 0; y < OB_INFO_PATTERN; y++)
 	{
@@ -216,8 +231,7 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 	m_MapNo_Bar = 0;
 
 
-	//todo:足場配置情報コピー
-	//引数で受け取る場合の処理なのでなくなる可能性あり
+	//足場配置情報コピー
 	//マップ一枚の情報分
 	for (int y = 0; y < BAR_INFO_PATTERN; y++)
 	{
@@ -374,35 +388,35 @@ void CStage::UPdeteCollisionDP(int dpt) {
 	switch (dpt)
 	{
 
-	case 1:
+	case DP_TYPE_SCHOLASTIC:
 		m_gaku += 1;
 		if (m_gaku > 100) {
 			m_gaku = 100;
 		}
 		break;
 
-	case 2:
+	case DP_TYPE_ACTION:
 		m_kou += 1;
 		if (m_kou > 100) {
 			m_kou = 100;
 		}
 		break;
 
-	case 3:
+	case DP_TYPE_IMAGINATION:
 		m_sou += 1;
 		if (m_sou > 100) {
 			m_sou = 100;
 		}
 		break;
 
-	case 4:
+	case DP_TYPE_COMMUNICATION:
 		m_komyu += 1;
 		if (m_komyu > 100) {
 			m_komyu = 100;
 		}
 		break;
 
-	case 5:
+	case DP_TYPE_CHARM:
 		m_miryoku += 1;
 		if (m_miryoku > 100) {
 			m_miryoku = 100;
@@ -578,11 +592,12 @@ void CStage::Release(void) {
 	m_BakEnd.Release();
 	m_SPBak.Release();
 
-	//DPの解放
-	for (int i = 0; i < DP_VOLUME; i++)
-	{
-		dp_array[i].Release();
-	}
+	dp_Textuer_Scholastic.Release();
+	dp_Textuer_Action.Release();
+	dp_Textuer_Imagination.Release();
+	dp_Textuer_Communication.Release();
+	dp_Textuer_Charm.Release();
+
 }
 
 //デバック描画
@@ -785,8 +800,34 @@ void CStage::OccurrenceDP(void) {
 				continue;
 			}
 
-			//表示準備
+			//表示テクスチャ準備
 			//出現位置とタイプを渡す
+			switch (m_dpinfo[m_StageDPConstitution[m_MapNo_DP]][m_dpcount].Type)
+			{
+
+			case DP_TYPE_SCHOLASTIC:
+				dp_array[i].SetTexture(&dp_Textuer_Scholastic);
+				break;
+
+			case DP_TYPE_ACTION:
+				dp_array[i].SetTexture(&dp_Textuer_Action);
+				break;
+
+			case DP_TYPE_IMAGINATION:
+				dp_array[i].SetTexture(&dp_Textuer_Imagination);
+				break;
+
+			case DP_TYPE_COMMUNICATION:
+				dp_array[i].SetTexture(&dp_Textuer_Communication);
+				break;
+
+			case DP_TYPE_CHARM:
+				dp_array[i].SetTexture(&dp_Textuer_Charm);
+				break;
+
+			default:
+				break;
+			}
 			dp_array[i].Start(m_dpinfo[m_StageDPConstitution[m_MapNo_DP]][m_dpcount].Pos_y, m_dpinfo[m_StageDPConstitution[m_MapNo_DP]][m_dpcount].Type);
 			break;
 		}
@@ -839,7 +880,7 @@ void CStage::OccurrenceOB(void) {
 			//表示準備
 			//出現位置とタイプを渡す
 			ob_array[i].Start(m_obinfo[m_StageOBConstitution[m_MapNo_OB]][m_obcount].Pos_y,
-							m_obinfo[m_StageOBConstitution[m_MapNo_OB]][m_obcount].Type);
+				m_obinfo[m_StageOBConstitution[m_MapNo_OB]][m_obcount].Type);
 			break;
 		}
 

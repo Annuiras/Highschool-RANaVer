@@ -3,7 +3,6 @@
 #include "Define.h"
 #include "GameApp.h"
 #include "Player.h"
-//#include "PlayerSkill.h"
 #include "Stage.h"
 #include "Ground.h"
 #include "DetailPoint.h"
