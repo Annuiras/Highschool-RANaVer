@@ -158,7 +158,7 @@ void CPlayer::Update(void) {
 		}
 	}
 
-
+	//todo:障害物などから自由落下している間にジャンプ出来てしまう
 	//ジャンプ処理
 	if (g_pInput->IsKeyHold(MOFKEY_SPACE) && !m_Slidingflg && m_BSflg) {
 
@@ -437,10 +437,9 @@ void CPlayer::Render()
 
 	//仮キャラ
 	//m_TEX.Render(px, py);
-	
-	//キャラクターの判定矩形
-	CGraphicsUtilities::RenderRect(GetRect(), MOF_COLOR_RED);
-	CGraphicsUtilities::RenderRect(legsGetRect(), MOF_COLOR_GREEN);
+		//HP表示
+	CGraphicsUtilities::RenderString(0, 260, MOF_XRGB(80, 80, 80), "HP:%d", m_HP);
+
 }
 
 //デバック表示
@@ -473,8 +472,10 @@ void CPlayer::RenderDebugging() {
 
 	}
 
-	//HP表示
-	CGraphicsUtilities::RenderString(0, 260, MOF_XRGB(80, 80, 80), "HP:%d", m_HP);
+
+	//キャラクターの判定矩形
+	CGraphicsUtilities::RenderRect(GetRect(), MOF_COLOR_RED);
+	CGraphicsUtilities::RenderRect(legsGetRect(), MOF_COLOR_GREEN);
 
 	////ジャンプフラグ表示
 	//if (m_Jumpflg) {

@@ -1,24 +1,32 @@
 #pragma once
 #include "Mof.h"
+#include "Define.h"
 #define OB_VOLUME 5
 
-#define OB_DESK_WIDTH 137
-#define OB_DESK_HEIGHT 180
+//障害物：机横・縦幅
+#define OB_DESK_WIDTH 131
+#define OB_DESK_HEIGHT 172
+
+//二段机
+#define OB_TOWDESK_WIDTH 131
+#define OB_TOWDESK_HEIGHT 292
+
+//ロッカー
+#define OB_LOCKER_WIDTH 138
+#define OB_LOCKER_HEIGHT 308
+
+//乗れる矩形判定高さ
+#define OB_TOPBAR_HEIGHT 20
 
 class CObstacle
 {
 
 private:
 
-	//仮テクスチャ:椅子
-	CTexture	ob_Textuer_Desk;
+	//仮テクスチャ
+	CTexture*	ob_Textuer;
 
-	////仮テクスチャ:
-	//CTexture	ob__Textuer;
-
-	////仮テクスチャ:
-	//CTexture	ob__Textuer;
-
+	//座標
 	float ob_PosX;
 	float ob_PosY;
 
@@ -28,9 +36,6 @@ private:
 	//障害物タイプ別横幅
 	float ob_HitWidth;
 
-	//障害物種類（仮）
-	//1:机
-	//2:２段机
 	int ob_Type;
 
 public:
@@ -40,24 +45,34 @@ public:
 
 	void Initialize(void);
 
-	//ロード追加です
-	bool Load(void);
-
 
 	void Update(float over);
 	void Start(float posy,int type);
+
+	//OBテクスチャをセット
+	void SetTexture(CTexture* obtex);
 
 	void Render(void);
 	void RenderDebugging(void);
 
 
-
+	//ダメージ矩形取得
 	CRectangle GetRect(int type);
 
+	//障害物上に乗れる当たり判定取得
+	CRectangle GetTopBarRect(int type);
+
+
+	//表示中フラグ取得
 	bool Getshow(void) { return ob_Show; }
 
+	//障害物タイプ取得
 	bool GetType(void) { return ob_Type; }
 
+	//Y座標取得
+	float GetY(void) { return ob_PosY; }
+
+	//表示フラグセット
 	void Setshow(bool b) { ob_Show = b; }
 
 };

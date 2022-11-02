@@ -16,12 +16,19 @@ DP_info s_stageAdp[][DP_INFO_STRUCT] =
 {
 	//マップパターン0
 	{		
-		{150.0f,360.0f,DP_TYPE_ACTION},
-		{605.0f,142.0f,DP_TYPE_CHARM},
-		{745.0f,505.0f,DP_TYPE_COMMUNICATION},
-		{1457.0f,514.0f,DP_TYPE_SCHOLASTIC},
-		{2147.0f,539.0f,DP_TYPE_IMAGINATION},
-		{2251.0f,141.0f,DP_TYPE_ACTION},
+		//{150.0f,360.0f,	DP_ACTION},
+		//{605.0f,142.0f,	DP_CHARM},
+		//{745.0f,505.0f,	DP_COMMUNICATION},
+		//{1457.0f,514.0f,DP_SCHOLASTIC},
+		//{2147.0f,539.0f,DP_IMAGINATION},
+		//{2251.0f,141.0f,DP_ACTION},
+
+		{272.0f,341.0f,	DP_IMAGINATION},
+		{756.0f,229.0f,	DP_CHARM},
+		{1284.0f,222.0f,DP_ACTION},
+		{1975.0f,231.0f,DP_SCHOLASTIC},
+		{2462.0f,66.0f,	DP_SCHOLASTIC},
+
 		{10000,0,100}
 
 		//{2560.0f,450.0f,1},
@@ -39,16 +46,11 @@ DP_info s_stageAdp[][DP_INFO_STRUCT] =
 	},
 	//マップパターン1
 	{
-		//{2560.0f,450.0f,2},
-		//{2360.0f,450.0f,2},
-		//{2160.0f,450.0f,2},
-		//{1960.0f,450.0f,2},
-		//{1760.0f,450.0f,2},
-		//{1560.0f,450.0f,2},
-		//{1360.0f,450.0f,2},
-		//{1160.0f,450.0f,2},
-		//{960.0f,450.0f ,2},
-		//{760.0f,450.0f ,2},
+		//{272.0f,341.0f,	DP_IMAGINATION},
+		//{756.0f,229.0f,	DP_CHARM},
+		//{1284.0f,222.0f,DP_ACTION},
+		//{1975.0f,231.0f,DP_SCHOLASTIC},
+		//{2462.0f,66.0f,	DP_SCHOLASTIC},
 		{10000,0,100}
 	},
 	//マップパターン2

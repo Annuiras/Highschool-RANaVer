@@ -42,7 +42,8 @@ private:
 	//乱数生成
 	RandomValue RandmuBak;
 
-	//背景テクスチャ
+	#pragma region ステージテクスチャ
+
 	//廊下始まり
 	CTexture m_BakStart;
 
@@ -70,43 +71,74 @@ private:
 	//SPステージテクスチャ
 	CTexture m_SPBak;
 
-	//仮テクスチャ追加です
-	//仮テクスチャ：学力
+#pragma endregion
+
+	#pragma region DPテクスチャ
+
+	//仮DPテクスチャ：学力
 	CTexture dp_Textuer_Scholastic;
 
-	//仮テクスチャ：行動力
+	//仮DPテクスチャ：行動力
 	CTexture dp_Textuer_Action;
 
-	//仮テクスチャ：想像力
+	//仮DPテクスチャ：想像力
 	CTexture dp_Textuer_Imagination;
 
-	//仮テクスチャ：コミュ力
+	//仮DPテクスチャ：コミュ力
 	CTexture dp_Textuer_Communication;
 
-	//仮テクスチャ：魅力
+	//仮DPテクスチャ：魅力
 	CTexture dp_Textuer_Charm;
+
+
+#pragma endregion
+
+	#pragma region 障害物テクスチャ
+
+	//仮テクスチャ：机
+	CTexture ob_Textuer_Desk;
+
+	//仮テクスチャ：２段机
+	CTexture ob_Textuer_TwoDesk;
+
+	//仮テクスチャ：ロッカー
+	CTexture ob_Textuer_Locker;
+
+
+
+#pragma endregion
+
+
+
+
 
 	//クリア用スクロール値
 	float	m_Scroll_Clear;
 
-	//マップDPパターン添え字
-	int m_MapNo_DP;
+	////マップDPパターン添え字
+	//int m_MapNo_DP;
 
-	//マップOBパターン添え字
-	int m_MapNo_OB;
+	////マップOBパターン添え字
+	//int m_MapNo_OB;
 
-	//マップ足場パターン添え字
-	int m_MapNo_Bar;
+	////マップ足場パターン添え字
+	//int m_MapNo_Bar;
+
+	//マップパターン添え字
+	int m_MapNo;
 
 
-	//ステージDP構成を決める配列
-	int m_StageDPConstitution[DP_INFO_PATTERN] = { 1 };
+	////ステージDP構成を決める配列
+	//int m_StageDPConstitution[DP_INFO_PATTERN] = { 1 };
 
-	//ステージ障害物構成を決める配列
-	int m_StageOBConstitution[OB_INFO_PATTERN] = { 1 };
+	////ステージ障害物構成を決める配列
+	//int m_StageOBConstitution[OB_INFO_PATTERN] = { 1 };
 
-	//ステージ足場構成を決める配列
-	int m_StageBarConstitution[BAR_INFO_PATTERN] = { 1 };
+	////ステージ足場構成を決める配列
+	//int m_StageBarConstitution[BAR_INFO_PATTERN] = { 1 };
+
+	//ステージ構成を決める配列
+	int m_StageConstitution[15] = { 1 };
 
 
 	//DPの配置情報受け取る配列
@@ -173,11 +205,11 @@ private:
 	bool m_spflg;
 
 	//ステージ内で取得したDPの数
-	int	m_gaku;
-	int	m_sou;
-	int	m_kou;
-	int	m_komyu;
-	int	m_miryoku;
+	int	m_Scholastic;		//学力
+	int	m_Action;			//行動力
+	int	m_Imagination;		//想像力
+	int	m_Communication;	//コミュ力
+	int	m_Charm;			//魅力
 
 	//クリアフラグ
 	bool m_bClear;
@@ -202,6 +234,9 @@ public:
 	void Render(void);
 	void Release(void);
 	void RenderDebugging(void);
+
+	//マップパターン
+	void MapChange(void);
 
 	//足場生成
 	void OccurrenceBar(void);

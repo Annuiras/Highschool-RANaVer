@@ -132,9 +132,14 @@ void GAME::Update(void)
 			continue;
 		}
 
-		if (g_Player.CollosopnOB(g_Stage.ob_array[i].GetRect(g_Stage.ob_array[i].GetType()))) {
-
+		if (g_Player.CollosopnOB(g_Stage.ob_array[i].GetRect(g_Stage.ob_array[i].GetType())))
+		{
 			g_Player.UPdateCollisionOB();
+		}
+		//áŠQ•¨‚©‚ç‚Ìƒ_ƒ[ƒW‚ğó‚¯‚Ä‚¢‚È‚¢ê‡‚¾‚¯ã‚Ì‘«ê”»’è
+		else if(g_Player.CollosopnBar(g_Stage.ob_array[i].GetTopBarRect(g_Stage.ob_array[i].GetType())))
+		{
+			g_Player.UPdateCollisionBra(g_Stage.ob_array[i].GetY());
 		}
 	}
 

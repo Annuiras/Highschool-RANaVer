@@ -23,11 +23,11 @@ CStage::CStage() :
 	m_BakScroll(0.0f),
 	m_StageScroll(0.0f),
 	m_spflg(false),
-	m_gaku(0),
-	m_sou(0),
-	m_kou(0),
-	m_komyu(0),
-	m_miryoku(0),
+	m_Scholastic(0),
+	m_Imagination(0),
+	m_Action(0),
+	m_Communication(0),
+	m_Charm(0),
 	m_bClear(false),
 	m_baklineX(0.0f)
 {}
@@ -101,6 +101,21 @@ bool CStage::Load() {
 		return false;
 	}
 
+	//仮テクスチャ：机
+	if (!ob_Textuer_Desk.Load("ハイスク素材２　障害物 机.png")) {
+		return false;
+	}
+
+	//仮テクスチャ：２段机
+	if (!ob_Textuer_TwoDesk.Load("ハイスク素材２　障害物 ２段机.png")) {
+		return false;
+	}
+
+	//仮テクスチャ：ロッカー
+	if (!ob_Textuer_Locker.Load("ハイスク素材２　障害物 ロッカー.png")) {
+		return false;
+	}
+
 	return true;
 }
 
@@ -125,35 +140,36 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 	//クリア判定用スクロール値初期化
 	m_Scroll_Clear = 0;
 
-
-	//マップDPパターンランダムに初期化
-	for (int y = 0; y < DP_INFO_PATTERN; y++)
+	//マップパターンをランダム化
+	for (int i = 0; i < 15; i++)
 	{
-		m_StageDPConstitution[y] = RandmuBak.GetRandomNumbe(0, 14);
+		m_StageConstitution[i] = RandmuBak.GetRandomNumbe(0, 0);
 	}
 
-	//デバッグ用の指定コマンド、必要に応じていじってください
-	m_StageDPConstitution[0] = 0;
-	m_StageDPConstitution[1] = 1;
-	m_StageDPConstitution[2] = 2;
-	m_StageDPConstitution[3] = 3;
-	m_StageDPConstitution[4] = 4;
-	m_StageDPConstitution[5] = 5;
-	m_StageDPConstitution[6] = 6;
-	m_StageDPConstitution[7] = 7;
-	m_StageDPConstitution[8] = 8;
-	m_StageDPConstitution[9] = 9;
-	m_StageDPConstitution[10] = 10;
-	m_StageDPConstitution[11] = 11;
-	m_StageDPConstitution[12] = 12;
-	m_StageDPConstitution[13] = 13;
-	m_StageDPConstitution[14] = 14;
+	//マップパターン添え字
+	m_MapNo = 0;
 
-	//マップDPパターン添え字初期化
-	m_MapNo_DP = 0;
+	//デバッグ用の指定コマンド、必要に応じていじってください
+	m_StageConstitution[0] = 0;
+	m_StageConstitution[1] = 0;
+	m_StageConstitution[2] = 0;
+	m_StageConstitution[3] = 0;
+	m_StageConstitution[4] = 0;
+	m_StageConstitution[5] = 0;
+	m_StageConstitution[6] = 0;
+	m_StageConstitution[7] = 0;
+	m_StageConstitution[8] = 0;
+	m_StageConstitution[9] = 0;
+	m_StageConstitution[10] = 0;
+	m_StageConstitution[11] = 0;
+	m_StageConstitution[12] = 0;
+	m_StageConstitution[13] = 0;
+	m_StageConstitution[14] = 0;
+
 
 	//DP配置情報コピー,
 	//マップ一枚の情報分
+
 	for (int y = 0; y < DP_INFO_PATTERN; y++)
 	{
 		//マップ一枚分の情報に構造体
@@ -163,33 +179,6 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 			m_dpinfo[y][x] = dpin[y][x];
 		}
 	}
-
-
-	//マップOBパターンランダムに初期化
-	for (int y = 0; y < OB_INFO_PATTERN; y++)
-	{
-		m_StageOBConstitution[y] = RandmuBak.GetRandomNumbe(0, 14);
-	}
-
-	//デバッグ用の指定コマンド、必要に応じていじってください
-	m_StageOBConstitution[0] = 0;
-	m_StageOBConstitution[1] = 1;
-	m_StageOBConstitution[2] = 2;
-	m_StageOBConstitution[3] = 3;
-	m_StageOBConstitution[4] = 4;
-	m_StageOBConstitution[5] = 5;
-	m_StageOBConstitution[6] = 6;
-	m_StageOBConstitution[7] = 7;
-	m_StageOBConstitution[8] = 8;
-	m_StageOBConstitution[9] = 9;
-	m_StageOBConstitution[10] = 10;
-	m_StageOBConstitution[11] = 11;
-	m_StageOBConstitution[12] = 12;
-	m_StageOBConstitution[13] = 13;
-	m_StageOBConstitution[14] = 14;
-
-	//マップOBパターン添え字初期化
-	m_MapNo_OB = 0;
 
 	//障害物配置情報コピー
 	//マップ一枚の情報分
@@ -202,34 +191,6 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 			m_obinfo[y][x] = obin[y][x];
 		}
 	}
-
-
-	//マップ足場パターンランダムに初期化
-	for (int y = 0; y < BAR_INFO_PATTERN; y++)
-	{
-		m_StageBarConstitution[y] = RandmuBak.GetRandomNumbe(0, 14);
-	}
-
-	//デバッグ用の指定コマンド、必要に応じていじってください
-	m_StageBarConstitution[0] = 0;
-	m_StageBarConstitution[1] = 1;
-	m_StageBarConstitution[2] = 2;
-	m_StageBarConstitution[3] = 3;
-	m_StageBarConstitution[4] = 4;
-	m_StageBarConstitution[5] = 5;
-	m_StageBarConstitution[6] = 6;
-	m_StageBarConstitution[7] = 7;
-	m_StageBarConstitution[8] = 8;
-	m_StageBarConstitution[9] = 9;
-	m_StageBarConstitution[10] = 10;
-	m_StageBarConstitution[11] = 11;
-	m_StageBarConstitution[12] = 12;
-	m_StageBarConstitution[13] = 13;
-	m_StageBarConstitution[14] = 14;
-
-	//マップOBパターン添え字初期化
-	m_MapNo_Bar = 0;
-
 
 	//足場配置情報コピー
 	//マップ一枚の情報分
@@ -251,6 +212,14 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 
 	//クリアフラグ初期化
 	m_bClear = false;
+
+	//ステータスを初期化
+	m_Scholastic = 0;
+	m_Action = 0;
+	m_Imagination = 0;
+	m_Communication = 0;
+	m_Charm = 0;
+
 
 	//背景用ランダム数値初期化
 	m_RandamuBakLeft = RandmuBak.GetRandomNumbe(1, 6); 
@@ -324,6 +293,9 @@ void CStage::Update(float over, CRectangle plrect,CRectangle pl2, float suckingX
 
 	}
 
+	//マップパターンの切り替え
+	MapChange();
+
 	//足場生成
 	OccurrenceBar();
 
@@ -388,43 +360,43 @@ void CStage::UPdeteCollisionDP(int dpt) {
 	switch (dpt)
 	{
 
-	case DP_TYPE_SCHOLASTIC:
-		m_gaku += 1;
-		if (m_gaku > 100) {
-			m_gaku = 100;
+	case DP_SCHOLASTIC:
+		m_Scholastic += 1;
+		if (m_Scholastic > 100) {
+			m_Scholastic = 100;
 		}
 		break;
 
-	case DP_TYPE_ACTION:
-		m_kou += 1;
-		if (m_kou > 100) {
-			m_kou = 100;
+	case DP_ACTION:
+		m_Action += 1;
+		if (m_Action > 100) {
+			m_Action = 100;
 		}
 		break;
 
-	case DP_TYPE_IMAGINATION:
-		m_sou += 1;
-		if (m_sou > 100) {
-			m_sou = 100;
+	case DP_IMAGINATION:
+		m_Imagination += 1;
+		if (m_Imagination > 100) {
+			m_Imagination = 100;
 		}
 		break;
 
-	case DP_TYPE_COMMUNICATION:
-		m_komyu += 1;
-		if (m_komyu > 100) {
-			m_komyu = 100;
+	case DP_COMMUNICATION:
+		m_Communication += 1;
+		if (m_Communication > 100) {
+			m_Communication = 100;
 		}
 		break;
 
-	case DP_TYPE_CHARM:
-		m_miryoku += 1;
-		if (m_miryoku > 100) {
-			m_miryoku = 100;
+	case DP_CHARM:
+		m_Charm += 1;
+		if (m_Charm > 100) {
+			m_Charm = 100;
 		}
 		break;
 
 	default:
-		m_gaku = -100;
+		m_Scholastic = -100;
 		break;
 	}
 }
@@ -577,6 +549,10 @@ void CStage::Render(void) {
 		dp_array[i].Render();
 	}
 
+	CGraphicsUtilities::RenderString(250, 0, MOF_COLOR_BLACK, "このステージ内での取得数  学力：%d　行動力：%d　想像力：%d　コミュ力：%d　魅力：%d",
+		m_Scholastic, m_Action, m_Imagination, m_Communication, m_Charm);
+
+
 }
 
 //解放
@@ -598,6 +574,10 @@ void CStage::Release(void) {
 	dp_Textuer_Communication.Release();
 	dp_Textuer_Charm.Release();
 
+	ob_Textuer_Desk.Release();
+	ob_Textuer_TwoDesk.Release();
+	ob_Textuer_Locker.Release();
+
 }
 
 //デバック描画
@@ -607,12 +587,15 @@ void CStage::RenderDebugging() {
 	CGraphicsUtilities::RenderString(0, 150, MOF_XRGB(80, 80, 80), "背景スクロール値%f", m_BakScroll);
 	CGraphicsUtilities::RenderString(0, 180, MOF_XRGB(80, 80, 80), "ステージスクロール値%f", m_StageScroll);
 	CGraphicsUtilities::RenderString(880, 690, MOF_XRGB(80, 80, 80), "Pキーでフルスクリーンに切り替え");
-	CGraphicsUtilities::RenderString(250, 0, MOF_COLOR_BLACK, "このステージ内での取得数  学力：%d　行動力：%d　想像力：%d　コミュ力：%d　魅力：%d",
-		m_gaku, m_kou, m_sou, m_komyu, m_miryoku);
 
 	//地面デバック表示
 	g_ground.RenderDebugging();
 
+	//障害物デバッグ表示
+	for (int i = 0; i < OB_VOLUME; i++)
+	{
+		ob_array[i].RenderDebugging();
+	}
 
 	//クリアフラグ表示
 	if (m_bClear)
@@ -629,108 +612,94 @@ void CStage::RenderDebugging() {
 
 	CGraphicsUtilities::RenderLine(m_BakScroll,0, m_BakScroll,g_pGraphics->GetTargetHeight(), MOF_COLOR_BLUE);
 
+	#pragma region 足場パターンデバッグ用
+
 	////足場デバック表示
 	////足場マップパターン現在表示
-	//CGraphicsUtilities::RenderString(0, 700, "マップ足場パターン:%d", m_StageBarConstitution[m_MapNo_Bar]);
+	//CGraphicsUtilities::RenderString(0, 700, "マップパターン:%d", m_StageConstitution[m_MapNo]);
 
 	////足場マップパターン全体表示
 	//for (int i = 0; i < 15; i++)
 	//{
-	//	CGraphicsUtilities::RenderString(40 * i, 680, "%d", m_StageBarConstitution[i]);
+	//	CGraphicsUtilities::RenderString(40 * i, 680, "%d", m_StageConstitution[i]);
 
 	//}
 
 	////表示済み足場カウント
 	//CGraphicsUtilities::RenderString(0, 650, "足場カウント%d", m_barcount);
 
-	//足場高さの対応
-	//CGraphicsUtilities::RenderString(500, 50, MOF_XRGB(80, 80, 80), "50Yパターン10～14");
-	//CGraphicsUtilities::RenderString(500, 250, MOF_XRGB(80, 80, 80), "250Yパターン5～9");
-	//CGraphicsUtilities::RenderString(500, 450, MOF_XRGB(80, 80, 80), "450Yパターン0～4");
+#pragma endregion
 
 
+	#pragma region DPパターンデバッグ用
+
+	////DPデバック表示
+	////DPマップパターン現在表示
+	//CGraphicsUtilities::RenderString(0, 700,"マップDPパターン:%d", m_StageConstitution[m_MapNo]);
+
+	////DPマップパターン全体表示
+	//for (int i = 0; i < 15; i++)
+	//{
+	//	CGraphicsUtilities::RenderString(40 * i, 680, "%d", m_StageConstitution[i]);
+
+	//}
+
+	////表示済みDPカウント
+	//CGraphicsUtilities::RenderString(0, 650,"DPカウント%d", m_dpcount);
+
+#pragma endregion
+
+
+	#pragma region OBパターンデバッグ用
 
 	////OBデバック表示
 	////OBマップパターン現在表示
-	//CGraphicsUtilities::RenderString(0, 700, "マップOBパターン:%d", m_StageOBConstitution[m_MapNo_OB]);
+	//CGraphicsUtilities::RenderString(0, 700, "マップOBパターン:%d", m_StageConstitution[m_MapNo]);
 
 	////OBマップパターン全体表示
 	//for (int i = 0; i < 15; i++)
 	//{
-	//	CGraphicsUtilities::RenderString(40 * i, 680, "%d", m_StageOBConstitution[i]);
+	//	CGraphicsUtilities::RenderString(40 * i, 680, "%d", m_StageConstitution[i]);
 
 	//}
 
 	////表示済みOBカウント
 	//CGraphicsUtilities::RenderString(0, 650, "OBカウント%d", m_obcount);
 
-	////色OB対応を表示
-	//CGraphicsUtilities::RenderString(0, 400, MOF_XRGB(80, 80, 80), "1:椅子,    パターン0,3,6,9,12");
-	//CGraphicsUtilities::RenderString(0, 430, MOF_XRGB(80, 80, 80), "2:黒板消し,パターン1,4,7,10,13");
-	//CGraphicsUtilities::RenderString(0, 460, MOF_XRGB(80, 80, 80), "3:ボール,  パターン2,5,8,11,14");
-	////CGraphicsUtilities::RenderString(0, 550, "m_Scroll_Clear%f", m_Scroll_Clear);
 
+#pragma endregion
 
-	////OB高さの対応
-	//CGraphicsUtilities::RenderString(500, 144, MOF_XRGB(80, 80, 80), "144Yパターン0～2");
-	//CGraphicsUtilities::RenderString(500, 288, MOF_XRGB(80, 80, 80), "288Yパターン3～5");
-	//CGraphicsUtilities::RenderString(500, 432, MOF_XRGB(80, 80, 80), "432Yパターン6～8");
-	//CGraphicsUtilities::RenderString(500, 576, MOF_XRGB(80, 80, 80), "556Yパターン9～11");
-	//CGraphicsUtilities::RenderString(500, 720, MOF_XRGB(80, 80, 80), "720Yパターン12～14");
+}
 
+//マップパターン切り替え
+void CStage::MapChange(void) {
 
-	////DPデバック表示
-	////DPマップパターン現在表示
-	//CGraphicsUtilities::RenderString(0, 700, MOF_XRGB(80, 80, 80), "マップDPパターン:%d", m_StageDPConstitution[m_MapNo_DP]);
+	//スクロールが切り替わる時かつそれぞれのマップパターン情報で終端要素にたどり着いているなら
+	if (m_StageScroll <= 0 &&
+		m_barinfo[m_StageConstitution[m_MapNo]][m_barcount].Type > 10 &&
+		m_dpinfo[m_StageConstitution[m_MapNo]][m_dpcount].Type > 10 &&
+		m_obinfo[m_StageConstitution[m_MapNo]][m_obcount].Type > 10) 
+	{
+		m_barcount = 0;
+		m_dpcount = 0;
+		m_obcount = 0;
 
-	////DPマップパターン全体表示
-	//for (int i = 0; i < 15; i++)
-	//{
-	//	CGraphicsUtilities::RenderString(40 * i, 680, MOF_XRGB(80, 80, 80), "%d", m_StageDPConstitution[i]);
+		m_MapNo += 1;
 
-	//}
+		//最後のマップ足場パターン情報の場合
+		if (m_MapNo >= 15)
+		{
+			//todo:最後の場合最後まで描画した場合の処理
+			//どうしようか悩み中
+			m_MapNo = 0;
+		}
 
-	////表示済みDPカウント
-	//CGraphicsUtilities::RenderString(0, 650, MOF_XRGB(80, 80, 80), "DPカウント%d", m_dpcount);
-
-	////色DP対応を表示
-	//CGraphicsUtilities::RenderString(0, 400, MOF_XRGB(222, 184, 135), "1:学力,    パターン0,5,10");
-	//CGraphicsUtilities::RenderString(0, 430, MOF_COLOR_YELLOW, "2:行動力,  パターン1,6,11");
-	//CGraphicsUtilities::RenderString(0, 460, MOF_XRGB(0, 191, 255), "3:想像力,  パターン2,7,12");
-	//CGraphicsUtilities::RenderString(0, 490, MOF_XRGB(255, 99, 71), "4:コミュ力,パターン3,8,13");
-	//CGraphicsUtilities::RenderString(0, 520, MOF_XRGB(186, 85, 211), "5:魅力,    パターン4,9,14");
-	//CGraphicsUtilities::RenderString(0, 550, MOF_XRGB(80, 80, 80), "m_Scroll_Clear%f", m_Scroll_Clear);
-
-
-	////DP高さの対応
-	//CGraphicsUtilities::RenderString(500, 50, MOF_XRGB(80, 80, 80), "50Yパターン10～14");
-	//CGraphicsUtilities::RenderString(500, 250, MOF_XRGB(80, 80, 80), "250Yパターン5～9");
-	//CGraphicsUtilities::RenderString(500, 450, MOF_XRGB(80, 80, 80), "450Yパターン0～4");
-
-
+	}
 
 }
 
 //足場生成
 void CStage::OccurrenceBar(void) {
-
-	//マップの足場情報が終端要素かどうか検出
-	if (m_barinfo[m_StageBarConstitution[m_MapNo_Bar]][m_barcount].Type > 10 && m_StageScroll <= 0)
-	{
-		//マップOBパターンを変更
-		m_barcount = 0;
-		m_MapNo_Bar += 1;
-
-
-		//最後のマップ足場パターン情報の場合
-		if (m_MapNo_Bar >= BAR_INFO_PATTERN)
-		{
-			//todo:最後の場合最後まで描画した場合の処理
-			//どうしようか悩み中
-			m_MapNo_Bar = 0;
-		}
-
-	}
 
 
 	//m_MapNo_Bar->マップパターン番号
@@ -738,7 +707,7 @@ void CStage::OccurrenceBar(void) {
 	//マップパターン番号が用意している数以下のときかつ
 	//スクロール値が出現値よりも小さくなった場合表示
 	//スクロール値をプラスに変更しました
-	if (m_MapNo_Bar < BAR_INFO_PATTERN && m_StageScroll > m_barinfo[m_StageBarConstitution[m_MapNo_Bar]][m_barcount].Scroll)
+	if (m_MapNo < BAR_INFO_PATTERN && m_StageScroll > m_barinfo[m_StageConstitution[m_MapNo]][m_barcount].Scroll)
 	{
 
 		//割り当てられていない足場クラスを探す
@@ -751,8 +720,8 @@ void CStage::OccurrenceBar(void) {
 
 			//表示準備
 			//出現位置とタイプを渡す
-			b_bar[i].Start(m_barinfo[m_StageBarConstitution[m_MapNo_Bar]][m_barcount].Pos_y,
-				m_barinfo[m_StageBarConstitution[m_MapNo_Bar]][m_barcount].Type);
+			b_bar[i].Start(m_barinfo[m_StageConstitution[m_MapNo]][m_barcount].Pos_y,
+				m_barinfo[m_StageConstitution[m_MapNo]][m_barcount].Type);
 			break;
 		}
 
@@ -766,30 +735,13 @@ void CStage::OccurrenceBar(void) {
 //ディテールポイント生成
 void CStage::OccurrenceDP(void) {
 
-	//マップのDP情報が終端要素かどうか検出
-	if (m_dpinfo[m_StageDPConstitution[m_MapNo_DP]][m_dpcount].Type > 10 && m_StageScroll <=0)
-	{
-		//マップパターンを変更
-		m_dpcount = 0;
-		m_MapNo_DP += 1;
-
-
-		//最後のマップパターン情報の場合
-		if (m_MapNo_DP >= DP_INFO_PATTERN)
-		{
-			//todo:最後の場合最後まで描画した場合の処理
-			//どうしようか悩み中
-			m_MapNo_DP = 0;
-		}
-
-	}
 
 	//m_MapNo_DP->マップパターン番号
 	//m_dpcount->表示済みDP数
 	//マップDPパターン番号が用意している数以下のときかつ
 	//スクロール値が出現値よりも小さくなった場合表示
 	//スクロール値をプラスに変更しました
-	if (m_MapNo_DP < DP_INFO_PATTERN && m_StageScroll > m_dpinfo[m_StageDPConstitution[m_MapNo_DP]][m_dpcount].Scroll)
+	if (m_MapNo < DP_INFO_PATTERN && m_StageScroll > m_dpinfo[m_StageConstitution[m_MapNo]][m_dpcount].Scroll)
 	{
 
 		//割り当てられていないDPクラスを探す
@@ -802,33 +754,33 @@ void CStage::OccurrenceDP(void) {
 
 			//表示テクスチャ準備
 			//出現位置とタイプを渡す
-			switch (m_dpinfo[m_StageDPConstitution[m_MapNo_DP]][m_dpcount].Type)
+			switch (m_dpinfo[m_StageConstitution[m_MapNo]][m_dpcount].Type)
 			{
 
-			case DP_TYPE_SCHOLASTIC:
+			case DP_SCHOLASTIC:
 				dp_array[i].SetTexture(&dp_Textuer_Scholastic);
 				break;
 
-			case DP_TYPE_ACTION:
+			case DP_ACTION:
 				dp_array[i].SetTexture(&dp_Textuer_Action);
 				break;
 
-			case DP_TYPE_IMAGINATION:
+			case DP_IMAGINATION:
 				dp_array[i].SetTexture(&dp_Textuer_Imagination);
 				break;
 
-			case DP_TYPE_COMMUNICATION:
+			case DP_COMMUNICATION:
 				dp_array[i].SetTexture(&dp_Textuer_Communication);
 				break;
 
-			case DP_TYPE_CHARM:
+			case DP_CHARM:
 				dp_array[i].SetTexture(&dp_Textuer_Charm);
 				break;
 
 			default:
 				break;
 			}
-			dp_array[i].Start(m_dpinfo[m_StageDPConstitution[m_MapNo_DP]][m_dpcount].Pos_y, m_dpinfo[m_StageDPConstitution[m_MapNo_DP]][m_dpcount].Type);
+			dp_array[i].Start(m_dpinfo[m_StageConstitution[m_MapNo]][m_dpcount].Pos_y, m_dpinfo[m_StageConstitution[m_MapNo]][m_dpcount].Type);
 			break;
 		}
 
@@ -842,31 +794,12 @@ void CStage::OccurrenceDP(void) {
 //障害物OB生成
 void CStage::OccurrenceOB(void) {
 
-	//マップのOB情報が終端要素かどうか検出
-	if (m_obinfo[m_StageOBConstitution[m_MapNo_OB]][m_obcount].Type > 10 && m_StageScroll <= 0)
-	{
-		//マップOBパターンを変更
-		m_obcount = 0;
-		m_MapNo_OB += 1;
-
-
-		//最後のマップOBパターン情報の場合
-		if (m_MapNo_OB >= OB_INFO_PATTERN)
-		{
-			//todo:最後の場合最後まで描画した場合の処理
-			//どうしようか悩み中
-			m_MapNo_OB = 0;
-		}
-
-	}
-
-
 	//m_MapNo_OB->マップパターン番号
 	//m_obcount->表示済みDP数
 	//マップパターン番号が用意している数以下のときかつ
 	//スクロール値が出現値よりも小さくなった場合表示
 	//スクロール値をプラスに変更しました
-	if (m_MapNo_OB < OB_INFO_PATTERN && m_StageScroll > m_obinfo[m_StageOBConstitution[m_MapNo_OB]][m_obcount].Scroll)
+	if (m_MapNo < OB_INFO_PATTERN && m_StageScroll > m_obinfo[m_StageConstitution[m_MapNo]][m_obcount].Scroll)
 	{
 
 		//割り当てられていないDPクラスを探す
@@ -877,10 +810,32 @@ void CStage::OccurrenceOB(void) {
 				continue;
 			}
 
+			//表示テクスチャ準備
+			//出現位置とタイプを渡す
+			switch (m_obinfo[m_StageConstitution[m_MapNo]][m_obcount].Type)
+			{
+
+			case OB_DESK:
+				ob_array[i].SetTexture(&ob_Textuer_Desk);
+				break;
+
+			case OB_TWODESK:
+ 				ob_array[i].SetTexture(&ob_Textuer_TwoDesk);
+				break;
+
+			case OB_LOCKER:
+				ob_array[i].SetTexture(&ob_Textuer_Locker);
+				break;
+
+			default:
+				break;
+			}
+
+
 			//表示準備
 			//出現位置とタイプを渡す
-			ob_array[i].Start(m_obinfo[m_StageOBConstitution[m_MapNo_OB]][m_obcount].Pos_y,
-				m_obinfo[m_StageOBConstitution[m_MapNo_OB]][m_obcount].Type);
+			ob_array[i].Start(m_obinfo[m_StageConstitution[m_MapNo]][m_obcount].Pos_y,
+				m_obinfo[m_StageConstitution[m_MapNo]][m_obcount].Type);
 			break;
 		}
 

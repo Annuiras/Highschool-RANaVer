@@ -22,10 +22,11 @@ void Ground::Initialize(void) {
 
 void Ground::Render() {
 
-	CGraphicsUtilities::RenderRect(GetRect(), MOF_COLOR_HGREEN);
 }
 
 void Ground::RenderDebugging() {
+
+	CGraphicsUtilities::RenderRect(GetRect(), MOF_COLOR_HGREEN);
 
 	CGraphicsUtilities::RenderString(1060, g_PosY, MOF_XRGB(80, 80, 80), "ínñ çÇÇ≥ÅF%.1f", g_PosY);
 

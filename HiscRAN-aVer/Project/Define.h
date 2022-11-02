@@ -14,20 +14,30 @@
 //DPタイプ定義
 enum tag_DP_TYPE
 {
-	DP_TYPE_SCHOLASTIC,		//学力
-	DP_TYPE_ACTION,			//行動力
-	DP_TYPE_IMAGINATION,	//想像力
-	DP_TYPE_COMMUNICATION,  //コミュ力
-	DP_TYPE_CHARM			//魅力
+	DP_SCHOLASTIC,		//学力
+	DP_ACTION,			//行動力
+	DP_IMAGINATION,		//想像力
+	DP_COMMUNICATION,	//コミュ力
+	DP_CHARM			//魅力
 
 };
+
+//障害物タイプ定義
+enum tag_OBTYPE
+{
+	OB_DESK,		//机
+	OB_TWODESK,		//２段机
+	OB_LOCKER		//ロッカー
+}; 
+
+
 
 //マップ障害物パターン数
 #define OB_INFO_PATTERN 15
 
 //障害物1パターンの要素数
 //（1マップ中にある障害物数＋1）
-#define OB_INFO_STRUCT 4
+#define OB_INFO_STRUCT 10
 
 //マップ足場パターン数
 #define BAR_INFO_PATTERN 15

@@ -7,7 +7,9 @@ CObstacle::CObstacle() :
 	ob_PosX(0.0f),
 	ob_PosY(0.0f),
 	ob_Show(false),
-	ob_Type(0)
+	ob_Type(0),
+	ob_HitWidth(0.0f),
+	ob_Textuer()
 
 {};
 
@@ -15,17 +17,6 @@ CObstacle::~CObstacle() {
 
 }
 
-
-//ロード追加です
-bool CObstacle::Load(void) {
-
-	//仮テクスチャ：机
-	if (!ob_Textuer_Desk.Load("")) {
-		return false;
-	}
-
-	return true;
-}
 
 //初期化
 void  CObstacle::Initialize() {
@@ -36,7 +27,6 @@ void  CObstacle::Initialize() {
 	ob_HitWidth = 0;
 	ob_Type = 0;
 
-	Load();
 }
 
 
@@ -52,12 +42,16 @@ void CObstacle::Start(float posy, int type) {
 
 	switch (type)
 	{
-	case 1://机
+	case OB_DESK://机
 		ob_HitWidth = OB_DESK_WIDTH;
 		break;
 
-	case 2://２段机
+	case OB_TWODESK://２段机
 		ob_HitWidth = OB_DESK_WIDTH;
+		break;
+
+	case OB_LOCKER://２段机
+		ob_HitWidth = OB_LOCKER_WIDTH;
 		break;
 
 	default:
@@ -80,6 +74,12 @@ void CObstacle::Update(float over) {
 	}
 }
 
+void CObstacle::SetTexture(CTexture* obtex) {
+
+	ob_Textuer = obtex;
+
+}
+
 void CObstacle::Render() {
 
 	//表示中？
@@ -87,27 +87,83 @@ void CObstacle::Render() {
 		return;
 	}
 
-	//ob_Textuer_Desk.Render(GetRect(ob_Type));
+	ob_Textuer->Render(ob_PosX, ob_PosY);
 	
-	CGraphicsUtilities::RenderFillRect(GetRect(ob_Type), MOF_COLOR_RED);
 }
 
+//デバッグ表示
+void CObstacle::RenderDebugging(void) {
+
+	if (!ob_Show) {
+		return;
+	}
+
+	//ダメージ判定
+	CGraphicsUtilities::RenderRect(GetRect(ob_Type), MOF_COLOR_YELLOW);
+
+	//上に乗れる判定
+	CGraphicsUtilities::RenderRect(GetTopBarRect(ob_Type), MOF_COLOR_GREEN);
+}
+
+
+//ダメージ矩形取得
 CRectangle CObstacle::GetRect(int type){
 
 	//タイプ別で大きさを変更
 	switch (type)
 	{
 	
-	case 1://机
-		return CRectangle(ob_PosX, ob_PosY,
+		//机
+	case OB_DESK:
+		return CRectangle(ob_PosX, ob_PosY+ OB_TOPBAR_HEIGHT,
 			ob_PosX + OB_DESK_WIDTH, ob_PosY + OB_DESK_HEIGHT);
 		break;
 
-		
-	case 2://２段机
-		return CRectangle(ob_PosX, ob_PosY,
-			ob_PosX + 137, ob_PosY + 306);
+		//２段机
+	case OB_TWODESK:
+		return CRectangle(ob_PosX, ob_PosY+ OB_TOPBAR_HEIGHT,
+			ob_PosX + OB_TOWDESK_WIDTH, ob_PosY + OB_TOWDESK_HEIGHT);
 		break;
+
+		//ロッカー
+	case OB_LOCKER:
+		return CRectangle(ob_PosX, ob_PosY+ OB_TOPBAR_HEIGHT,
+			ob_PosX + OB_LOCKER_WIDTH, ob_PosY + OB_LOCKER_HEIGHT);
+		break;
+
+
+	default:
+		return CRectangle(ob_PosX, ob_PosY,
+			ob_PosX + 30, ob_PosY + 30);
+
+		break;
+	}
+}
+
+//試作障害物上に乗れる当たり判定取得
+CRectangle CObstacle::GetTopBarRect(int type) {
+
+	//タイプ別で大きさを変更
+	switch (type)
+	{
+
+	case OB_DESK://机
+		return CRectangle(ob_PosX, ob_PosY,
+			ob_PosX + OB_DESK_WIDTH, ob_PosY + OB_TOPBAR_HEIGHT);
+		break;
+
+
+	case OB_TWODESK://２段机
+		return CRectangle(ob_PosX, ob_PosY,
+			ob_PosX + OB_DESK_WIDTH, ob_PosY + OB_TOPBAR_HEIGHT);
+		break;
+
+		//ロッカー
+	case OB_LOCKER:
+		return CRectangle(ob_PosX, ob_PosY,
+			ob_PosX + OB_LOCKER_WIDTH, ob_PosY + OB_TOPBAR_HEIGHT);
+		break;
+
 
 	default:
 		return CRectangle(ob_PosX, ob_PosY,
