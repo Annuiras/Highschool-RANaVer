@@ -152,10 +152,16 @@ void DetailPoint::Render(void) {
 }
 
 void DetailPoint::RenderDebugging() {
+	
+	if (!dp_Show) {
+		return;
+	}
 
-	CGraphicsUtilities::RenderString(620, 660, MOF_XRGB(80, 80, 80), "コイン矩形 X:%.1f Y:%.1f", dp_hitboxX, dp_hitboxY);
+	CGraphicsUtilities::RenderRect(dp_PosX, dp_PosY, dp_PosX + 80, dp_PosY + 80, MOF_COLOR_YELLOW);
 
-	CGraphicsUtilities::RenderString(620, 30, MOF_XRGB(80, 80, 80), "ステータス上昇値:%.2f", dp_value);
+	//CGraphicsUtilities::RenderString(620, 660, MOF_XRGB(80, 80, 80), "コイン矩形 X:%.1f Y:%.1f", dp_hitboxX, dp_hitboxY);
+
+	//CGraphicsUtilities::RenderString(620, 30, MOF_XRGB(80, 80, 80), "ステータス上昇値:%.2f", dp_value);
 
 }
 

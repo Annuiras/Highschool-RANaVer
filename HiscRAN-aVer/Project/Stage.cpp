@@ -77,27 +77,27 @@ bool CStage::Load() {
 
 	//DPテクスチャロード
 	//仮テクスチャ：学力
-	if (!dp_Textuer_Scholastic.Load("ハイスク素材　DP 学力　仮.png")) {
+	if (!dp_Textuer_Scholastic.Load("ハイスク　DP_0000_DP　学力.png")) {
 		return false;
 	}
 
 	//仮テクスチャ：行動力
-	if (!dp_Textuer_Action.Load("ハイスク素材　DP 行動力　仮.png")) {
+	if (!dp_Textuer_Action.Load("ハイスク　DP_0004_DP　行動力.png")) {
 		return false;
 	}
 
 	//仮テクスチャ：想像力
-	if (!dp_Textuer_Imagination.Load("ハイスク素材　DP 想像力　仮.png")) {
+	if (!dp_Textuer_Imagination.Load("ハイスク　DP_0003_DP　想像力.png")) {
 		return false;
 	}
 
 	//仮テクスチャ：コミュ力
-	if (!dp_Textuer_Communication.Load("ハイスク素材　DP コミュ力　仮.png")) {
+	if (!dp_Textuer_Communication.Load("ハイスク　DP_0001_DP　コミュ力.png")) {
 		return false;
 	}
 
 	//仮テクスチャ：魅力
-	if (!dp_Textuer_Charm.Load("ハイスク素材　DP 魅力　仮.png")) {
+	if (!dp_Textuer_Charm.Load("ハイスク　DP_0002_DP-魅力.png")) {
 		return false;
 	}
 
@@ -596,6 +596,12 @@ void CStage::RenderDebugging() {
 	{
 		ob_array[i].RenderDebugging();
 	}
+
+	for (int i = 0; i < OB_VOLUME; i++)
+	{
+		dp_array[i].RenderDebugging();
+	}
+
 
 	//クリアフラグ表示
 	if (m_bClear)
