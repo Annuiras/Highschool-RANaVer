@@ -149,22 +149,64 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 	//マップパターン添え字
 	m_MapNo = 0;
 
+	//初期化
+	for (int i = 0; i < DP_INFO_PATTERN; i++)
+	{
+		AlreadyUsedArray[i] = 0;
+	}
+
+
+	//
+	for (int z = 1; z < 100; z++)
+	{
+
+
+		for (int x = 0; x < DP_INFO_PATTERN; x++)
+		{
+			if (AlreadyUsedArray[x] == 1)
+			{
+				//どこまで採用済みかカウント
+				AdoptCount += 1;
+			}
+		}
+		//todo ランダムパターン用変数
+		int randam;
+
+		//ランダムパターンをセット
+		randam = RandmuBak.GetRandomNumbe(0, 14);
+
+		//まだ使用していない場合のみ採用(1=使用済み)
+		if (AlreadyUsedArray[randam] == 0)
+		{
+			//採用
+			m_StageConstitution[AdoptCount] = randam;
+
+			//使用したパターンの場所に１をセット
+			AlreadyUsedArray[randam] = 1;
+			/*break;*/
+		}			
+		//採用済カウント
+		AdoptCount = 0;
+	}
+
 	//デバッグ用の指定コマンド、必要に応じていじってください
-	m_StageConstitution[0] = 0;
-	m_StageConstitution[1] = 0;
-	m_StageConstitution[2] = 0;
-	m_StageConstitution[3] = 0;
-	m_StageConstitution[4] = 0;
-	m_StageConstitution[5] = 0;
-	m_StageConstitution[6] = 0;
-	m_StageConstitution[7] = 0;
-	m_StageConstitution[8] = 0;
-	m_StageConstitution[9] = 0;
-	m_StageConstitution[10] = 0;
-	m_StageConstitution[11] = 0;
-	m_StageConstitution[12] = 0;
-	m_StageConstitution[13] = 0;
-	m_StageConstitution[14] = 0;
+	m_StageConstitution[0] = 11;
+	m_StageConstitution[1] = 6;
+	m_StageConstitution[2] = 9;
+	//m_StageConstitution[3] = 0;
+	//m_StageConstitution[4] = 0;
+	//m_StageConstitution[5] = 0;
+	//m_StageConstitution[6] = 0;
+	//m_StageConstitution[7] = 0;
+	//m_StageConstitution[8] = 0;
+	//m_StageConstitution[9] = 0;
+	//m_StageConstitution[10] = 0;
+	//m_StageConstitution[11] = 0;
+	//m_StageConstitution[12] = 0;
+	//m_StageConstitution[13] = 0;
+	//m_StageConstitution[14] = 0;
+
+
 
 
 	//DP配置情報コピー,
@@ -394,7 +436,6 @@ void CStage::UPdeteCollisionDP(int dpt) {
 			m_Charm = 100;
 		}
 		break;
-
 	default:
 		m_Scholastic = -100;
 		break;
@@ -588,6 +629,12 @@ void CStage::RenderDebugging() {
 	CGraphicsUtilities::RenderString(0, 180, MOF_XRGB(80, 80, 80), "ステージスクロール値%f", m_StageScroll);
 	CGraphicsUtilities::RenderString(880, 690, MOF_XRGB(80, 80, 80), "Pキーでフルスクリーンに切り替え");
 
+	//全体のパターン表示
+	for (int i = 0; i < 15; i++)
+	{
+		CGraphicsUtilities::RenderString(40*i, 680, "%d", m_StageConstitution[i]);
+	}
+
 	//地面デバック表示
 	g_ground.RenderDebugging();
 
@@ -618,60 +665,9 @@ void CStage::RenderDebugging() {
 
 	CGraphicsUtilities::RenderLine(m_BakScroll,0, m_BakScroll,g_pGraphics->GetTargetHeight(), MOF_COLOR_BLUE);
 
-	#pragma region 足場パターンデバッグ用
+#pragma region パターンデバッグ用
 
-	////足場デバック表示
-	////足場マップパターン現在表示
-	//CGraphicsUtilities::RenderString(0, 700, "マップパターン:%d", m_StageConstitution[m_MapNo]);
-
-	////足場マップパターン全体表示
-	//for (int i = 0; i < 15; i++)
-	//{
-	//	CGraphicsUtilities::RenderString(40 * i, 680, "%d", m_StageConstitution[i]);
-
-	//}
-
-	////表示済み足場カウント
-	//CGraphicsUtilities::RenderString(0, 650, "足場カウント%d", m_barcount);
-
-#pragma endregion
-
-
-	#pragma region DPパターンデバッグ用
-
-	////DPデバック表示
-	////DPマップパターン現在表示
-	//CGraphicsUtilities::RenderString(0, 700,"マップDPパターン:%d", m_StageConstitution[m_MapNo]);
-
-	////DPマップパターン全体表示
-	//for (int i = 0; i < 15; i++)
-	//{
-	//	CGraphicsUtilities::RenderString(40 * i, 680, "%d", m_StageConstitution[i]);
-
-	//}
-
-	////表示済みDPカウント
-	//CGraphicsUtilities::RenderString(0, 650,"DPカウント%d", m_dpcount);
-
-#pragma endregion
-
-
-	#pragma region OBパターンデバッグ用
-
-	////OBデバック表示
-	////OBマップパターン現在表示
-	//CGraphicsUtilities::RenderString(0, 700, "マップOBパターン:%d", m_StageConstitution[m_MapNo]);
-
-	////OBマップパターン全体表示
-	//for (int i = 0; i < 15; i++)
-	//{
-	//	CGraphicsUtilities::RenderString(40 * i, 680, "%d", m_StageConstitution[i]);
-
-	//}
-
-	////表示済みOBカウント
-	//CGraphicsUtilities::RenderString(0, 650, "OBカウント%d", m_obcount);
-
+	CGraphicsUtilities::RenderString(40, 650, "%d", m_StageConstitution[m_MapNo]);
 
 #pragma endregion
 
@@ -691,6 +687,11 @@ void CStage::MapChange(void) {
 		m_obcount = 0;
 
 		m_MapNo += 1;
+
+		//todo:連続で切り替わってしまう
+		//のを防止（0の時しか使えない）
+		//一番最初のマップパターンがスキップされてしまう
+		m_StageScroll++;
 
 		//最後のマップ足場パターン情報の場合
 		if (m_MapNo >= 15)

@@ -3,12 +3,13 @@
 
 //マップパターンの数を追加です
 
+//todo:ステージ情報を統合したのでDPだけではよくない
 //マップDPパターン数
 #define DP_INFO_PATTERN 15
 
 //DP1パターンの要素数
 //（1マップ中にあるDP数＋1）
-#define DP_INFO_STRUCT 11
+#define DP_INFO_STRUCT 15
 
 
 //DPタイプ定義
@@ -44,7 +45,7 @@ enum tag_OBTYPE
 
 //足場1パターンの要素数
 //（1マップ中にある足場数＋1）
-#define BAR_INFO_STRUCT 4
+#define BAR_INFO_STRUCT 10
 
 
 //存在するシーン
