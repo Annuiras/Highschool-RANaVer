@@ -111,7 +111,6 @@ private:
 
 
 
-
 	//クリア用スクロール値
 	float	m_Scroll_Clear;
 
@@ -172,8 +171,6 @@ private:
 	int m_barcount;
 
 
-
-
 	//背景用スクロール値
 	float	m_BakScroll;
 
@@ -185,6 +182,13 @@ private:
 	int m_RandamuBakLeft;
 	//右側
 	int m_RandamuBakRight;
+
+
+	//todo 使用済みパターン番号記録用配列
+	int		AlreadyUsedArray[DP_INFO_PATTERN];
+
+	//todo 採用済カウント
+	int AdoptCount;
 
 
 	//座標位置
