@@ -158,7 +158,6 @@ void CPlayer::Update(void) {
 		}
 	}
 
-	//todo:障害物などから自由落下している間にジャンプ出来てしまう
 	//ジャンプ処理
 	if (g_pInput->IsKeyHold(MOFKEY_SPACE) && !m_Slidingflg && m_BSflg) {
 

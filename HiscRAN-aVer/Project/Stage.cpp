@@ -156,11 +156,9 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 	}
 
 
-	//
+	//低確率で同じステージが選択されてしまうため試行回数は多め
 	for (int z = 1; z < 100; z++)
 	{
-
-
 		for (int x = 0; x < DP_INFO_PATTERN; x++)
 		{
 			if (AlreadyUsedArray[x] == 1)
@@ -190,9 +188,9 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 	}
 
 	//デバッグ用の指定コマンド、必要に応じていじってください
-	m_StageConstitution[0] = 11;
-	m_StageConstitution[1] = 6;
-	m_StageConstitution[2] = 9;
+	m_StageConstitution[0] = 0;
+	m_StageConstitution[1] = 1;
+	m_StageConstitution[2] = 10;
 	//m_StageConstitution[3] = 0;
 	//m_StageConstitution[4] = 0;
 	//m_StageConstitution[5] = 0;
@@ -688,10 +686,10 @@ void CStage::MapChange(void) {
 
 		m_MapNo += 1;
 
-		//todo:連続で切り替わってしまう
-		//のを防止（0の時しか使えない）
+		//todo:最初の要素が終端要素のみの場合 
+		//連続で切り替わってしまうのを防止（0の時しか使えない）
 		//一番最初のマップパターンがスキップされてしまう
-		m_StageScroll++;
+		//m_StageScroll++;
 
 		//最後のマップ足場パターン情報の場合
 		if (m_MapNo >= 15)
