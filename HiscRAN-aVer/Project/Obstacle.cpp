@@ -86,8 +86,14 @@ void CObstacle::Render() {
 	if (!ob_Show) {
 		return;
 	}
+	if (ob_Textuer == NULL) {
+		//テクスチャがない場合は描画しない
+	}
+	else
+	{
+		ob_Textuer->Render(ob_PosX, ob_PosY);
 
-	ob_Textuer->Render(ob_PosX, ob_PosY);
+	}
 	
 }
 
