@@ -23,30 +23,28 @@ OB_info s_stageAOB[][OB_INFO_STRUCT] =
 		{447.0f,520.0f,OB_DESK},
 		{578.0f,399.0f,OB_TWODESK},
 		{709.0f,399.0f,	OB_TWODESK},
-		{1252.0f,399.0f,OB_TWODESK},
+		{1343.0f,520.0f,OB_DESK},
 		{1383.0f,519.0f,OB_DESK},
 		{2091.0f,382.0f,OB_LOCKER},
 		{2229.0f,382.0f,OB_LOCKER},
-
-		//{184.0f,511.0f ,OB_DESK},
-		//{1800.0f,511.0f ,OB_DESK},
-		//{1937.0f,384.0f,OB_TWODESK},
 		{10000,0,100}
 	},
 	//マップパターン1
 	{
-		{316.0f,520.0f,OB_DESK},
-		{447.0f,520.0f,OB_DESK},
-		{578.0f,399.0f,OB_TWODESK},	
-		{709.0f,399.0f,	OB_TWODESK},
-		{1252.0f,399.0f,OB_TWODESK},
-		{1383.0f,519.0f,OB_DESK},
-		{2091.0f,382.0f,OB_LOCKER},
-		{2229.0f,382.0f,OB_LOCKER},
+		{288.0f,519.0f,OB_DESK},
+		{419.0f,519.0f,OB_DESK},
+		{550.0f,519.0f,OB_DESK},
+		{680.0f,399.0f,OB_TWODESK},
+		{810.0f,399.0f,OB_TWODESK},
+		{940.0f,399.0f,OB_TWODESK},
 		{10000,0,100}
 	},
 	//マップパターン2
 	{
+		{906.0f,520.0f,OB_DESK},
+		{1038.0f,518.0f,OB_DESK},
+		{2032.0f,404.0f,OB_TWODESK},
+		{2166.0f,518.0f,OB_TWODESK},
 		{10000,0,100}
 	},
 	//マップパターン3

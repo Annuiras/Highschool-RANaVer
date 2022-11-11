@@ -32,7 +32,6 @@ enum tag_OBTYPE
 }; 
 
 
-
 //マップ障害物パターン数
 #define OB_INFO_PATTERN 15
 
