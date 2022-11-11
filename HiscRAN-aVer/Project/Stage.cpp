@@ -167,11 +167,8 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 				AdoptCount += 1;
 			}
 		}
-		//todo ランダムパターン用変数
-		int randam;
-
-		//ランダムパターンをセット
-		randam = RandmuBak.GetRandomNumbe(0, 14);
+		//todo ランダムパターンをセット
+		int randam= RandmuBak.GetRandomNumbe(0, 14);
 
 		//まだ使用していない場合のみ採用(1=使用済み)
 		if (AlreadyUsedArray[randam] == 0)
@@ -181,16 +178,15 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 
 			//使用したパターンの場所に１をセット
 			AlreadyUsedArray[randam] = 1;
-			/*break;*/
 		}			
 		//採用済カウント
 		AdoptCount = 0;
 	}
 
 	//デバッグ用の指定コマンド、必要に応じていじってください
-	m_StageConstitution[0] = 0;
-	m_StageConstitution[1] = 1;
-	m_StageConstitution[2] = 10;
+	//m_StageConstitution[0] = 0;
+	//m_StageConstitution[1] = 1;
+	//m_StageConstitution[2] = 10;
 	//m_StageConstitution[3] = 0;
 	//m_StageConstitution[4] = 0;
 	//m_StageConstitution[5] = 0;
