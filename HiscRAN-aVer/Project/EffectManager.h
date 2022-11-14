@@ -1,7 +1,7 @@
 #pragma once
 
 #include	"Effect.h"
-
+//todo:エフェクトマネージャークラスの作成です
 //管理エフェクトの数
 #define		EFFECTCOUNT						5
 
