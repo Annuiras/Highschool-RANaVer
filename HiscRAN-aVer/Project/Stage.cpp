@@ -184,7 +184,7 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 	}
 
 	//デバッグ用の指定コマンド、必要に応じていじってください
-	//m_StageConstitution[0] = 0;
+	m_StageConstitution[0] = 0;
 	//m_StageConstitution[1] = 1;
 	//m_StageConstitution[2] = 10;
 	//m_StageConstitution[3] = 0;

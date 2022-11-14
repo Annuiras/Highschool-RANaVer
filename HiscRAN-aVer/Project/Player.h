@@ -1,5 +1,6 @@
 #pragma once
 #include	"Mof.h"
+#include "EffectManager.h"
 
 //重力
 #define  GRAVITY	0.5f
@@ -21,6 +22,10 @@ private:
 
 	//モーションクラス
 	CSpriteMotionController	m_Motion;
+
+	CEffectManager* m_pEffectManager;
+
+	CEffect* m_pEffect;
 
 	//描画矩形
 	CRectangle				m_SrcRect;
@@ -167,6 +172,9 @@ public:
 
 	//キャラが動いているか取得
 	bool GetGameStopPlay();
+
+
+	void SetEffectManager(CEffectManager* pmng) { m_pEffectManager = pmng; }
 
 	//座標取得
 	float CircleX() { return m_PosX; }

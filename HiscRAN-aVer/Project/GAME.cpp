@@ -8,6 +8,7 @@
 #include "DetailPoint.h"
 #include "Bar.h"
 #include "Obstacle.h"
+#include "EffectManager.h"
 #include "StageA_DP.h"
 #include "StageA_Bar.h"
 #include "StageA_Obstacle.h"
@@ -15,6 +16,9 @@
 
 //変更するシーン（外部参照。実態はGameApp.cpp）
 extern int			gChangeScene;
+
+//エフェクトマネージャー
+CEffectManager g_EffectManeger;
 
 //プレイヤークラス
 CPlayer g_Player;
@@ -39,6 +43,7 @@ void GAME::Load(void)
 {
 	g_Player.Load();
 	g_Stage.Load();
+	g_EffectManeger.Load();
 }
 
 //初期化
@@ -52,6 +57,9 @@ void GAME::Initialize(void)
 
 	//ステージ初期化
 	g_Stage.Initialize(s_stageAdp,s_stageAbar, s_stageAOB);
+	g_EffectManeger.Initialize();
+
+	g_Player.SetEffectManager(&g_EffectManeger);
 }
 
 //更新
@@ -143,6 +151,8 @@ void GAME::Update(void)
 		}
 	}
 
+	g_EffectManeger.Update();
+
 	//一時的な追加です
 	//F2でTitle画面へ
 	if (g_pInput->IsKeyPush(MOFKEY_F2))
@@ -202,6 +212,7 @@ void GAME::Render(void)
 	//プレイヤー描画
 	g_Player.Render();
 
+	g_EffectManeger.Render();
 	//プレイヤースキル描画
 	//g_PlayerSkill.Render();
 
@@ -221,4 +232,6 @@ void GAME::Release(void)
 	g_Player.Release();
 
 	g_Stage.Release();
+
+	g_EffectManeger.Release();
 }
