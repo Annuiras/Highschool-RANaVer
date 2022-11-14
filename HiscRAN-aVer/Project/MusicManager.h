@@ -1,6 +1,7 @@
 #pragma once
 #include "Music.h"
 
+//todo:音声管理クラスの作成です
 //管理エフェクトの数
 #define		SE_COUNT						5
 
