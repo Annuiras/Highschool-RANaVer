@@ -1,22 +1,6 @@
 #pragma once
 #include "Mof.h"
 #include "Define.h"
-#define OB_VOLUME 5
-
-//障害物：机横・縦幅
-#define OB_DESK_WIDTH 131
-#define OB_DESK_HEIGHT 172
-
-//二段机
-#define OB_TOWDESK_WIDTH 131
-#define OB_TOWDESK_HEIGHT 292
-
-//ロッカー
-#define OB_LOCKER_WIDTH 138
-#define OB_LOCKER_HEIGHT 308
-
-//乗れる矩形判定高さ
-#define OB_TOPBAR_HEIGHT 20
 
 class CObstacle
 {
@@ -70,7 +54,7 @@ public:
 	bool GetType(void) { return ob_Type; }
 
 	//Y座標取得
-	float GetY(void) { return ob_PosY; }
+	float GetY(int type) { return GetTopBarRect(type).Top; }
 
 	//表示フラグセット
 	void Setshow(bool b) { ob_Show = b; }

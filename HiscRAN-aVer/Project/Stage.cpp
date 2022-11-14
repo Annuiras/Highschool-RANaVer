@@ -38,7 +38,8 @@ CStage::~CStage() {
 
 bool CStage::Load() {
 
-	//背景画像の読み込み
+#pragma region ステージ背景ロード
+
 	if (!m_BakStart.Load("廊下始まり.png")) {
 		return false;
 	}
@@ -75,7 +76,11 @@ bool CStage::Load() {
 		return false;
 	}
 
-	//DPテクスチャロード
+
+#pragma endregion
+
+#pragma region DPテクスチャロード
+
 	//仮テクスチャ：学力
 	if (!dp_Textuer_Scholastic.Load("ハイスク　DP_0000_DP　学力.png")) {
 		return false;
@@ -101,6 +106,11 @@ bool CStage::Load() {
 		return false;
 	}
 
+
+#pragma endregion
+
+#pragma region 障害物テクスチャロード
+
 	//仮テクスチャ：机
 	if (!ob_Textuer_Desk.Load("ハイスク素材２　障害物 机.png")) {
 		return false;
@@ -115,6 +125,21 @@ bool CStage::Load() {
 	if (!ob_Textuer_Locker.Load("ハイスク素材２　障害物 ロッカー.png")) {
 		return false;
 	}
+
+
+#pragma endregion
+
+#pragma region 足場テクスチャロード
+
+	//仮テクスチャ：足場中
+	if (!bar_Textuer_Medium.Load("ハイスク_障害物_鉛筆_中.png")) {
+		return false;
+	}
+
+
+#pragma endregion
+
+
 
 	return true;
 }
@@ -184,21 +209,21 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 	}
 
 	//デバッグ用の指定コマンド、必要に応じていじってください
-	//m_StageConstitution[0] = 0;
-	//m_StageConstitution[1] = 1;
-	//m_StageConstitution[2] = 10;
-	//m_StageConstitution[3] = 0;
-	//m_StageConstitution[4] = 0;
-	//m_StageConstitution[5] = 0;
-	//m_StageConstitution[6] = 0;
-	//m_StageConstitution[7] = 0;
-	//m_StageConstitution[8] = 0;
-	//m_StageConstitution[9] = 0;
-	//m_StageConstitution[10] = 0;
-	//m_StageConstitution[11] = 0;
-	//m_StageConstitution[12] = 0;
-	//m_StageConstitution[13] = 0;
-	//m_StageConstitution[14] = 0;
+	m_StageConstitution[0] = 0;
+	m_StageConstitution[1] = 1;
+	m_StageConstitution[2] = 2;
+	m_StageConstitution[3] = 1;
+	m_StageConstitution[4] = 0;
+	m_StageConstitution[5] = 2;
+	m_StageConstitution[6] = 2;
+	m_StageConstitution[7] = 1;
+	m_StageConstitution[8] = 0;
+	m_StageConstitution[9] = 1;
+	m_StageConstitution[10] = 1;
+	m_StageConstitution[11] = 0;
+	m_StageConstitution[12] = 0;
+	m_StageConstitution[13] = 2;
+	m_StageConstitution[14] = 2;
 
 
 
@@ -341,19 +366,19 @@ void CStage::Update(float over, CRectangle plrect,CRectangle pl2, float suckingX
 	//障害物OB生成
 	OccurrenceOB();
 
-	//足場
+	//足場更新
 	for (int i = 0; i < BAR_VOLUME; i++)
 	{
 		b_bar[i].Update(over);
 	}
 
-	//DP
+	//DP更新
 	for (int i = 0; i < DP_VOLUME; i++)
 	{
 		dp_array[i].Update(over);
 	}
 
-	//障害物
+	//障害物更新
 	for (int i = 0; i < OB_VOLUME; i++)
 	{
 		ob_array[i].Update(over);
@@ -587,6 +612,17 @@ void CStage::Render(void) {
 	CGraphicsUtilities::RenderString(250, 0, MOF_COLOR_BLACK, "このステージ内での取得数  学力：%d　行動力：%d　想像力：%d　コミュ力：%d　魅力：%d",
 		m_Scholastic, m_Action, m_Imagination, m_Communication, m_Charm);
 
+	//クリアフラグ表示
+	if (m_bClear)
+	{
+		CGraphicsUtilities::RenderString(500, 350, MOF_XRGB(255, 0, 0), "クリア!\nF1でリスタート");
+		CGraphicsUtilities::RenderString(0, 350, MOF_XRGB(80, 80, 80), "クリアフラグ:true");
+
+	}
+	else
+	{
+		CGraphicsUtilities::RenderString(0, 350, MOF_XRGB(80, 80, 80), "クリアフラグ:false");
+	}
 
 }
 
@@ -612,6 +648,8 @@ void CStage::Release(void) {
 	ob_Textuer_Desk.Release();
 	ob_Textuer_TwoDesk.Release();
 	ob_Textuer_Locker.Release();
+
+	bar_Textuer_Medium.Release();
 
 }
 
@@ -641,19 +679,6 @@ void CStage::RenderDebugging() {
 	for (int i = 0; i < OB_VOLUME; i++)
 	{
 		dp_array[i].RenderDebugging();
-	}
-
-
-	//クリアフラグ表示
-	if (m_bClear)
-	{
-		CGraphicsUtilities::RenderString(500, 350, MOF_XRGB(255, 0, 0), "クリア!\nF1でリスタート");
-		CGraphicsUtilities::RenderString(0, 350, MOF_XRGB(80, 80, 80), "クリアフラグ:true");
-
-	}
-	else
-	{
-		CGraphicsUtilities::RenderString(0, 350, MOF_XRGB(80, 80, 80), "クリアフラグ:false");
 	}
 
 
@@ -718,6 +743,26 @@ void CStage::OccurrenceBar(void) {
 			if (b_bar[i].Getshow()) {
 				continue;
 			}
+
+			//表示テクスチャ準備
+			//出現位置とタイプを渡す
+			switch (m_barinfo[m_StageConstitution[m_MapNo]][m_barcount].Type)
+			{
+
+			case BAR_MEDIUM:
+				b_bar[i].SetTexture(&bar_Textuer_Medium);
+				break;
+
+			//case BAR_MEDIUM:
+			//	break;
+
+			//case BAR_SMALL:
+			//	break;
+
+			default:
+				break;
+			}
+
 
 			//表示準備
 			//出現位置とタイプを渡す

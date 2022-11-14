@@ -1,5 +1,6 @@
 #pragma once
 #include "Mof.h"
+#include "Define.h"
 
 //大
 #define BAR_BIG_WIDTH	800
@@ -20,6 +21,10 @@
 class Bar
 {
 private:
+
+	//todo:足場のテクスチャを追加
+	//足場テクスチャ
+	CTexture* bar_texture;
 
 
 	//座標
@@ -58,6 +63,8 @@ public:
 	float GetY(void) { return b_PosY; }
 
 	bool Getshow(void) { return b_Show; }
+
+	void SetTexture(CTexture* bartex);
 
 	//足場の種類を取得
 	int Gettype(void) { return b_Type; }

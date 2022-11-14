@@ -14,16 +14,16 @@
 //{0,0,100}->終端文字の役割、この要素を参照すると次のパターンに移行
 DP_info s_stageAdp[][DP_INFO_STRUCT] =
 {
-	//マップパターン0
+	//マップパターン0 S1
 	{		
 		{245.0f,336.0f,	DP_IMAGINATION},
 		{611.0f,219.0f,	DP_CHARM},
 		{1346.0f,339.0f,DP_ACTION},
-		{1963.0f,207.0f,DP_COMMUNICATION},//DP_IMAGINATION一時的な変更
-		{2402.0f,168.0f,DP_SCHOLASTIC},
+		{1963.0f,207.0f,DP_SCHOLASTIC},
+		{2402.0f,168.0f,DP_COMMUNICATION},
 		{10000,0,100}
 	},
-	//マップパターン1
+	//マップパターン1 S2
 	{
 		{253.0f,319.0f,DP_SCHOLASTIC},
 		{820.0f,202.0f,DP_COMMUNICATION},
@@ -35,7 +35,7 @@ DP_info s_stageAdp[][DP_INFO_STRUCT] =
 		{2042.0f,486.0f,DP_ACTION},
 		{10000,0,100}
 	},
-	//マップパターン2
+	//マップパターン2 S3
 	{
 		{328.0f,210.0f,DP_COMMUNICATION},
 		{338.0f,536.0f,DP_ACTION},

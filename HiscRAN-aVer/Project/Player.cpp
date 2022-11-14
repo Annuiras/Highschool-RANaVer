@@ -7,8 +7,6 @@ CPlayer::CPlayer() :
 	m_PosY(0.0f),
 	m_MoveX(0.0f),
 	m_MoveY(0.0f),
-	m_hitboxX(0.0f),
-	m_hitboxY(0.0f),
 	m_legsboxY(0.0f),
 	m_OverX(0.0f),
 	m_OverY(0.0f),
@@ -112,8 +110,6 @@ void CPlayer::Initialize(void) {
 	m_PosY = 500;
 	m_MoveX = 7.0f;
 	m_MoveY = 0.0f;
-	m_hitboxX = 160;
-	m_hitboxY = 185;
 	m_legsboxY = 100;
 	m_StopX = 50;
 	m_Jumpflg = false;
@@ -177,7 +173,6 @@ void CPlayer::Update(void) {
 			m_BSflg = false;
 		}
 		
-
 	}
 
 	//¬ƒWƒƒƒ“ƒv‚Ì‰½‰ñ‚à‚Å‚«‚é‚â‚Â‚ð‘jŽ~‚µ‚½‚â‚Â
@@ -204,9 +199,15 @@ void CPlayer::Update(void) {
 
 	}
 
+	//todo:‰º~‘¬“xƒNƒŠƒbƒv’Ç‰Á
+	if (m_MoveY >= 20) {
+		m_MoveY = 20 - 0.1f;
+	}
+
 	//‰º~’†
 	if (m_MoveY >= 0) {
 		m_Jumpflg = false;
+		m_BSflg = false;
 	}
 
 	//ƒAƒjƒ[ƒVƒ‡ƒ“Ä¶
@@ -257,7 +258,7 @@ void CPlayer::UPdateCollisionBra(float y) {
 	//ã¸’†ƒtƒ‰ƒO‚ªfalse‚É‚È‚Á‚½Žž‚Éã‚©‚çƒo[‚Éæ‚é
 	if (!m_Jumpflg) {
 		m_PosY = y;
-		m_PosY -= m_hitboxY;
+		m_PosY -= PLAYER_HIT_Y;
 
 		m_MoveY = 0;
 
@@ -297,7 +298,7 @@ bool CPlayer::CollosopnGround(CRectangle r) {
 void CPlayer::UPdateCollisionGround(float y) {
 
 	//’n–Ê‚Ì‚‚³‚ÉˆÚ“®
-	m_PosY = y - m_hitboxY;
+	m_PosY = y - PLAYER_HIT_Y;
 
 	//cˆÚ“®—Ê
 	m_MoveY = 0;
@@ -330,14 +331,9 @@ void CPlayer::UPdateCollisionGround(float y) {
 //áŠQ•¨‚Æ“–‚½‚è”»’è
 bool CPlayer::CollosopnOB(CRectangle r) {
 
-	//–³“GŽžŠÔ’†‚Í”»’è‚µ‚È‚¢
-	if (m_DamageWait > 0)
-	{
-		return false;
-	}
 	if (GetRect().CollisionRect(r))
 	{
-		m_Motion.ChangeMotion(MOTION_DAMAGE);
+
 		return true;
 	}
 	return false;
@@ -347,11 +343,17 @@ bool CPlayer::CollosopnOB(CRectangle r) {
 //áŠQ•¨E“G‚Æ“–‚½‚Á‚½ê‡
 void CPlayer::UPdateCollisionOB() {
 
+	//–³“GŽžŠÔ’†‚Í”»’è‚µ‚È‚¢
+	if (m_DamageWait > 0)
+	{
+		return;
+	}
+	m_Motion.ChangeMotion(MOTION_MOVE/*MOTION_DAMAGE*/);
 	m_HP -= 1;
 	m_DamageWait = 60;
 	if (m_HP <= 0) {
 		m_deathflg = true;
-		m_HP = 0;
+		//m_HP = 0;
 	}
 }
 
@@ -470,7 +472,29 @@ void CPlayer::RenderDebugging() {
 			break;
 
 	}
+	
+	//CGraphicsUtilities::RenderString(500, 500, MOF_XRGB(80, 80, 80), "m_DamageWait%d", m_DamageWait);
 
+
+	//if (m_Jumpflg) {
+	//CGraphicsUtilities::RenderString(500, 500, MOF_XRGB(80, 80, 80), "m_Jumpflg=true");
+
+	//}
+	//else
+	//{
+	//	CGraphicsUtilities::RenderString(500, 500, MOF_XRGB(80, 80, 80), "m_Jumpflg=false");
+
+	//}
+
+	//if (m_BSflg) {
+	//	CGraphicsUtilities::RenderString(500, 560, MOF_XRGB(80, 80, 80), "m_BSflg=true");
+
+	//}
+	//else
+	//{
+	//	CGraphicsUtilities::RenderString(500, 560, MOF_XRGB(80, 80, 80), "m_BSflg=false");
+
+	//}
 
 	//ƒLƒƒƒ‰ƒNƒ^[‚Ì”»’è‹éŒ`
 	CGraphicsUtilities::RenderRect(GetRect(), MOF_COLOR_RED);

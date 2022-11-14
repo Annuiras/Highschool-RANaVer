@@ -134,12 +134,12 @@ void GAME::Update(void)
 
 		if (g_Player.CollosopnOB(g_Stage.ob_array[i].GetRect(g_Stage.ob_array[i].GetType())))
 		{
-			g_Player.UPdateCollisionOB();
+ 			g_Player.UPdateCollisionOB();
 		}
 		//障害物からのダメージを受けていない場合だけ上の足場判定
 		else if(g_Player.CollosopnBar(g_Stage.ob_array[i].GetTopBarRect(g_Stage.ob_array[i].GetType())))
 		{
-			g_Player.UPdateCollisionBra(g_Stage.ob_array[i].GetY());
+			g_Player.UPdateCollisionBra(g_Stage.ob_array[i].GetY(g_Stage.ob_array[i].GetType()));
 		}
 	}
 
@@ -191,16 +191,18 @@ void GAME::Update(void)
 void GAME::Render(void)
 {
 
+
 	//ステージ描画
 	g_Stage.Render();
+
+	//プレイヤー描画
+	g_Player.Render();
 
 
 	//CGraphicsUtilities::RenderString(10, 10, "ゲーム画面");
 	//CGraphicsUtilities::RenderString(10, 40, "F1キーでタイトル画面へ遷移");
 	//CGraphicsUtilities::RenderString(10, 70, "Enterキーでモードセレクト画面へ遷移");
 
-	//プレイヤー描画
-	g_Player.Render();
 
 	//プレイヤースキル描画
 	//g_PlayerSkill.Render();

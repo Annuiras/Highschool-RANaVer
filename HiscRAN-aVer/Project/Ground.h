@@ -1,7 +1,6 @@
 #pragma once
 #include "Mof.h"
-#define GROUND_WIDTH 1280
-#define GROUND_HEIGHT 100
+#include "Define.h"
 
 class Ground
 {

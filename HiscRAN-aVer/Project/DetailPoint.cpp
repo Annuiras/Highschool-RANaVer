@@ -36,8 +36,8 @@ void DetailPoint::Initialize(void) {
 	dp_PosX = 0;
 	dp_PosY = 0;
 	dp_Type = 0;
-	dp_hitboxX = 80;
-	dp_hitboxY = 80;
+	dp_hitboxX = 0;
+	dp_hitboxY = 0;
 	dp_value = 0.5;
 	dp_Show = false;
 }
@@ -55,6 +55,11 @@ void DetailPoint::Start(float posy, int type) {
 
 	//表示フラグ
 	dp_Show = true;
+
+	//todo:画像サイズと合わせる
+	dp_hitboxX = dp_texture->GetWidth();
+	dp_hitboxY = dp_texture->GetHeight();
+
 
 }
 
@@ -157,11 +162,8 @@ void DetailPoint::RenderDebugging() {
 		return;
 	}
 
-	CGraphicsUtilities::RenderRect(dp_PosX, dp_PosY, dp_PosX + 80, dp_PosY + 80, MOF_COLOR_YELLOW);
+	CGraphicsUtilities::RenderRect(dp_PosX, dp_PosY, dp_PosX + dp_hitboxX, dp_PosY + dp_hitboxY, MOF_COLOR_YELLOW);
 
-	//CGraphicsUtilities::RenderString(620, 660, MOF_XRGB(80, 80, 80), "コイン矩形 X:%.1f Y:%.1f", dp_hitboxX, dp_hitboxY);
-
-	//CGraphicsUtilities::RenderString(620, 30, MOF_XRGB(80, 80, 80), "ステータス上昇値:%.2f", dp_value);
 
 }
 

@@ -1,5 +1,6 @@
 #pragma once
 #include	"Mof.h"
+#include "Define.h"
 
 //重力
 #define  GRAVITY	0.5f
@@ -14,6 +15,12 @@
 //スライディングクールタイム
 #define  SLIDINGCOOL 60
 
+//プレイヤー当たり判定
+#define PLAYER_HIT_X 130
+#define PLAYER_HIT_Y 185
+
+//当たり判定調整幅
+#define PLAYER_ADMENT_SPACE 25
 
 class CPlayer
 {
@@ -38,9 +45,6 @@ private:
 	float					m_MoveX;
 	float					m_MoveY;
 
-	//当たり判定幅
-	float m_hitboxX;
-	float m_hitboxY;
 
 	//当たり判定(足)
 	float m_legsboxY;
@@ -140,24 +144,24 @@ public:
 
 	//プレイヤー矩形取得
 	CRectangle GetRect(void) {
-		return CRectangle(m_PosX, m_PosY,
-			m_PosX + m_hitboxX, m_PosY + m_hitboxY);
+		return CRectangle(m_PosX + PLAYER_ADMENT_SPACE, m_PosY,
+			m_PosX + PLAYER_HIT_X, m_PosY + PLAYER_HIT_Y);
 	}
 
 	//プレイヤー足だけ判定
 	CRectangle legsGetRect() {
-		return CRectangle(m_PosX, m_PosY + m_legsboxY,
-			m_PosX + m_hitboxX, m_PosY + m_hitboxY);
+		return CRectangle(m_PosX+ PLAYER_ADMENT_SPACE,m_PosY + m_legsboxY,
+			m_PosX + PLAYER_HIT_X, m_PosY + PLAYER_HIT_Y);
 	}
 
 	//プレイヤー吸い寄せ範囲
 	CRectangle SuckingRect() {
-		return CRectangle(m_PosX, m_PosY - 200,
-			m_PosX + m_hitboxX + 100, m_PosY + m_hitboxY + 600);
+		return CRectangle(m_PosX + PLAYER_ADMENT_SPACE, m_PosY - 200,
+			m_PosX + PLAYER_HIT_X + 100, m_PosY + PLAYER_HIT_Y + 600);
 	}
 	//衝撃波当たり判定
 	CRectangle m_CircleRect() {
-		return CRectangle(m_PosX - m_SkillA, m_PosY - m_SkillA,
+		return CRectangle(m_PosX - m_SkillA + PLAYER_ADMENT_SPACE, m_PosY - m_SkillA,
 			m_PosX + m_SkillB, m_PosY + m_SkillA);
 	}
 

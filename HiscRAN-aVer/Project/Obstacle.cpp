@@ -50,7 +50,7 @@ void CObstacle::Start(float posy, int type) {
 		ob_HitWidth = OB_DESK_WIDTH;
 		break;
 
-	case OB_LOCKER://２段机
+	case OB_LOCKER://ロッカー
 		ob_HitWidth = OB_LOCKER_WIDTH;
 		break;
 
@@ -92,7 +92,6 @@ void CObstacle::Render() {
 	else
 	{
 		ob_Textuer->Render(ob_PosX, ob_PosY);
-
 	}
 	
 }
@@ -118,22 +117,21 @@ CRectangle CObstacle::GetRect(int type){
 	//タイプ別で大きさを変更
 	switch (type)
 	{
-	
 		//机
 	case OB_DESK:
-		return CRectangle(ob_PosX, ob_PosY+ OB_TOPBAR_HEIGHT,
+		return CRectangle(ob_PosX, ob_PosY+ OB_TOPBAR_HEIGHT + ITIZI_GENSUI_Y,
 			ob_PosX + OB_DESK_WIDTH, ob_PosY + OB_DESK_HEIGHT);
 		break;
 
 		//２段机
 	case OB_TWODESK:
-		return CRectangle(ob_PosX, ob_PosY+ OB_TOPBAR_HEIGHT,
+		return CRectangle(ob_PosX, ob_PosY+ OB_TOPBAR_HEIGHT + ITIZI_GENSUI_Y,
 			ob_PosX + OB_TOWDESK_WIDTH, ob_PosY + OB_TOWDESK_HEIGHT);
 		break;
 
 		//ロッカー
 	case OB_LOCKER:
-		return CRectangle(ob_PosX, ob_PosY+ OB_TOPBAR_HEIGHT,
+		return CRectangle(ob_PosX, ob_PosY+ OB_TOPBAR_HEIGHT + ITIZI_GENSUI_Y,
 			ob_PosX + OB_LOCKER_WIDTH, ob_PosY + OB_LOCKER_HEIGHT);
 		break;
 
@@ -154,20 +152,20 @@ CRectangle CObstacle::GetTopBarRect(int type) {
 	{
 
 	case OB_DESK://机
-		return CRectangle(ob_PosX, ob_PosY,
-			ob_PosX + OB_DESK_WIDTH, ob_PosY + OB_TOPBAR_HEIGHT);
+		return CRectangle(ob_PosX, ob_PosY + ITIZI_GENSUI_Y,
+			ob_PosX + OB_DESK_WIDTH, ob_PosY + OB_TOPBAR_HEIGHT + ITIZI_GENSUI_Y);
 		break;
 
 
 	case OB_TWODESK://２段机
-		return CRectangle(ob_PosX, ob_PosY,
-			ob_PosX + OB_DESK_WIDTH, ob_PosY + OB_TOPBAR_HEIGHT);
+		return CRectangle(ob_PosX, ob_PosY + ITIZI_GENSUI_Y,
+			ob_PosX + OB_DESK_WIDTH, ob_PosY + OB_TOPBAR_HEIGHT + ITIZI_GENSUI_Y);
 		break;
 
-		//ロッカー
-	case OB_LOCKER:
-		return CRectangle(ob_PosX, ob_PosY,
-			ob_PosX + OB_LOCKER_WIDTH, ob_PosY + OB_TOPBAR_HEIGHT);
+		
+	case OB_LOCKER://ロッカー
+		return CRectangle(ob_PosX, ob_PosY + ITIZI_GENSUI_Y,
+			ob_PosX + OB_LOCKER_WIDTH, ob_PosY + OB_TOPBAR_HEIGHT + ITIZI_GENSUI_Y);
 		break;
 
 

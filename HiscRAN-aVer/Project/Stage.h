@@ -1,11 +1,11 @@
 #pragma once
 #include "Mof.h"
+#include "Define.h"
 #include "RandomValue.h"
 #include "Ground.h"
 #include "DetailPoint.h"
 #include "Bar.h"
 #include "Obstacle.h"
-#include "Define.h"
 
 ////DPの出現位置情報用構造体
 typedef struct tag_DP_POS
@@ -108,6 +108,13 @@ private:
 
 #pragma endregion
 
+#pragma region 足場テクスチャ
+
+	//仮テクスチャ：足場中
+	CTexture bar_Textuer_Medium;
+
+#pragma endregion
+
 
 
 
@@ -125,16 +132,6 @@ private:
 
 	//マップパターン添え字
 	int m_MapNo;
-
-
-	////ステージDP構成を決める配列
-	//int m_StageDPConstitution[DP_INFO_PATTERN] = { 1 };
-
-	////ステージ障害物構成を決める配列
-	//int m_StageOBConstitution[OB_INFO_PATTERN] = { 1 };
-
-	////ステージ足場構成を決める配列
-	//int m_StageBarConstitution[BAR_INFO_PATTERN] = { 1 };
 
 	//ステージ構成を決める配列
 	int m_StageConstitution[15] = { 1 };
@@ -185,7 +182,7 @@ private:
 
 
 	//todo 使用済みパターン番号記録用配列
-	int		AlreadyUsedArray[DP_INFO_PATTERN];
+	int	AlreadyUsedArray[DP_INFO_PATTERN];
 
 	//todo 採用済カウント
 	int AdoptCount;

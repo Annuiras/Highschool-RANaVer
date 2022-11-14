@@ -1,10 +1,10 @@
 #pragma once
 #include "Stage.h"
-#include <vector>
+#include "Define.h"
 
 //vectorを使った動的配列試したけどうまく宣言できなかった
 
-
+//地面に設置する形なら計算で算出出来るかもできたら定義が楽になる
 //s_stageAdp
 //[]:マップ一枚の情報がいくつあるか(数値は省略可能)
 //[DP_INFO_STRUCT]:マップ一枚分の情報にいくつ構造体があるか
@@ -17,34 +17,33 @@
 //{0,0,100}->終端文字の役割、この要素を参照すると次のパターンに移行
 OB_info s_stageAOB[][OB_INFO_STRUCT] =
 {
-	//マップパターン0
+	//マップパターン0 S1
 	{
-		{316.0f,520.0f,OB_DESK},
-		{447.0f,520.0f,OB_DESK},
-		{578.0f,399.0f,OB_TWODESK},
-		{709.0f,399.0f,	OB_TWODESK},
-		{1343.0f,520.0f,OB_DESK},
-		{1383.0f,519.0f,OB_DESK},
-		{2091.0f,382.0f,OB_LOCKER},
-		{2229.0f,382.0f,OB_LOCKER},
+		{316.0f,524.0f,OB_DESK},
+		{447.0f,524.0f,OB_DESK},
+		{578.0f,404.0f,OB_TWODESK},
+		{709.0f,404.0f,OB_TWODESK},
+		{1343.0f,524.0f,OB_DESK},
+		{2091.0f,388.0f,OB_LOCKER},
+		{2229.0f,388.0f,OB_LOCKER},
 		{10000,0,100}
 	},
-	//マップパターン1
+	//マップパターン1 S2
 	{
-		{288.0f,519.0f,OB_DESK},
-		{419.0f,519.0f,OB_DESK},
-		{550.0f,519.0f,OB_DESK},
-		{680.0f,399.0f,OB_TWODESK},
-		{810.0f,399.0f,OB_TWODESK},
-		{940.0f,399.0f,OB_TWODESK},
+		{288.0f,524.0f,OB_DESK},
+		{419.0f,524.0f,OB_DESK},
+		{550.0f,524.0f,OB_DESK},
+		{680.0f,404.0f,OB_TWODESK},
+		{810.0f,404.0f,OB_TWODESK},
+		{940.0f,404.0f,OB_TWODESK},
 		{10000,0,100}
 	},
-	//マップパターン2
+	//マップパターン2 S3
 	{
-		{906.0f,520.0f,OB_DESK},
-		{1038.0f,518.0f,OB_DESK},
+		{906.0f,524.0f,OB_DESK},
+		{1038.0f,524.0f,OB_DESK},
 		{2032.0f,404.0f,OB_TWODESK},
-		{2166.0f,518.0f,OB_TWODESK},
+		{2166.0f,524.0f,OB_DESK},
 		{10000,0,100}
 	},
 	//マップパターン3

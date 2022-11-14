@@ -6,7 +6,8 @@ Bar::Bar() :
 	b_PosY(0.0f),
 	b_HitWidth(0.0f),
 	b_Show(true),
-	b_Type(0)
+	b_Type(0),
+	bar_texture()
 {};
 
 
@@ -23,6 +24,7 @@ void Bar::Initialize() {
 	b_Type = 0;
 	b_HitWidth = 0.0f;
 	b_Show = false;
+	bar_texture = NULL;
 }
 
 //ï\é¶ÇÃÇΩÇﬂèÄîı
@@ -39,15 +41,15 @@ void Bar::Start(float posy, int type) {
 
 	switch (type)
 	{
-	case 1://ëÂ
+	case BAR_BIG://ëÂ
 		b_HitWidth = BAR_BIG_WIDTH;
 		break;
 
-	case 2://íÜ
+	case BAR_MEDIUM://íÜ
 		b_HitWidth = BAR_MEDIUM_WIDTH;
 		break;
 
-	case 3://è¨
+	case BAR_SMALL://è¨
 		b_HitWidth = BAR_SMALL_WIDTH;
 		break;
 
@@ -81,8 +83,11 @@ void Bar::Render(void) {
 		return;
 	}
 
+	bar_texture->Render(b_PosX, b_PosY);
+
+	
 	//ë´èÍï`âÊ
-	CGraphicsUtilities::RenderFillRect(GetRect(b_Type), MOF_COLOR_GREEN);
+	CGraphicsUtilities::RenderRect(GetRect(b_Type), MOF_COLOR_GREEN);
 
 }
 
@@ -94,17 +99,17 @@ CRectangle Bar::GetRect(int type) {
 	switch (type)
 	{
 
-	case 1://ëÂ
+	case BAR_BIG://ëÂ
 		return CRectangle(b_PosX, b_PosY,
 			b_PosX + BAR_BIG_WIDTH, b_PosY + BAR_BIG_HEIGHT);
 		break;
 
-	case 2://íÜ
+	case BAR_MEDIUM://íÜ
 		return CRectangle(b_PosX, b_PosY,
 			b_PosX + BAR_MEDIUM_WIDTH, b_PosY + BAR_MEDIUM_HEIGHT);
 		break;
 
-	case 3://è¨
+	case BAR_SMALL://è¨
 		return CRectangle(b_PosX, b_PosY,
 			b_PosX + BAR_SMALL_WIDTH, b_PosY + BAR_SMALL_HEIGHT);
 		break;
@@ -117,6 +122,13 @@ CRectangle Bar::GetRect(int type) {
 		break;
 	}
 	
+}
+
+void Bar::SetTexture(CTexture* bartex)
+{
+
+	bar_texture = bartex;
+
 }
 
 

@@ -1,7 +1,17 @@
 #pragma once
 #include	"Mof.h"
 
+//画面のサイズ
+#define WINDOWSIZE_WIDTH 1280
+#define WINDOWSIZE_HEIGHT 720
+
+
 //マップパターンの数を追加です
+
+//todo:当たり判定調整中です
+//当たり判定調整用
+#define ITIZI_GENSUI_Y 12
+#define ITIZI_GENSUI_Y2 
 
 //todo:ステージ情報を統合したのでDPだけではよくない
 //マップDPパターン数
@@ -23,6 +33,8 @@ enum tag_DP_TYPE
 
 };
 
+#pragma region 障害物定数群
+
 //障害物タイプ定義
 enum tag_OBTYPE
 {
@@ -31,6 +43,40 @@ enum tag_OBTYPE
 	OB_LOCKER		//ロッカー
 }; 
 
+//クラス数
+#define OB_VOLUME 15
+
+//机横・縦幅
+#define OB_DESK_WIDTH 131
+#define OB_DESK_HEIGHT 172
+
+//二段机横・縦幅
+#define OB_TOWDESK_WIDTH 131
+#define OB_TOWDESK_HEIGHT 292
+
+//ロッカー横・縦幅
+#define OB_LOCKER_WIDTH 138
+#define OB_LOCKER_HEIGHT 308
+
+//乗れる矩形判定高さ
+#define OB_TOPBAR_HEIGHT 20+60
+
+
+#pragma endregion
+
+
+
+
+//足場タイプ定義
+enum tag_BAR
+{
+	BAR_BIG,		//大
+	BAR_MEDIUM,		//中
+	BAR_SMALL		//小
+};
+
+//地面高さ
+#define GROUND_Y 700
 
 //マップ障害物パターン数
 #define OB_INFO_PATTERN 15

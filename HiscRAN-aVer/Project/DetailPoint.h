@@ -2,7 +2,7 @@
 #include "Mof.h"
 
 //ˆê‰æ–Ê‚É‘¶İ‚·‚éÅ‘åDP
-#define DP_VOLUME	10
+#define DP_VOLUME	20
 
 class DetailPoint
 {

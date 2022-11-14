@@ -16,7 +16,7 @@ Ground::~Ground() {
 
 void Ground::Initialize(void) {
 
-	g_PosY = 700;
+	g_PosY = GROUND_Y;
 
 }
 
