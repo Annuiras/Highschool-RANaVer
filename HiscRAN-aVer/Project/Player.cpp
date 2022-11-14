@@ -165,7 +165,7 @@ void CPlayer::Update(void) {
 		if (!m_Jumpflg) {
 			m_MoveY = SMALLJUMP;
 		}
-
+		m_MusicManager->Start(SET_PAWANN);
 		m_JumpCount++;
 		m_Jumpflg = true;
 		m_Motion.ChangeMotion(MOTION_JUMPSTART);
@@ -352,6 +352,7 @@ void CPlayer::UPdateCollisionOB() {
 	if (m_HP <= 0) {
 		m_deathflg = true;
 		m_HP = 0;
+
 	}
 }
 

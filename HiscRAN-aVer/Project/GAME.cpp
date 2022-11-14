@@ -8,6 +8,7 @@
 #include "DetailPoint.h"
 #include "Bar.h"
 #include "Obstacle.h"
+#include "MusicManager.h"
 #include "StageA_DP.h"
 #include "StageA_Bar.h"
 #include "StageA_Obstacle.h"
@@ -18,6 +19,8 @@ extern int			gChangeScene;
 
 //プレイヤークラス
 CPlayer g_Player;
+
+CMusicManager g_MusicManager;
 
 //プレイヤースキルクラス
 //CPlayerSkill g_PlayerSkill;
@@ -39,6 +42,7 @@ void GAME::Load(void)
 {
 	g_Player.Load();
 	g_Stage.Load();
+	g_MusicManager.Load();
 }
 
 //初期化
@@ -46,12 +50,14 @@ void GAME::Initialize(void)
 {
 	//プレイヤー初期化
 	g_Player.Initialize();
-
+	g_Player.SetMusicManager(&g_MusicManager);
 	//プレイヤースキル初期化
 	//g_PlayerSkill.Initialize();
 
 	//ステージ初期化
 	g_Stage.Initialize(s_stageAdp,s_stageAbar, s_stageAOB);
+
+	g_MusicManager.Initialize();
 }
 
 //更新
@@ -143,6 +149,8 @@ void GAME::Update(void)
 		}
 	}
 
+	
+
 	//一時的な追加です
 	//F2でTitle画面へ
 	if (g_pInput->IsKeyPush(MOFKEY_F2))
@@ -221,4 +229,6 @@ void GAME::Release(void)
 	g_Player.Release();
 
 	g_Stage.Release();
+
+	g_MusicManager.Release();
 }

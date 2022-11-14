@@ -61,6 +61,9 @@
     <Filter Include="ソース ファイル\ゲーム\ステージ\配置情報\足場">
       <UniqueIdentifier>{91ebb2a6-ad69-4cf6-829c-2e008feb54f2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\音声">
+      <UniqueIdentifier>{fc801ab2-1b25-453a-aaeb-9d502026645e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -107,6 +110,12 @@
     </ClCompile>
     <ClCompile Include="RandomValue.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Music.cpp">
+      <Filter>ソース ファイル\音声</Filter>
+    </ClCompile>
+    <ClCompile Include="MusicManager.cpp">
+      <Filter>ソース ファイル\音声</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -163,6 +172,12 @@
     </ClInclude>
     <ClInclude Include="Define.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Music.h">
+      <Filter>ソース ファイル\音声</Filter>
+    </ClInclude>
+    <ClInclude Include="MusicManager.h">
+      <Filter>ソース ファイル\音声</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

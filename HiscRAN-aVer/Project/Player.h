@@ -1,5 +1,6 @@
 #pragma once
 #include	"Mof.h"
+#include "MusicManager.h"
 
 //重力
 #define  GRAVITY	0.5f
@@ -21,6 +22,8 @@ private:
 
 	//モーションクラス
 	CSpriteMotionController	m_Motion;
+
+	CMusicManager* m_MusicManager;
 
 	//描画矩形
 	CRectangle				m_SrcRect;
@@ -167,6 +170,9 @@ public:
 
 	//キャラが動いているか取得
 	bool GetGameStopPlay();
+
+	void SetMusicManager(CMusicManager* musi) { m_MusicManager = musi; }
+
 
 	//座標取得
 	float CircleX() { return m_PosX; }
