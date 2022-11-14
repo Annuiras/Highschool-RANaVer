@@ -39,6 +39,8 @@ bool CPlayer::Load(void) {
 	//	return false;
 	//}
 
+	//todo:キャラクターモーション調整中
+
 	//キャラクター読み込み
 	if (!m_Texture.Load("走りジャンプモーション仮.png")) {
 		return false;
