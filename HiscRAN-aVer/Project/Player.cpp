@@ -42,7 +42,7 @@ bool CPlayer::Load(void) {
 	//todo:キャラクターモーション調整中
 
 	//キャラクター読み込み
-	if (!m_Texture.Load("走りジャンプモーション仮.png")) {
+	if (!m_Texture.Load("走りとジャンプモーション2022_11_08.png")) {
 		return false;
 	}
 
