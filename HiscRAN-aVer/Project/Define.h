@@ -130,6 +130,13 @@ enum tag_SCENENO {
 	//ゲーム本編
 	SCENENO_GAME,
 
+	//ゲームオーバー画面
+	SCENENO_GAMEOVER,
+
+	//ゲームクリア画面
+	SCENENO_GAMECLEAR,
+
+
 	//チュートリアル画面
 	SCENENO_TUTORIAL,
 

@@ -28,22 +28,29 @@ CStage g_Stage;
 //デバッグフラグ
 bool Debuggingflg = true;
 
-GAME::GAME() {}
+bool Clearflag = false;
+bool GameOverflag = false;
 
-GAME::~GAME()
+
+CGAME::CGAME() {}
+
+CGAME::~CGAME()
 {
 
 }
 
-void GAME::Load(void)
+void CGAME::Load(void)
 {
 	g_Player.Load();
 	g_Stage.Load();
 }
 
 //初期化
-void GAME::Initialize(void)
+void CGAME::Initialize(void)
 {
+
+	gMenu.Create(gMenuItemCount);
+
 	//プレイヤー初期化
 	g_Player.Initialize();
 
@@ -55,7 +62,7 @@ void GAME::Initialize(void)
 }
 
 //更新
-void GAME::Update(void)
+void CGAME::Update(void)
 {
 
 	//ゲーム開始切り替え
@@ -73,7 +80,7 @@ void GAME::Update(void)
 
 	//一時的な追加です
 	//エンターキーでモードセレクト画面へ
-	else if (g_pInput->IsKeyPush(MOFKEY_F3))
+	else if (Menuflag == false && g_pInput->IsKeyPush(MOFKEY_F3))
 	{
 		gChangeScene = SCENENO_SELECTMODE;
 	}
@@ -96,6 +103,18 @@ void GAME::Update(void)
 		}
 	}
 
+	//Cでゲームクリア画面へ
+	if (g_pInput->IsKeyPush(MOFKEY_C))
+	{
+		gChangeScene = SCENENO_GAMECLEAR;
+	}
+
+	//Vでゲームオーバー画面
+	else if (g_pInput->IsKeyPush(MOFKEY_V))
+	{
+		gChangeScene = SCENENO_GAMEOVER;
+	}
+
 	//一時的な追加です
 	//リスタート
 	if (g_pInput->IsKeyPush(MOFKEY_F1)) {
@@ -107,6 +126,32 @@ void GAME::Update(void)
 
 	}
 
+	//メニューの更新
+	if (gMenu.IsShow())
+	{
+		gMenu.Update();
+		if (gMenu.IsEnter())
+		{
+			if (gMenu.GetSelect() == 0)
+			{
+				gChangeScene = SCENENO_SELECTMODE;
+			}
+			gMenu.Hide();
+		}
+	}
+	//エスケープキーで終了メニューを表示
+	else if (g_pInput->IsKeyPush(MOFKEY_ESCAPE))
+	{
+		Menuflag = true;
+		gMenu.Show(g_pGraphics->GetTargetWidth() * 0.5f, g_pGraphics->GetTargetHeight() * 0.5f);
+	}
+	else
+	{
+		Menuflag = false;
+	}
+
+
+	//ストップ中はゲーム処理を実行しない
 	if (!g_Stage.GetGameStopPlay()) {
 
 		return;
@@ -193,9 +238,11 @@ void GAME::Update(void)
 
 }
 
-void GAME::Render(void)
+void CGAME::Render(void)
 {
 
+	//メニューの描画
+	gMenu.Render(2);
 
 	//ステージ描画
 	g_Stage.Render();
@@ -223,9 +270,16 @@ void GAME::Render(void)
 }
 
 
-void GAME::Release(void)
+void CGAME::Release(void)
 {
 	g_Player.Release();
 
 	g_Stage.Release();
+
+	gMenu.Release();
+
+}
+
+void CGAME::RenderDebug(void)
+{
 }

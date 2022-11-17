@@ -166,10 +166,10 @@ private:
 	int m_RandamuBakRight;
 
 
-	//todo 使用済みパターン番号記録用配列
+	//使用済みパターン番号記録用配列
 	int	AlreadyUsedArray[MAP_INFO_PATTERN];
 
-	//todo 採用済カウント
+	//採用済カウント
 	int AdoptCount;
 
 	//背景カウント

@@ -22,7 +22,7 @@ class Bar
 {
 private:
 
-	//todo:足場のテクスチャを追加
+	//足場のテクスチャを追加
 	//足場テクスチャ
 	CTexture* bar_texture;
 

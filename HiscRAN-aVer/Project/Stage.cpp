@@ -184,7 +184,7 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 				AdoptCount += 1;
 			}
 		}
-		//todo ランダムパターンをセット
+		//ランダムパターンをセット
 		int randam= RandmuBak.GetRandomNumbe(0, 14);
 
 		//まだ使用していない場合のみ採用(1=使用済み)
@@ -697,15 +697,11 @@ void CStage::MapChange(void) {
 
 		m_MapNo += 1;
 
-		//todo:最初の要素が終端要素のみの場合 
-		//連続で切り替わってしまうのを防止（0の時しか使えない）
-		//一番最初のマップパターンがスキップされてしまう
-		//m_StageScroll++;
 
 		//最後のマップ足場パターン情報の場合
 		if (m_MapNo >= 15)
 		{
-			//todo:最後の場合最後まで描画した場合の処理
+			//最後の場合最後まで描画した場合の処理
 			//どうしようか悩み中
 			m_MapNo = 100;
 		}

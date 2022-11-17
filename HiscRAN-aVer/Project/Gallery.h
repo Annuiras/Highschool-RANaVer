@@ -2,19 +2,25 @@
 
 #include	"Mof.h"
 
-class Gallery
+class CGallery
 {
 private:
-	//最終容姿のテクスチャ(纏めて)
+	//コレクション画面背景テクスチャ
 	CTexture	m_BackTexture;
+
+	//解放済み最終容姿表示
+	CTexture	m_LastApp;
+
+	//未解放最終容姿
+	CTexture    m_NotLastApp[15];
 
 	//選択時の四角形
 	CTexture	m_SelectTexture;
 	CTexture	m_SelectTexture_s;
 
 
-	//最終容姿の台紙テクスチャ（バラ）
-	CTexture	m_LastApp[15];
+	////最終容姿の台紙テクスチャ（バラ）
+	//CTexture	m_LastApp[15];
 
 	//フォント読み込み
 	CFont		gFont1;
@@ -23,7 +29,7 @@ private:
 	//最終容姿の台紙テクスチャ（バラ）座標格納
 	Vector2		pos[15] =
 	{
-		{60,40},
+		{60, 40},
 		{180,40},
 		{300,40},
 		{420,40},
@@ -67,11 +73,12 @@ private:
 	};
 
 public:
-	Gallery();
-	~Gallery();
+	CGallery();
+	~CGallery();
 	void Initialize(void);
 	void Update(void);
 	void Render(void);
+	void RenderDebug(void);
 	bool Load(void);
 	void Release(void);
 };

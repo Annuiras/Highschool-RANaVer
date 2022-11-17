@@ -1,30 +1,43 @@
-#include "GameApp.h"
+#include "Define.h"
 #include "Title.h"
 
 //変更するシーン（外部参照。実態はGameApp.cpp）
 extern int gChangeScene;
 
 //コンストラクタ
-Title::Title() :
-	m_BackTexture(),
+CTitle::CTitle() :
+	m_BackTexture1(),
+	m_BackTexture2(),
+	m_BackTexture3(),
 	m_TitleTexture(),
 	m_TiTleUITexture(),
-	m_Scroll(0.0f)
+	m_Scroll(0.0f),
+	Rondom(0.0f)
 {
 
 }
 
 //デストラクタ
-Title::~Title()
+CTitle::~CTitle()
 {
 
 }
 
 //素材ロード
-bool Title::Load(void)
+bool CTitle::Load(void)
 {
 	//背景テクスチャの読み込み
-	if (!m_BackTexture.Load("rouka.png"))
+	if (!m_BackTexture1.Load("TitleBG1.png"))
+	{
+		return false;
+	}
+
+	if (!m_BackTexture2.Load("TitleBG2.png"))
+	{
+		return false;
+	}
+
+	if (!m_BackTexture3.Load("TitleBG3.png"))
 	{
 		return false;
 	}
@@ -44,14 +57,15 @@ bool Title::Load(void)
 }
 
 //初期化
-void Title::Initialize(void)
+void CTitle::Initialize(void)
 {
 	m_Scroll = 0;
+	Rondom = CUtilities::Random(0, 3);
 
 }
 
 //更新
-void Title::Update(void)
+void CTitle::Update(void)
 {
 	m_Scroll -= SCROLL_SPEED;
 
@@ -60,38 +74,64 @@ void Title::Update(void)
 	{
 		gChangeScene = SCENENO_SELECTMODE;
 	}
-
-	if (g_pInput->IsKeyPush(MOFKEY_F1))
-	{
-		gChangeScene = SCENENO_GAME;
-	}
 }
 
 //描画
-void Title::Render(void)
+void CTitle::Render(void)
 {
-	//テクスチャの描画
-	int W = m_BackTexture.GetWidth();
-	int scw = g_pGraphics->GetTargetWidth();
-
-	for (float x = ((int)m_Scroll % W) - W; x < scw; x += W)
+	if (Rondom == 0)
 	{
-		m_BackTexture.Render(x, 0.0f);
+		//テクスチャの描画
+		int W = m_BackTexture1.GetWidth();
+		int scw = g_pGraphics->GetTargetWidth();
+
+		for (float x = ((int)m_Scroll % W) - W; x < scw; x += W)
+		{
+			m_BackTexture1.Render(x, 0.0f);
+		}
 	}
+	else if (Rondom == 1)
+	{
+		//テクスチャの描画
+		int W = m_BackTexture2.GetWidth();
+		int scw = g_pGraphics->GetTargetWidth();
+
+		for (float x = ((int)m_Scroll % W) - W; x < scw; x += W)
+		{
+			m_BackTexture2.Render(x, 0.0f);
+		}
+	}
+	else if (Rondom == 2)
+	{
+		//テクスチャの描画
+		int W = m_BackTexture3.GetWidth();
+		int scw = g_pGraphics->GetTargetWidth();
+
+		for (float x = ((int)m_Scroll % W) - W; x < scw; x += W)
+		{
+			m_BackTexture3.Render(x, 0.0f);
+		}
+	}
+
+
 
 	m_TitleTexture.Render(g_pGraphics->GetTargetWidth() * 0.5 - m_TitleTexture.GetWidth() * 0.5, 40);
 
 	m_TiTleUITexture.Render(g_pGraphics->GetTargetWidth() * 0.5 - m_TitleTexture.GetWidth() * 0.5, 500);
 
-
-	CGraphicsUtilities::RenderString(10, 10, MOF_COLOR_BLACK, "タイトル画面");
-	CGraphicsUtilities::RenderString(10, 40,MOF_COLOR_BLACK, "Enterキーで画面遷移");
-	CGraphicsUtilities::RenderString(10, 70, MOF_COLOR_BLACK, "F1キーでゲーム画面遷移");
 }
 
-void Title::Release(void)
+void CTitle::RenderDebug(void)
 {
-	m_BackTexture.Release();
+	CGraphicsUtilities::RenderString(10, 10, "タイトル画面");
+	CGraphicsUtilities::RenderString(10, 40, "Enterキーで画面遷移");
+}
+
+void CTitle::Release(void)
+{
+	m_BackTexture1.Release();
+	m_BackTexture2.Release();
+	m_BackTexture3.Release();
 	m_TitleTexture.Release();
 	m_TiTleUITexture.Release();
 	gFont.Release();

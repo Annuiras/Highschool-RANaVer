@@ -56,7 +56,7 @@ void DetailPoint::Start(float posy, int type) {
 	//表示フラグ
 	dp_Show = true;
 
-	//todo:画像サイズと合わせる
+	//画像サイズと合わせる
 	dp_hitboxX = dp_texture->GetWidth();
 	dp_hitboxY = dp_texture->GetHeight();
 

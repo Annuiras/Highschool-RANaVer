@@ -1,14 +1,30 @@
 #pragma once
-#include "Define.h"
-class ModeSelect
+
+#include	"Mof.h"
+#include	"Menu.h"
+
+//スクロール速度
+#define		SCROLL_SPEED	1;
+
+class CModeSelect
 {
+private:
+	CTexture		m_TutorialTextTexture;
+	CTexture		m_Illustrat;
+	float			m_Scroll;
+	CMenu			gMenu;
+	bool			Menuflag = false;
+	int				gMenuItemCount = 2;
+
+
 public:
-	ModeSelect();
-	~ModeSelect();
+	CModeSelect();
+	~CModeSelect();
 	void Initialize(void);
 	void Update(void);
 	void Render(void);
-	void Load(void);
+	void RenderDebug(void);
+	bool Load(void);
 	void Release(void);
 
 };

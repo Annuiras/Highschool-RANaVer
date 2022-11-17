@@ -61,6 +61,15 @@
     <Filter Include="ソース ファイル\ゲーム\ステージ\配置情報\足場">
       <UniqueIdentifier>{91ebb2a6-ad69-4cf6-829c-2e008feb54f2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\メニュー">
+      <UniqueIdentifier>{ae4c2084-3f87-44bc-902b-6dc29ecb50f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ゲーム\ゲームオーバー">
+      <UniqueIdentifier>{9fce5976-6937-4033-90f1-2b6706872260}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ゲーム\ゲームクリア">
+      <UniqueIdentifier>{88fa0f99-ce7e-41b4-a02f-6d1994783606}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -107,6 +116,15 @@
     </ClCompile>
     <ClCompile Include="RandomValue.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>ソース ファイル\メニュー</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOver.cpp">
+      <Filter>ソース ファイル\ゲーム\ゲームオーバー</Filter>
+    </ClCompile>
+    <ClCompile Include="GameClear.cpp">
+      <Filter>ソース ファイル\ゲーム\ゲームクリア</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -163,6 +181,15 @@
     </ClInclude>
     <ClInclude Include="Define.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>ソース ファイル\メニュー</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOver.h">
+      <Filter>ソース ファイル\ゲーム\ゲームオーバー</Filter>
+    </ClInclude>
+    <ClInclude Include="GameClear.h">
+      <Filter>ソース ファイル\ゲーム\ゲームクリア</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

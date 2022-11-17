@@ -1,14 +1,29 @@
 #pragma once
-#include "Define.h"
-class Tutorial
+#include "Mof.h"
+
+class CTutorial
 {
+private:
+	CTexture Texture;
+	CTexture ScreenTexture;
+	CTexture BGTexture;
+	CTexture BackButton;
+	CTexture ButtonSelect;
+
+	int m_Scroll = 0;
+	int gPosX = 0;
+	int count = 0;
+	int MoveX = 0;
+	bool bShow = false;
+
 public:
-	Tutorial();
-	~Tutorial();
+	CTutorial();
+	~CTutorial();
 	void Initialize(void);
 	void Update(void);
 	void Render(void);
-	void Road(void);
+	void RenderDebug(void);
+	bool Load(void);
 	void Release(void);
 };
 

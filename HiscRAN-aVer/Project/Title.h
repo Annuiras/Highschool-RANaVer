@@ -2,13 +2,17 @@
 #include	"Mof.h"
 #include "Define.h"
 
+//スクロール速度
 #define		SCROLL_SPEED	1;
 
-class Title
+class CTitle
 {
 private:
 	//背景のテクスチャ
-	CTexture	m_BackTexture;
+	CTexture	m_BackTexture1;
+	CTexture	m_BackTexture2;
+	CTexture	m_BackTexture3;
+
 
 	//タイトルのテクスチャ
 	CTexture	m_TitleTexture;
@@ -22,12 +26,17 @@ private:
 
 	//スクロール値
 	float		m_Scroll;
+
+	//ランダム用
+	int			Rondom;
+
 public:
-	Title();
-	~Title();
+	CTitle();
+	~CTitle();
 	void Initialize(void);
 	void Update(void);
 	void Render(void);
+	void RenderDebug(void);
 	bool Load(void);
 	void Release(void);
 

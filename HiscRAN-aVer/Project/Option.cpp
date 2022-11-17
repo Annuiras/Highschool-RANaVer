@@ -4,90 +4,116 @@
 //変更するシーン（外部参照、実態はGameApp.cpp）
 extern int			gChangeScene;
 
-#define MenuCnt (3)
+#define MenuCnt (4)
 
 int OptionCnt = 0;
-double VolumeBGM = 0;
-double VolumeSE = 0;
 
-double y_1 = 224;
-double y_2 = 224;
-
-bool flagBGM = false;
-bool flagSE = false;
-bool flagSC = false;
-
-bool ScreenSize = false;
-
-Option::Option() :
+COption::COption() :
 	m_BGM(),
 	m_SE(),
+	m_Font1(),
 	m_mount(),
-	m_Stick1(),
-	m_Stick2(),
 	m_Button1_1(),
 	m_Button1_2(),
 	m_Button2(),
-	m_Button3(),
-	m_Select()
+	m_Button3_Win(),
+	m_Button3_Full(),
+	m_Select_BGM(),
+	m_Select_SE(),
+	m_Select_Screen(),
+	m_Select_s(),
+	m_BackButton(),
+	VolumeBGM(0.5),
+	VolumeSE(0.5),
+	y_1(407),
+	y_2(407),
+	flagBGM(false),
+	flagSE(false),
+	flagSC(false),
+	ScreenSize(false)
 {
 
 }
 
-Option::~Option()
+COption::~COption()
 {
 
 }
 
 //素材読み込み
-bool Option::Load(void)
+bool COption::Load(void)
 {
+	//BGM
 	if (!m_BGM.Load("makiba no kaze.mp3"))
 	{
 		return false;
 	}
 
+	//SE
 	if (!m_SE.Load("Chime-Announce07-1.mp3"))
 	{
 		return false;
 	}
 
+	//土台
 	if (!m_mount.Load("Option_mount.png"))
 	{
 		return false;
 	}
 
-	if (!m_Stick1.Load("Option_stick.png"))
+	//BGM調整ボタン
+	if (!m_Button1_1.Load("Option_slide.png"))
 	{
 		return false;
 	}
 
-	if (!m_Stick2.Load("Option_stick.png"))
+	//SE調整ボタン
+	if (!m_Button1_2.Load("Option_slide.png"))
 	{
 		return false;
 	}
 
-	if (!m_Button1_1.Load("Option_Button1.png"))
+	//SE再生ボタン
+	if (!m_Button2.Load("Option_Button_SE.png"))
 	{
 		return false;
 	}
 
-	if (!m_Button1_2.Load("Option_Button1.png"))
+	//Screenサイズ調整ボタン
+	if (!m_Button3_Win.Load("Option_Button_Win.png"))
 	{
 		return false;
 	}
 
-	if (!m_Button2.Load("Option_Button2.png"))
+	if (!m_Button3_Full.Load("Option_Button_Full.png"))
 	{
 		return false;
 	}
 
-	if (!m_Button3.Load("Option_Button3.png"))
+	//選択枠
+	if (!m_Select_BGM.Load("Option_Sbgm.png"))
 	{
 		return false;
 	}
 
-	if (m_Select.Load("Option_Select.png"))
+	if (!m_Select_SE.Load("Option_Sse.png"))
+	{
+		return false;
+	}
+
+	if (!m_Select_Screen.Load("Option_Sscreen.png"))
+	{
+		return false;
+	}
+
+	//小さい選択枠
+	if (!m_Select_s.Load("Select_s.png"))
+	{
+		return false;
+	}
+
+	//戻るボタン
+	if (!m_BackButton.Load("BackButton.png"))
 	{
 		return false;
 	}
@@ -97,16 +123,28 @@ bool Option::Load(void)
 
 
 //初期化
-void Option::Initialize(void)
+void COption::Initialize(void)
 {
+	//フォント
+	m_Font1.Create(35, "UD デジタル 教科書体 N-B");
+
+	//BGMボリューム
+	m_BGM.SetVolume(VolumeBGM);
+
+	//SEボリューム
+	m_SE.SetVolume(VolumeSE);
+
+	//BGMをループにして鳴らす
 	m_BGM.SetLoop(TRUE);
 	m_BGM.Play();
-	VolumeBGM = m_BGM.GetVolume();
-	VolumeSE = m_SE.GetVolume();
+
+	//BGMに選択枠を合わせておく
+	OptionCnt = 0;
+
 }
 
 //更新
-void Option::Update(void)
+void COption::Update(void)
 {
 	//F1キーでタイトル画面へ
 	if (g_pInput->IsKeyPush(MOFKEY_F1))
@@ -114,12 +152,14 @@ void Option::Update(void)
 		gChangeScene = SCENENO_TITLE;
 		m_BGM.Stop();
 	}
-	//エンターキーでモードセレクト画面へ
-	else if (g_pInput->IsKeyPush(MOFKEY_0))
-	{
-		gChangeScene = SCENENO_SELECTMODE;
-		m_BGM.Stop();
 
+	//戻るボタンでモードセレクト画面へ
+	//ToDO:Enterで戻るかは検討中
+	if (OptionCnt == 3 && g_pInput->IsKeyPush(MOFKEY_RETURN))
+	{
+		m_BGM.Stop();
+		m_SE.Stop();
+		gChangeScene = SCENENO_SELECTMODE;
 	}
 
 	//矢印キー右で選択が右に行くようにする
@@ -139,6 +179,17 @@ void Option::Update(void)
 		{
 			OptionCnt--;
 		}
+	}
+
+	//戻るボタンにカーソルがあって、上ボタンを押したらBGMに選択枠が行く
+	if (OptionCnt == 3 && g_pInput->IsKeyPush(MOFKEY_UP) && flagBGM == false && flagSE == false && flagSC == false)
+	{
+		OptionCnt = 0;
+	}
+	//下ボタンを押したら戻るボタンに行く
+	else if (g_pInput->IsKeyPush(MOFKEY_DOWN) && flagBGM == false && flagSE == false && flagSC == false)
+	{
+		OptionCnt = 3;
 	}
 
 
@@ -172,6 +223,7 @@ void Option::Update(void)
 		}
 	}
 
+	//エンターで音を鳴らす
 	if (OptionCnt == 1 && flagSE == true && g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
 		m_SE.Play();
@@ -206,41 +258,43 @@ void Option::Update(void)
 		VolumeBGM = m_BGM.GetVolume();
 	}
 
-	if (m_BGM.GetVolume() < 1 && flagBGM == true && g_pInput->IsKeyHold(MOFKEY_UP))
+	//BGM調節ボタンの上げ下げ
+	if (m_BGM.GetVolume() < 1 && flagBGM == true && g_pInput->IsKeyHold(MOFKEY_UP) && y_1 >= 200)
 	{
-		y_1 -= 2.5;
+		y_1 -= 3.0;
 	}
-	else if (m_BGM.GetVolume() > 0 && flagBGM == true && g_pInput->IsKeyHold(MOFKEY_DOWN))
+	else if (m_BGM.GetVolume() > 0 && flagBGM == true && g_pInput->IsKeyHold(MOFKEY_DOWN) && y_1 <= 542)
 	{
-		y_1 += 2.5;
+		y_1 += 3.0;
 	}
 
 
 
-	//音量を上げる
-	if (flagSE == true && g_pInput->IsKeyHold(MOFKEY_UP))
+	//SEの音量を上げる
+	if (m_SE.GetVolume() < 1 && flagSE == true && g_pInput->IsKeyHold(MOFKEY_UP))
 	{
 		m_SE.SetVolume(m_SE.GetVolume() + 0.01f);
 		VolumeSE = m_SE.GetVolume();
 	}
-	//音量を下げる
-	else if (flagSE == true && g_pInput->IsKeyHold(MOFKEY_DOWN))
+	//SEの音量を下げる
+	else if (m_SE.GetVolume() > 0 && flagSE == true && g_pInput->IsKeyHold(MOFKEY_DOWN))
 	{
 		m_SE.SetVolume(m_SE.GetVolume() - 0.01f);
 		VolumeSE = m_SE.GetVolume();
 	}
 
-	if (m_SE.GetVolume() < 1 && flagSE == true && g_pInput->IsKeyHold(MOFKEY_UP))
+	//SE調整ボタンの上げ下げ
+	if (m_SE.GetVolume() < 1 && flagSE == true && g_pInput->IsKeyHold(MOFKEY_UP) && y_2 >= 242)
 	{
-		y_2 -= 2.5;
+		y_2 -= 3.0;
 	}
-	else if (m_SE.GetVolume() > 0 && flagSE == true && g_pInput->IsKeyHold(MOFKEY_DOWN))
+	else if (m_SE.GetVolume() > 0 && flagSE == true && g_pInput->IsKeyHold(MOFKEY_DOWN) && y_2 <= 542)
 	{
-		y_2 += 2.5;
+		y_2 += 3.0;
 	}
 
 	//フルスクリーン
-	if (flagSC == true && g_pInput->IsKeyPush(MOFKEY_1))
+	if (flagSC == true && g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
 		g_pGraphics->ChangeScreenMode();
 		if (ScreenSize)
@@ -257,25 +311,40 @@ void Option::Update(void)
 }
 
 //描画
-void Option::Render(void)
+void COption::Render(void)
 {
-	CGraphicsUtilities::RenderString(10, 10, "オプション画面");
-	CGraphicsUtilities::RenderString(10, 40, "F1キーでタイトル画面へ遷移");
-	CGraphicsUtilities::RenderString(10, 70, "0キーでモードセレクト画面へ遷移");
-	CGraphicsUtilities::RenderString(10, 100, "BGM音量：%.2f", VolumeBGM);
-	CGraphicsUtilities::RenderString(10, 130, "SE音量：%.2f", VolumeSE);
-	CGraphicsUtilities::RenderString(100, 100, "SE音量：%f", y_1);
+	//土台描画
+	m_mount.Render(241, 116);
 
+	//音量ボタン描画
+	m_Button1_1.Render(365, y_1);
+	m_Button1_2.Render(520, y_2);
 
-	m_mount.Render(145, 126);
-	m_Stick1.Render(187, 206);
-	m_Button1_1.Render(178, y_1);
-	m_Stick2.Render(512, 206);
-	m_Button1_2.Render(503, y_2);
-	m_Button2.Render(639, 429);
-	m_Button3.Render(912, 287);
+	//SE再生ボタン描画
+	m_Button2.Render(622, 414);
 
+	if (OptionCnt != 1)
+	{
+		m_Button2.Render(622, 414, MOF_ARGB(155, 20, 20, 20));
+	}
 
+	//戻るボタン
+	m_BackButton.Render(60, 650);
+
+	//もしScreenサイズがフルスクリーンなら
+	if (ScreenSize)
+	{
+		//フルスクリーンボタンを表示
+		m_Button3_Full.Render(803, 377);
+	}
+	//そうじゃなければ
+	else if (!ScreenSize)
+	{
+		//そのまま
+		m_Button3_Win.Render(803, 377);
+	}
+
+	//メニュー内容
 	const char* MenuString[MenuCnt] =
 	{
 		"BGM音量",
@@ -283,104 +352,168 @@ void Option::Render(void)
 		"Screenサイズ"
 	};
 
-	CGraphicsUtilities::RenderString(10, 160, MenuString[0]);
-	CGraphicsUtilities::RenderString(100, 160, MenuString[1]);
-	CGraphicsUtilities::RenderString(500, 160, MenuString[2]);
+	////TODO:説明文は後日メニューと似た感じで実装します。
+	//m_Font1.RenderString(267, 8, MOF_COLOR_BLACK, "スペースキーで調整したい項目を選択、選択の解除ができます。\n上下矢印ででスライダーが動かせます。\nボタンはエンターキーで動かせます。\n戻るでモードセレクト画面に戻ることができますよ。");
+	//m_Font1.RenderString(260, 135, MOF_COLOR_BLACK, MenuString[0]);
+	//m_Font1.RenderString(600, 135, MOF_COLOR_BLACK, MenuString[1]);
+	//m_Font1.RenderString(880, 135, MOF_COLOR_BLACK, MenuString[2]);
+	//m_Font1.RenderString(940, 325, MOF_COLOR_BLACK, "Full");
+	//m_Font1.RenderString(950, 453, MOF_COLOR_BLACK, "Win");
+	//m_Font1.RenderString(786, 620, MOF_COLOR_BLACK, "機械は大切に扱いましょう。\n放送委員会");
 
-	if (flagBGM)
-	{
-		CGraphicsUtilities::RenderString(10, 300, "BGM弄ってる");
-	}
-	else if (!flagBGM)
-	{
-		CGraphicsUtilities::RenderString(10, 300, "BGM弄ってない");
-	}
+	CRectangle redBGM(0, 0, 51, 20);
+	CRectangle yellowBGM(0, 20, 51, 40);
+	CRectangle redScreen(0, 0, 74, 19);
+	CRectangle yellowScreen(0, 19, 74, 38);
+	CRectangle redSE(0, 0, 28, 20);
+	CRectangle yellowSE(0, 20, 28, 40);
 
-	if (flagSE)
-	{
-		CGraphicsUtilities::RenderString(10, 330, "SE弄ってる");
-	}
-	else if (!flagSE)
-	{
-		CGraphicsUtilities::RenderString(10, 330, "SE弄ってない");
-	}
-
-	if (flagSE && g_pInput->IsKeyPush(MOFKEY_RETURN))
-	{
-		CGraphicsUtilities::RenderString(10, 390, "SE鳴らした");
-	}
-	else
-	{
-		CGraphicsUtilities::RenderString(10, 390, "SE鳴らしてない");
-	}
-
-	if (flagSC)
-	{
-		CGraphicsUtilities::RenderString(10, 360, "スクリーン弄ってる");
-	}
-	else if (!flagSC)
-	{
-		CGraphicsUtilities::RenderString(10, 360, "スクリーン弄ってない");
-	}
-
-	if (ScreenSize)
-	{
-		CGraphicsUtilities::RenderString(10, 420, "フルスクリーン");
-	}
-	else if (!ScreenSize)
-	{
-		CGraphicsUtilities::RenderString(10, 420, "ウィンドウサイズ");
-	}
-
-
-
+	//処理を変数によって変える
 	switch (OptionCnt)
 	{
+		//BGM
 	case 0:
-		m_Select.Render(145, 126);
-		CGraphicsUtilities::RenderString(10, 160, MOF_COLOR_GREEN, MenuString[0]);
+		m_Select_BGM.Render(375, 181, yellowBGM);
 		if (flagBGM == true)
 		{
-			m_Select.Render(145, 126, MOF_COLOR_RED);
-			CGraphicsUtilities::RenderString(10, 160, MOF_COLOR_RED, MenuString[0]);
+			m_Select_BGM.Render(375, 181, redBGM);
 		}
 		break;
 
+		//SE
 	case 1:
-		m_Select.Render(475, 126);
-		CGraphicsUtilities::RenderString(100, 160, MOF_COLOR_GREEN, MenuString[1]);
+		m_Select_SE.Render(543, 183, yellowSE);
 		if (flagSE == true)
 		{
-			m_Select.Render(475, 126, MOF_COLOR_RED);
-			CGraphicsUtilities::RenderString(100, 160, MOF_COLOR_RED, MenuString[1]);
+			m_Select_SE.Render(543, 183, redSE);
+		}
+
+		if (flagSE == true && g_pInput->IsKeyHold(MOFKEY_RETURN))
+		{
+			m_Button2.Render(622, 414, MOF_ARGB(155, 20, 20, 20));
 		}
 		break;
 
+		//Screenサイズ
 	case 2:
-		m_Select.Render(805, 126);
-		CGraphicsUtilities::RenderString(500, 160, MOF_COLOR_GREEN, MenuString[2]);
+		m_Select_Screen.Render(815, 340, yellowScreen);
 		if (flagSC == true)
 		{
-			m_Select.Render(805, 126, MOF_COLOR_RED);
-			CGraphicsUtilities::RenderString(500, 160, MOF_COLOR_RED, MenuString[2]);
+			m_Select_Screen.Render(815, 340, redScreen);
 		}
+		break;
+
+		//戻るボタン
+	case 3:
+		m_Select_s.Render(60, 650);
 		break;
 
 	}
 }
 
+//デバッグ
+void COption::RenderDebug(void)
+{
+	if (flagBGM)
+	{
+		CGraphicsUtilities::RenderString(10, 300, MOF_COLOR_BLACK, "BGM弄ってる");
+	}
+	else if (!flagBGM)
+	{
+		CGraphicsUtilities::RenderString(10, 300, MOF_COLOR_BLACK, "BGM弄ってない");
+	}
+
+	if (flagSE)
+	{
+		CGraphicsUtilities::RenderString(10, 330, MOF_COLOR_BLACK, "SE弄ってる");
+	}
+	else if (!flagSE)
+	{
+		CGraphicsUtilities::RenderString(10, 330, MOF_COLOR_BLACK, "SE弄ってない");
+	}
+
+	if (flagSE && g_pInput->IsKeyPush(MOFKEY_RETURN))
+	{
+		CGraphicsUtilities::RenderString(10, 390, MOF_COLOR_BLACK, "SE鳴らした");
+	}
+	else
+	{
+		CGraphicsUtilities::RenderString(10, 390, MOF_COLOR_BLACK, "SE鳴らしてない");
+	}
+
+	if (flagSC)
+	{
+		CGraphicsUtilities::RenderString(10, 360, MOF_COLOR_BLACK, "スクリーン弄ってる");
+	}
+	else if (!flagSC)
+	{
+		CGraphicsUtilities::RenderString(10, 360, MOF_COLOR_BLACK, "スクリーン弄ってない");
+	}
+
+	if (ScreenSize)
+	{
+		CGraphicsUtilities::RenderString(10, 420, MOF_COLOR_BLACK, "フルスクリーン");
+	}
+	else if (!ScreenSize)
+	{
+		CGraphicsUtilities::RenderString(10, 420, MOF_COLOR_BLACK, "ウィンドウサイズ");
+	}
+
+	CGraphicsUtilities::RenderString(10, 10, MOF_COLOR_BLACK, "オプション画面");
+	CGraphicsUtilities::RenderString(10, 40, MOF_COLOR_BLACK, "F1キーでタイトル画面へ遷移");
+	CGraphicsUtilities::RenderString(10, 70, MOF_COLOR_BLACK, "0キーでモードセレクト画面へ遷移");
+	CGraphicsUtilities::RenderString(10, 100, MOF_COLOR_BLACK, "BGM音量：%.2f", VolumeBGM);
+	CGraphicsUtilities::RenderString(10, 130, MOF_COLOR_BLACK, "SE音量：%.2f", VolumeSE);
+	CGraphicsUtilities::RenderString(100, 100, MOF_COLOR_BLACK, "SE音量：%f", y_1);
+
+	CGraphicsUtilities::RenderString(10, 160, MOF_COLOR_BLACK, "BGM音量");
+	CGraphicsUtilities::RenderString(100, 160, MOF_COLOR_BLACK, "SE音量");
+	CGraphicsUtilities::RenderString(500, 160, MOF_COLOR_BLACK, "スクリーンサイズ");
+
+	switch (OptionCnt)
+	{
+	case 0:
+		CGraphicsUtilities::RenderString(10, 160, MOF_COLOR_GREEN, "BGM音量");
+		if (flagBGM == true)
+		{
+			CGraphicsUtilities::RenderString(10, 160, MOF_COLOR_RED, "BGM音量");
+		}
+		break;
+
+	case 1:
+		CGraphicsUtilities::RenderString(100, 160, MOF_COLOR_GREEN, "SE音量");
+		if (flagSE == true)
+		{
+			CGraphicsUtilities::RenderString(100, 160, MOF_COLOR_RED, "SE音量");
+		}
+		break;
+
+	case 2:
+		CGraphicsUtilities::RenderString(500, 160, MOF_COLOR_GREEN, "スクリーンサイズ");
+		if (flagSC == true)
+		{
+			CGraphicsUtilities::RenderString(500, 160, MOF_COLOR_RED, "スクリーンサイズ");
+		}
+		break;
+	}
+}
+
 
 //素材解放
-void Option::Release(void)
+void COption::Release(void)
 {
 	m_BGM.Release();
 	m_SE.Release();
-	m_Stick1.Release();
-	m_Stick2.Release();
 	m_Button1_1.Release();
 	m_Button1_2.Release();
 	m_Button2.Release();
-	m_Button3.Release();
+	m_Button3_Full.Release();
+	m_Button3_Win.Release();
 	m_mount.Release();
-	m_Select.Release();
+	m_Select_BGM.Release();
+	m_Select_SE.Release();
+	m_Select_Screen.Release();
+	m_Select_s.Release();
+	m_BackButton.Release();
+	m_Font1.Release();
 }

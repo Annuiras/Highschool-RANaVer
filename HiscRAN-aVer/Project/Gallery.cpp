@@ -8,8 +8,12 @@ extern int gChangeScene;
 
 int galleryCnt = 0;
 
-Gallery::Gallery() :
+
+
+CGallery::CGallery() :
 	m_BackTexture(),
+	m_LastApp(),
+	m_NotLastApp(),
 	m_SelectTexture(),
 	m_SelectTexture_s(),
 	m_BackButton(),
@@ -21,21 +25,23 @@ Gallery::Gallery() :
 
 }
 
-Gallery::~Gallery()
+CGallery::~CGallery()
 {
 
 }
 
 //初期化
-void Gallery::Initialize(void)
+void CGallery::Initialize(void)
 {
 	gFont1.Create(44, "UD デジタル 教科書体 N-B");
 	gFont2.Create(32, "UD デジタル 教科書体 N-B");
 }
 
 //更新
-void Gallery::Update(void)
+void CGallery::Update(void)
 {
+
+	//TODO:Enterで戻るかは検討
 	if (galleryCnt == 15 && g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
 		gChangeScene = SCENENO_SELECTMODE;
@@ -92,204 +98,25 @@ void Gallery::Update(void)
 		}
 	}
 
-	//フラグ切り換え
-	//後日デバックに書き写し
-	if (g_pInput->IsKeyPush(MOFKEY_1))
-	{
-		if (LastAddFlag[0] == false)
-		{
-			LastAddFlag[0] = true;
-		}
-		else
-		{
-			LastAddFlag[0] = false;
-		}
-	}
 
-	if (g_pInput->IsKeyPush(MOFKEY_2))
-	{
-		if (LastAddFlag[1] == false)
-		{
-			LastAddFlag[1] = true;
-		}
-		else
-		{
-			LastAddFlag[1] = false;
-		}
-	}
-
-	if (g_pInput->IsKeyPush(MOFKEY_3))
-	{
-		if (LastAddFlag[2] == false)
-		{
-			LastAddFlag[2] = true;
-		}
-		else
-		{
-			LastAddFlag[2] = false;
-		}
-	}
-
-	if (g_pInput->IsKeyPush(MOFKEY_4))
-	{
-		if (LastAddFlag[3] == false)
-		{
-			LastAddFlag[3] = true;
-		}
-		else
-		{
-			LastAddFlag[3] = false;
-		}
-	}
-
-	if (g_pInput->IsKeyPush(MOFKEY_5))
-	{
-		if (LastAddFlag[4] == false)
-		{
-			LastAddFlag[4] = true;
-		}
-		else
-		{
-			LastAddFlag[4] = false;
-		}
-	}
-
-	if (g_pInput->IsKeyPush(MOFKEY_6))
-	{
-		if (LastAddFlag[5] == false)
-		{
-			LastAddFlag[5] = true;
-		}
-		else
-		{
-			LastAddFlag[5] = false;
-		}
-	}
-
-	if (g_pInput->IsKeyPush(MOFKEY_7))
-	{
-		if (LastAddFlag[6] == false)
-		{
-			LastAddFlag[6] = true;
-		}
-		else
-		{
-			LastAddFlag[6] = false;
-		}
-	}
-
-	if (g_pInput->IsKeyPush(MOFKEY_8))
-	{
-		if (LastAddFlag[7] == false)
-		{
-			LastAddFlag[7] = true;
-		}
-		else
-		{
-			LastAddFlag[7] = false;
-		}
-	}
-
-	if (g_pInput->IsKeyPush(MOFKEY_9))
-	{
-		if (LastAddFlag[8] == false)
-		{
-			LastAddFlag[8] = true;
-		}
-		else
-		{
-			LastAddFlag[8] = false;
-		}
-	}
-
-	if (g_pInput->IsKeyPush(MOFKEY_0))
-	{
-		if (LastAddFlag[9] == false)
-		{
-			LastAddFlag[9] = true;
-		}
-		else
-		{
-			LastAddFlag[9] = false;
-		}
-	}
-
-	if (g_pInput->IsKeyPush(MOFKEY_Q))
-	{
-		if (LastAddFlag[10] == false)
-		{
-			LastAddFlag[10] = true;
-		}
-		else
-		{
-			LastAddFlag[10] = false;
-		}
-	}
-
-	if (g_pInput->IsKeyPush(MOFKEY_W))
-	{
-		if (LastAddFlag[11] == false)
-		{
-			LastAddFlag[11] = true;
-		}
-		else
-		{
-			LastAddFlag[11] = false;
-		}
-	}
-
-	if (g_pInput->IsKeyPush(MOFKEY_E))
-	{
-		if (LastAddFlag[12] == false)
-		{
-			LastAddFlag[12] = true;
-		}
-		else
-		{
-			LastAddFlag[12] = false;
-		}
-	}
-
-	if (g_pInput->IsKeyPush(MOFKEY_R))
-	{
-		if (LastAddFlag[13] == false)
-		{
-			LastAddFlag[13] = true;
-		}
-		else
-		{
-			LastAddFlag[13] = false;
-		}
-	}
-
-	if (g_pInput->IsKeyPush(MOFKEY_T))
-	{
-		if (LastAddFlag[14] == false)
-		{
-			LastAddFlag[14] = true;
-		}
-		else
-		{
-			LastAddFlag[14] = false;
-		}
-	}
 }
 
 //描画
-void Gallery::Render(void)
+void CGallery::Render(void)
 {
-	CGraphicsUtilities::RenderString(10, 10, "ギャラリー画面");
-	CGraphicsUtilities::RenderString(10, 40, "F1キーでタイトル画面へ遷移");
-	CGraphicsUtilities::RenderString(10, 70, "Enterキーでモードセレクト画面へ遷移");
 
 	//最終容姿台紙
-	//m_BackTexture.Render(10,50);
+	m_BackTexture.Render(0, 0);
+
+	m_LastApp.Render(60, 40);
 
 	//最終容姿画像
-	for (int i = 0; i < 15; i++)
+	/*for (int i = 0; i < 15; i++)
 	{
 		m_LastApp[i].Render(pos[i].x, pos[i].y);
-	}
+	}*/
+
+
 
 	//最終容姿表示位置
 	m_PickUp.Render(766, 40);
@@ -304,54 +131,54 @@ void Gallery::Render(void)
 	//画像に差し替える
 	if (LastAddFlag[0] == false)
 	{
-		CGraphicsUtilities::RenderFillRect(60, 40, 180, 240, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
+		m_NotLastApp[0].Render(60, 40);
 	}
 
 	if (LastAddFlag[1] == false)
 	{
-		CGraphicsUtilities::RenderFillRect(180, 40, 300, 240, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
+		m_NotLastApp[1].Render(180, 40);
 	}
 
 	if (LastAddFlag[2] == false)
 	{
-		CGraphicsUtilities::RenderFillRect(300, 40, 420, 240, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
+		m_NotLastApp[2].Render(300, 40);
 	}
 
 	if (LastAddFlag[3] == false)
 	{
-		CGraphicsUtilities::RenderFillRect(420, 40, 540, 240, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
+		m_NotLastApp[3].Render(420, 40);
 	}
 
 	if (LastAddFlag[4] == false)
 	{
-		CGraphicsUtilities::RenderFillRect(540, 40, 660, 240, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
+		m_NotLastApp[4].Render(540, 40);
 	}
 
 
 	//2段目
 	if (LastAddFlag[5] == false)
 	{
-		CGraphicsUtilities::RenderFillRect(60, 240, 180, 440, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
+		m_NotLastApp[5].Render(60, 240);
 	}
 
 	if (LastAddFlag[6] == false)
 	{
-		CGraphicsUtilities::RenderFillRect(180, 240, 300, 440, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
+		m_NotLastApp[6].Render(180, 240);
 	}
 
 	if (LastAddFlag[7] == false)
 	{
-		CGraphicsUtilities::RenderFillRect(300, 240, 420, 440, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
+		m_NotLastApp[7].Render(300, 240);
 	}
 
 	if (LastAddFlag[8] == false)
 	{
-		CGraphicsUtilities::RenderFillRect(420, 240, 540, 440, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
+		m_NotLastApp[8].Render(420, 240);
 	}
 
 	if (LastAddFlag[9] == false)
 	{
-		CGraphicsUtilities::RenderFillRect(540, 240, 660, 440, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
+		m_NotLastApp[9].Render(540, 240);
 	}
 
 
@@ -360,27 +187,27 @@ void Gallery::Render(void)
 	//三段目
 	if (LastAddFlag[10] == false)
 	{
-		CGraphicsUtilities::RenderFillRect(60, 440, 180, 640, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
+		m_NotLastApp[10].Render(60, 440);
 	}
 
 	if (LastAddFlag[11] == false)
 	{
-		CGraphicsUtilities::RenderFillRect(180, 440, 300, 640, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
+		m_NotLastApp[11].Render(180, 440);
 	}
 
 	if (LastAddFlag[12] == false)
 	{
-		CGraphicsUtilities::RenderFillRect(300, 440, 420, 640, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
+		m_NotLastApp[12].Render(300, 440);
 	}
 
 	if (LastAddFlag[13] == false)
 	{
-		CGraphicsUtilities::RenderFillRect(420, 440, 540, 640, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
+		m_NotLastApp[13].Render(420, 440);
 	}
 
 	if (LastAddFlag[14] == false)
 	{
-		CGraphicsUtilities::RenderFillRect(540, 440, 660, 640, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE, MOF_COLOR_WHITE, MOF_COLOR_CWHITE);
+		m_NotLastApp[14].Render(540, 440);
 	}
 
 	//内容説明テキスト(最終容姿名)
@@ -507,29 +334,6 @@ void Gallery::Render(void)
 
 	};
 
-	//1容姿ごとの矩形目安
-	//CGraphicsUtilities::RenderFillRect(60, 60, 180, 260, MOF_COLOR_CWHITE, MOF_COLOR_CWHITE,MOF_COLOR_WHITE,MOF_COLOR_CWHITE);
-	/*CGraphicsUtilities::RenderRect(129, 50, 250, 250, MOF_COLOR_CWHITE);
-	CGraphicsUtilities::RenderRect(249, 50, 370, 250, MOF_COLOR_BLUE);
-	CGraphicsUtilities::RenderRect(369, 50, 490, 250, MOF_COLOR_GREEN);
-	CGraphicsUtilities::RenderRect(489, 50, 610, 250, MOF_COLOR_CWHITE);
-
-	CGraphicsUtilities::RenderRect(10, 250, 130, 450, MOF_COLOR_BLUE);
-	CGraphicsUtilities::RenderRect(129, 250, 250, 450, MOF_COLOR_GREEN);
-	CGraphicsUtilities::RenderRect(249, 250, 370, 450, MOF_COLOR_CWHITE);
-	CGraphicsUtilities::RenderRect(369, 250, 490, 450, MOF_COLOR_BLUE);
-	CGraphicsUtilities::RenderRect(489, 250, 610, 450, MOF_COLOR_GREEN);
-
-	CGraphicsUtilities::RenderRect(10, 450, 130, 650, MOF_COLOR_CWHITE);
-	CGraphicsUtilities::RenderRect(129, 450, 250, 650, MOF_COLOR_BLUE);
-	CGraphicsUtilities::RenderRect(249, 450, 370, 650, MOF_COLOR_GREEN);
-	CGraphicsUtilities::RenderRect(369, 450, 490, 650, MOF_COLOR_CWHITE);
-	CGraphicsUtilities::RenderRect(489, 450, 610, 650, MOF_COLOR_BLUE);*/
-
-
-	//矩形数確認用
-	//デバックプログラムに移行
-	CGraphicsUtilities::RenderString(10, 100, MOF_COLOR_BLACK, "galleryCnt:%d", galleryCnt);
 
 	//現在選択矩形表示（黄色になる）
 	//線が細いので画像で四角形作ったのを読み込む
@@ -911,14 +715,289 @@ void Gallery::Render(void)
 
 }
 
+void CGallery::RenderDebug(void)
+{
+	//矩形数確認用
+	CGraphicsUtilities::RenderString(10, 100, MOF_COLOR_BLACK, "galleryCnt:%d", galleryCnt);
+
+	CGraphicsUtilities::RenderString(10, 10, "ギャラリー画面");
+	CGraphicsUtilities::RenderString(10, 40, "F1キーでタイトル画面へ遷移");
+	CGraphicsUtilities::RenderString(10, 70, "Enterキーでモードセレクト画面へ遷移");
+
+	//フラグ切り換え
+	//後日デバックに書き写し
+	if (g_pInput->IsKeyPush(MOFKEY_1))
+	{
+		if (LastAddFlag[0] == false)
+		{
+			LastAddFlag[0] = true;
+		}
+		else
+		{
+			LastAddFlag[0] = false;
+		}
+	}
+
+	if (g_pInput->IsKeyPush(MOFKEY_2))
+	{
+		if (LastAddFlag[1] == false)
+		{
+			LastAddFlag[1] = true;
+		}
+		else
+		{
+			LastAddFlag[1] = false;
+		}
+	}
+
+	if (g_pInput->IsKeyPush(MOFKEY_3))
+	{
+		if (LastAddFlag[2] == false)
+		{
+			LastAddFlag[2] = true;
+		}
+		else
+		{
+			LastAddFlag[2] = false;
+		}
+	}
+
+	if (g_pInput->IsKeyPush(MOFKEY_4))
+	{
+		if (LastAddFlag[3] == false)
+		{
+			LastAddFlag[3] = true;
+		}
+		else
+		{
+			LastAddFlag[3] = false;
+		}
+	}
+
+	if (g_pInput->IsKeyPush(MOFKEY_5))
+	{
+		if (LastAddFlag[4] == false)
+		{
+			LastAddFlag[4] = true;
+		}
+		else
+		{
+			LastAddFlag[4] = false;
+		}
+	}
+
+	if (g_pInput->IsKeyPush(MOFKEY_6))
+	{
+		if (LastAddFlag[5] == false)
+		{
+			LastAddFlag[5] = true;
+		}
+		else
+		{
+			LastAddFlag[5] = false;
+		}
+	}
+
+	if (g_pInput->IsKeyPush(MOFKEY_7))
+	{
+		if (LastAddFlag[6] == false)
+		{
+			LastAddFlag[6] = true;
+		}
+		else
+		{
+			LastAddFlag[6] = false;
+		}
+	}
+
+	if (g_pInput->IsKeyPush(MOFKEY_8))
+	{
+		if (LastAddFlag[7] == false)
+		{
+			LastAddFlag[7] = true;
+		}
+		else
+		{
+			LastAddFlag[7] = false;
+		}
+	}
+
+	if (g_pInput->IsKeyPush(MOFKEY_9))
+	{
+		if (LastAddFlag[8] == false)
+		{
+			LastAddFlag[8] = true;
+		}
+		else
+		{
+			LastAddFlag[8] = false;
+		}
+	}
+
+	if (g_pInput->IsKeyPush(MOFKEY_0))
+	{
+		if (LastAddFlag[9] == false)
+		{
+			LastAddFlag[9] = true;
+		}
+		else
+		{
+			LastAddFlag[9] = false;
+		}
+	}
+
+	if (g_pInput->IsKeyPush(MOFKEY_Q))
+	{
+		if (LastAddFlag[10] == false)
+		{
+			LastAddFlag[10] = true;
+		}
+		else
+		{
+			LastAddFlag[10] = false;
+		}
+	}
+
+	if (g_pInput->IsKeyPush(MOFKEY_W))
+	{
+		if (LastAddFlag[11] == false)
+		{
+			LastAddFlag[11] = true;
+		}
+		else
+		{
+			LastAddFlag[11] = false;
+		}
+	}
+
+	if (g_pInput->IsKeyPush(MOFKEY_E))
+	{
+		if (LastAddFlag[12] == false)
+		{
+			LastAddFlag[12] = true;
+		}
+		else
+		{
+			LastAddFlag[12] = false;
+		}
+	}
+
+	if (g_pInput->IsKeyPush(MOFKEY_R))
+	{
+		if (LastAddFlag[13] == false)
+		{
+			LastAddFlag[13] = true;
+		}
+		else
+		{
+			LastAddFlag[13] = false;
+		}
+	}
+
+	if (g_pInput->IsKeyPush(MOFKEY_T))
+	{
+		if (LastAddFlag[14] == false)
+		{
+			LastAddFlag[14] = true;
+		}
+		else
+		{
+			LastAddFlag[14] = false;
+		}
+	}
+}
+
 //ロード
-bool Gallery::Load(void)
+bool CGallery::Load(void)
 {
 	//背景テクスチャの読み込み
-	if (!m_BackTexture.Load("collection.png"))
+	if (!m_BackTexture.Load("CollectionBG.png"))
 	{
 		return false;
 	}
+
+	//最終容姿選択画像読み込み
+	if (!m_LastApp.Load("collection.png"))
+	{
+		return false;
+	}
+
+	//未解放最終容姿選択画像読み込み
+	if (!m_NotLastApp[0].Load("collection_NotFound_00.png"))
+	{
+		return false;
+	}
+
+	if (!m_NotLastApp[1].Load("collection_NotFound_01.png"))
+	{
+		return false;
+	}
+
+	if (!m_NotLastApp[2].Load("collection_NotFound_02.png"))
+	{
+		return false;
+	}
+
+	if (!m_NotLastApp[3].Load("collection_NotFound_03.png"))
+	{
+		return false;
+	}
+
+	if (!m_NotLastApp[4].Load("collection_NotFound_04.png"))
+	{
+		return false;
+	}
+
+	if (!m_NotLastApp[5].Load("collection_NotFound_05.png"))
+	{
+		return false;
+	}
+
+	if (!m_NotLastApp[6].Load("collection_NotFound_06.png"))
+	{
+		return false;
+	}
+
+	if (!m_NotLastApp[7].Load("collection_NotFound_07.png"))
+	{
+		return false;
+	}
+
+	if (!m_NotLastApp[8].Load("collection_NotFound_08.png"))
+	{
+		return false;
+	}
+
+	if (!m_NotLastApp[9].Load("collection_NotFound_09.png"))
+	{
+		return false;
+	}
+
+	if (!m_NotLastApp[10].Load("collection_NotFound_10.png"))
+	{
+		return false;
+	}
+
+	if (!m_NotLastApp[11].Load("collection_NotFound_11.png"))
+	{
+		return false;
+	}
+
+	if (!m_NotLastApp[12].Load("collection_NotFound_12.png"))
+	{
+		return false;
+	}
+
+	if (!m_NotLastApp[13].Load("collection_NotFound_13.png"))
+	{
+		return false;
+	}
+
+	if (!m_NotLastApp[14].Load("collection_NotFound_14.png"))
+	{
+		return false;
+	}
+
 
 	//選択時の四角形
 	if (!m_SelectTexture.Load("Select.png"))
@@ -933,82 +1012,6 @@ bool Gallery::Load(void)
 
 	//戻るボタン
 	if (!m_BackButton.Load("BackButton.png"))
-	{
-		return false;
-	}
-
-	//最終容姿の台紙テクスチャ（バラ）
-	if (!m_LastApp[0].Load("OlderSister.png"))
-	{
-		return false;
-	}
-
-	if (!m_LastApp[1].Load("ClassFavorite.png"))
-	{
-		return false;
-	}
-
-	if (!m_LastApp[2].Load("Gal.png"))
-	{
-		return false;
-	}
-
-	if (!m_LastApp[3].Load("CheerLeader.png"))
-	{
-		return false;
-	}
-
-	if (!m_LastApp[4].Load("LibraryManager.png"))
-	{
-		return false;
-	}
-
-	if (!m_LastApp[5].Load("Otaku.png"))
-	{
-		return false;
-	}
-
-	if (!m_LastApp[6].Load("infulencer.png"))
-	{
-		return false;
-	}
-
-	if (!m_LastApp[7].Load("Chairman.png"))
-	{
-		return false;
-	}
-
-	if (!m_LastApp[8].Load("LoftyDream.png"))
-	{
-		return false;
-	}
-
-	if (!m_LastApp[9].Load("Yankee.png"))
-	{
-		return false;
-	}
-
-	if (!m_LastApp[10].Load("SuperLady.png"))
-	{
-		return false;
-	}
-
-	if (!m_LastApp[11].Load("FussyPerson.png"))
-	{
-		return false;
-	}
-
-	if (!m_LastApp[12].Load("LiteratureGirl.png"))
-	{
-		return false;
-	}
-
-	if (!m_LastApp[13].Load("Chu-nibyou.png"))
-	{
-		return false;
-	}
-
-	if (!m_LastApp[14].Load("GodSupport.png"))
 	{
 		return false;
 	}
@@ -1106,17 +1109,20 @@ bool Gallery::Load(void)
 }
 
 //リリース
-void Gallery::Release(void)
+void CGallery::Release(void)
 {
 	m_BackTexture.Release();
 	m_SelectTexture.Release();
 	m_SelectTexture_s.Release();
 	m_BackButton.Release();
 	gFont1.Release();
+	gFont2.Release();
+
+	m_LastApp.Release();
 
 	for (int i = 0; i < 15; i++)
 	{
-		m_LastApp[i].Release();
+		m_NotLastApp[i].Release();
 	}
 
 	for (int i = 0; i < 15; i++)

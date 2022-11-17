@@ -14,6 +14,8 @@
 #include	"ModeSelect.h"
 #include	"Tutorial.h"
 #include	"GAME.h"
+#include	"GameOver.h"
+#include	"GameClear.h"
 #include	"Gallery.h"
 #include	"Option.h"
 
@@ -23,13 +25,18 @@ int			gScene = SCENENO_TITLE;
 //変更するシーン
 int			gChangeScene = SCENENO_TITLE;
 
+//デバッグ
+bool		gDebagflag = false;
+
 //各シーンクラス
-Title		gTitleScene;
-ModeSelect	gModeSelectScene;
-Tutorial	gTutorialScene;
-GAME		gGAMEScene;
-Gallery		gGalleryScene;
-Option		gOptionScene;
+CTitle		gTitleScene;
+CModeSelect	gModeSelectScene;
+CTutorial	gTutorialScene;
+CGAME		gGAMEScene;
+CGameOver	gGameOverScene;
+CGameClear	gGameClearScene;
+CGallery		gGalleryScene;
+COption		gOptionScene;
 
 /*************************************************************************//*!
 		@brief			アプリケーションの初期化
@@ -45,8 +52,10 @@ MofBool CGameApp::Initialize(void){
 
 	gTitleScene.Load();
 	gModeSelectScene.Load();
-	gTutorialScene.Road();
+	gTutorialScene.Load();
 	gGAMEScene.Load();
+	gGameOverScene.Load();
+	gGameClearScene.Load();
 	gGalleryScene.Load();
 	gOptionScene.Load();
 
@@ -69,6 +78,20 @@ MofBool CGameApp::Update(void){
 	//キーの更新
 	g_pInput->RefreshKey();
 
+	if (g_pInput->IsKeyPush(MOFKEY_BACKSPACE))
+	{
+		if (gDebagflag)
+		{
+			//選択済みになっている場合は選択解除する
+			gDebagflag = false;
+		}
+		else
+		{
+			//選択解除になっている場合は選択済みにする
+			gDebagflag = true;
+		}
+	}
+
 	//シーン番号によって更新
 	switch (gScene)
 	{
@@ -83,6 +106,12 @@ MofBool CGameApp::Update(void){
 		break;
 	case SCENENO_GAME:
 		gGAMEScene.Update();
+		break;
+	case SCENENO_GAMEOVER:
+		gGameOverScene.Update();
+		break;
+	case SCENENO_GAMECLEAR:
+		gGameClearScene.Update();
 		break;
 	case SCENENO_GALLERY:
 		gGalleryScene.Update();
@@ -108,6 +137,12 @@ MofBool CGameApp::Update(void){
 			break;
 		case SCENENO_GAME:
 			gGAMEScene.Initialize();
+			break;
+		case SCENENO_GAMEOVER:
+			gGameOverScene.Initialize();
+			break;
+		case SCENENO_GAMECLEAR:
+			gGameClearScene.Initialize();
 			break;
 		case SCENENO_GALLERY:
 			gGalleryScene.Initialize();
@@ -150,12 +185,49 @@ MofBool CGameApp::Render(void){
 	case SCENENO_GAME:
 		gGAMEScene.Render();
 		break;
+	case SCENENO_GAMEOVER:
+		gGameOverScene.Render();
+		break;
+	case SCENENO_GAMECLEAR:
+		gGameClearScene.Render();
+		break;
 	case SCENENO_GALLERY:
 		gGalleryScene.Render();
 		break;
 	case SCENENO_OPTION:
 		gOptionScene.Render();
 		break;
+	}
+
+	if (gDebagflag == true)
+	{
+		switch (gScene)
+		{
+		case SCENENO_TITLE:
+			gTitleScene.RenderDebug();
+			break;
+		case SCENENO_SELECTMODE:
+			gModeSelectScene.RenderDebug();
+			break;
+		case SCENENO_TUTORIAL:
+			gTutorialScene.RenderDebug();
+			break;
+		case SCENENO_GAME:
+			gGAMEScene.RenderDebug();
+			break;
+		case SCENENO_GAMEOVER:
+			gGameOverScene.RenderDebug();
+			break;
+		case SCENENO_GAMECLEAR:
+			gGameClearScene.RenderDebug();
+			break;
+		case SCENENO_GALLERY:
+			gGalleryScene.RenderDebug();
+			break;
+		case SCENENO_OPTION:
+			gOptionScene.RenderDebug();
+			break;
+		}
 	}
 
 
@@ -176,6 +248,8 @@ MofBool CGameApp::Release(void){
 	gModeSelectScene.Release();
 	gTutorialScene.Release();
 	gGAMEScene.Release();
+	gGameOverScene.Release();
+	gGameClearScene.Release();
 	gGalleryScene.Release();
 	gOptionScene.Release();
 
