@@ -27,21 +27,10 @@ bool CPlayer::Load(void) {
 	//仮置きです
 	int n = 2;
 
-	////キャラクター読み込み
-	//if (!m_Texture.Load("player.png")) {
-	//	return false;
-	//}
-
-	//todo:キャラクターモーション調整中
-
 	//キャラクター読み込み
 	if (!m_Texture.Load("走りとジャンプモーション2022_11_08.png")) {
 		return false;
 	}
-
-	//if (!m_TEX.Load("880×153RunMotion.png")) {
-	//	return false;
-	//}
 
 	//アニメーション
 	SpriteAnimationCreate anim[] = {
