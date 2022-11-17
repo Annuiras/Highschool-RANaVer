@@ -115,21 +115,6 @@ private:
 
 #pragma endregion
 
-
-
-
-	//クリア用スクロール値
-	float	m_Scroll_Clear;
-
-	////マップDPパターン添え字
-	//int m_MapNo_DP;
-
-	////マップOBパターン添え字
-	//int m_MapNo_OB;
-
-	////マップ足場パターン添え字
-	//int m_MapNo_Bar;
-
 	//マップパターン添え字
 	int m_MapNo;
 
@@ -141,8 +126,7 @@ private:
 	//[]:マップDPパターン情報数
 	//[]:マップDPパターン1枚分にいくつ構造体があるか
 	//DPの配置情報
-	DP_info m_dpinfo[DP_INFO_PATTERN][DP_INFO_STRUCT];
-
+	DP_info m_dpinfo[MAP_INFO_PATTERN][DP_INFO_STRUCT];
 
 	//表示済みDP数
 	int m_dpcount;
@@ -152,16 +136,17 @@ private:
 	//[]:マップOBパターン情報数
 	//[]:マップOBパターン1枚分にいくつ構造体があるか
 	//OBの配置情報
-	OB_info m_obinfo[OB_INFO_PATTERN][OB_INFO_STRUCT];
+	OB_info m_obinfo[MAP_INFO_PATTERN][OB_INFO_STRUCT];
 
 	//表示済障害物
 	int m_obcount;
+
 
 	//足場の配置情報受け取る配列
 	//[]:マップ足場パターン情報数
 	//[]:マップ足場パターン1枚分にいくつ構造体があるか
 	//足場の配置情報
-	BAR_info m_barinfo[OB_INFO_PATTERN][OB_INFO_STRUCT];
+	BAR_info m_barinfo[MAP_INFO_PATTERN][OB_INFO_STRUCT];
 
 
 	//表示済み足場数
@@ -182,28 +167,16 @@ private:
 
 
 	//todo 使用済みパターン番号記録用配列
-	int	AlreadyUsedArray[DP_INFO_PATTERN];
+	int	AlreadyUsedArray[MAP_INFO_PATTERN];
 
 	//todo 採用済カウント
 	int AdoptCount;
 
-
-	//座標位置
-	float					m_PosX;
-	float					m_PosY;
-
-	//移動速度
-	float					m_MoveX;
-	float					m_MoveY;
-
 	//背景カウント
 	int m_countbak;
 
-	//オーバー値
-	float	m_Over;
-
-	//SPステージフラグ
-	bool m_spflg;
+	//スクロールスピード
+	float m_Scroll_Speed;
 
 	//ステージ内で取得したDPの数
 	int	m_Scholastic;		//学力
@@ -215,10 +188,8 @@ private:
 	//クリアフラグ
 	bool m_bClear;
 
-
-	//背景デバック用
-	float m_baklineX;
-
+	//ゲーム開始フラグ
+	bool					m_Startflg;
 
 public:
 	CStage();
@@ -230,7 +201,7 @@ public:
 	void Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INFO_STRUCT], OB_info obin[][OB_INFO_STRUCT]);
 
 	//引数追加 CRectangle pl2, float suckingX, float suckingY
-	void Update(float over, CRectangle pl,CRectangle pl2, float suckingX, float suckingY);
+	void Update(CRectangle pl,CRectangle pl2, float suckingX, float suckingY);
 	bool Load(void);
 	void Render(void);
 	void Release(void);
@@ -266,6 +237,14 @@ public:
 	//一画面に表示するDPの数だけ用意
 	//DPクラス
 	DetailPoint dp_array[DP_VOLUME];
+
+	//ゲーム停止：再生切り替え
+	void GameStopPlayChange();
+
+	//ステージが動いているか取得
+	bool GetGameStopPlay();
+
+
 
 
 };

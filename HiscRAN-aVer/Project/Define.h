@@ -5,22 +5,20 @@
 #define WINDOWSIZE_WIDTH 1280
 #define WINDOWSIZE_HEIGHT 720
 
+//マップパターン数
+#define MAP_INFO_PATTERN 15
 
-//マップパターンの数を追加です
+//ステージスクロールスピード
+#define STAGE_SPEED 7
 
-//todo:当たり判定調整中です
-//当たり判定調整用
-#define ITIZI_GENSUI_Y 12
-#define ITIZI_GENSUI_Y2 
+//重力
+#define  GRAVITY	0.5f
 
-//todo:ステージ情報を統合したのでDPだけではよくない
-//マップDPパターン数
-#define DP_INFO_PATTERN 15
+#pragma region DP定数群
 
 //DP1パターンの要素数
 //（1マップ中にあるDP数＋1）
 #define DP_INFO_STRUCT 15
-
 
 //DPタイプ定義
 enum tag_DP_TYPE
@@ -32,6 +30,10 @@ enum tag_DP_TYPE
 	DP_CHARM			//魅力
 
 };
+
+
+#pragma endregion
+
 
 #pragma region 障害物定数群
 
@@ -46,6 +48,13 @@ enum tag_OBTYPE
 //クラス数
 #define OB_VOLUME 15
 
+//障害物1パターンの要素数
+//（1マップ中にある障害物数＋1）
+#define OB_INFO_STRUCT 10
+
+//障害物当たり判定減衰用
+#define OB_HITRECT_SPACE_ 12
+
 //机横・縦幅
 #define OB_DESK_WIDTH 131
 #define OB_DESK_HEIGHT 172
@@ -59,13 +68,13 @@ enum tag_OBTYPE
 #define OB_LOCKER_HEIGHT 308
 
 //乗れる矩形判定高さ
-#define OB_TOPBAR_HEIGHT 20+60
+#define OB_TOPBAR_HEIGHT 80
 
 
 #pragma endregion
 
 
-
+#pragma region 足場定数群
 
 //足場タイプ定義
 enum tag_BAR
@@ -75,22 +84,39 @@ enum tag_BAR
 	BAR_SMALL		//小
 };
 
-//地面高さ
-#define GROUND_Y 700
-
-//マップ障害物パターン数
-#define OB_INFO_PATTERN 15
-
-//障害物1パターンの要素数
-//（1マップ中にある障害物数＋1）
-#define OB_INFO_STRUCT 10
-
-//マップ足場パターン数
-#define BAR_INFO_PATTERN 15
-
 //足場1パターンの要素数
 //（1マップ中にある足場数＋1）
 #define BAR_INFO_STRUCT 10
+
+
+#pragma endregion
+
+
+#pragma region プレイヤー定数群
+
+//大ジャンプ値
+#define  BIGJUMP -16.0f
+//小ジャンプ値
+#define  SMALLJUMP	-15.0f
+
+//最大スライディング値
+#define  SLIDING	100
+//スライディングクールタイム
+#define  SLIDINGCOOL 60
+
+//プレイヤー当たり判定
+#define PLAYER_HIT_X 130
+#define PLAYER_HIT_Y 185
+
+//当たり判定調整幅
+#define PLAYER_ADMENT_SPACE 25
+
+#pragma endregion
+
+
+
+//地面高さ
+#define GROUND_Y 700
 
 
 //存在するシーン

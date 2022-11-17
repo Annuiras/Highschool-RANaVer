@@ -6,11 +6,6 @@
 
 CStage::CStage() :
 
-	m_PosX(0.0f),
-	m_PosY(0.0f),
-	m_MoveX(0.0f),
-	m_MoveY(0.0f),
-	m_Over(0.0f),
 	m_countbak(0),
 	m_BakStart(),
 	m_SPBak(),
@@ -22,14 +17,13 @@ CStage::CStage() :
 	m_obcount(0),
 	m_BakScroll(0.0f),
 	m_StageScroll(0.0f),
-	m_spflg(false),
 	m_Scholastic(0),
 	m_Imagination(0),
 	m_Action(0),
 	m_Communication(0),
 	m_Charm(0),
 	m_bClear(false),
-	m_baklineX(0.0f)
+	m_Scroll_Speed(0.0f)
 {}
 
 CStage::~CStage() {
@@ -162,8 +156,6 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 	//背景カウント初期化
 	m_countbak = 0;
 
-	//クリア判定用スクロール値初期化
-	m_Scroll_Clear = 0;
 
 	//マップパターンをランダム化
 	for (int i = 0; i < 15; i++)
@@ -175,7 +167,7 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 	m_MapNo = 0;
 
 	//初期化
-	for (int i = 0; i < DP_INFO_PATTERN; i++)
+	for (int i = 0; i < MAP_INFO_PATTERN; i++)
 	{
 		AlreadyUsedArray[i] = 0;
 	}
@@ -184,7 +176,7 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 	//低確率で同じステージが選択されてしまうため試行回数は多め
 	for (int z = 1; z < 100; z++)
 	{
-		for (int x = 0; x < DP_INFO_PATTERN; x++)
+		for (int x = 0; x < MAP_INFO_PATTERN; x++)
 		{
 			if (AlreadyUsedArray[x] == 1)
 			{
@@ -226,12 +218,10 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 	m_StageConstitution[14] = 2;
 
 
-
-
 	//DP配置情報コピー,
 	//マップ一枚の情報分
 
-	for (int y = 0; y < DP_INFO_PATTERN; y++)
+	for (int y = 0; y < MAP_INFO_PATTERN; y++)
 	{
 		//マップ一枚分の情報に構造体
 		for (int x = 0; x < DP_INFO_STRUCT; x++) {
@@ -243,7 +233,7 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 
 	//障害物配置情報コピー
 	//マップ一枚の情報分
-	for (int y = 0; y < OB_INFO_PATTERN; y++)
+	for (int y = 0; y < MAP_INFO_PATTERN; y++)
 	{
 		//マップ一枚分の情報に構造体
 		for (int x = 0; x < OB_INFO_STRUCT; x++) {
@@ -255,7 +245,7 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 
 	//足場配置情報コピー
 	//マップ一枚の情報分
-	for (int y = 0; y < BAR_INFO_PATTERN; y++)
+	for (int y = 0; y < MAP_INFO_PATTERN; y++)
 	{
 		//マップ一枚分の情報に構造体
 		for (int x = 0; x < BAR_INFO_STRUCT; x++) {
@@ -273,6 +263,13 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 
 	//クリアフラグ初期化
 	m_bClear = false;
+
+	//ステージスクロール速度
+	m_Scroll_Speed = 0;
+
+	//開始フラグ
+	m_Startflg = false;
+
 
 	//ステータスを初期化
 	m_Scholastic = 0;
@@ -316,7 +313,8 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 //plrect:プレイヤーの当たり判定矩形
 //pl2:スキル；吸い寄せ範囲矩形
 //suckingX,suckingY:プレイヤーのXY座標
-void CStage::Update(float over, CRectangle plrect,CRectangle pl2, float suckingX, float suckingY) {
+void CStage::Update(CRectangle plrect,CRectangle pl2, float suckingX, float suckingY) {
+
 
 	//背景カウント
 	if (m_BakScroll <= 0) {
@@ -327,23 +325,24 @@ void CStage::Update(float over, CRectangle plrect,CRectangle pl2, float suckingX
 		//背景カウント
 		m_countbak += 1;
 
-		m_spflg = false;
+	}
 
-		//SPフラグＯＮ
-		if (m_countbak == 2) {
-			m_spflg = true;
-		}
+	//一時的な追加です
+	if (g_pInput->IsKeyHold(MOFKEY_RIGHT)) {
+		m_Scroll_Speed +=10;
+	}
+
+	//一時的な追加です
+	if (g_pInput->IsKeyHold(MOFKEY_LEFT)) {
+		m_Scroll_Speed -= 10;
 	}
 
 
 	//プレイヤーのオーバーした分だけ後ろに下げる
-	m_BakScroll -= over;
+	m_BakScroll -= m_Scroll_Speed;
 
 	//ステージ生成用スクロール値
-	m_StageScroll += over;
-
-
-	m_Scroll_Clear += over;
+	m_StageScroll += m_Scroll_Speed;
 
 	//ステージスクロール値
 	if (m_StageScroll >=g_pGraphics->GetTargetWidth()*2)
@@ -369,19 +368,19 @@ void CStage::Update(float over, CRectangle plrect,CRectangle pl2, float suckingX
 	//足場更新
 	for (int i = 0; i < BAR_VOLUME; i++)
 	{
-		b_bar[i].Update(over);
+		b_bar[i].Update(m_Scroll_Speed);
 	}
 
 	//DP更新
 	for (int i = 0; i < DP_VOLUME; i++)
 	{
-		dp_array[i].Update(over);
+		dp_array[i].Update(m_Scroll_Speed);
 	}
 
 	//障害物更新
 	for (int i = 0; i < OB_VOLUME; i++)
 	{
-		ob_array[i].Update(over);
+		ob_array[i].Update(m_Scroll_Speed);
 	}
 
 	//DPとの当たり判定
@@ -407,10 +406,8 @@ void CStage::Update(float over, CRectangle plrect,CRectangle pl2, float suckingX
 	}
 
 	//クリアフラグ変更
-	if (m_Scroll_Clear >= 38400||g_pInput->IsKeyPush(MOFKEY_0)) {
-
+	if (m_countbak + 1 == 33) {
 		m_bClear = true;
-
 	}
 
 }
@@ -487,7 +484,7 @@ void CStage::Render(void) {
 		}
 
 		//一番最後の背景
-		if (m_countbak + 1 == 30 ) {
+		if (m_countbak + 1 == 31 ) {
 			m_RandamuBakRight = 8;
 		}
 	}
@@ -616,14 +613,7 @@ void CStage::Render(void) {
 	if (m_bClear)
 	{
 		CGraphicsUtilities::RenderString(500, 350, MOF_XRGB(255, 0, 0), "クリア!\nF1でリスタート");
-		CGraphicsUtilities::RenderString(0, 350, MOF_XRGB(80, 80, 80), "クリアフラグ:true");
-
 	}
-	else
-	{
-		CGraphicsUtilities::RenderString(0, 350, MOF_XRGB(80, 80, 80), "クリアフラグ:false");
-	}
-
 }
 
 //解放
@@ -717,7 +707,7 @@ void CStage::MapChange(void) {
 		{
 			//todo:最後の場合最後まで描画した場合の処理
 			//どうしようか悩み中
-			m_MapNo = 0;
+			m_MapNo = 100;
 		}
 
 	}
@@ -733,7 +723,7 @@ void CStage::OccurrenceBar(void) {
 	//マップパターン番号が用意している数以下のときかつ
 	//スクロール値が出現値よりも小さくなった場合表示
 	//スクロール値をプラスに変更しました
-	if (m_MapNo < BAR_INFO_PATTERN && m_StageScroll > m_barinfo[m_StageConstitution[m_MapNo]][m_barcount].Scroll)
+	if (m_MapNo < MAP_INFO_PATTERN && m_StageScroll > m_barinfo[m_StageConstitution[m_MapNo]][m_barcount].Scroll)
 	{
 
 		//割り当てられていない足場クラスを探す
@@ -787,7 +777,7 @@ void CStage::OccurrenceDP(void) {
 	//マップDPパターン番号が用意している数以下のときかつ
 	//スクロール値が出現値よりも小さくなった場合表示
 	//スクロール値をプラスに変更しました
-	if (m_MapNo < DP_INFO_PATTERN && m_StageScroll > m_dpinfo[m_StageConstitution[m_MapNo]][m_dpcount].Scroll)
+	if (m_MapNo < MAP_INFO_PATTERN && m_StageScroll > m_dpinfo[m_StageConstitution[m_MapNo]][m_dpcount].Scroll)
 	{
 
 		//割り当てられていないDPクラスを探す
@@ -845,7 +835,7 @@ void CStage::OccurrenceOB(void) {
 	//マップパターン番号が用意している数以下のときかつ
 	//スクロール値が出現値よりも小さくなった場合表示
 	//スクロール値をプラスに変更しました
-	if (m_MapNo < OB_INFO_PATTERN && m_StageScroll > m_obinfo[m_StageConstitution[m_MapNo]][m_obcount].Scroll)
+	if (m_MapNo < MAP_INFO_PATTERN && m_StageScroll > m_obinfo[m_StageConstitution[m_MapNo]][m_obcount].Scroll)
 	{
 
 		//割り当てられていないDPクラスを探す
@@ -891,6 +881,30 @@ void CStage::OccurrenceOB(void) {
 	}
 
 }
+
+//ゲームスタート切り替え
+void CStage::GameStopPlayChange()
+{
+	if (m_Startflg) {
+
+		m_Startflg = false;
+		m_Scroll_Speed = 0;
+
+	}
+	else
+	{
+		m_Startflg = true;
+		m_Scroll_Speed = STAGE_SPEED;
+	}
+}
+
+//キャラが動いているか取得
+bool CStage::GetGameStopPlay() {
+
+	return m_Startflg;
+
+}
+
 bool CStage::GetClear(void) {
 
 	return m_bClear;

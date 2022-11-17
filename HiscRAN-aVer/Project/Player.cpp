@@ -5,15 +5,10 @@ CPlayer::CPlayer() :
 	m_SrcRect(),
 	m_PosX(0.0f),
 	m_PosY(0.0f),
-	m_MoveX(0.0f),
 	m_MoveY(0.0f),
 	m_legsboxY(0.0f),
-	m_OverX(0.0f),
-	m_OverY(0.0f),
-	m_StopX(0.0f),
 	m_HP(0),
 	m_DamageWait(0),
-	m_Startflg(false),
 	m_deathflg(false),
 	m_Jumpflg(false),
 	m_JumpCount(0.0f),
@@ -108,16 +103,12 @@ void CPlayer::Initialize(void) {
 
 	m_PosX = 0;
 	m_PosY = 500;
-	m_MoveX = 7.0f;
 	m_MoveY = 0.0f;
 	m_legsboxY = 100;
-	m_StopX = 50;
 	m_Jumpflg = false;
 	m_HP = 3;
 	m_DamageWait = 0;
 	m_deathflg = false;
-	m_Startflg = false;
-	m_OverX = 0;
 
 	m_Slidingflg = false;
 
@@ -128,21 +119,6 @@ void CPlayer::Initialize(void) {
 //更新
 void CPlayer::Update(void) {
 
-
-	//待機中の場合の処理
-	if (!m_Startflg)
-	{
-		//表示矩形をセット
-		m_SrcRect = m_Motion.GetSrcRect();
-
-		//オーバーした分初期化
-		m_OverX = 0;
-
-		return;
-	}
-
-	//オーバーした分初期化
-	m_OverX = 0;
 
 	//ダメージ中の動作
 	if (m_Motion.GetMotionNo() == MOTION_DAMAGE)
@@ -180,26 +156,13 @@ void CPlayer::Update(void) {
 		m_BSflg = false;
 	}
 
-
-
 	//重力反映
 	m_MoveY += GRAVITY;
 
 	//スピード反映
 	m_PosY += m_MoveY;
-	m_PosX += m_MoveX;
-
 	
-
-	//画面上ではX位置動かないように調整
-	if (m_PosX > m_StopX) {
-
-		m_OverX += m_PosX - m_StopX;
-		m_PosX = m_StopX;
-
-	}
-
-	//todo:下降速度クリップ追加
+	//下降速度クリップ追加
 	if (m_MoveY >= 20) {
 		m_MoveY = 20 - 0.1f;
 	}
@@ -218,6 +181,7 @@ void CPlayer::Update(void) {
 	{
 		m_DamageWait--;
 	}
+
 }
 
 //スライディング処理
@@ -381,27 +345,6 @@ void CPlayer::UpdateSkillShock(void) {
 
 }
 
-//ゲームスタート切り替え
-void CPlayer::GameStopPlayChange()
-{
-	if (m_Startflg) {
-
-		m_Startflg = false;
-
-	}
-	else
-	{
-		m_Startflg = true;
-
-	}
-}
-
-//キャラが動いているか取得
-bool CPlayer::GetGameStopPlay() {
-
-	return m_Startflg;
-
-}
 
 //未使用:敵当たり判定
 bool CPlayer::CollosopnEnemy(CRectangle r) {
@@ -533,5 +476,4 @@ void CPlayer::RenderDebugging() {
 void CPlayer::Release(void) {
 	m_Texture.Release();
 	m_Motion.Release();
-	m_TEX.Release();
 }

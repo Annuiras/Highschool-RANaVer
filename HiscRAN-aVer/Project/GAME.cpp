@@ -61,86 +61,7 @@ void GAME::Update(void)
 	//ゲーム開始切り替え
 	if (g_pInput->IsKeyPush(MOFKEY_RETURN)&&!g_Stage.GetClear())
 	{
-		g_Player.GameStopPlayChange();
-	}
-
-	//ステージ更新
-	g_Stage.Update(g_Player.GetOver(),g_Player.GetRect(),g_Player.SuckingRect(), g_Player.CircleX(), g_Player.CircleY());
-
-	//プレイヤー更新
-	g_Player.Update();
-	g_Player.UpdateSkillShock();
-
-	//プレイヤースキル更新
-	//g_PlayerSkill.Update();
-
-	//スライディング判定
-	//地面か足場に乗っている間下矢印キースライディング
-	for (int i = 0; i < BAR_VOLUME; i++)
-	{
-		if (!g_Stage.b_bar[i].Getshow()) {
-			continue;
-		}
-		//足場との判定
-		if (g_Player.CollosopnBar(g_Stage.b_bar[i].GetRect(g_Stage.b_bar[i].Gettype()))) {
-
-			//スライディング判定
-			g_Player.UPdateSliding();
-
-		}
-	}
-	//地面との判定
-	if (g_Player.CollosopnGround(g_Stage.g_ground.GetRect())) {
-
-		//スライディング判定
-		g_Player.UPdateSliding();
-
-	}
-
-
-	//ステージクリアかつ開始状態の時実行
-	if (g_Stage.GetClear()&&g_Player.GetGameStopPlay()) {
-
-		g_Player.GameStopPlayChange();
-
-	}
-
-	//地面との当たり判定
-	if (g_Player.CollosopnGround(g_Stage.g_ground.GetRect())) {
-
-		g_Player.UPdateCollisionGround(g_Stage.g_ground.GetPosY());
-	}
-
-	//足場との当たり判定
-	for (int i = 0; i < BAR_VOLUME; i++)
-	{
-		if (!g_Stage.b_bar[i].Getshow()) {
-			continue;
-		}
-
-		if (g_Player.CollosopnBar(g_Stage.b_bar[i].GetRect(g_Stage.b_bar[i].Gettype()))) {
-
-			g_Player.UPdateCollisionBra(g_Stage.b_bar[i].GetY());
-		}
-
-	}
-
-	//障害物との当たり判定
-	for (int i = 0; i < OB_VOLUME; i++)
-	{
-		if (!g_Stage.ob_array[i].Getshow()) {
-			continue;
-		}
-
-		if (g_Player.CollosopnOB(g_Stage.ob_array[i].GetRect(g_Stage.ob_array[i].GetType())))
-		{
- 			g_Player.UPdateCollisionOB();
-		}
-		//障害物からのダメージを受けていない場合だけ上の足場判定
-		else if(g_Player.CollosopnBar(g_Stage.ob_array[i].GetTopBarRect(g_Stage.ob_array[i].GetType())))
-		{
-			g_Player.UPdateCollisionBra(g_Stage.ob_array[i].GetY(g_Stage.ob_array[i].GetType()));
-		}
+		g_Stage.GameStopPlayChange();
 	}
 
 	//一時的な追加です
@@ -185,6 +106,90 @@ void GAME::Update(void)
 		g_Stage.Initialize(s_stageAdp, s_stageAbar, s_stageAOB);
 
 	}
+
+	if (!g_Stage.GetGameStopPlay()) {
+
+		return;
+	}
+
+
+	//ステージ更新
+	g_Stage.Update(g_Player.GetRect(),g_Player.SuckingRect(), g_Player.CircleX(), g_Player.CircleY());
+
+	//プレイヤー更新
+	g_Player.Update();
+	g_Player.UpdateSkillShock();
+
+
+	//スライディング判定
+	//地面か足場に乗っている間下矢印キースライディング
+	for (int i = 0; i < BAR_VOLUME; i++)
+	{
+		if (!g_Stage.b_bar[i].Getshow()) {
+			continue;
+		}
+		//足場との判定
+		if (g_Player.CollosopnBar(g_Stage.b_bar[i].GetRect(g_Stage.b_bar[i].Gettype()))) {
+
+			//スライディング判定
+			g_Player.UPdateSliding();
+
+		}
+	}
+	//地面との判定
+	if (g_Player.CollosopnGround(g_Stage.g_ground.GetRect())) {
+
+		//スライディング判定
+		g_Player.UPdateSliding();
+
+	}
+
+
+	//ステージクリアかつ開始状態の時実行
+	if (g_Stage.GetClear()&& g_Stage.GetGameStopPlay()) {
+
+		g_Stage.GameStopPlayChange();
+
+	}
+
+	//地面との当たり判定
+	if (g_Player.CollosopnGround(g_Stage.g_ground.GetRect())) {
+
+		g_Player.UPdateCollisionGround(g_Stage.g_ground.GetPosY());
+	}
+
+	//足場との当たり判定
+	for (int i = 0; i < BAR_VOLUME; i++)
+	{
+		if (!g_Stage.b_bar[i].Getshow()) {
+			continue;
+		}
+
+		if (g_Player.CollosopnBar(g_Stage.b_bar[i].GetRect(g_Stage.b_bar[i].Gettype()))) {
+
+			g_Player.UPdateCollisionBra(g_Stage.b_bar[i].GetY());
+		}
+
+	}
+
+	//障害物との当たり判定
+	for (int i = 0; i < OB_VOLUME; i++)
+	{
+		if (!g_Stage.ob_array[i].Getshow()) {
+			continue;
+		}
+
+		if (g_Player.CollosopnOB(g_Stage.ob_array[i].GetRect(g_Stage.ob_array[i].GetType())))
+		{
+ 			g_Player.UPdateCollisionOB();
+		}
+		//障害物からのダメージを受けていない場合だけ上の足場判定
+		else if(g_Player.CollosopnBar(g_Stage.ob_array[i].GetTopBarRect(g_Stage.ob_array[i].GetType())))
+		{
+			g_Player.UPdateCollisionBra(g_Stage.ob_array[i].GetY(g_Stage.ob_array[i].GetType()));
+		}
+	}
+
 
 }
 

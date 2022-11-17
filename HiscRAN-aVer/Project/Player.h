@@ -2,25 +2,6 @@
 #include	"Mof.h"
 #include "Define.h"
 
-//重力
-#define  GRAVITY	0.5f
-
-//大ジャンプ値
-#define  BIGJUMP -16.0f
-//小ジャンプ値
-#define  SMALLJUMP	-15.0f
-
-//最大スライディング値
-#define  SLIDING	100
-//スライディングクールタイム
-#define  SLIDINGCOOL 60
-
-//プレイヤー当たり判定
-#define PLAYER_HIT_X 130
-#define PLAYER_HIT_Y 185
-
-//当たり判定調整幅
-#define PLAYER_ADMENT_SPACE 25
 
 class CPlayer
 {
@@ -35,14 +16,11 @@ private:
 	//キャラクターテクスチャ
 	CTexture				m_Texture;
 
-	//仮キャラ
-	CTexture m_TEX;
-
 	//プレイヤー座標
 	float					m_PosX;
 	float					m_PosY;
+
 	//スピード変数
-	float					m_MoveX;
 	float					m_MoveY;
 
 
@@ -53,14 +31,6 @@ private:
 	float m_SkillA;
 	float m_SkillB;
 
-
-	//可動域オーバー値
-	float	m_OverX;
-	float	m_OverY;
-
-	//X固定位置
-	float m_StopX;
-
 	//HP
 	int				m_HP;
 
@@ -70,8 +40,6 @@ private:
 	//衝撃波時間
 	int m_CircleWait;
 
-	//ゲーム開始フラグ
-	bool					m_Startflg;
 	//死亡フラグ
 	bool				m_deathflg;
 
@@ -139,9 +107,6 @@ public:
 	void UpdateHP(void);
 
 
-	//オーバー値取得
-	float GetOver(void) { return m_OverX; }
-
 	//プレイヤー矩形取得
 	CRectangle GetRect(void) {
 		return CRectangle(m_PosX + PLAYER_ADMENT_SPACE, m_PosY,
@@ -164,13 +129,6 @@ public:
 		return CRectangle(m_PosX - m_SkillA + PLAYER_ADMENT_SPACE, m_PosY - m_SkillA,
 			m_PosX + m_SkillB, m_PosY + m_SkillA);
 	}
-
-
-	//ゲーム停止：再生切り替え
-	void GameStopPlayChange();
-
-	//キャラが動いているか取得
-	bool GetGameStopPlay();
 
 	//座標取得
 	float CircleX() { return m_PosX; }
