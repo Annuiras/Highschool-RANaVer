@@ -59,7 +59,7 @@ void GAME::Initialize(void)
 	g_Stage.Initialize(s_stageAdp,s_stageAbar, s_stageAOB);
 	g_EffectManeger.Initialize();
 
-	g_Player.SetEffectManager(&g_EffectManeger);
+	g_Stage.SetEffectManager(&g_EffectManeger);
 }
 
 //XV

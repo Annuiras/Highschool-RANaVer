@@ -23,9 +23,7 @@ CEffectManager::~CEffectManager() {
 bool CEffectManager::Load(void) {
 	//テクスチャの読み込み
 	char* name[] = {
-		"effect01.png",
-		"effect02.png",
-		"effect03.png",
+		"エフェクト仮.png"
 	};
 
 

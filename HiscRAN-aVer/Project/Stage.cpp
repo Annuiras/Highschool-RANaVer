@@ -405,6 +405,7 @@ void CStage::UPdeteCollisionDP(int dpt) {
 
 	case DP_ACTION:
 		m_Action += 1;
+		m_pEffectManager->Start(0, 0, EFC_GET_DP);
 		if (m_Action > 100) {
 			m_Action = 100;
 		}

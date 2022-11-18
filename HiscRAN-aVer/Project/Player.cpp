@@ -122,7 +122,6 @@ void CPlayer::Initialize(void) {
 	m_deathflg = false;
 	m_Startflg = false;
 	m_OverX = 0;
-	m_pEffect = NULL;
 	m_Slidingflg = false;
 
 	m_Motion.ChangeMotion(MOTION_MOVE);
@@ -352,7 +351,6 @@ void CPlayer::UPdateCollisionOB() {
 
 	m_HP -= 1;
 	m_DamageWait = 60;
-	m_pEffect = m_pEffectManager->Start(m_PosX, m_PosY, EFC_EXPLOSION01);
 
 	if (m_HP <= 0) {
 		m_deathflg = true;

@@ -5,9 +5,9 @@
 
 //エフェクト種類列挙
 enum tag_EFFECTTYPE {
-	EFC_DAMAGE,						//ダメージ
-	EFC_EXPLOSION01,				//敵爆破
-	EFC_EXPLOSION02,				//プレイヤー爆破
+	EFC_GET_DP,						//DP取得
+	//EFC_EXPLOSION01,				//敵爆破
+	//EFC_EXPLOSION02,				//プレイヤー爆破
 
 	EFC_TYPECOUNT,
 };

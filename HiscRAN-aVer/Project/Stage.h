@@ -3,6 +3,7 @@
 #include "RandomValue.h"
 #include "Ground.h"
 #include "DetailPoint.h"
+#include "EffectManager.h"
 #include "Bar.h"
 #include "Obstacle.h"
 #include "Define.h"
@@ -41,6 +42,11 @@ private:
 
 	//乱数生成
 	RandomValue RandmuBak;
+
+	CEffectManager* m_pEffectManager;
+
+	//CEffect* m_pEffect;
+
 
 	#pragma region ステージテクスチャ
 
@@ -256,6 +262,9 @@ public:
 
 	//クリア判定の取得
 	bool GetClear(void);
+
+
+	void SetEffectManager(CEffectManager* pmng) { m_pEffectManager = pmng; }
 
 	//障害物
 	CObstacle ob_array[OB_VOLUME];
