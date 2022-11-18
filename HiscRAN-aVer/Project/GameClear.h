@@ -28,8 +28,15 @@ private:
 	int point5x = 0;
 	int point5y = 0;
 
+	//todo:ここの処理きれいにします
+
 	// ステータス一覧を収納する配列
 	int Status[ITEM_NUM];
+
+	// ステータス一覧を収納する配列
+	int StatusNext[ITEM_NUM];
+
+
 	// ステータス用チャートのポリゴン座標を収納する配列
 	Vector2 PointsStatus[ITEM_NUM];
 
