@@ -9,20 +9,12 @@ CGameClear::CGameClear() :
 	m_BackTexture(),
 	m_UITexture(),
 	gAlpha(0.0f),
-	isStop(false),
-	point1x(0),
-	point1y(0),
-	point2x(0),
-	point2y(0),
-	point3x(0),
-	point3y(0),
-	point4x(0),
-	point4y(0),
-	point5x(0),
-	point5y(0)
-{
-
-}
+	Memory1(),
+	Memory2(),
+	Status(),
+	StatusRender(),
+	isStop(false)
+{}
 
 //デストラクタ
 CGameClear::~CGameClear()
@@ -64,7 +56,7 @@ void CGameClear::Initialize(void)
 	//動的なステータス
 	for (int i = 0; i < ITEM_NUM; i++)
 	{
-		StatusNext[i] = 0;
+		StatusRender[i] = 0;
 	}
 
 	//魅力
@@ -172,92 +164,22 @@ void CGameClear::Update(void)
 		}
 	}
 
-	for (int i = 0; i < ITEM_NUM; i++)
-	{
-		if (Status[i]>= StatusNext[i])
-		{
-			if (Status[i] >= 100) {
-				StatusNext[i]+=4;
-
-			}
-			StatusNext[i]++;
-		}
-
-	}
 
 	//グラフがじわじわ動く
-	if (g_pInput->IsKeyHold(MOFKEY_1)) {
-
-		if (g_pInput->IsKeyHold(MOFKEY_RSHIFT)) {
-
-			StatusNext[0]--;
-
-		}
-		else
+	for (int i = 0; i < ITEM_NUM; i++)
+	{
+		if (Status[i]>= StatusRender[i])
 		{
-			StatusNext[0]++;
-
-		}
-	}
-
-	if (g_pInput->IsKeyHold(MOFKEY_2)) {
-
-		if (g_pInput->IsKeyHold(MOFKEY_RSHIFT)) {
-
-			StatusNext[1]--;
-
-		}
-		else
-		{
-			StatusNext[1]++;
-
-		}
-	}
-
-	if (g_pInput->IsKeyHold(MOFKEY_3)) {
-
-		if (g_pInput->IsKeyHold(MOFKEY_RSHIFT)) {
-
-			StatusNext[2]--;
-
-		}
-		else
-		{
-			StatusNext[2]++;
-
-		}
-	}
-
-	if (g_pInput->IsKeyHold(MOFKEY_4)) {
-
-		if (g_pInput->IsKeyHold(MOFKEY_RSHIFT)) {
-
-			StatusNext[3]--;
-
-		}
-		else
-		{
-			StatusNext[3]++;
-
-		}
-	}
-
-	if (g_pInput->IsKeyHold(MOFKEY_5)) {
-		if (g_pInput->IsKeyHold(MOFKEY_RSHIFT)) {
-
-			StatusNext[4]--;
-
-		}
-		else
-		{
-			StatusNext[4]++;
-
+			if (Status[i] >= 100) {
+				StatusRender[i]+=5;
+			}
+			StatusRender[i]++;
 		}
 	}
 
 
 	// チャートを生成
-	buildChart(StatusNext, PointsStatus);
+	buildChart(StatusRender, PointsStatus);
 	buildChart(Memory1, MemoryPoints1);
 	buildChart(Memory2, MemoryPoints2);
 }
@@ -284,6 +206,7 @@ void CGameClear::Render(void)
 	Vector2 point4(PointsStatus[3].x + CHART_CENTER_X, PointsStatus[3].y + CHART_CENTER_Y);
 	Vector2 point5(PointsStatus[4].x + CHART_CENTER_X, PointsStatus[4].y + CHART_CENTER_Y);
 
+	//todo:色指定未実装
 	//三角形を描いてグラフを塗りつぶす
 	CGraphicsUtilities::RenderFillTriangle(center, point1, point2, MOF_ARGB(155,0,0,255), MOF_ARGB(155, 0, 0, 255), MOF_ARGB(155, 0, 0, 255));
 	CGraphicsUtilities::RenderFillTriangle(center, point2, point3, MOF_COLOR_BLUE, MOF_COLOR_BLUE, MOF_COLOR_BLUE);

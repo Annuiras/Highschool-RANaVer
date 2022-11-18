@@ -17,24 +17,11 @@ private:
 	int gAlpha = 0;
 	bool isStop = false;
 
-	int point1x = 0;
-	int point1y = 0;
-	int point2x = 0;
-	int point2y = 0;
-	int point3x = 0;
-	int point3y = 0;
-	int point4x = 0;
-	int point4y = 0;
-	int point5x = 0;
-	int point5y = 0;
-
-	//todo:ここの処理きれいにします
-
-	// ステータス一覧を収納する配列
+	// ステータスを収納する配列
 	int Status[ITEM_NUM];
 
-	// ステータス一覧を収納する配列
-	int StatusNext[ITEM_NUM];
+	//グラフ描画用配列
+	int StatusRender[ITEM_NUM];
 
 
 	// ステータス用チャートのポリゴン座標を収納する配列
