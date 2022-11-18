@@ -94,6 +94,11 @@ enum tag_BAR
 
 #pragma region プレイヤー定数群
 
+//プレイヤー初期位置
+#define PLAYER_START_POS_X 50
+#define PLAYER_START_POS_Y 500
+
+
 //大ジャンプ値
 #define  BIGJUMP -16.0f
 //小ジャンプ値
@@ -107,6 +112,9 @@ enum tag_BAR
 //プレイヤー当たり判定
 #define PLAYER_HIT_X 130
 #define PLAYER_HIT_Y 185
+
+//足当たり判定
+#define PLAYER_LEGS_Y 100
 
 //当たり判定調整幅
 #define PLAYER_ADMENT_SPACE 25

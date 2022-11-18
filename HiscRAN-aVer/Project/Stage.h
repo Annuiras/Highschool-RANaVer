@@ -119,7 +119,7 @@ private:
 	int m_MapNo;
 
 	//ステージ構成を決める配列
-	int m_StageConstitution[15] = { 1 };
+	int m_StageConstitution[MAP_INFO_PATTERN] = { 1 };
 
 
 	//DPの配置情報受け取る配列

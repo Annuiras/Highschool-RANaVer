@@ -241,8 +241,6 @@ void CGAME::Update(void)
 void CGAME::Render(void)
 {
 
-	//メニューの描画
-	gMenu.Render(2);
 
 	//ステージ描画
 	g_Stage.Render();
@@ -250,6 +248,8 @@ void CGAME::Render(void)
 	//プレイヤー描画
 	g_Player.Render();
 
+	//メニューの描画
+	gMenu.Render(2);
 
 	//CGraphicsUtilities::RenderString(10, 10, "ゲーム画面");
 	//CGraphicsUtilities::RenderString(10, 40, "F1キーでタイトル画面へ遷移");

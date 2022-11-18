@@ -53,6 +53,8 @@ public:
 
 
 	void Render(void);
+	void RenderDebugging(void);
+
 	void Initialize(void);
 	void Start(float posy,int type);
 	void Update(float over);

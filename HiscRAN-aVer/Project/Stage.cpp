@@ -672,6 +672,14 @@ void CStage::RenderDebugging() {
 	}
 
 
+	//足場描画
+	for (int i = 0; i < BAR_VOLUME; i++)
+	{
+		b_bar[i].RenderDebugging();
+	}
+
+
+
 	CGraphicsUtilities::RenderLine(m_BakScroll,0, m_BakScroll,g_pGraphics->GetTargetHeight(), MOF_COLOR_BLUE);
 
 #pragma region パターンデバッグ用
