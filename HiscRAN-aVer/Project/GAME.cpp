@@ -66,7 +66,7 @@ void CGAME::Update(void)
 {
 
 	//ゲーム開始切り替え
-	if (g_pInput->IsKeyPush(MOFKEY_RETURN)&&!g_Stage.GetClear())
+	if (g_pInput->IsKeyPush(MOFKEY_RETURN)&&!g_Stage.GetClear()&&!Menuflag)
 	{
 		g_Stage.GameStopPlayChange();
 	}
@@ -142,6 +142,10 @@ void CGAME::Update(void)
 	//エスケープキーで終了メニューを表示
 	else if (g_pInput->IsKeyPush(MOFKEY_ESCAPE))
 	{
+		//プレイ中であれば停止
+		if (g_Stage.GetGameStopPlay())
+			g_Stage.GameStopPlayChange();
+
 		Menuflag = true;
 		gMenu.Show(g_pGraphics->GetTargetWidth() * 0.5f, g_pGraphics->GetTargetHeight() * 0.5f);
 	}
