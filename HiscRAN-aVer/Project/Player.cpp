@@ -128,7 +128,7 @@ void CPlayer::Update(void) {
 		if (!m_Jumpflg) {
 			m_MoveY = SMALLJUMP;
 		}
-
+		m_MusicManager->Start(SET_PAWANN);
 		m_JumpCount++;
 		m_Jumpflg = true;
 		m_Motion.ChangeMotion(MOTION_JUMPSTART);

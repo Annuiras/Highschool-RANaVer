@@ -73,6 +73,9 @@
     <Filter Include="ソース ファイル\ゲーム\ゲームクリア">
       <UniqueIdentifier>{88fa0f99-ce7e-41b4-a02f-6d1994783606}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\音声">
+      <UniqueIdentifier>{fc801ab2-1b25-453a-aaeb-9d502026645e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -135,6 +138,12 @@
     <ClCompile Include="GameClear.cpp">
       <Filter>ソース ファイル\ゲーム\ゲームクリア</Filter>
     </ClCompile>
+    <ClCompile Include="Music.cpp">
+      <Filter>ソース ファイル\音声</Filter>
+    </ClCompile>
+    <ClCompile Include="MusicManager.cpp">
+      <Filter>ソース ファイル\音声</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameApp.h">
@@ -190,6 +199,12 @@
     </ClInclude>
     <ClInclude Include="Define.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Music.h">
+      <Filter>ソース ファイル\音声</Filter>
+    </ClInclude>
+    <ClInclude Include="MusicManager.h">
+      <Filter>ソース ファイル\音声</Filter>
     </ClInclude>
     <ClInclude Include="EffectManager.h">
       <Filter>ソース ファイル\エフェクト</Filter>

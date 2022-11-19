@@ -8,6 +8,7 @@
 #include "DetailPoint.h"
 #include "Bar.h"
 #include "Obstacle.h"
+#include "MusicManager.h"
 #include "EffectManager.h"
 #include "StageA_DP.h"
 #include "StageA_Bar.h"
@@ -22,6 +23,8 @@ CEffectManager g_EffectManeger;
 
 //プレイヤークラス
 CPlayer g_Player;
+
+CMusicManager g_MusicManager;
 
 //プレイヤースキルクラス
 //CPlayerSkill g_PlayerSkill;
@@ -47,6 +50,7 @@ void CGAME::Load(void)
 {
 	g_Player.Load();
 	g_Stage.Load();
+	g_MusicManager.Load();
 	g_EffectManeger.Load();
 }
 
@@ -58,12 +62,14 @@ void CGAME::Initialize(void)
 
 	//プレイヤー初期化
 	g_Player.Initialize();
-
+	g_Player.SetMusicManager(&g_MusicManager);
 	//プレイヤースキル初期化
 	//g_PlayerSkill.Initialize();
 
 	//ステージ初期化
 	g_Stage.Initialize(s_stageAdp,s_stageAbar, s_stageAOB);
+
+	g_MusicManager.Initialize();
 	g_EffectManeger.Initialize();
 
 	g_Stage.SetEffectManager(&g_EffectManeger);
@@ -300,9 +306,12 @@ void CGAME::Release(void)
 	g_EffectManeger.Release();
 
 	gMenu.Release();
+	g_MusicManager.Release();
 
 }
 
 void CGAME::RenderDebug(void)
 {
+
 }
+	

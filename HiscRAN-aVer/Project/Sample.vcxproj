@@ -95,6 +95,8 @@
     <ClCompile Include="GameClear.cpp" />
     <ClCompile Include="GameOver.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="Music.cpp" />
+    <ClCompile Include="MusicManager.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="DetailPoint.cpp" />
     <ClCompile Include="Gallery.cpp" />
@@ -118,6 +120,8 @@
     <ClInclude Include="GameClear.h" />
     <ClInclude Include="GameOver.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="Music.h" />
+    <ClInclude Include="MusicManager.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="DetailPoint.h" />
     <ClInclude Include="Gallery.h" />

@@ -10,6 +10,8 @@ private:
 	//モーションクラス
 	CSpriteMotionController	m_Motion;
 
+	CMusicManager* m_MusicManager;
+
 	//描画矩形
 	CRectangle				m_SrcRect;
 
