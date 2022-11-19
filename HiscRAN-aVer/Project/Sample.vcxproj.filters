@@ -61,6 +61,9 @@
     <Filter Include="ソース ファイル\ゲーム\ステージ\配置情報\足場">
       <UniqueIdentifier>{91ebb2a6-ad69-4cf6-829c-2e008feb54f2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\エフェクト">
+      <UniqueIdentifier>{d3bfae9b-6bb9-4b22-b81b-d4d53dbf3e39}</UniqueIdentifier>
+    </Filter>
     <Filter Include="ソース ファイル\メニュー">
       <UniqueIdentifier>{ae4c2084-3f87-44bc-902b-6dc29ecb50f0}</UniqueIdentifier>
     </Filter>
@@ -116,6 +119,12 @@
     </ClCompile>
     <ClCompile Include="RandomValue.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectManager.cpp">
+      <Filter>ソース ファイル\エフェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="Effect.cpp">
+      <Filter>ソース ファイル\エフェクト</Filter>
     </ClCompile>
     <ClCompile Include="Menu.cpp">
       <Filter>ソース ファイル\メニュー</Filter>
@@ -181,6 +190,12 @@
     </ClInclude>
     <ClInclude Include="Define.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectManager.h">
+      <Filter>ソース ファイル\エフェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="Effect.h">
+      <Filter>ソース ファイル\エフェクト</Filter>
     </ClInclude>
     <ClInclude Include="Menu.h">
       <Filter>ソース ファイル\メニュー</Filter>

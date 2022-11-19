@@ -90,6 +90,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Bar.cpp" />
+    <ClCompile Include="Effect.cpp" />
+    <ClCompile Include="EffectManager.cpp" />
     <ClCompile Include="GameClear.cpp" />
     <ClCompile Include="GameOver.cpp" />
     <ClCompile Include="Menu.cpp" />
@@ -111,6 +113,8 @@
   <ItemGroup>
     <ClInclude Include="Bar.h" />
     <ClInclude Include="Define.h" />
+    <ClInclude Include="Effect.h" />
+    <ClInclude Include="EffectManager.h" />
     <ClInclude Include="GameClear.h" />
     <ClInclude Include="GameOver.h" />
     <ClInclude Include="Menu.h" />

@@ -1,0 +1,40 @@
+#pragma once
+
+#include	"Mof.h"
+#include "Define.h"
+
+//エフェクト種類列挙
+enum tag_EFFECTTYPE {
+	EFC_GET_DP,						//DP取得
+	//EFC_EXPLOSION01,				//敵爆破
+	//EFC_EXPLOSION02,				//プレイヤー爆破
+
+	EFC_TYPECOUNT,
+};
+
+
+class CEffect
+{	
+private:
+	CTexture* m_pTexture;
+	CSpriteMotionController	m_Motion;
+	float					m_PosX;
+	float					m_PosY;
+	bool					m_bShow;
+	CRectangle				m_SrcRect;
+	//CSoundBuffer	m_Sound;
+public:
+	CEffect();
+	~CEffect();
+	void Initialize(int type);
+	void Start(float px, float py);
+	void Update(void);
+	void Render(void);
+	void Release(void);
+
+	//テクスチャのポインタを受け取る
+	void SetTexture(CTexture* pt) { m_pTexture = pt; }
+	bool GetShow(void) { return m_bShow; }
+	
+};
+
