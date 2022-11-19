@@ -9,20 +9,12 @@ CGameClear::CGameClear() :
 	m_BackTexture(),
 	m_UITexture(),
 	gAlpha(0.0f),
-	isStop(false),
-	point1x(0),
-	point1y(0),
-	point2x(0),
-	point2y(0),
-	point3x(0),
-	point3y(0),
-	point4x(0),
-	point4y(0),
-	point5x(0),
-	point5y(0)
-{
-
-}
+	Memory1(),
+	Memory2(),
+	Status(),
+	StatusRender(),
+	isStop(false)
+{}
 
 //デストラクタ
 CGameClear::~CGameClear()
@@ -61,18 +53,23 @@ void CGameClear::Initialize(void)
 
 	}
 
+	//動的なステータス
+	for (int i = 0; i < ITEM_NUM; i++)
+	{
+		StatusRender[i] = 0;
+	}
 
 	//魅力
-	Status[0] = 100;
+	Status[0] = 70;
 
 	//行動力
-	Status[1] = 27;
+	Status[1] = 57;
 
 	//学力
-	Status[2] = 60;
+	Status[2] = 130;
 
 	//想像力
-	Status[3] = 2;
+	Status[3] = 30;
 
 	//コミュ力
 	Status[4] = 18;
@@ -167,59 +164,22 @@ void CGameClear::Update(void)
 		}
 	}
 
+
 	//グラフがじわじわ動く
-	//魅力
-	if (point1x != (int)PointsStatus[0].x + CHART_CENTER_X)
+	for (int i = 0; i < ITEM_NUM; i++)
 	{
-		point1x += 1;
-	}
-	if (point1y != (int)PointsStatus[0].y + CHART_CENTER_Y)
-	{
-		point1y += 1;
-	}
-
-	//行動力
-	if (point2x != (int)PointsStatus[1].x + CHART_CENTER_X)
-	{
-		point2x += 1;
-	}
-	if (point2y != (int)PointsStatus[1].y + CHART_CENTER_Y)
-	{
-		point2y += 1;
+		if (Status[i]>= StatusRender[i])
+		{
+			if (Status[i] >= 100) {
+				StatusRender[i]+=5;
+			}
+			StatusRender[i]++;
+		}
 	}
 
-	//学力
-	if (point3x != (int)PointsStatus[2].x + CHART_CENTER_X)
-	{
-		point3x += 1;
-	}
-	if (point3y != (int)PointsStatus[2].y + CHART_CENTER_Y)
-	{
-		point3y += 1;
-	}
-
-	//想像力
-	if (point4x != (int)PointsStatus[3].x + CHART_CENTER_X)
-	{
-		point4x += 1;
-	}
-	if (point4y != (int)PointsStatus[3].y + CHART_CENTER_Y)
-	{
-		point4y += 1;
-	}
-
-	//コミュ力
-	if (point5x != (int)PointsStatus[4].x + CHART_CENTER_X)
-	{
-		point5x += 1;
-	}
-	if (point5y != (int)PointsStatus[4].y + CHART_CENTER_Y)
-	{
-		point5y += 1;
-	}
 
 	// チャートを生成
-	buildChart(Status, PointsStatus);
+	buildChart(StatusRender, PointsStatus);
 	buildChart(Memory1, MemoryPoints1);
 	buildChart(Memory2, MemoryPoints2);
 }
@@ -240,14 +200,15 @@ void CGameClear::Render(void)
 
 	//座標取得
 	Vector2 center(CHART_CENTER_X, CHART_CENTER_Y);
-	Vector2 point1(point1x, point1y);
-	Vector2 point2(point2x, point2y);
-	Vector2 point3(point3x, point3y);
-	Vector2 point4(point4x, point4y);
-	Vector2 point5(point5x, point5y);
+	Vector2 point1(PointsStatus[0].x+ CHART_CENTER_X, PointsStatus[0].y+ CHART_CENTER_Y);
+	Vector2 point2(PointsStatus[1].x+ CHART_CENTER_X, PointsStatus[1].y+ CHART_CENTER_Y);
+	Vector2 point3(PointsStatus[2].x + CHART_CENTER_X, PointsStatus[2].y + CHART_CENTER_Y);
+	Vector2 point4(PointsStatus[3].x + CHART_CENTER_X, PointsStatus[3].y + CHART_CENTER_Y);
+	Vector2 point5(PointsStatus[4].x + CHART_CENTER_X, PointsStatus[4].y + CHART_CENTER_Y);
 
+	//todo:色指定未実装
 	//三角形を描いてグラフを塗りつぶす
-	CGraphicsUtilities::RenderFillTriangle(center, point1, point2, MOF_COLOR_BLUE, MOF_COLOR_BLUE, MOF_COLOR_BLUE);
+	CGraphicsUtilities::RenderFillTriangle(center, point1, point2, MOF_ARGB(155,0,0,255), MOF_ARGB(155, 0, 0, 255), MOF_ARGB(155, 0, 0, 255));
 	CGraphicsUtilities::RenderFillTriangle(center, point2, point3, MOF_COLOR_BLUE, MOF_COLOR_BLUE, MOF_COLOR_BLUE);
 	CGraphicsUtilities::RenderFillTriangle(center, point3, point4, MOF_COLOR_BLUE, MOF_COLOR_BLUE, MOF_COLOR_BLUE);
 	CGraphicsUtilities::RenderFillTriangle(center, point4, point5, MOF_COLOR_BLUE, MOF_COLOR_BLUE, MOF_COLOR_BLUE);

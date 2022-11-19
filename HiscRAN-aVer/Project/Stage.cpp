@@ -110,10 +110,15 @@ bool CStage::Load() {
 		return false;
 	}
 
-	//仮テクスチャ：２段机
-	if (!ob_Textuer_TwoDesk.Load("ハイスク素材２　障害物 ２段机.png")) {
+	//todo:同じ当たり判定の画像違いを作成する
+	////仮テクスチャ：２段机
+	//if (!ob_Textuer_TwoDesk.Load("ハイスク素材２　障害物 ２段机.png")) {
+	//	return false;
+	//}
+	if (!ob_Textuer_TwoDesk.Load("ハイスク_障害物_ゴミ箱.png")) {
 		return false;
 	}
+
 
 	//仮テクスチャ：ロッカー
 	if (!ob_Textuer_Locker.Load("ハイスク素材２　障害物 ロッカー.png")) {
@@ -671,6 +676,14 @@ void CStage::RenderDebugging() {
 	{
 		dp_array[i].RenderDebugging();
 	}
+
+
+	//足場描画
+	for (int i = 0; i < BAR_VOLUME; i++)
+	{
+		b_bar[i].RenderDebugging();
+	}
+
 
 
 	CGraphicsUtilities::RenderLine(m_BakScroll,0, m_BakScroll,g_pGraphics->GetTargetHeight(), MOF_COLOR_BLUE);

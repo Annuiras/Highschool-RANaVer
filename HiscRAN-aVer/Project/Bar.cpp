@@ -86,9 +86,18 @@ void Bar::Render(void) {
 	bar_texture->Render(b_PosX, b_PosY);
 
 	
+
+}
+
+void Bar::RenderDebugging(void)
+{	
+	if (!b_Show) {
+		return;
+	}
+
+
 	//‘«ê•`‰æ
 	CGraphicsUtilities::RenderRect(GetRect(b_Type), MOF_COLOR_GREEN);
-
 }
 
 CRectangle Bar::GetRect(int type) {

@@ -25,7 +25,7 @@ CPlayer::~CPlayer() {
 bool CPlayer::Load(void) {
 
 	//仮置きです
-	int n = 2;
+	int n = 2.8;
 
 	//キャラクター読み込み
 	if (!m_Texture.Load("走りとジャンプモーション2022_11_08.png")) {
@@ -92,10 +92,10 @@ bool CPlayer::Load(void) {
 void CPlayer::Initialize(void) {
 
 
-	m_PosX = 0;
-	m_PosY = 500;
+	m_PosX = PLAYER_START_POS_X;
+	m_PosY = PLAYER_START_POS_Y;
 	m_MoveY = 0.0f;
-	m_legsboxY = 100;
+	m_legsboxY = PLAYER_LEGS_Y;
 	m_Jumpflg = false;
 	m_HP = 3;
 	m_DamageWait = 0;

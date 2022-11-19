@@ -74,7 +74,7 @@ void CGAME::Update(void)
 {
 
 	//ゲーム開始切り替え
-	if (g_pInput->IsKeyPush(MOFKEY_RETURN)&&!g_Stage.GetClear())
+	if (g_pInput->IsKeyPush(MOFKEY_RETURN)&&!g_Stage.GetClear()&&!Menuflag)
 	{
 		g_Stage.GameStopPlayChange();
 	}
@@ -150,6 +150,10 @@ void CGAME::Update(void)
 	//エスケープキーで終了メニューを表示
 	else if (g_pInput->IsKeyPush(MOFKEY_ESCAPE))
 	{
+		//プレイ中であれば停止
+		if (g_Stage.GetGameStopPlay())
+			g_Stage.GameStopPlayChange();
+
 		Menuflag = true;
 		gMenu.Show(g_pGraphics->GetTargetWidth() * 0.5f, g_pGraphics->GetTargetHeight() * 0.5f);
 	}
@@ -257,8 +261,6 @@ void CGAME::Update(void)
 void CGAME::Render(void)
 {
 
-	//メニューの描画
-	gMenu.Render(2);
 
 	//ステージ描画
 	g_Stage.Render();
@@ -266,6 +268,8 @@ void CGAME::Render(void)
 	//プレイヤー描画
 	g_Player.Render();
 
+	//メニューの描画
+	gMenu.Render(2);
 
 	//CGraphicsUtilities::RenderString(10, 10, "ゲーム画面");
 	//CGraphicsUtilities::RenderString(10, 40, "F1キーでタイトル画面へ遷移");
