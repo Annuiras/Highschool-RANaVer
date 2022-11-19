@@ -30,6 +30,8 @@ void  CModeSelect::Initialize()
 
 	//メニューの生成
 	gMenu.Create(gMenuItemCount);
+
+	Load();
 }
 
 //ロード
@@ -77,19 +79,30 @@ void CModeSelect::Update()
 		switch (MenuNow_Mode)
 		{
 		case 0:
-			gChangeScene = SCENENO_TUTORIAL;
+			m_bEnd = true;
+			m_NextScene = SCENENO_TUTORIAL;
+			//gChangeScene = SCENENO_TUTORIAL;
 			break;
 
 		case 1:
-			gChangeScene = SCENENO_GAME;
+			m_bEnd = true;
+			m_NextScene = SCENENO_GAME;
+
+			//gChangeScene = SCENENO_GAME;
 			break;
 
 		case 2:
-			gChangeScene = SCENENO_GALLERY;
+			m_bEnd = true;
+			m_NextScene = SCENENO_GALLERY;
+
+			//gChangeScene = SCENENO_GALLERY;
 			break;
 
 		case 3:
-			gChangeScene = SCENENO_OPTION;
+			m_bEnd = true;
+			m_NextScene = SCENENO_OPTION;
+
+			//gChangeScene = SCENENO_OPTION;
 			break;
 		}
 	}

@@ -1,7 +1,8 @@
 #pragma once
 #include "Mof.h"
+#include "SceneBase.h"
 
-class CTutorial
+class CTutorial:public CSceneBase
 {
 private:
 	CTexture Texture;

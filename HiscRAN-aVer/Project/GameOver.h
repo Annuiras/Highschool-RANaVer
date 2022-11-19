@@ -1,7 +1,8 @@
 #pragma once
 #include "Mof.h"
+#include "SceneBase.h"
 
-class CGameOver
+class CGameOver :public CSceneBase
 {
 private:
 	CTexture	m_BackTexture1;

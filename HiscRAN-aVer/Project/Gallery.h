@@ -1,8 +1,9 @@
 #pragma once
 
 #include	"Mof.h"
+#include "SceneBase.h"
 
-class CGallery
+class CGallery :public CSceneBase
 {
 private:
 	//コレクション画面背景テクスチャ

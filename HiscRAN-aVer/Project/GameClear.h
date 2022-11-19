@@ -1,5 +1,6 @@
 #pragma once
 #include "Mof.h"
+#include "SceneBase.h"
 
 #define CHART_SIZE 248			// チャート半径
 #define CHART_CENTER_X 325	    // チャート中心座標 X
@@ -8,7 +9,7 @@
 #define MAX_STATUS 100			// ステータス最大値
 #define ITEM_NUM 5				// ステータス個数
 
-class CGameClear
+class CGameClear:public CSceneBase
 {
 private:
 	CTexture	m_BackTexture;

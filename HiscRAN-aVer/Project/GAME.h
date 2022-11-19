@@ -1,7 +1,8 @@
 #pragma once
 #include	"Menu.h"
+#include "SceneBase.h"
 
-class CGAME
+class CGAME :public CSceneBase
 {
 
 private:

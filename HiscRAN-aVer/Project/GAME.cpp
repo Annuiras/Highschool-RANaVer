@@ -57,6 +57,7 @@ void CGAME::Load(void)
 //初期化
 void CGAME::Initialize(void)
 {
+	Load();
 
 	gMenu.Create(gMenuItemCount);
 
@@ -89,14 +90,21 @@ void CGAME::Update(void)
 	//F2でTitle画面へ
 	if (g_pInput->IsKeyPush(MOFKEY_F2))
 	{
-		gChangeScene = SCENENO_TITLE;
+		m_bEnd = true;
+		m_NextScene = SCENENO_TITLE;
+
+		//gChangeScene = SCENENO_TITLE;
 	}
 
 	//一時的な追加です
 	//エンターキーでモードセレクト画面へ
 	else if (Menuflag == false && g_pInput->IsKeyPush(MOFKEY_F3))
 	{
-		gChangeScene = SCENENO_SELECTMODE;
+		m_bEnd = true;
+		m_NextScene = SCENENO_SELECTMODE;
+
+
+		//gChangeScene = SCENENO_SELECTMODE;
 	}
 
 	//一時的な追加です
@@ -120,13 +128,19 @@ void CGAME::Update(void)
 	//Cでゲームクリア画面へ
 	if (g_pInput->IsKeyPush(MOFKEY_C))
 	{
-		gChangeScene = SCENENO_GAMECLEAR;
+		m_bEnd = true;
+		m_NextScene = SCENENO_GAMECLEAR;
+
+		//gChangeScene = SCENENO_GAMECLEAR;
 	}
 
 	//Vでゲームオーバー画面
 	else if (g_pInput->IsKeyPush(MOFKEY_V))
 	{
-		gChangeScene = SCENENO_GAMEOVER;
+		m_bEnd = true;
+		m_NextScene = SCENENO_GAMEOVER;
+
+		//gChangeScene = SCENENO_GAMEOVER;
 	}
 
 	//一時的な追加です
@@ -148,7 +162,10 @@ void CGAME::Update(void)
 		{
 			if (gMenu.GetSelect() == 0)
 			{
-				gChangeScene = SCENENO_SELECTMODE;
+				m_bEnd = true;
+				m_NextScene = SCENENO_SELECTMODE;
+
+				//gChangeScene = SCENENO_SELECTMODE;
 			}
 			gMenu.Hide();
 		}
@@ -259,7 +276,10 @@ void CGAME::Update(void)
 	//F2でTitle画面へ
 	if (g_pInput->IsKeyPush(MOFKEY_F2))
 	{
-		gChangeScene = SCENENO_TITLE;
+		m_bEnd = true;
+		m_NextScene = SCENENO_TITLE;
+
+		//gChangeScene = SCENENO_TITLE;
 	}
 
 }

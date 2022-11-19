@@ -61,7 +61,7 @@ void CTitle::Initialize(void)
 {
 	m_Scroll = 0;
 	Rondom = CUtilities::Random(0, 3);
-
+	Load();
 }
 
 //更新
@@ -72,7 +72,9 @@ void CTitle::Update(void)
 	//エンターキーでセレクト画面へ
 	if (g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
-		gChangeScene = SCENENO_SELECTMODE;
+		m_bEnd = true;
+		m_NextScene = SCENENO_SELECTMODE;
+		//gChangeScene = SCENENO_SELECTMODE;
 	}
 }
 

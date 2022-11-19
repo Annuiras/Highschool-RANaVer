@@ -35,6 +35,7 @@ void CGallery::Initialize(void)
 {
 	gFont1.Create(44, "UD デジタル 教科書体 N-B");
 	gFont2.Create(32, "UD デジタル 教科書体 N-B");
+	Load();
 }
 
 //更新
@@ -44,7 +45,10 @@ void CGallery::Update(void)
 	//TODO:Enterで戻るかは検討
 	if (galleryCnt == 15 && g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
-		gChangeScene = SCENENO_SELECTMODE;
+		m_bEnd = true;
+		m_NextScene = SCENENO_SELECTMODE;
+
+		//gChangeScene = SCENENO_SELECTMODE;
 	}
 	////エンターキーでモードセレクト画面へ
 	//if (g_pInput->IsKeyPush(MOFKEY_RETURN)) 
@@ -54,6 +58,9 @@ void CGallery::Update(void)
 	//F1キーでタイトル画面へ
 	if (g_pInput->IsKeyPush(MOFKEY_F1))
 	{
+		m_bEnd = true;
+		m_NextScene = SCENENO_TITLE;
+
 		gChangeScene = SCENENO_TITLE;
 	}
 

@@ -1,12 +1,13 @@
 #pragma once
 
 #include	"Mof.h"
+#include "SceneBase.h"
 #include	"Menu.h"
 
 //スクロール速度
 #define		SCROLL_SPEED	1;
 
-class CModeSelect
+class CModeSelect :public CSceneBase
 {
 private:
 	CTexture		m_TutorialTextTexture;

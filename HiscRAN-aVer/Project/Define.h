@@ -144,7 +144,6 @@ enum tag_SCENENO {
 	//ゲームクリア画面
 	SCENENO_GAMECLEAR,
 
-
 	//チュートリアル画面
 	SCENENO_TUTORIAL,
 

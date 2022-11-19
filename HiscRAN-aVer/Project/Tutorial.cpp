@@ -66,6 +66,7 @@ void CTutorial::Initialize(void)
 	MoveX = 0;
 	gPosX = 0;
 	bShow = false;
+	Load();
 }
 
 //更新
@@ -124,7 +125,9 @@ void CTutorial::Update(void)
 	//エンターキーでモードセレクト画面へ
 	if (count == 5 && g_pInput->IsKeyPush(MOFKEY_RETURN) || count == -1 && g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
-		gChangeScene = SCENENO_SELECTMODE;
+		m_bEnd = true;
+		m_NextScene = SCENENO_SELECTMODE;
+		//gChangeScene = SCENENO_SELECTMODE;
 	}
 
 }

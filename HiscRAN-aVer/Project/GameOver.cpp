@@ -58,6 +58,7 @@ bool CGameOver::Load(void)
 void CGameOver::Initialize(void)
 {
 	Rondom = CUtilities::Random(0, 3);
+	Load();
 }
 
 //XV

@@ -132,6 +132,7 @@
     <ClInclude Include="Obstacle.h" />
     <ClInclude Include="Option.h" />
     <ClInclude Include="RandomValue.h" />
+    <ClInclude Include="SceneBase.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="StageA_Bar.h" />
     <ClInclude Include="StageA_DP.h" />

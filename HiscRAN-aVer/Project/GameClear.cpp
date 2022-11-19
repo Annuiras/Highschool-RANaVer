@@ -41,6 +41,8 @@ bool CGameClear::Load(void)
 //初期化
 void CGameClear::Initialize(void)
 {
+	Load();
+
 	for (int i = 0; i < ITEM_NUM; i++)
 	{
 		Memory1[i] = MAX_STATUS;
@@ -135,12 +137,18 @@ void CGameClear::Update(void)
 	//エンターキーでモードセレクト画面へ
 	if (g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
-		gChangeScene = SCENENO_SELECTMODE;
+		m_bEnd = true;
+		m_NextScene = SCENENO_SELECTMODE;
+
+		//gChangeScene = SCENENO_SELECTMODE;
 	}
 	//F1キーでタイトル画面へ
 	if (g_pInput->IsKeyPush(MOFKEY_F1))
 	{
-		gChangeScene = SCENENO_TITLE;
+		m_bEnd = true;
+		m_NextScene = SCENENO_TITLE;
+
+		//gChangeScene = SCENENO_TITLE;
 	}
 
 

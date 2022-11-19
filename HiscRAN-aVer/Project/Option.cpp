@@ -125,6 +125,8 @@ bool COption::Load(void)
 //初期化
 void COption::Initialize(void)
 {
+	Load();
+
 	//フォント
 	m_Font1.Create(35, "UD デジタル 教科書体 N-B");
 
@@ -149,7 +151,10 @@ void COption::Update(void)
 	//F1キーでタイトル画面へ
 	if (g_pInput->IsKeyPush(MOFKEY_F1))
 	{
-		gChangeScene = SCENENO_TITLE;
+		m_bEnd = true;
+		m_NextScene = SCENENO_TITLE;
+
+		//gChangeScene = SCENENO_TITLE;
 		m_BGM.Stop();
 	}
 
@@ -159,7 +164,10 @@ void COption::Update(void)
 	{
 		m_BGM.Stop();
 		m_SE.Stop();
-		gChangeScene = SCENENO_SELECTMODE;
+		m_bEnd = true;
+		m_NextScene = SCENENO_SELECTMODE;
+
+		//gChangeScene = SCENENO_SELECTMODE;
 	}
 
 	//矢印キー右で選択が右に行くようにする

@@ -1,7 +1,8 @@
 #pragma once
 #include	"Mof.h"
+#include "SceneBase.h"
 
-class COption
+class COption :public CSceneBase
 {
 private:
 	//BGM

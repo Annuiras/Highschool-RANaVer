@@ -1,11 +1,12 @@
 #pragma once
 #include	"Mof.h"
+#include "SceneBase.h"
 #include "Define.h"
 
 //スクロール速度
 #define		SCROLL_SPEED	1;
 
-class CTitle
+class CTitle :public CSceneBase
 {
 private:
 	//背景のテクスチャ

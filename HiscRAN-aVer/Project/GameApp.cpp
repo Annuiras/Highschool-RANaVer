@@ -28,15 +28,17 @@ int			gChangeScene = SCENENO_TITLE;
 //デバッグ
 bool		gDebagflag = false;
 
+CSceneBase* gpScene = NULL;
+
 //各シーンクラス
-CTitle		gTitleScene;
-CModeSelect	gModeSelectScene;
-CTutorial	gTutorialScene;
-CGAME		gGAMEScene;
-CGameOver	gGameOverScene;
-CGameClear	gGameClearScene;
-CGallery		gGalleryScene;
-COption		gOptionScene;
+//CTitle		gTitleScene;
+//CModeSelect	gModeSelectScene;
+//CTutorial	gTutorialScene;
+//CGAME		gGAMEScene;
+//CGameOver	gGameOverScene;
+//CGameClear	gGameClearScene;
+//CGallery		gGalleryScene;
+//COption		gOptionScene;
 
 /*************************************************************************//*!
 		@brief			アプリケーションの初期化
@@ -47,22 +49,25 @@ COption		gOptionScene;
 *//**************************************************************************/
 MofBool CGameApp::Initialize(void){
 
-	// リソース
+	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("Resource");
 
-	gTitleScene.Load();
-	gModeSelectScene.Load();
-	gTutorialScene.Load();
-	gGAMEScene.Load();
-	gGameOverScene.Load();
-	gGameClearScene.Load();
-	gGalleryScene.Load();
-	gOptionScene.Load();
+	//gTitleScene.Load();
+	//gModeSelectScene.Load();
+	//gTutorialScene.Load();
+	//gGAMEScene.Load();
+	//gGameOverScene.Load();
+	//gGameClearScene.Load();
+	//gGalleryScene.Load();
+	//gOptionScene.Load();
 
 
 	//最初に実行されるシーンの初期化
-	gTitleScene.Initialize();
+	//gTitleScene.Initialize();
 
+	//最初に実行されるシーンの初期化 
+	gpScene = new CTitle();
+	gpScene->Initialize();
 
 
 	return TRUE;
@@ -78,82 +83,112 @@ MofBool CGameApp::Update(void){
 	//キーの更新
 	g_pInput->RefreshKey();
 
-	if (g_pInput->IsKeyPush(MOFKEY_BACKSPACE))
-	{
-		if (gDebagflag)
-		{
-			//選択済みになっている場合は選択解除する
-			gDebagflag = false;
-		}
-		else
-		{
-			//選択解除になっている場合は選択済みにする
-			gDebagflag = true;
-		}
-	}
+	gpScene->Update();
 
-	//シーン番号によって更新
-	switch (gScene)
-	{
-	case SCENENO_TITLE:
-		gTitleScene.Update();
-		break;
-	case SCENENO_SELECTMODE:
-		gModeSelectScene.Update();
-		break;
-	case SCENENO_TUTORIAL:
-		gTutorialScene.Update();
-		break;
-	case SCENENO_GAME:
-		gGAMEScene.Update();
-		break;
-	case SCENENO_GAMEOVER:
-		gGameOverScene.Update();
-		break;
-	case SCENENO_GAMECLEAR:
-		gGameClearScene.Update();
-		break;
-	case SCENENO_GALLERY:
-		gGalleryScene.Update();
-		break;
-	case SCENENO_OPTION:
-		gOptionScene.Update();
-		break;
-	}
+	if (gpScene->IsEnd()) {
 
-	//シーン変更があった場合変更先シーンの初期化
-	if (gChangeScene != gScene)
-	{
-		switch (gChangeScene)
+		gpScene->Release();
+
+		//次のシーンを取得 
+		int change = gpScene->GetNextScene();
+
+		//古いシーンを消去する 
+		delete gpScene;
+
+		//次のシーン番号に応じてシーンを作って初期化する 
+		switch (change)
 		{
 		case SCENENO_TITLE:
-			gTitleScene.Initialize();
+			gpScene = new CTitle();
 			break;
 		case SCENENO_SELECTMODE:
-			gModeSelectScene.Initialize();
+			gpScene = new CModeSelect();
 			break;
 		case SCENENO_TUTORIAL:
-			gTutorialScene.Initialize();
+			gpScene = new CTutorial();
 			break;
 		case SCENENO_GAME:
-			gGAMEScene.Initialize();
+			gpScene = new CGAME();
 			break;
 		case SCENENO_GAMEOVER:
-			gGameOverScene.Initialize();
+			gpScene = new CGameOver();
 			break;
 		case SCENENO_GAMECLEAR:
-			gGameClearScene.Initialize();
+			gpScene = new CGameClear();
 			break;
 		case SCENENO_GALLERY:
-			gGalleryScene.Initialize();
+			gpScene = new CGallery();
 			break;
 		case SCENENO_OPTION:
-			gOptionScene.Initialize();
+			gpScene = new COption();
 			break;
-		}
 
-		gScene = gChangeScene;
+		}
+		gpScene->Initialize();
+
 	}
+	////シーン番号によって更新
+	//switch (gScene)
+	//{
+	//case SCENENO_TITLE:
+	//	gTitleScene.Update();
+	//	break;
+	//case SCENENO_SELECTMODE:
+	//	gModeSelectScene.Update();
+	//	break;
+	//case SCENENO_TUTORIAL:
+	//	gTutorialScene.Update();
+	//	break;
+	//case SCENENO_GAME:
+	//	gGAMEScene.Update();
+	//	break;
+	//case SCENENO_GAMEOVER:
+	//	gGameOverScene.Update();
+	//	break;
+	//case SCENENO_GAMECLEAR:
+	//	gGameClearScene.Update();
+	//	break;
+	//case SCENENO_GALLERY:
+	//	gGalleryScene.Update();
+	//	break;
+	//case SCENENO_OPTION:
+	//	gOptionScene.Update();
+	//	break;
+	//}
+
+	////シーン変更があった場合変更先シーンの初期化
+	//if (gChangeScene != gScene)
+	//{
+	//	switch (gChangeScene)
+	//	{
+	//	case SCENENO_TITLE:
+	//		gTitleScene.Initialize();
+	//		break;
+	//	case SCENENO_SELECTMODE:
+	//		gModeSelectScene.Initialize();
+	//		break;
+	//	case SCENENO_TUTORIAL:
+	//		gTutorialScene.Initialize();
+	//		break;
+	//	case SCENENO_GAME:
+	//		gGAMEScene.Initialize();
+	//		break;
+	//	case SCENENO_GAMEOVER:
+	//		gGameOverScene.Initialize();
+	//		break;
+	//	case SCENENO_GAMECLEAR:
+	//		gGameClearScene.Initialize();
+	//		break;
+	//	case SCENENO_GALLERY:
+	//		gGalleryScene.Initialize();
+	//		break;
+	//	case SCENENO_OPTION:
+	//		gOptionScene.Initialize();
+	//		break;
+	//	}
+
+	//	gScene = gChangeScene;
+	//}
 
 	return TRUE;
 }
@@ -170,65 +205,68 @@ MofBool CGameApp::Render(void){
 	//画面のクリア
 	g_pGraphics->ClearTarget(0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0);
 
-	//シーン番号によって描画
-	switch (gScene)
-	{
-	case SCENENO_TITLE:
-		gTitleScene.Render();
-		break;
-	case SCENENO_SELECTMODE:
-		gModeSelectScene.Render();
-		break;
-	case SCENENO_TUTORIAL:
-		gTutorialScene.Render();
-		break;
-	case SCENENO_GAME:
-		gGAMEScene.Render();
-		break;
-	case SCENENO_GAMEOVER:
-		gGameOverScene.Render();
-		break;
-	case SCENENO_GAMECLEAR:
-		gGameClearScene.Render();
-		break;
-	case SCENENO_GALLERY:
-		gGalleryScene.Render();
-		break;
-	case SCENENO_OPTION:
-		gOptionScene.Render();
-		break;
-	}
 
-	if (gDebagflag == true)
-	{
-		switch (gScene)
-		{
-		case SCENENO_TITLE:
-			gTitleScene.RenderDebug();
-			break;
-		case SCENENO_SELECTMODE:
-			gModeSelectScene.RenderDebug();
-			break;
-		case SCENENO_TUTORIAL:
-			gTutorialScene.RenderDebug();
-			break;
-		case SCENENO_GAME:
-			gGAMEScene.RenderDebug();
-			break;
-		case SCENENO_GAMEOVER:
-			gGameOverScene.RenderDebug();
-			break;
-		case SCENENO_GAMECLEAR:
-			gGameClearScene.RenderDebug();
-			break;
-		case SCENENO_GALLERY:
-			gGalleryScene.RenderDebug();
-			break;
-		case SCENENO_OPTION:
-			gOptionScene.RenderDebug();
-			break;
-		}
-	}
+	gpScene->Render();
+
+	////シーン番号によって描画
+	//switch (gScene)
+	//{
+	//case SCENENO_TITLE:
+	//	gTitleScene.Render();
+	//	break;
+	//case SCENENO_SELECTMODE:
+	//	gModeSelectScene.Render();
+	//	break;
+	//case SCENENO_TUTORIAL:
+	//	gTutorialScene.Render();
+	//	break;
+	//case SCENENO_GAME:
+	//	gGAMEScene.Render();
+	//	break;
+	//case SCENENO_GAMEOVER:
+	//	gGameOverScene.Render();
+	//	break;
+	//case SCENENO_GAMECLEAR:
+	//	gGameClearScene.Render();
+	//	break;
+	//case SCENENO_GALLERY:
+	//	gGalleryScene.Render();
+	//	break;
+	//case SCENENO_OPTION:
+	//	gOptionScene.Render();
+	//	break;
+	//}
+
+	//if (gDebagflag == true)
+	//{
+	//	switch (gScene)
+	//	{
+	//	case SCENENO_TITLE:
+	//		gTitleScene.RenderDebug();
+	//		break;
+	//	case SCENENO_SELECTMODE:
+	//		gModeSelectScene.RenderDebug();
+	//		break;
+	//	case SCENENO_TUTORIAL:
+	//		gTutorialScene.RenderDebug();
+	//		break;
+	//	case SCENENO_GAME:
+	//		gGAMEScene.RenderDebug();
+	//		break;
+	//	case SCENENO_GAMEOVER:
+	//		gGameOverScene.RenderDebug();
+	//		break;
+	//	case SCENENO_GAMECLEAR:
+	//		gGameClearScene.RenderDebug();
+	//		break;
+	//	case SCENENO_GALLERY:
+	//		gGalleryScene.RenderDebug();
+	//		break;
+	//	case SCENENO_OPTION:
+	//		gOptionScene.RenderDebug();
+	//		break;
+	//	}
+	//}
 
 
 	//描画の終了
@@ -244,14 +282,18 @@ MofBool CGameApp::Render(void){
 *//**************************************************************************/
 MofBool CGameApp::Release(void){
 
-	gTitleScene.Release();
-	gModeSelectScene.Release();
-	gTutorialScene.Release();
-	gGAMEScene.Release();
-	gGameOverScene.Release();
-	gGameClearScene.Release();
-	gGalleryScene.Release();
-	gOptionScene.Release();
+
+	if (gpScene != nullptr) {
+		gpScene->Release();
+	}
+	//gTitleScene.Release();
+	//gModeSelectScene.Release();
+	//gTutorialScene.Release();
+	//gGAMEScene.Release();
+	//gGameOverScene.Release();
+	//gGameClearScene.Release();
+	//gGalleryScene.Release();
+	//gOptionScene.Release();
 
 	return TRUE;
 }
