@@ -1,8 +1,6 @@
 #include "Define.h"
 #include "Gallery.h"
 
-//変更するシーン（外部参照。実態はGameApp.cpp）
-extern int gChangeScene;
 
 #define MenuCnt (16)
 
@@ -30,6 +28,207 @@ CGallery::~CGallery()
 
 }
 
+//ロード
+bool CGallery::Load(void)
+{
+	//背景テクスチャの読み込み
+	if (!m_BackTexture.Load("CollectionBG.png"))
+	{
+		return false;
+	}
+
+	//最終容姿選択画像読み込み
+	if (!m_LastApp.Load("collection.png"))
+	{
+		return false;
+	}
+
+	//未解放最終容姿選択画像読み込み
+	if (!m_NotLastApp[0].Load("collection_NotFound_00.png"))
+	{
+		return false;
+	}
+
+	if (!m_NotLastApp[1].Load("collection_NotFound_01.png"))
+	{
+		return false;
+	}
+
+	if (!m_NotLastApp[2].Load("collection_NotFound_02.png"))
+	{
+		return false;
+	}
+
+	if (!m_NotLastApp[3].Load("collection_NotFound_03.png"))
+	{
+		return false;
+	}
+
+	if (!m_NotLastApp[4].Load("collection_NotFound_04.png"))
+	{
+		return false;
+	}
+
+	if (!m_NotLastApp[5].Load("collection_NotFound_05.png"))
+	{
+		return false;
+	}
+
+	if (!m_NotLastApp[6].Load("collection_NotFound_06.png"))
+	{
+		return false;
+	}
+
+	if (!m_NotLastApp[7].Load("collection_NotFound_07.png"))
+	{
+		return false;
+	}
+
+	if (!m_NotLastApp[8].Load("collection_NotFound_08.png"))
+	{
+		return false;
+	}
+
+	if (!m_NotLastApp[9].Load("collection_NotFound_09.png"))
+	{
+		return false;
+	}
+
+	if (!m_NotLastApp[10].Load("collection_NotFound_10.png"))
+	{
+		return false;
+	}
+
+	if (!m_NotLastApp[11].Load("collection_NotFound_11.png"))
+	{
+		return false;
+	}
+
+	if (!m_NotLastApp[12].Load("collection_NotFound_12.png"))
+	{
+		return false;
+	}
+
+	if (!m_NotLastApp[13].Load("collection_NotFound_13.png"))
+	{
+		return false;
+	}
+
+	if (!m_NotLastApp[14].Load("collection_NotFound_14.png"))
+	{
+		return false;
+	}
+
+
+	//選択時の四角形
+	if (!m_SelectTexture.Load("Select.png"))
+	{
+		return false;
+	}
+
+	if (!m_SelectTexture_s.Load("Select_s.png"))
+	{
+		return false;
+	}
+
+	//戻るボタン
+	if (!m_BackButton.Load("BackButton.png"))
+	{
+		return false;
+	}
+
+
+	//最終容姿の台紙テクスチャ(バラ&ピックアップ用)
+	if (!m_LastAppPic[0].Load("Picup1.png"))
+	{
+		return false;
+	}
+
+	if (!m_LastAppPic[1].Load("Picup2.png"))
+	{
+		return false;
+	}
+
+	if (!m_LastAppPic[2].Load("Picup3.png"))
+	{
+		return false;
+	}
+
+	if (!m_LastAppPic[3].Load("Picup4.png"))
+	{
+		return false;
+	}
+
+	if (!m_LastAppPic[4].Load("Picup5.png"))
+	{
+		return false;
+	}
+
+	if (!m_LastAppPic[5].Load("Picup6.png"))
+	{
+		return false;
+	}
+
+	if (!m_LastAppPic[6].Load("Picup7.png"))
+	{
+		return false;
+	}
+
+	if (!m_LastAppPic[7].Load("Picup8.png"))
+	{
+		return false;
+	}
+
+	if (!m_LastAppPic[8].Load("Picup9.png"))
+	{
+		return false;
+	}
+
+	if (!m_LastAppPic[9].Load("Picup10.png"))
+	{
+		return false;
+	}
+
+	if (!m_LastAppPic[10].Load("Picup11.png"))
+	{
+		return false;
+	}
+
+	if (!m_LastAppPic[11].Load("Picup12.png"))
+	{
+		return false;
+	}
+
+	if (!m_LastAppPic[12].Load("Picup13.png"))
+	{
+		return false;
+	}
+
+	if (!m_LastAppPic[13].Load("Picup14.png"))
+	{
+		return false;
+	}
+
+	if (!m_LastAppPic[14].Load("Picup15.png"))
+	{
+		return false;
+	}
+
+
+	if (!m_PickUp.Load("Picup.png"))
+	{
+		return false;
+	}
+
+	if (!m_Text.Load("Text.png"))
+	{
+		return false;
+	}
+
+
+	return true;
+}
+
 //初期化
 void CGallery::Initialize(void)
 {
@@ -47,21 +246,12 @@ void CGallery::Update(void)
 	{
 		m_bEnd = true;
 		m_NextScene = SCENENO_SELECTMODE;
-
-		//gChangeScene = SCENENO_SELECTMODE;
 	}
-	////エンターキーでモードセレクト画面へ
-	//if (g_pInput->IsKeyPush(MOFKEY_RETURN)) 
-	//{
-	//	gChangeScene = SCENENO_SELECTMODE;
-	//}
 	//F1キーでタイトル画面へ
 	if (g_pInput->IsKeyPush(MOFKEY_F1))
 	{
 		m_bEnd = true;
 		m_NextScene = SCENENO_TITLE;
-
-		gChangeScene = SCENENO_TITLE;
 	}
 
 	//矢印キー右で選択が右に行くようにする
@@ -116,14 +306,6 @@ void CGallery::Render(void)
 	m_BackTexture.Render(0, 0);
 
 	m_LastApp.Render(60, 40);
-
-	//最終容姿画像
-	/*for (int i = 0; i < 15; i++)
-	{
-		m_LastApp[i].Render(pos[i].x, pos[i].y);
-	}*/
-
-
 
 	//最終容姿表示位置
 	m_PickUp.Render(766, 40);
@@ -914,206 +1096,6 @@ void CGallery::RenderDebug(void)
 	}
 }
 
-//ロード
-bool CGallery::Load(void)
-{
-	//背景テクスチャの読み込み
-	if (!m_BackTexture.Load("CollectionBG.png"))
-	{
-		return false;
-	}
-
-	//最終容姿選択画像読み込み
-	if (!m_LastApp.Load("collection.png"))
-	{
-		return false;
-	}
-
-	//未解放最終容姿選択画像読み込み
-	if (!m_NotLastApp[0].Load("collection_NotFound_00.png"))
-	{
-		return false;
-	}
-
-	if (!m_NotLastApp[1].Load("collection_NotFound_01.png"))
-	{
-		return false;
-	}
-
-	if (!m_NotLastApp[2].Load("collection_NotFound_02.png"))
-	{
-		return false;
-	}
-
-	if (!m_NotLastApp[3].Load("collection_NotFound_03.png"))
-	{
-		return false;
-	}
-
-	if (!m_NotLastApp[4].Load("collection_NotFound_04.png"))
-	{
-		return false;
-	}
-
-	if (!m_NotLastApp[5].Load("collection_NotFound_05.png"))
-	{
-		return false;
-	}
-
-	if (!m_NotLastApp[6].Load("collection_NotFound_06.png"))
-	{
-		return false;
-	}
-
-	if (!m_NotLastApp[7].Load("collection_NotFound_07.png"))
-	{
-		return false;
-	}
-
-	if (!m_NotLastApp[8].Load("collection_NotFound_08.png"))
-	{
-		return false;
-	}
-
-	if (!m_NotLastApp[9].Load("collection_NotFound_09.png"))
-	{
-		return false;
-	}
-
-	if (!m_NotLastApp[10].Load("collection_NotFound_10.png"))
-	{
-		return false;
-	}
-
-	if (!m_NotLastApp[11].Load("collection_NotFound_11.png"))
-	{
-		return false;
-	}
-
-	if (!m_NotLastApp[12].Load("collection_NotFound_12.png"))
-	{
-		return false;
-	}
-
-	if (!m_NotLastApp[13].Load("collection_NotFound_13.png"))
-	{
-		return false;
-	}
-
-	if (!m_NotLastApp[14].Load("collection_NotFound_14.png"))
-	{
-		return false;
-	}
-
-
-	//選択時の四角形
-	if (!m_SelectTexture.Load("Select.png"))
-	{
-		return false;
-	}
-
-	if (!m_SelectTexture_s.Load("Select_s.png"))
-	{
-		return false;
-	}
-
-	//戻るボタン
-	if (!m_BackButton.Load("BackButton.png"))
-	{
-		return false;
-	}
-
-
-	//最終容姿の台紙テクスチャ(バラ&ピックアップ用)
-	if (!m_LastAppPic[0].Load("Picup1.png"))
-	{
-		return false;
-	}
-
-	if (!m_LastAppPic[1].Load("Picup2.png"))
-	{
-		return false;
-	}
-
-	if (!m_LastAppPic[2].Load("Picup3.png"))
-	{
-		return false;
-	}
-
-	if (!m_LastAppPic[3].Load("Picup4.png"))
-	{
-		return false;
-	}
-
-	if (!m_LastAppPic[4].Load("Picup5.png"))
-	{
-		return false;
-	}
-
-	if (!m_LastAppPic[5].Load("Picup6.png"))
-	{
-		return false;
-	}
-
-	if (!m_LastAppPic[6].Load("Picup7.png"))
-	{
-		return false;
-	}
-
-	if (!m_LastAppPic[7].Load("Picup8.png"))
-	{
-		return false;
-	}
-
-	if (!m_LastAppPic[8].Load("Picup9.png"))
-	{
-		return false;
-	}
-
-	if (!m_LastAppPic[9].Load("Picup10.png"))
-	{
-		return false;
-	}
-
-	if (!m_LastAppPic[10].Load("Picup11.png"))
-	{
-		return false;
-	}
-
-	if (!m_LastAppPic[11].Load("Picup12.png"))
-	{
-		return false;
-	}
-
-	if (!m_LastAppPic[12].Load("Picup13.png"))
-	{
-		return false;
-	}
-
-	if (!m_LastAppPic[13].Load("Picup14.png"))
-	{
-		return false;
-	}
-
-	if (!m_LastAppPic[14].Load("Picup15.png"))
-	{
-		return false;
-	}
-
-
-	if (!m_PickUp.Load("Picup.png"))
-	{
-		return false;
-	}
-
-	if (!m_Text.Load("Text.png"))
-	{
-		return false;
-	}
-
-
-	return true;
-}
 
 //リリース
 void CGallery::Release(void)

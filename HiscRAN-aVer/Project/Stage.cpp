@@ -16,10 +16,12 @@ CStage::CStage() :
 	m_obinfo(),
 	m_obcount(0),
 	m_BakScroll(0.0f),
-	m_StageScroll(0.0f),
+	m_StageScroll(0.0f), 
 	m_Scholastic(0),
 	m_Imagination(0),
 	m_Action(0),
+	m_AdoptCount(0),
+	m_AlreadyUsedArray(),
 	m_Communication(0),
 	m_Charm(0),
 	m_bClear(false),
@@ -174,35 +176,37 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 	//初期化
 	for (int i = 0; i < MAP_INFO_PATTERN; i++)
 	{
-		AlreadyUsedArray[i] = 0;
+		m_AlreadyUsedArray[i] = 0;
 	}
 
+	//初期化
+	m_AdoptCount = 0;
 
 	//低確率で同じステージが選択されてしまうため試行回数は多め
 	for (int z = 1; z < 100; z++)
 	{
 		for (int x = 0; x < MAP_INFO_PATTERN; x++)
 		{
-			if (AlreadyUsedArray[x] == 1)
+			if (m_AlreadyUsedArray[x] == 1)
 			{
 				//どこまで採用済みかカウント
-				AdoptCount += 1;
+				m_AdoptCount += 1;
 			}
 		}
 		//ランダムパターンをセット
 		int randam= RandmuBak.GetRandomNumbe(0, 14);
 
 		//まだ使用していない場合のみ採用(1=使用済み)
-		if (AlreadyUsedArray[randam] == 0)
+		if (m_AlreadyUsedArray[randam] == 0)
 		{
 			//採用
-			m_StageConstitution[AdoptCount] = randam;
+			m_StageConstitution[m_AdoptCount] = randam;
 
 			//使用したパターンの場所に１をセット
-			AlreadyUsedArray[randam] = 1;
+			m_AlreadyUsedArray[randam] = 1;
 		}			
 		//採用済カウント
-		AdoptCount = 0;
+		m_AdoptCount = 0;
 	}
 
 	//デバッグ用の指定コマンド、必要に応じていじってください
@@ -314,11 +318,8 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 }
 
 //更新
-//over:キャラクターのオーバー値
 //plrect:プレイヤーの当たり判定矩形
-//pl2:スキル；吸い寄せ範囲矩形
-//suckingX,suckingY:プレイヤーのXY座標
-void CStage::Update(CRectangle plrect,CRectangle pl2, float suckingX, float suckingY) {
+void CStage::Update(CRectangle plrect) {
 
 
 	//背景カウント
@@ -343,7 +344,7 @@ void CStage::Update(CRectangle plrect,CRectangle pl2, float suckingX, float suck
 	}
 
 
-	//プレイヤーのオーバーした分だけ後ろに下げる
+	//後ろに下げる
 	m_BakScroll -= m_Scroll_Speed;
 
 	//ステージ生成用スクロール値
@@ -396,18 +397,13 @@ void CStage::Update(CRectangle plrect,CRectangle pl2, float suckingX, float suck
 			continue;
 		}
 
-		//DPと吸い込み判定矩形
-		if (dp_array[i].CollosopnDP(pl2)) {
-
-			dp_array[i].UpdateAtraction(suckingX, suckingY);
-		}
-
 		if (dp_array[i].CollosopnDP(plrect)) {
 			//DPと接触した場合
 			UPdeteCollisionDP(dp_array[i].Gettype());
 			dp_array[i].Setshow(false);
 
 		}
+
 	}
 
 	//クリアフラグ変更
@@ -432,7 +428,11 @@ void CStage::UPdeteCollisionDP(int dpt) {
 
 	case DP_ACTION:
 		m_Action += 1;
-		m_pEffectManager->Start(0, 0, EFC_GET_DP);
+
+		//todo:座標でキャラを指定してあげないと・・・
+		//当たり判定キャラに移すのあり？
+		//エフェクト再生
+		m_pEffectManager->Start(PLAYER_START_POS_X, PLAYER_START_POS_Y, EFC_GET_DP);
 		if (m_Action > 100) {
 			m_Action = 100;
 		}
@@ -715,8 +715,6 @@ void CStage::MapChange(void) {
 		//最後のマップ足場パターン情報の場合
 		if (m_MapNo >= 15)
 		{
-			//最後の場合最後まで描画した場合の処理
-			//どうしようか悩み中
 			m_MapNo = 100;
 		}
 

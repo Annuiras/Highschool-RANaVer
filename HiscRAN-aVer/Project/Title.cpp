@@ -74,7 +74,6 @@ void CTitle::Update(void)
 	{
 		m_bEnd = true;
 		m_NextScene = SCENENO_SELECTMODE;
-		//gChangeScene = SCENENO_SELECTMODE;
 	}
 }
 

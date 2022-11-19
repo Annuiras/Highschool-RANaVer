@@ -1,11 +1,6 @@
 #include "Tutorial.h"
 #include "Define.h"
 
-//変更するシーン（外部参照、実態はGameApp.cpp）
-extern int		gChangeScene;
-
-
-
 CTutorial::CTutorial() :
 	Texture(),
 	ScreenTexture(),
@@ -119,7 +114,8 @@ void CTutorial::Update(void)
 	//F1キーでタイトル画面へ
 	if (g_pInput->IsKeyPush(MOFKEY_F1))
 	{
-		gChangeScene = SCENENO_TITLE;
+		m_bEnd = true;
+		m_NextScene = SCENENO_TITLE;
 	}
 
 	//エンターキーでモードセレクト画面へ
@@ -127,7 +123,6 @@ void CTutorial::Update(void)
 	{
 		m_bEnd = true;
 		m_NextScene = SCENENO_SELECTMODE;
-		//gChangeScene = SCENENO_SELECTMODE;
 	}
 
 }

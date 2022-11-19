@@ -2,9 +2,6 @@
 #include "GameOver.h"
 
 
-//変更するシーン（外部参照。実態はGameApp.cpp）
-extern int gChangeScene;
-
 #define MenuCnt (2)
 
 int GameOverCount = 0;
@@ -83,19 +80,22 @@ void CGameOver::Update(void)
 	//やめるのボタン上でエンターキーでモードセレクト画面へ
 	if (GameOverCount == 1 && g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
-		gChangeScene = SCENENO_SELECTMODE;
+		m_bEnd = true;
+		m_NextScene = SCENENO_SELECTMODE;
 	}
 
 	//はじめからのボタン上でエンターキーでゲーム画面へ
 	if (GameOverCount == 0 && g_pInput->IsKeyHold(MOFKEY_RETURN))
 	{
-		gChangeScene = SCENENO_GAME;
+		m_bEnd = true;
+		m_NextScene = SCENENO_GAME;
 	}
 
 	//F1キーでタイトル画面へ
 	if (g_pInput->IsKeyPush(MOFKEY_F1))
 	{
-		gChangeScene = SCENENO_TITLE;
+		m_bEnd = true;
+		m_NextScene = SCENENO_TITLE;
 	}
 }
 

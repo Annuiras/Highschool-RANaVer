@@ -2,9 +2,6 @@
 #include "Define.h"
 
 
-//変更するシーン（外部参照、実態はGameApp.cpp）
-extern int	gChangeScene;
-
 #define MenuCnt (4)
 
 int MenuNow_Mode = 0;
@@ -81,31 +78,56 @@ void CModeSelect::Update()
 		case 0:
 			m_bEnd = true;
 			m_NextScene = SCENENO_TUTORIAL;
-			//gChangeScene = SCENENO_TUTORIAL;
 			break;
 
 		case 1:
 			m_bEnd = true;
 			m_NextScene = SCENENO_GAME;
-
-			//gChangeScene = SCENENO_GAME;
 			break;
 
 		case 2:
 			m_bEnd = true;
 			m_NextScene = SCENENO_GALLERY;
-
-			//gChangeScene = SCENENO_GALLERY;
 			break;
 
 		case 3:
 			m_bEnd = true;
 			m_NextScene = SCENENO_OPTION;
-
-			//gChangeScene = SCENENO_OPTION;
 			break;
 		}
 	}
+
+	//F1キーでタイトル画面へ
+	if (g_pInput->IsKeyPush(MOFKEY_F1))
+	{
+		m_bEnd = true;
+		m_NextScene = SCENENO_TITLE;
+	}
+	//F2キーでチュートリアル画面へ
+	else if (g_pInput->IsKeyPush(MOFKEY_F2))
+	{
+		m_bEnd = true;
+		m_NextScene = SCENENO_TUTORIAL;
+	}
+	//F3キーでゲーム画面へ
+	else if (g_pInput->IsKeyPush(MOFKEY_F3))
+	{
+		m_bEnd = true;
+		m_NextScene = SCENENO_GAME;
+	}
+	//F4キーでギャラリー画面へ
+	else if (g_pInput->IsKeyPush(MOFKEY_F4))
+	{
+		m_bEnd = true;
+		m_NextScene = SCENENO_GALLERY;
+	}
+	//F5キーでオプション画面へ
+	else if (g_pInput->IsKeyPush(MOFKEY_F5))
+	{
+		m_bEnd = true;
+		m_NextScene = SCENENO_OPTION;
+	}
+
 
 	//メニューの更新
 	if (gMenu.IsShow())
@@ -234,32 +256,6 @@ void CModeSelect::RenderDebug(void)
 	CGraphicsUtilities::RenderString(10, 130, "F3キーでゲーム画面へ遷移");
 	CGraphicsUtilities::RenderString(10, 160, "F4キーでギャラリー画面へ遷移");
 	CGraphicsUtilities::RenderString(10, 190, "F5キーでオプション画面へ遷移");
-
-	//F1キーでタイトル画面へ
-	if (g_pInput->IsKeyPush(MOFKEY_F1))
-	{
-		gChangeScene = SCENENO_TITLE;
-	}
-	//F2キーでチュートリアル画面へ
-	else if (g_pInput->IsKeyPush(MOFKEY_F2))
-	{
-		gChangeScene = SCENENO_TUTORIAL;
-	}
-	//F3キーでゲーム画面へ
-	else if (g_pInput->IsKeyPush(MOFKEY_F3))
-	{
-		gChangeScene = SCENENO_GAME;
-	}
-	//F4キーでギャラリー画面へ
-	else if (g_pInput->IsKeyPush(MOFKEY_F4))
-	{
-		gChangeScene = SCENENO_GALLERY;
-	}
-	//F5キーでオプション画面へ
-	else if (g_pInput->IsKeyPush(MOFKEY_F5))
-	{
-		gChangeScene = SCENENO_OPTION;
-	}
 
 	const char* MenuString[MenuCnt] =
 	{

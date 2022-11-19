@@ -4,9 +4,10 @@
 #include "RandomValue.h"
 #include "Ground.h"
 #include "DetailPoint.h"
-#include "EffectManager.h"
 #include "Bar.h"
 #include "Obstacle.h"
+#include "EffectManager.h"
+#include "MusicManager.h"
 
 ////DPの出現位置情報用構造体
 typedef struct tag_DP_POS
@@ -43,9 +44,11 @@ private:
 	//乱数生成
 	RandomValue RandmuBak;
 
+	//エフェクトマネージャー
 	CEffectManager* m_pEffectManager;
 
-	//CEffect* m_pEffect;
+	//SE・BGMマネージャー
+	CMusicManager* m_MusicManager;
 
 
 	#pragma region ステージテクスチャ
@@ -173,10 +176,10 @@ private:
 
 
 	//使用済みパターン番号記録用配列
-	int	AlreadyUsedArray[MAP_INFO_PATTERN];
+	int	m_AlreadyUsedArray[MAP_INFO_PATTERN];
 
 	//採用済カウント
-	int AdoptCount;
+	int m_AdoptCount;
 
 	//背景カウント
 	int m_countbak;
@@ -206,8 +209,7 @@ public:
 	//[]:1マップパターンにいくつ構造体があるか
 	void Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INFO_STRUCT], OB_info obin[][OB_INFO_STRUCT]);
 
-	//引数追加 CRectangle pl2, float suckingX, float suckingY
-	void Update(CRectangle pl,CRectangle pl2, float suckingX, float suckingY);
+	void Update(CRectangle plrect);
 	bool Load(void);
 	void Render(void);
 	void Release(void);
@@ -231,7 +233,10 @@ public:
 	//クリア判定の取得
 	bool GetClear(void);
 
+	//SE・BGMマネージャーセット
+	void SetMusicManager(CMusicManager* pmng) { m_MusicManager = pmng; }
 
+	//エフェクトマネージャーセット
 	void SetEffectManager(CEffectManager* pmng) { m_pEffectManager = pmng; }
 
 	//障害物

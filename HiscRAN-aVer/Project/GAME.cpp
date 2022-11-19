@@ -1,42 +1,9 @@
 #pragma once
 #include "GAME.h"
-#include "Define.h"
-#include "GameApp.h"
-#include "Player.h"
-#include "Stage.h"
-#include "Ground.h"
-#include "DetailPoint.h"
-#include "Bar.h"
-#include "Obstacle.h"
-#include "MusicManager.h"
-#include "EffectManager.h"
 #include "StageA_DP.h"
 #include "StageA_Bar.h"
 #include "StageA_Obstacle.h"
 
-
-//変更するシーン（外部参照。実態はGameApp.cpp）
-extern int			gChangeScene;
-
-//エフェクトマネージャー
-CEffectManager g_EffectManeger;
-
-//プレイヤークラス
-CPlayer g_Player;
-
-CMusicManager g_MusicManager;
-
-//プレイヤースキルクラス
-//CPlayerSkill g_PlayerSkill;
-
-//ステージクラス
-CStage g_Stage;
-
-//デバッグフラグ
-bool Debuggingflg = true;
-
-bool Clearflag = false;
-bool GameOverflag = false;
 
 
 CGAME::CGAME() {}
@@ -46,6 +13,7 @@ CGAME::~CGAME()
 
 }
 
+//素材読み込み
 void CGAME::Load(void)
 {
 	g_Player.Load();
@@ -57,22 +25,23 @@ void CGAME::Load(void)
 //初期化
 void CGAME::Initialize(void)
 {
+	//素材読み込み
 	Load();
 
 	gMenu.Create(gMenuItemCount);
 
-	//プレイヤー初期化
-	g_Player.Initialize();
-	g_Player.SetMusicManager(&g_MusicManager);
-	//プレイヤースキル初期化
-	//g_PlayerSkill.Initialize();
-
-	//ステージ初期化
-	g_Stage.Initialize(s_stageAdp,s_stageAbar, s_stageAOB);
-
+	//マネージャー初期化
 	g_MusicManager.Initialize();
 	g_EffectManeger.Initialize();
 
+	//プレイヤー初期化
+	g_Player.Initialize();
+	g_Player.SetMusicManager(&g_MusicManager);
+	g_Player.SetEffectManager(&g_EffectManeger);
+
+	//ステージ初期化
+	g_Stage.Initialize(s_stageAdp,s_stageAbar, s_stageAOB);
+	g_Stage.SetMusicManager(&g_MusicManager);
 	g_Stage.SetEffectManager(&g_EffectManeger);
 }
 
@@ -92,8 +61,6 @@ void CGAME::Update(void)
 	{
 		m_bEnd = true;
 		m_NextScene = SCENENO_TITLE;
-
-		//gChangeScene = SCENENO_TITLE;
 	}
 
 	//一時的な追加です
@@ -102,9 +69,6 @@ void CGAME::Update(void)
 	{
 		m_bEnd = true;
 		m_NextScene = SCENENO_SELECTMODE;
-
-
-		//gChangeScene = SCENENO_SELECTMODE;
 	}
 
 	//一時的な追加です
@@ -130,8 +94,6 @@ void CGAME::Update(void)
 	{
 		m_bEnd = true;
 		m_NextScene = SCENENO_GAMECLEAR;
-
-		//gChangeScene = SCENENO_GAMECLEAR;
 	}
 
 	//Vでゲームオーバー画面
@@ -139,8 +101,6 @@ void CGAME::Update(void)
 	{
 		m_bEnd = true;
 		m_NextScene = SCENENO_GAMEOVER;
-
-		//gChangeScene = SCENENO_GAMEOVER;
 	}
 
 	//一時的な追加です
@@ -194,36 +154,10 @@ void CGAME::Update(void)
 
 
 	//ステージ更新
-	g_Stage.Update(g_Player.GetRect(),g_Player.SuckingRect(), g_Player.CircleX(), g_Player.CircleY());
+	g_Stage.Update(g_Player.GetRect());
 
 	//プレイヤー更新
 	g_Player.Update();
-	g_Player.UpdateSkillShock();
-
-
-	//スライディング判定
-	//地面か足場に乗っている間下矢印キースライディング
-	for (int i = 0; i < BAR_VOLUME; i++)
-	{
-		if (!g_Stage.b_bar[i].Getshow()) {
-			continue;
-		}
-		//足場との判定
-		if (g_Player.CollosopnBar(g_Stage.b_bar[i].GetRect(g_Stage.b_bar[i].Gettype()))) {
-
-			//スライディング判定
-			g_Player.UPdateSliding();
-
-		}
-	}
-	//地面との判定
-	if (g_Player.CollosopnGround(g_Stage.g_ground.GetRect())) {
-
-		//スライディング判定
-		g_Player.UPdateSliding();
-
-	}
-
 
 	//ステージクリアかつ開始状態の時実行
 	if (g_Stage.GetClear()&& g_Stage.GetGameStopPlay()) {
@@ -259,6 +193,7 @@ void CGAME::Update(void)
 			continue;
 		}
 
+		//判定
 		if (g_Player.CollosopnOB(g_Stage.ob_array[i].GetRect(g_Stage.ob_array[i].GetType())))
 		{
  			g_Player.UPdateCollisionOB();
@@ -270,6 +205,7 @@ void CGAME::Update(void)
 		}
 	}
 
+	//エフェクトの更新
 	g_EffectManeger.Update();
 
 	//一時的な追加です
@@ -278,15 +214,12 @@ void CGAME::Update(void)
 	{
 		m_bEnd = true;
 		m_NextScene = SCENENO_TITLE;
-
-		//gChangeScene = SCENENO_TITLE;
 	}
 
 }
 
 void CGAME::Render(void)
 {
-
 
 	//ステージ描画
 	g_Stage.Render();
@@ -297,21 +230,13 @@ void CGAME::Render(void)
 	//メニューの描画
 	gMenu.Render(2);
 
-	//CGraphicsUtilities::RenderString(10, 10, "ゲーム画面");
-	//CGraphicsUtilities::RenderString(10, 40, "F1キーでタイトル画面へ遷移");
-	//CGraphicsUtilities::RenderString(10, 70, "Enterキーでモードセレクト画面へ遷移");
-
-
+	//エフェクトの描画
 	g_EffectManeger.Render();
-	//プレイヤースキル描画
-	//g_PlayerSkill.Render();
 
 	//デバッグ描画
 	if (Debuggingflg) {
 		g_Stage.RenderDebugging();
 		g_Player.RenderDebugging();
-		//g_PlayerSkill.RenderDebug();
-
 	}
 
 }
@@ -324,9 +249,9 @@ void CGAME::Release(void)
 	g_Stage.Release();
 
 	g_EffectManeger.Release();
+	g_MusicManager.Release();
 
 	gMenu.Release();
-	g_MusicManager.Release();
 
 }
 

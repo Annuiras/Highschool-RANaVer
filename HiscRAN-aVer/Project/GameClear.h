@@ -2,12 +2,6 @@
 #include "Mof.h"
 #include "SceneBase.h"
 
-#define CHART_SIZE 248			// チャート半径
-#define CHART_CENTER_X 325	    // チャート中心座標 X
-#define CHART_CENTER_Y 478	    // チャート中心座標 Y
-
-#define MAX_STATUS 100			// ステータス最大値
-#define ITEM_NUM 5				// ステータス個数
 
 class CGameClear:public CSceneBase
 {

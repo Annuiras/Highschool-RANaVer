@@ -22,7 +22,6 @@ private:
 	float					m_PosY;
 	bool					m_bShow;
 	CRectangle				m_SrcRect;
-	//CSoundBuffer	m_Sound;
 public:
 	CEffect();
 	~CEffect();

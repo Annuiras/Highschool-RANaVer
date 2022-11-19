@@ -91,7 +91,6 @@ enum tag_BAR
 
 #pragma endregion
 
-
 #pragma region プレイヤー定数群
 
 //プレイヤー初期位置
@@ -121,10 +120,23 @@ enum tag_BAR
 
 #pragma endregion
 
+#pragma region 最終容姿画面定数群
+
+#define CHART_SIZE 248			// チャート半径
+#define CHART_CENTER_X 325	    // チャート中心座標 X
+#define CHART_CENTER_Y 478	    // チャート中心座標 Y
+
+#define MAX_STATUS 100			// ステータス最大値
+#define ITEM_NUM 5				// ステータス個数
+
+#pragma endregion
 
 
 //地面高さ
 #define GROUND_Y 700
+
+//管理エフェクトの数
+#define		EFFECTCOUNT						5
 
 
 //存在するシーン

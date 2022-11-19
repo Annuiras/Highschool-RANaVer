@@ -12,8 +12,8 @@ CPlayer::CPlayer() :
 	m_deathflg(false),
 	m_Jumpflg(false),
 	m_JumpCount(0.0f),
-	m_BSflg(true),
-	m_Slidingflg(false) {
+	m_BSflg(true)
+{
 }
 
 CPlayer::~CPlayer() {
@@ -33,21 +33,10 @@ bool CPlayer::Load(void) {
 	}
 
 	//アニメーション
-	SpriteAnimationCreate anim[] = {
-
+	SpriteAnimationCreate anim[] = 
+	{
 		{
-			"待機",
-			0,0,
-			60,64,
-			TRUE,{{5,0,0},{5,1,0},{5,2,0},{5,3,0},{5,4,0},{5,5,0},{5,6,0},{5,7,0}}
-		},
-		{
-			//"移動",
-			//0,70,
-			//60,64,
-			//TRUE,{{5,0,0},{5,1,0},{5,2,0},{5,3,0},{5,4,0},{5,5,0}}
-
-			//仮モーション用
+			//モーション
 			"移動",
 			0,0,
 			160,185,
@@ -61,28 +50,7 @@ bool CPlayer::Load(void) {
 			0,185,
 			160,185,
 			FALSE,{{5,0,2}}
-		},
-		//スライディング
-		{
-			"スライディング",//（仮：攻撃）
-			0,350,
-			90,64,
-			TRUE,{{2,0,0},{2,1,0},{2,2,0},{2,3,0},{2,4,0},{2,5,0},{2,6,0}}
-		},
-		{
-			//使ってないです
-			"ジャンプ終了",
-			240,140,
-			60,64,
-			FALSE,{{2,0,0},{2,1,0}}
-		},
-		//ダメージ
-		{
-			"ダメージ",
-			480,0,
-			60,64,
-			FALSE,{{20,0,0}}
-		},
+		}
 	};
 	m_Motion.Create(anim, MOTION_COUNT);
 	return true;
@@ -101,7 +69,6 @@ void CPlayer::Initialize(void) {
 	m_DamageWait = 0;
 	m_deathflg = false;
 
-	m_Slidingflg = false;
 
 	m_Motion.ChangeMotion(MOTION_MOVE);
 
@@ -110,31 +77,20 @@ void CPlayer::Initialize(void) {
 //更新
 void CPlayer::Update(void) {
 
-
-	//ダメージ中の動作
-	if (m_Motion.GetMotionNo() == MOTION_DAMAGE)
-	{
-		//終了で待機に戻す
-		if (m_Motion.IsEndMotion())
-		{
-			m_Motion.ChangeMotion(MOTION_WAIT);
-		}
-	}
-
 	//ジャンプ処理
-	if (g_pInput->IsKeyHold(MOFKEY_SPACE) && !m_Slidingflg && m_BSflg) {
+	if (g_pInput->IsKeyHold(MOFKEY_SPACE) && m_BSflg) {
 
 		//ジャンプ開始
 		if (!m_Jumpflg) {
 			m_MoveY = SMALLJUMP;
 		}
+
+		//SE再生
 		m_MusicManager->Start(SET_PAWANN);
+
 		m_JumpCount++;
 		m_Jumpflg = true;
 		m_Motion.ChangeMotion(MOTION_JUMPSTART);
-
-
-		
 
 		//大小ジャンプ切り替え
 		//押している間に一定時間超えれば大ジャンプ
@@ -178,27 +134,6 @@ void CPlayer::Update(void) {
 
 }
 
-//スライディング処理
-void CPlayer::UPdateSliding(void) {
-
-
-	if (g_pInput->IsKeyHold(MOFKEY_DOWN)) {
-
-		//スライディングフラグ
-		m_Slidingflg = true;
-
-		//モーション変更
-		m_Motion.ChangeMotion(MOTION_SLIDING);
-
-	}
-	else
-	{
-		//スライディングフラグ
-		m_Slidingflg = false;
-	}
-
-
-}
 
 //足場当たり判定
 bool CPlayer::CollosopnBar(CRectangle r) {
@@ -276,8 +211,6 @@ void CPlayer::UPdateCollisionGround(float y) {
 		m_JumpCount = 0;
 	}
 
-
-
 	//移動モーション
 	if (m_Motion.GetMotionNo() != MOTION_MOVE) {
 		m_Motion.ChangeMotion(MOTION_MOVE);
@@ -316,31 +249,6 @@ void CPlayer::UPdateCollisionOB() {
 	}
 }
 
-//HP増加
-void CPlayer::UpdateHP(void)
-{
-	m_HP += 1;
-}
-
-
-void CPlayer::UpdateSkillShock(void) {
-	
-
-	//押した時カウントスタート
-	if (g_pInput->IsKeyPush(MOFKEY_V))
-	{
-		m_CircleWait = 60;
-	}
-	//衝撃波のインターバルを減らす
-	if (m_CircleWait > 0)
-	{
-		m_CircleWait--;
-	}
-	
-
-}
-
-
 //未使用:敵当たり判定
 bool CPlayer::CollosopnEnemy(CRectangle r) {
 
@@ -351,7 +259,6 @@ bool CPlayer::CollosopnEnemy(CRectangle r) {
 	}
 	if (GetRect().CollisionRect(r)) {
 		m_DamageWait = 60;
-		m_Motion.ChangeMotion(MOTION_DAMAGE);
 		return true;
 	}
 	return false;
@@ -387,9 +294,6 @@ void CPlayer::RenderDebugging() {
 	switch (m_Motion.GetMotionNo())
 	{
 
-		case MOTION_WAIT:
-			CGraphicsUtilities::RenderString(0, 90, MOF_XRGB(80, 80, 80), "現在モーション：MOTION_WAIT");
-			break;
 
 		case MOTION_MOVE:
 			CGraphicsUtilities::RenderString(0, 90, MOF_XRGB(80, 80, 80), "現在モーション：MOTION_MOVE");
@@ -398,21 +302,15 @@ void CPlayer::RenderDebugging() {
 		case MOTION_JUMPSTART:
 			CGraphicsUtilities::RenderString(0, 90, MOF_XRGB(80, 80, 80), "現在モーション：MOTION_JUMPSTART");
 			break;
-
-		case MOTION_JUMPEND:
-			CGraphicsUtilities::RenderString(0, 90, MOF_XRGB(80, 80, 80), "現在モーション：MOTION_JUMPEND");
-			break;
-		case MOTION_DAMAGE:
-			CGraphicsUtilities::RenderString(0, 90, MOF_XRGB(80, 80, 80), "現在モーション：MOTION_DAMAGE");
-			break;
-		case MOTION_SLIDING:
-			CGraphicsUtilities::RenderString(0, 90, MOF_XRGB(80, 80, 80), "現在モーション：MOTION_SLIDING");
-			break;
-
 	}
-	
-	//CGraphicsUtilities::RenderString(500, 500, MOF_XRGB(80, 80, 80), "m_DamageWait%d", m_DamageWait);
 
+	//キャラクターの判定矩形
+	CGraphicsUtilities::RenderRect(GetRect(), MOF_COLOR_RED);
+	CGraphicsUtilities::RenderRect(legsGetRect(), MOF_COLOR_GREEN);
+
+#pragma region デバッグ用
+
+	//CGraphicsUtilities::RenderString(500, 500, MOF_XRGB(80, 80, 80), "m_DamageWait%d", m_DamageWait);
 
 	//if (m_Jumpflg) {
 	//CGraphicsUtilities::RenderString(500, 500, MOF_XRGB(80, 80, 80), "m_Jumpflg=true");
@@ -434,9 +332,6 @@ void CPlayer::RenderDebugging() {
 
 	//}
 
-	//キャラクターの判定矩形
-	CGraphicsUtilities::RenderRect(GetRect(), MOF_COLOR_RED);
-	CGraphicsUtilities::RenderRect(legsGetRect(), MOF_COLOR_GREEN);
 
 	////ジャンプフラグ表示
 	//if (m_Jumpflg) {
@@ -447,14 +342,6 @@ void CPlayer::RenderDebugging() {
 	//	CGraphicsUtilities::RenderString(0, 400, MOF_XRGB(80, 80, 80), "m_Jumoflg=false");
 	//}
 
-	////スライディングフラグ
-	//if (m_Slidingflg) {
-	//	CGraphicsUtilities::RenderString(0, 430, MOF_XRGB(80, 80, 80), "m_Slidingflg=true");
-	//}
-	//else
-	//{
-	//	CGraphicsUtilities::RenderString(0, 430, MOF_XRGB(80, 80, 80), "m_Slidingflg=false");
-	//}
 
 	////大ジャンプフラグ
 	//if (m_BSflg) {
@@ -464,6 +351,10 @@ void CPlayer::RenderDebugging() {
 	//{
 	//	CGraphicsUtilities::RenderString(0, 460, MOF_XRGB(80, 80, 80), "m_BSflg=false");
 	//}
+
+
+
+#pragma endregion
 
 }
 

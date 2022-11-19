@@ -84,6 +84,7 @@ void CEffectManager::Update(void) {
 	{
 		for (int i = 0; i < EFFECTCOUNT; i++)
 		{
+			//todo;タイプ別で更新内容を変更する？要検討
 			m_Effect[i][j].Update();
 		}
 	}

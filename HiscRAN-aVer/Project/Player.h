@@ -1,6 +1,7 @@
 #pragma once
 #include	"Mof.h"
 #include "MusicManager.h"
+#include "EffectManager.h"
 #include "Define.h"
 
 
@@ -11,7 +12,11 @@ private:
 	//モーションクラス
 	CSpriteMotionController	m_Motion;
 
+	//SE・BGMマネージャー
 	CMusicManager* m_MusicManager;
+
+	//エフェクトマネージャー
+	CEffectManager* m_pEffectManager;
 
 	//描画矩形
 	CRectangle				m_SrcRect;
@@ -26,22 +31,14 @@ private:
 	//スピード変数
 	float					m_MoveY;
 
-
 	//当たり判定(足)
 	float m_legsboxY;
-
-	//当たり判定(スキル)
-	float m_SkillA;
-	float m_SkillB;
 
 	//HP
 	int				m_HP;
 
 	//無敵時間
 	int					m_DamageWait;
-
-	//衝撃波時間
-	int m_CircleWait;
 
 	//死亡フラグ
 	bool				m_deathflg;
@@ -54,19 +51,10 @@ private:
 	//大小ジャンプカウント
 	float					m_JumpCount;
 
-	//スライディングフラグ
-	float					m_Slidingflg;
-
-
 	//モーション種類定義
 	enum tag_MOTION {
-		MOTION_WAIT,
 		MOTION_MOVE,
 		MOTION_JUMPSTART,
-		MOTION_SLIDING,
-		MOTION_JUMPEND,
-		MOTION_DAMAGE,
-
 		MOTION_COUNT,
 	};
 
@@ -80,9 +68,6 @@ public:
 	void Update(void);
 	void Render(void);
 	void Release(void);
-
-	//わかんないこれ何?
-	void UpdateSkillShock(void);
 
 	//デバッグ表示
 	void RenderDebugging(void);
@@ -100,16 +85,17 @@ public:
 	//障害物・敵と当たった場合
 	void UPdateCollisionOB(void);
 
-	//スライディング処理
-	void UPdateSliding(void);
 
 	//敵当たり判定:未使用
 	bool CollosopnEnemy(CRectangle r);
 	
-	//HP増加処理
-	void UpdateHP(void);
 
+	//SE・BGMマネージャーセット
 	void SetMusicManager(CMusicManager* pmng) { m_MusicManager = pmng; }
+
+	//エフェクトマネージャーセット
+	void SetEffectManager(CEffectManager* pmng) { m_pEffectManager = pmng; }
+
 
 	//プレイヤー矩形取得
 	CRectangle GetRect(void) {
@@ -127,11 +113,6 @@ public:
 	CRectangle SuckingRect() {
 		return CRectangle(m_PosX + PLAYER_ADMENT_SPACE, m_PosY - 200,
 			m_PosX + PLAYER_HIT_X + 100, m_PosY + PLAYER_HIT_Y + 600);
-	}
-	//衝撃波当たり判定
-	CRectangle m_CircleRect() {
-		return CRectangle(m_PosX - m_SkillA + PLAYER_ADMENT_SPACE, m_PosY - m_SkillA,
-			m_PosX + m_SkillB, m_PosY + m_SkillA);
 	}
 
 	//座標取得

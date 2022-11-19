@@ -22,6 +22,56 @@ CGameClear::~CGameClear()
 
 }
 
+//チャート土台作成
+void CGameClear::buildChart(int* Status, Vector2* PointsStatus)
+{
+	double kosu = ((double)360.0 / ITEM_NUM);
+
+
+	// 項目ごとの回転角度
+	double radian = MOF_ToRadian(kosu);
+
+	// 開始角度
+	double startRadian = (double)MOF_ToRadian(-90.0f);
+
+	for (int i = 0; i < ITEM_NUM; i++) {
+
+		// 中心からの距離を求める
+		double length = CHART_SIZE * ((double)Status[i] / MAX_STATUS);
+
+		// 単位ベクトルに距離を乗算
+		double cos_X = cosf(startRadian + radian * i);
+		double x = cos_X * length;
+		double y = sinf(startRadian + radian * i) * length;
+
+		PointsStatus[i].x = (float)x;
+		PointsStatus[i].y = (float)y;
+
+	}
+}
+
+//線の描画を行う
+void CGameClear::drawChart(Vector2* PointsStatus, MofU32 cl)
+{
+	for (int i = 0; i < ITEM_NUM; i++) {
+
+		int x1 = (int)PointsStatus[i].x;
+		int y1 = (int)PointsStatus[i].y;
+
+		int x2 = (int)PointsStatus[(i + 1) % ITEM_NUM].x;
+		int y2 = (int)PointsStatus[(i + 1) % ITEM_NUM].y;
+
+
+
+		//線の描画
+		CGraphicsUtilities::RenderLine((int)(x1 + CHART_CENTER_X),
+			(int)(y1 + CHART_CENTER_Y),
+			(int)(x2 + CHART_CENTER_X),
+			(int)(y2 + CHART_CENTER_Y),
+			cl);
+	}
+}
+
 //素材ロード
 bool CGameClear::Load(void)
 {
@@ -81,55 +131,6 @@ void CGameClear::Initialize(void)
 }
 
 
-//チャート土台作成
-void CGameClear::buildChart(int* Status, Vector2* PointsStatus)
-{
-	double kosu = ((double)360.0 / ITEM_NUM);
-
-
-	// 項目ごとの回転角度
-	double radian = MOF_ToRadian(kosu);
-
-	// 開始角度
-	double startRadian = (double)MOF_ToRadian(-90.0f);
-
-	for (int i = 0; i < ITEM_NUM; i++) {
-
-		// 中心からの距離を求める
-		double length = CHART_SIZE * ((double)Status[i] / MAX_STATUS);
-
-		// 単位ベクトルに距離を乗算
-		double cos_X = cosf(startRadian + radian * i);
-		double x = cos_X * length;
-		double y = sinf(startRadian + radian * i) * length;
-
-		PointsStatus[i].x = (float)x;
-		PointsStatus[i].y = (float)y;
-
-	}
-}
-
-//線の描画を行う
-void CGameClear::drawChart(Vector2* PointsStatus, MofU32 cl)
-{
-	for (int i = 0; i < ITEM_NUM; i++) {
-
-		int x1 = (int)PointsStatus[i].x;
-		int y1 = (int)PointsStatus[i].y;
-
-		int x2 = (int)PointsStatus[(i + 1) % ITEM_NUM].x;
-		int y2 = (int)PointsStatus[(i + 1) % ITEM_NUM].y;
-
-
-
-		//線の描画
-		CGraphicsUtilities::RenderLine((int)(x1 + CHART_CENTER_X),
-			(int)(y1 + CHART_CENTER_Y),
-			(int)(x2 + CHART_CENTER_X),
-			(int)(y2 + CHART_CENTER_Y),
-			cl);
-	}
-}
 
 //更新
 void CGameClear::Update(void)
@@ -214,7 +215,7 @@ void CGameClear::Render(void)
 	Vector2 point4(PointsStatus[3].x + CHART_CENTER_X, PointsStatus[3].y + CHART_CENTER_Y);
 	Vector2 point5(PointsStatus[4].x + CHART_CENTER_X, PointsStatus[4].y + CHART_CENTER_Y);
 
-	//todo:色指定未実装
+	//todo:色指定未実装指定できるようにしたい
 	//三角形を描いてグラフを塗りつぶす
 	CGraphicsUtilities::RenderFillTriangle(center, point1, point2, MOF_ARGB(155,0,0,255), MOF_ARGB(155, 0, 0, 255), MOF_ARGB(155, 0, 0, 255));
 	CGraphicsUtilities::RenderFillTriangle(center, point2, point3, MOF_COLOR_BLUE, MOF_COLOR_BLUE, MOF_COLOR_BLUE);
