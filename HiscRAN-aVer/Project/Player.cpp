@@ -100,8 +100,6 @@ void CPlayer::Initialize(void) {
 	m_HP = 3;
 	m_DamageWait = 0;
 	m_deathflg = false;
-	m_Startflg = false;
-	m_OverX = 0;
 
 	m_Slidingflg = false;
 
