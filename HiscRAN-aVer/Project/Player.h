@@ -1,5 +1,6 @@
 #pragma once
 #include	"Mof.h"
+#include "MusicManager.h"
 #include "Define.h"
 
 
@@ -108,6 +109,7 @@ public:
 	//HP増加処理
 	void UpdateHP(void);
 
+	void SetMusicManager(CMusicManager* pmng) { m_MusicManager = pmng; }
 
 	//プレイヤー矩形取得
 	CRectangle GetRect(void) {
