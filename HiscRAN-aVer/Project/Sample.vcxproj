@@ -94,6 +94,7 @@
     <ClCompile Include="EffectManager.cpp" />
     <ClCompile Include="GameClear.cpp" />
     <ClCompile Include="GameOver.cpp" />
+    <ClCompile Include="GameProgMgmt.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Music.cpp" />
     <ClCompile Include="MusicManager.cpp" />
@@ -119,6 +120,7 @@
     <ClInclude Include="EffectManager.h" />
     <ClInclude Include="GameClear.h" />
     <ClInclude Include="GameOver.h" />
+    <ClInclude Include="GameProgMgmt.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Music.h" />
     <ClInclude Include="MusicManager.h" />

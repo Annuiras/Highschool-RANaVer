@@ -34,7 +34,7 @@ private:
 public:
 	CTitle();
 	~CTitle();
-	void Initialize(void);
+	void Initialize(CGameProgMgmt* mamt);
 	void Update(void);
 	void Render(void);
 	void RenderDebug(void);

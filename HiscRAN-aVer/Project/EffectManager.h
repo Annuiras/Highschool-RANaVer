@@ -2,19 +2,20 @@
 #include "Define.h"
 #include	"Effect.h"
 
-class CEffectManager
+//エフェクト管理クラス
+class CEffectMgmt
 {
 
 private:
 	//エフェクトクラス
-	CEffect		m_Effect[EFC_TYPECOUNT][EFFECT_MGMT_COUNT];
+	CEffect		m_Effect[EFC_TYPE_COUNT][EFFECT_MGMT_COUNT];
 
 	//エフェクト画像
-	CTexture	m_Texture[EFC_TYPECOUNT];
+	CTexture	m_Texture[EFC_TYPE_COUNT];
 
 public:
-	CEffectManager();
-	~CEffectManager();
+	CEffectMgmt();
+	~CEffectMgmt();
 	bool Load(void);
 	void Initialize(void);
 	CEffect* Start(float px, float py, int type);

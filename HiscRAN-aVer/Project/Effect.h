@@ -9,7 +9,7 @@ enum tag_EFFECTTYPE {
 	//EFC_EXPLOSION01,				//“G”š”j
 	//EFC_EXPLOSION02,				//ƒvƒŒƒCƒ„[”š”j
 
-	EFC_TYPECOUNT,
+	EFC_TYPE_COUNT,
 };
 
 

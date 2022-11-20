@@ -23,15 +23,18 @@ void CGAME::Load(void)
 }
 
 //初期化
-void CGAME::Initialize(void)
+void CGAME::Initialize(CGameProgMgmt* mamt)
 {
 	//素材読み込み
 	Load();
 
+	m_GameProgMamt = mamt;
+
+	//メニュー
 	gMenu.Create(gMenuItemCount);
 
 	//マネージャー初期化
-	g_MusicManager.Initialize();
+ 	g_MusicManager.Initialize(m_GameProgMamt->GetBGMVolume()/*,m_GameProgMamt*/);
 	g_EffectManeger.Initialize();
 
 	//プレイヤー初期化

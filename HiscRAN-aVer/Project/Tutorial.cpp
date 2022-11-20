@@ -54,13 +54,14 @@ bool CTutorial::Load(void)
 }
 
 //èâä˙âª
-void CTutorial::Initialize(void)
+void CTutorial::Initialize(CGameProgMgmt* mamt)
 {
 	m_Scroll = 0;
 	count = 0;
 	MoveX = 0;
 	gPosX = 0;
 	bShow = false;
+	m_GameProgMamt = mamt;
 	Load();
 }
 

@@ -37,7 +37,7 @@ private:
 public:
 	CGameClear();
 	~CGameClear();
-	void Initialize(void);
+	void Initialize(CGameProgMgmt* mamt);
 	void buildChart(int* Status, Vector2* PointsStatus);
 	void drawChart(Vector2* PointsStatus, MofU32 cl);
 	void Update(void);

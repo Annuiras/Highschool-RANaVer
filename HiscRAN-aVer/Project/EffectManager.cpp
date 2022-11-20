@@ -6,28 +6,28 @@
  * コンストラクタ
  *
  */
-CEffectManager::CEffectManager() {
+CEffectMgmt::CEffectMgmt() {
 }
 
 /**
  * デストラクタ
  *
  */
-CEffectManager::~CEffectManager() {
+CEffectMgmt::~CEffectMgmt() {
 }
 
 /**
  * 読み込み
  * 利用するテクスチャを読み込む。
  */
-bool CEffectManager::Load(void) {
+bool CEffectMgmt::Load(void) {
 	//テクスチャの読み込み
 	char* name[] = {
 		"エフェクト仮.png"
 	};
 
 
-	for (int i = 0; i < EFC_TYPECOUNT; i++)
+	for (int i = 0; i < EFC_TYPE_COUNT; i++)
 	{
 		if (!m_Texture[i].Load(name[i]))
 		{
@@ -41,9 +41,9 @@ bool CEffectManager::Load(void) {
  * 初期化
  * パラメーターや座標を初期化する。
  */
-void CEffectManager::Initialize(void) {
+void CEffectMgmt::Initialize(void) {
 	//エフェクトの基礎設定
-	for (int type = 0; type < EFC_TYPECOUNT; type++)
+	for (int type = 0; type < EFC_TYPE_COUNT; type++)
 	{
 		for (int mgmt = 0; mgmt < EFFECT_MGMT_COUNT; mgmt++)
 		{
@@ -62,7 +62,7 @@ void CEffectManager::Initialize(void) {
  * [in]			py					Y座標
  * [in]			mgmt				エフェクトタイプ
  */
-CEffect* CEffectManager::Start(float px, float py, int type) {
+CEffect* CEffectMgmt::Start(float px, float py, int type) {
 	for (int mgmt = 0; mgmt < EFFECT_MGMT_COUNT; mgmt++)
 	{
 		if (m_Effect[type][mgmt].GetShow())
@@ -79,8 +79,8 @@ CEffect* CEffectManager::Start(float px, float py, int type) {
  * 更新
  *
  */
-void CEffectManager::Update(CRectangle plrec) {
-	for (int type = 0; type < EFC_TYPECOUNT; type++)
+void CEffectMgmt::Update(CRectangle plrec) {
+	for (int type = 0; type < EFC_TYPE_COUNT; type++)
 	{
 		for (int mgmt = 0; mgmt < EFFECT_MGMT_COUNT; mgmt++)
 		{
@@ -102,8 +102,8 @@ void CEffectManager::Update(CRectangle plrec) {
  * 描画
  *
  */
-void CEffectManager::Render(void) {
-	for (int type = 0; type < EFC_TYPECOUNT; type++)
+void CEffectMgmt::Render(void) {
+	for (int type = 0; type < EFC_TYPE_COUNT; type++)
 	{
 		for (int mgmt = 0; mgmt < EFFECT_MGMT_COUNT; mgmt++)
 		{
@@ -113,9 +113,9 @@ void CEffectManager::Render(void) {
 }
 
 //デバッグ表示
-void CEffectManager::RenderDebugging(void)
+void CEffectMgmt::RenderDebugging(void)
 {
-	for (int type = 0; type < EFC_TYPECOUNT; type++)
+	for (int type = 0; type < EFC_TYPE_COUNT; type++)
 	{
 		for (int mgmt = 0; mgmt < EFFECT_MGMT_COUNT; mgmt++)
 		{
@@ -129,8 +129,8 @@ void CEffectManager::RenderDebugging(void)
  * 解放
  *
  */
-void CEffectManager::Release(void) {
-	for (int type = 0; type < EFC_TYPECOUNT; type++)
+void CEffectMgmt::Release(void) {
+	for (int type = 0; type < EFC_TYPE_COUNT; type++)
 	{
 		for (int mgmt = 0; mgmt < EFFECT_MGMT_COUNT; mgmt++)
 		{

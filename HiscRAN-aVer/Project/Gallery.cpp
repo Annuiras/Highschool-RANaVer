@@ -230,8 +230,9 @@ bool CGallery::Load(void)
 }
 
 //初期化
-void CGallery::Initialize(void)
+void CGallery::Initialize(CGameProgMgmt* mamt)
 {
+	m_GameProgMamt = mamt;
 	gFont1.Create(44, "UD デジタル 教科書体 N-B");
 	gFont2.Create(32, "UD デジタル 教科書体 N-B");
 	Load();

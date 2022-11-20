@@ -13,10 +13,10 @@ private:
 	CSpriteMotionController	m_Motion;
 
 	//SE・BGMマネージャー
-	CMusicManager* m_MusicMgmt;
+	CMusicMgmt* m_MusicMgmt;
 
 	//エフェクトマネージャー
-	CEffectManager* m_pEffectMgmt;
+	CEffectMgmt* m_pEffectMgmt;
 
 	//描画矩形
 	CRectangle				m_SrcRect;
@@ -91,10 +91,10 @@ public:
 	
 
 	//SE・BGMマネージャーセット
-	void SetMusicManager(CMusicManager* mgmt) { m_MusicMgmt = mgmt; }
+	void SetMusicManager(CMusicMgmt* mgmt) { m_MusicMgmt = mgmt; }
 
 	//エフェクトマネージャーセット
-	void SetEffectManager(CEffectManager* mgmt) { m_pEffectMgmt = mgmt; }
+	void SetEffectManager(CEffectMgmt* mgmt) { m_pEffectMgmt = mgmt; }
 
 
 	//プレイヤー矩形取得

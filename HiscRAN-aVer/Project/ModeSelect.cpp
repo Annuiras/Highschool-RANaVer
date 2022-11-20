@@ -21,10 +21,10 @@ CModeSelect::~CModeSelect()
 }
 
 //‰Šú‰»
-void  CModeSelect::Initialize()
+void  CModeSelect::Initialize(CGameProgMgmt* mamt)
 {
 	m_Scroll = 0;
-
+	m_GameProgMamt = mamt;
 	//ƒƒjƒ…[‚Ì¶¬
 	gMenu.Create(gMenuItemCount);
 

@@ -38,9 +38,9 @@ private:
 	CTexture	m_BackButton;
 
 	//BGM音量
-	double VolumeBGM = 0;
-	double VolumeSE = 0;
-
+	float VolumeBGM = 0;
+	float VolumeSE = 0;
+	//double
 	//ボタン座標（y軸）
 	double y_1 = 0;
 	double y_2 = 0;
@@ -62,7 +62,7 @@ private:
 public:
 	COption();
 	~COption();
-	void Initialize(void);
+	void Initialize(CGameProgMgmt* mamt);
 	void Update(void);
 	void Render(void);
 	void RenderDebug(void);

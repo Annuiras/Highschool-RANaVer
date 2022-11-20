@@ -8,6 +8,8 @@ CMusic::CMusic() :
 CMusic::~CMusic() {};
 
 bool CMusic::Initialize() {
+
+	//‰¹—Ê‚ÌÝ’è
 	return true;
 }
 
@@ -35,6 +37,12 @@ void CMusic::Start(int ty) {
 		break;
 	}
 
+}
+
+void CMusic::SetVolume(float volume)
+{
+
+	m_SoundBou->SetVolume(volume);
 }
 
 void CMusic::Release() {

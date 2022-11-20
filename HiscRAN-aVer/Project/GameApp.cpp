@@ -18,15 +18,18 @@
 #include	"GameClear.h"
 #include	"Gallery.h"
 #include	"Option.h"
+#include	"GameProgMgmt.h"
 
 
-//todo:進行状況管理クラス作成予定
 //デバッグ
 bool		gDebagflag = false;
 
 
 //シーンベースクラスポインタ
 CSceneBase* gpScene = NULL;
+
+//ゲーム進捗管理クラス
+CGameProgMgmt g_GameProgMamt;
 
 /*************************************************************************//*!
 		@brief			アプリケーションの初期化
@@ -42,7 +45,8 @@ MofBool CGameApp::Initialize(void){
 
 	//最初に実行されるシーンの初期化 
 	gpScene = new CTitle();
-	gpScene->Initialize();
+	g_GameProgMamt.Initialize();
+	gpScene->Initialize(&g_GameProgMamt);
 
 
 	return TRUE;
@@ -108,7 +112,7 @@ MofBool CGameApp::Update(void){
 
 		}
 		//初期化
-		gpScene->Initialize();
+		gpScene->Initialize(&g_GameProgMamt);
 
 	}
 

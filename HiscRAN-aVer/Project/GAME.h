@@ -18,10 +18,10 @@ private:
 	int				gMenuItemCount = 2;
 
 	//エフェクトマネージャー
-	CEffectManager g_EffectManeger;
+	CEffectMgmt g_EffectManeger;
 
 	//SE・BGMマネージャー
-	CMusicManager g_MusicManager;
+	CMusicMgmt g_MusicManager;
 
 	//プレイヤークラス
 	CPlayer g_Player;
@@ -38,7 +38,7 @@ private:
 public:
 	CGAME();
 	~CGAME();
-	void Initialize(void);
+	void Initialize(CGameProgMgmt* mamt);
 	void Update(void);
 	void Render(void);
 	void Load(void);

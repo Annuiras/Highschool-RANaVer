@@ -1,13 +1,13 @@
 #include "MusicManager.h"
 
-CMusicManager::CMusicManager()
+CMusicMgmt::CMusicMgmt()
 {}
 
-CMusicManager::~CMusicManager()
+CMusicMgmt::~CMusicMgmt()
 {}
 
 
-bool CMusicManager::Load(void) {
+bool CMusicMgmt::Load(void) {
 
 
 	//SEÇÃì«Ç›çûÇ›
@@ -18,61 +18,56 @@ bool CMusicManager::Load(void) {
 		"strange_wave.mp3"//Ç€ÇÌÅ[ÇÒ
 
 	};
-	for (int i = 0; i < SET_TYPECOUNT; i++)
+	for (int type = 0; type < SET_TYPE_COUNT; type++)
 	{
-		if (!m_SE[i].Load(name[i]))
+		if (!m_SE[type].Load(name[type]))
 		{
 			return false;
 		}
 	}
-
-
 	return true;
-
 }
 
-void CMusicManager::Initialize(void) {
+void CMusicMgmt::Initialize(float sev/*,float bgnv*/) {
 
 	//SEÇÃäÓëbê›íË
-
 	//éÌóﬁÇÃêî
-	for (int syu = 0; syu < SET_TYPECOUNT; syu++)
+	for (int type = 0; type < SET_TYPE_COUNT; type++)
 	{
 		//ä«óùÇ∑ÇÈêî
-		for (int y = 0; y < SE_COUNT; y++)
+		for (int mgmt = 0; mgmt < SE_COUNT; mgmt++)
 		{
-
-			m_Music[y][syu].SetSE(&m_SE[syu]);
+			m_Music_SE[type][mgmt].SetSE(&m_SE[type]);
+			m_Music_SE[type][mgmt].Initialize();
+			m_Music_SE[type][mgmt].SetVolume(sev);
 		}
 	}
 
 
 }
 
-CMusic* CMusicManager::Start(int type) {
+CMusic* CMusicMgmt::Start(int type) {
 
-	for (int i = 0; i < SE_COUNT; i++)
+	for (int mgmt = 0; mgmt < SE_COUNT; mgmt++)
 	{
-		if (m_Music[i][type].IsPlay())
+		if (m_Music_SE[type][mgmt].IsPlay())
 		{
 			continue;
 		}
-		m_Music[i][type].Start(type);
-		return &m_Music[i][type];
+		m_Music_SE[type][mgmt].Start(type);
+		return &m_Music_SE[type][mgmt];
 	}
 	return NULL;
 
 }
 
-void CMusicManager::Release() {
+void CMusicMgmt::Release() {
 
-	for (int y = 0; y < SE_COUNT; y++)
+	for (int type = 0; type < SET_TYPE_COUNT; type++)
 	{
-		for (int x = 0; x < SET_TYPECOUNT; x++)
+		for (int mgmt = 0; mgmt < SE_COUNT; mgmt++)
 		{
-
-			m_Music[y][x].Release();
-
+			m_Music_SE[type][mgmt].Release();
 		}
 	}
 

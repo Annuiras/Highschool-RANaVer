@@ -52,8 +52,9 @@ bool CGameOver::Load(void)
 }
 
 //‰Šú‰»
-void CGameOver::Initialize(void)
+void CGameOver::Initialize(CGameProgMgmt* mamt)
 {
+	m_GameProgMamt = mamt;
 	Rondom = CUtilities::Random(0, 3);
 	Load();
 }

@@ -9,7 +9,7 @@ enum tag_SETYPE {
 	SET_KANE,//è‡
 
 	SET_PAWANN,//Ç€ÇÌÅ[ÇÒ
-	SET_TYPECOUNT,//ëçêî
+	SET_TYPE_COUNT,//ëçêî
 };
 
 class CMusic
@@ -32,6 +32,9 @@ public:
 	bool IsPlay() { return m_SoundBou->IsPlay(); }
 
 	void SetSE(CSoundBuffer* se) { m_SoundBou = se; }
+
+	//âπó ê›íË
+	void SetVolume(float volume);
 	void Release(void);
 
 };

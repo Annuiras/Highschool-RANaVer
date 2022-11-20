@@ -123,9 +123,11 @@ bool COption::Load(void)
 
 
 //初期化
-void COption::Initialize(void)
+void COption::Initialize(CGameProgMgmt* mamt)
 {
 	Load();
+
+	m_GameProgMamt = mamt;
 
 	//フォント
 	m_Font1.Create(35, "UD デジタル 教科書体 N-B");
@@ -153,8 +155,6 @@ void COption::Update(void)
 	{
 		m_bEnd = true;
 		m_NextScene = SCENENO_TITLE;
-
-		//gChangeScene = SCENENO_TITLE;
 		m_BGM.Stop();
 	}
 
@@ -166,8 +166,6 @@ void COption::Update(void)
 		m_SE.Stop();
 		m_bEnd = true;
 		m_NextScene = SCENENO_SELECTMODE;
-
-		//gChangeScene = SCENENO_SELECTMODE;
 	}
 
 	//矢印キー右で選択が右に行くようにする
@@ -510,6 +508,10 @@ void COption::RenderDebug(void)
 //素材解放
 void COption::Release(void)
 {
+
+	m_GameProgMamt->SetBGMVolume(VolumeBGM);
+	m_GameProgMamt->SetSEVolume(VolumeSE);
+
 	m_BGM.Release();
 	m_SE.Release();
 	m_Button1_1.Release();

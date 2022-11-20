@@ -4,22 +4,25 @@
 //管理エフェクトの数
 #define		SE_COUNT						5
 
-class CMusicManager
+class CMusicMgmt
 {
 private:
 
 	//SE読み込み
-	CSoundBuffer m_SE[SET_TYPECOUNT];
+	CSoundBuffer m_SE[SET_TYPE_COUNT];
 
-	//クラス
-	CMusic	m_Music[SE_COUNT][SET_TYPECOUNT];
+	//SE用クラス
+	CMusic	m_Music_SE[SET_TYPE_COUNT][SE_COUNT];
 
+	//todo:BGM用に作成予定
+	//BGM用クラス
+	//CMusic m_Music_BGM[][]
 public:
-	CMusicManager();
-	~CMusicManager();
+	CMusicMgmt();
+	~CMusicMgmt();
 
 	bool Load(void);
-	void Initialize(void);
+	void Initialize(float sev/*,float bgnv*/);
 
 	CMusic* Start(int type);
 	void Release(void);

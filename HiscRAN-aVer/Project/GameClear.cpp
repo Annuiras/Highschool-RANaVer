@@ -89,9 +89,11 @@ bool CGameClear::Load(void)
 }
 
 //èâä˙âª
-void CGameClear::Initialize(void)
+void CGameClear::Initialize(CGameProgMgmt* mamt)
 {
 	Load();
+
+	m_GameProgMamt = mamt;
 
 	for (int i = 0; i < ITEM_NUM; i++)
 	{

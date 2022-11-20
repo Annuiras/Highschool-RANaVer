@@ -57,10 +57,11 @@ bool CTitle::Load(void)
 }
 
 //èâä˙âª
-void CTitle::Initialize(void)
+void CTitle::Initialize(CGameProgMgmt* mamt)
 {
 	m_Scroll = 0;
 	Rondom = CUtilities::Random(0, 3);
+	m_GameProgMamt = mamt;
 	Load();
 }
 
