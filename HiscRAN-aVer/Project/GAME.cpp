@@ -34,7 +34,7 @@ void CGAME::Initialize(CGameProgMgmt* mamt)
 	gMenu.Create(gMenuItemCount);
 
 	//マネージャー初期化
- 	g_MusicManager.Initialize(m_GameProgMamt->GetBGMVolume()/*,m_GameProgMamt*/);
+ 	g_MusicManager.Initialize(m_GameProgMamt->GetSEVolume()/*,m_GameProgMamt*/);
 	g_EffectManeger.Initialize();
 
 	//プレイヤー初期化
