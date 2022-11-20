@@ -1,8 +1,8 @@
 #pragma once
 #include "GAME.h"
-#include "StageA_DP.h"
-#include "StageA_Bar.h"
-#include "StageA_Obstacle.h"
+#include "Stage_DP.h"
+#include "Stage_Bar.h"
+#include "Stage_Obstacle.h"
 
 
 

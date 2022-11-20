@@ -167,7 +167,7 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 	//マップパターンをランダム化
 	for (int i = 0; i < 15; i++)
 	{
-		m_StageConstitution[i] = RandmuBak.GetRandomNumbe(0, 0);
+		m_StageComposition[i] = RandmuBak.GetRandomNumbe(0, 0);
 	}
 
 	//マップパターン添え字
@@ -200,7 +200,7 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 		if (m_AlreadyUsedArray[randam] == 0)
 		{
 			//採用
-			m_StageConstitution[m_AdoptCount] = randam;
+			m_StageComposition[m_AdoptCount] = randam;
 
 			//使用したパターンの場所に１をセット
 			m_AlreadyUsedArray[randam] = 1;
@@ -210,21 +210,21 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 	}
 
 	//デバッグ用の指定コマンド、必要に応じていじってください
-	m_StageConstitution[0] = 0;
-	m_StageConstitution[1] = 1;
-	m_StageConstitution[2] = 2;
-	m_StageConstitution[3] = 1;
-	m_StageConstitution[4] = 0;
-	m_StageConstitution[5] = 2;
-	m_StageConstitution[6] = 2;
-	m_StageConstitution[7] = 1;
-	m_StageConstitution[8] = 0;
-	m_StageConstitution[9] = 1;
-	m_StageConstitution[10] = 1;
-	m_StageConstitution[11] = 0;
-	m_StageConstitution[12] = 0;
-	m_StageConstitution[13] = 2;
-	m_StageConstitution[14] = 2;
+	m_StageComposition[0] = 0;
+	m_StageComposition[1] = 1;
+	m_StageComposition[2] = 2;
+	m_StageComposition[3] = 1;
+	m_StageComposition[4] = 0;
+	m_StageComposition[5] = 2;
+	m_StageComposition[6] = 2;
+	m_StageComposition[7] = 1;
+	m_StageComposition[8] = 0;
+	m_StageComposition[9] = 1;
+	m_StageComposition[10] = 1;
+	m_StageComposition[11] = 0;
+	m_StageComposition[12] = 0;
+	m_StageComposition[13] = 2;
+	m_StageComposition[14] = 2;
 
 
 	//DP配置情報コピー,
@@ -658,7 +658,7 @@ void CStage::RenderDebugging() {
 	//全体のパターン表示
 	for (int i = 0; i < 15; i++)
 	{
-		CGraphicsUtilities::RenderString(40*i, 680, "%d", m_StageConstitution[i]);
+		CGraphicsUtilities::RenderString(40*i, 680, "%d", m_StageComposition[i]);
 	}
 
 	//地面デバック表示
@@ -688,7 +688,7 @@ void CStage::RenderDebugging() {
 
 #pragma region パターンデバッグ用
 
-	CGraphicsUtilities::RenderString(40, 650, "%d", m_StageConstitution[m_MapNo]);
+	CGraphicsUtilities::RenderString(40, 650, "%d", m_StageComposition[m_MapNo]);
 
 #pragma endregion
 
@@ -699,9 +699,9 @@ void CStage::MapChange(void) {
 
 	//スクロールが切り替わる時かつそれぞれのマップパターン情報で終端要素にたどり着いているなら
 	if (m_StageScroll <= 0 &&
-		m_barinfo[m_StageConstitution[m_MapNo]][m_barcount].Type > 10 &&
-		m_dpinfo[m_StageConstitution[m_MapNo]][m_dpcount].Type > 10 &&
-		m_obinfo[m_StageConstitution[m_MapNo]][m_obcount].Type > 10) 
+		m_barinfo[m_StageComposition[m_MapNo]][m_barcount].Type > 10 &&
+		m_dpinfo[m_StageComposition[m_MapNo]][m_dpcount].Type > 10 &&
+		m_obinfo[m_StageComposition[m_MapNo]][m_obcount].Type > 10) 
 	{
 		m_barcount = 0;
 		m_dpcount = 0;
@@ -729,7 +729,7 @@ void CStage::OccurrenceBar(void) {
 	//マップパターン番号が用意している数以下のときかつ
 	//スクロール値が出現値よりも小さくなった場合表示
 	//スクロール値をプラスに変更しました
-	if (m_MapNo < MAP_INFO_PATTERN && m_StageScroll > m_barinfo[m_StageConstitution[m_MapNo]][m_barcount].Scroll)
+	if (m_MapNo < MAP_INFO_PATTERN && m_StageScroll > m_barinfo[m_StageComposition[m_MapNo]][m_barcount].Scroll)
 	{
 
 		//割り当てられていない足場クラスを探す
@@ -742,7 +742,7 @@ void CStage::OccurrenceBar(void) {
 
 			//表示テクスチャ準備
 			//出現位置とタイプを渡す
-			switch (m_barinfo[m_StageConstitution[m_MapNo]][m_barcount].Type)
+			switch (m_barinfo[m_StageComposition[m_MapNo]][m_barcount].Type)
 			{
 
 			case BAR_MEDIUM:
@@ -762,8 +762,8 @@ void CStage::OccurrenceBar(void) {
 
 			//表示準備
 			//出現位置とタイプを渡す
-			b_bar[i].Start(m_barinfo[m_StageConstitution[m_MapNo]][m_barcount].Pos_y,
-				m_barinfo[m_StageConstitution[m_MapNo]][m_barcount].Type);
+			b_bar[i].Start(m_barinfo[m_StageComposition[m_MapNo]][m_barcount].Pos_y,
+				m_barinfo[m_StageComposition[m_MapNo]][m_barcount].Type);
 			break;
 		}
 
@@ -783,7 +783,7 @@ void CStage::OccurrenceDP(void) {
 	//マップDPパターン番号が用意している数以下のときかつ
 	//スクロール値が出現値よりも小さくなった場合表示
 	//スクロール値をプラスに変更しました
-	if (m_MapNo < MAP_INFO_PATTERN && m_StageScroll > m_dpinfo[m_StageConstitution[m_MapNo]][m_dpcount].Scroll)
+	if (m_MapNo < MAP_INFO_PATTERN && m_StageScroll > m_dpinfo[m_StageComposition[m_MapNo]][m_dpcount].Scroll)
 	{
 
 		//割り当てられていないDPクラスを探す
@@ -796,7 +796,7 @@ void CStage::OccurrenceDP(void) {
 
 			//表示テクスチャ準備
 			//出現位置とタイプを渡す
-			switch (m_dpinfo[m_StageConstitution[m_MapNo]][m_dpcount].Type)
+			switch (m_dpinfo[m_StageComposition[m_MapNo]][m_dpcount].Type)
 			{
 
 			case DP_SCHOLASTIC:
@@ -822,7 +822,7 @@ void CStage::OccurrenceDP(void) {
 			default:
 				break;
 			}
-			dp_array[i].Start(m_dpinfo[m_StageConstitution[m_MapNo]][m_dpcount].Pos_y, m_dpinfo[m_StageConstitution[m_MapNo]][m_dpcount].Type);
+			dp_array[i].Start(m_dpinfo[m_StageComposition[m_MapNo]][m_dpcount].Pos_y, m_dpinfo[m_StageComposition[m_MapNo]][m_dpcount].Type);
 			break;
 		}
 
@@ -841,7 +841,7 @@ void CStage::OccurrenceOB(void) {
 	//マップパターン番号が用意している数以下のときかつ
 	//スクロール値が出現値よりも小さくなった場合表示
 	//スクロール値をプラスに変更しました
-	if (m_MapNo < MAP_INFO_PATTERN && m_StageScroll > m_obinfo[m_StageConstitution[m_MapNo]][m_obcount].Scroll)
+	if (m_MapNo < MAP_INFO_PATTERN && m_StageScroll > m_obinfo[m_StageComposition[m_MapNo]][m_obcount].Scroll)
 	{
 
 		//割り当てられていないDPクラスを探す
@@ -854,7 +854,7 @@ void CStage::OccurrenceOB(void) {
 
 			//表示テクスチャ準備
 			//出現位置とタイプを渡す
-			switch (m_obinfo[m_StageConstitution[m_MapNo]][m_obcount].Type)
+			switch (m_obinfo[m_StageComposition[m_MapNo]][m_obcount].Type)
 			{
 
 			case OB_DESK:
@@ -876,8 +876,8 @@ void CStage::OccurrenceOB(void) {
 
 			//表示準備
 			//出現位置とタイプを渡す
-			ob_array[i].Start(m_obinfo[m_StageConstitution[m_MapNo]][m_obcount].Pos_y,
-				m_obinfo[m_StageConstitution[m_MapNo]][m_obcount].Type);
+			ob_array[i].Start(m_obinfo[m_StageComposition[m_MapNo]][m_obcount].Pos_y,
+				m_obinfo[m_StageComposition[m_MapNo]][m_obcount].Type);
 			break;
 		}
 

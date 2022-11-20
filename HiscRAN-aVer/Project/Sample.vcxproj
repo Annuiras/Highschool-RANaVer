@@ -134,9 +134,9 @@
     <ClInclude Include="RandomValue.h" />
     <ClInclude Include="SceneBase.h" />
     <ClInclude Include="Stage.h" />
-    <ClInclude Include="StageA_Bar.h" />
-    <ClInclude Include="StageA_DP.h" />
-    <ClInclude Include="StageA_Obstacle.h" />
+    <ClInclude Include="Stage_Bar.h" />
+    <ClInclude Include="Stage_DP.h" />
+    <ClInclude Include="Stage_Obstacle.h" />
     <ClInclude Include="Title.h" />
     <ClInclude Include="Tutorial.h" />
   </ItemGroup>
