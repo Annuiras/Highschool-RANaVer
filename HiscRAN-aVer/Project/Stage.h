@@ -45,10 +45,10 @@ private:
 	RandomValue RandmuBak;
 
 	//エフェクトマネージャー
-	CEffectManager* m_pEffectManager;
+	CEffectManager* m_pEffectMgmt;
 
 	//SE・BGMマネージャー
-	CMusicManager* m_MusicManager;
+	CMusicManager* m_MusicMgmt;
 
 
 	#pragma region ステージテクスチャ
@@ -234,10 +234,10 @@ public:
 	bool GetClear(void);
 
 	//SE・BGMマネージャーセット
-	void SetMusicManager(CMusicManager* pmng) { m_MusicManager = pmng; }
+	void SetMusicManager(CMusicManager* mgmt) { m_MusicMgmt = mgmt; }
 
 	//エフェクトマネージャーセット
-	void SetEffectManager(CEffectManager* pmng) { m_pEffectManager = pmng; }
+	void SetEffectManager(CEffectManager* mgmt) { m_pEffectMgmt = mgmt; }
 
 	//障害物
 	CObstacle ob_array[OB_VOLUME];

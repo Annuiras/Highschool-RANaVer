@@ -77,18 +77,6 @@ void CGAME::Update(void)
 		g_pGraphics->ChangeScreenMode();
 	}
 
-	//一時的な追加です
-	//デバッグ表示非表示切り替え
-	if (g_pInput->IsKeyPush(MOFKEY_9)) {
-		if (Debuggingflg) {
-			Debuggingflg = false;
-		}
-		else
-		{
-			Debuggingflg = true;
-		}
-	}
-
 	//Cでゲームクリア画面へ
 	if (g_pInput->IsKeyPush(MOFKEY_C))
 	{
@@ -206,15 +194,8 @@ void CGAME::Update(void)
 	}
 
 	//エフェクトの更新
-	g_EffectManeger.Update();
+	g_EffectManeger.Update(g_Player.GetRect());
 
-	//一時的な追加です
-	//F2でTitle画面へ
-	if (g_pInput->IsKeyPush(MOFKEY_F2))
-	{
-		m_bEnd = true;
-		m_NextScene = SCENENO_TITLE;
-	}
 
 }
 
@@ -232,12 +213,6 @@ void CGAME::Render(void)
 
 	//エフェクトの描画
 	g_EffectManeger.Render();
-
-	//デバッグ描画
-	if (Debuggingflg) {
-		g_Stage.RenderDebugging();
-		g_Player.RenderDebugging();
-	}
 
 }
 
@@ -257,6 +232,8 @@ void CGAME::Release(void)
 
 void CGAME::RenderDebug(void)
 {
-
+	g_Stage.RenderDebugging();
+	g_Player.RenderDebugging();
+	g_EffectManeger.RenderDebugging();
 }
 	

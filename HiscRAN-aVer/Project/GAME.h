@@ -29,8 +29,6 @@ private:
 	//ステージクラス
 	CStage g_Stage;
 
-	//デバッグフラグ
-	bool Debuggingflg = true;
 
 	bool Clearflag = false;
 	bool GameOverflag = false;

@@ -86,7 +86,7 @@ void CPlayer::Update(void) {
 		}
 
 		//SEÄ¶
-		m_MusicManager->Start(SET_PAWANN);
+		m_MusicMgmt->Start(SET_PAWANN);
 
 		m_JumpCount++;
 		m_Jumpflg = true;

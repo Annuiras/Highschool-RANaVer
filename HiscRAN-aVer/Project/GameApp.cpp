@@ -20,9 +20,12 @@
 #include	"Option.h"
 
 
+//todo:進行状況管理クラス作成予定
 //デバッグ
 bool		gDebagflag = false;
 
+
+//シーンベースクラスポインタ
 CSceneBase* gpScene = NULL;
 
 /*************************************************************************//*!
@@ -55,9 +58,10 @@ MofBool CGameApp::Update(void){
 	//キーの更新
 	g_pInput->RefreshKey();
 
+
 	//デバッグ切り替え
 	if(g_pInput->IsKeyPush(MOFKEY_BACKSPACE))
-	gDebagflag = gDebagflag ? gDebagflag : !gDebagflag;
+	gDebagflag = gDebagflag ? !gDebagflag : !gDebagflag;
 
 	//更新
 	gpScene->Update();

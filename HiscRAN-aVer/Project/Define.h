@@ -136,7 +136,7 @@ enum tag_BAR
 #define GROUND_Y 700
 
 //管理エフェクトの数
-#define		EFFECTCOUNT						5
+#define		EFFECT_MGMT_COUNT						5
 
 
 //存在するシーン

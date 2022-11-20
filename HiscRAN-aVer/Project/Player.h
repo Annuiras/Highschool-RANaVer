@@ -13,10 +13,10 @@ private:
 	CSpriteMotionController	m_Motion;
 
 	//SE・BGMマネージャー
-	CMusicManager* m_MusicManager;
+	CMusicManager* m_MusicMgmt;
 
 	//エフェクトマネージャー
-	CEffectManager* m_pEffectManager;
+	CEffectManager* m_pEffectMgmt;
 
 	//描画矩形
 	CRectangle				m_SrcRect;
@@ -91,10 +91,10 @@ public:
 	
 
 	//SE・BGMマネージャーセット
-	void SetMusicManager(CMusicManager* pmng) { m_MusicManager = pmng; }
+	void SetMusicManager(CMusicManager* mgmt) { m_MusicMgmt = mgmt; }
 
 	//エフェクトマネージャーセット
-	void SetEffectManager(CEffectManager* pmng) { m_pEffectManager = pmng; }
+	void SetEffectManager(CEffectManager* mgmt) { m_pEffectMgmt = mgmt; }
 
 
 	//プレイヤー矩形取得
@@ -107,12 +107,6 @@ public:
 	CRectangle legsGetRect() {
 		return CRectangle(m_PosX+ PLAYER_ADMENT_SPACE,m_PosY + m_legsboxY,
 			m_PosX + PLAYER_HIT_X, m_PosY + PLAYER_HIT_Y);
-	}
-
-	//プレイヤー吸い寄せ範囲
-	CRectangle SuckingRect() {
-		return CRectangle(m_PosX + PLAYER_ADMENT_SPACE, m_PosY - 200,
-			m_PosX + PLAYER_HIT_X + 100, m_PosY + PLAYER_HIT_Y + 600);
 	}
 
 	//座標取得

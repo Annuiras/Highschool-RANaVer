@@ -92,8 +92,8 @@ void CEffect::Initialize(int type) {
  */
 void CEffect::Start(float px, float py) {
 	m_SrcRect = m_Motion.GetSrcRect();
-	m_PosX = px - m_SrcRect.GetWidth() * 0.5f;
-	m_PosY = py - m_SrcRect.GetHeight() * 0.5f;
+	m_PosX = px /*- m_SrcRect.GetWidth() * 0.5f*/;
+	m_PosY = py /*- m_SrcRect.GetHeight() * 0.5f*/;
 	m_bShow = true;
 	m_Motion.ChangeMotion(0);
 }
@@ -102,12 +102,16 @@ void CEffect::Start(float px, float py) {
  * 更新
  *
  */
-void CEffect::Update(void) {
+void CEffect::Update(CRectangle plrec) {
 	//非表示
 	if (!m_bShow)
 	{
 		return;
 	}
+
+	m_PosX = plrec.Left-30;
+	m_PosY = plrec.Top;
+
 	//アニメーションの更新
 	m_Motion.AddTimer(CUtilities::GetFrameSecond());
 	m_SrcRect = m_Motion.GetSrcRect();
@@ -132,6 +136,16 @@ void CEffect::Render() {
 	m_pTexture->Render(m_PosX, m_PosY, m_SrcRect);
 }
 
+//デバッグ表示
+void CEffect::RenderDebugging(void)
+{
+	if (!m_bShow)
+	{
+		return;
+	}
+	CGraphicsUtilities::RenderRect(GetRect(), MOF_COLOR_HGREEN);
+}
+
 
 /**
  * 解放
@@ -140,3 +154,12 @@ void CEffect::Render() {
 void CEffect::Release(void) {
 	m_Motion.Release();
 }
+
+CRectangle CEffect::GetRect(void)
+{
+	
+	return CRectangle(m_PosX, m_PosY,
+		m_PosX + 200, m_PosY + 200);
+	
+}
+

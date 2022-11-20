@@ -7,7 +7,7 @@ class CEffectManager
 
 private:
 	//エフェクトクラス
-	CEffect		m_Effect[EFFECTCOUNT][EFC_TYPECOUNT];
+	CEffect		m_Effect[EFC_TYPECOUNT][EFFECT_MGMT_COUNT];
 
 	//エフェクト画像
 	CTexture	m_Texture[EFC_TYPECOUNT];
@@ -18,8 +18,10 @@ public:
 	bool Load(void);
 	void Initialize(void);
 	CEffect* Start(float px, float py, int type);
-	void Update(void);
+	void Update(CRectangle plrec);
 	void Render(void);
+	//デバッグ表示
+	void RenderDebugging(void);
 	void Release(void);
 	
 };

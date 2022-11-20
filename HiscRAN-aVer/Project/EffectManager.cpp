@@ -43,12 +43,12 @@ bool CEffectManager::Load(void) {
  */
 void CEffectManager::Initialize(void) {
 	//エフェクトの基礎設定
-	for (int j = 0; j < EFC_TYPECOUNT; j++)
+	for (int type = 0; type < EFC_TYPECOUNT; type++)
 	{
-		for (int i = 0; i < EFFECTCOUNT; i++)
+		for (int mgmt = 0; mgmt < EFFECT_MGMT_COUNT; mgmt++)
 		{
-			m_Effect[i][j].SetTexture(&m_Texture[j]);
-			m_Effect[i][j].Initialize(j);
+			m_Effect[type][mgmt].SetTexture(&m_Texture[type]);
+			m_Effect[type][mgmt].Initialize(type);
 		}
 	}
 }
@@ -60,17 +60,17 @@ void CEffectManager::Initialize(void) {
  * 引数
  * [in]			px					X座標
  * [in]			py					Y座標
- * [in]			type				エフェクトタイプ
+ * [in]			mgmt				エフェクトタイプ
  */
 CEffect* CEffectManager::Start(float px, float py, int type) {
-	for (int i = 0; i < EFFECTCOUNT; i++)
+	for (int mgmt = 0; mgmt < EFFECT_MGMT_COUNT; mgmt++)
 	{
-		if (m_Effect[i][type].GetShow())
+		if (m_Effect[type][mgmt].GetShow())
 		{
 			continue;
 		}
-		m_Effect[i][type].Start(px, py);
-		return &m_Effect[i][type];
+		m_Effect[type][mgmt].Start(px, py);
+		return &m_Effect[type][mgmt];
 	}
 	return NULL;
 }
@@ -79,13 +79,21 @@ CEffect* CEffectManager::Start(float px, float py, int type) {
  * 更新
  *
  */
-void CEffectManager::Update(void) {
-	for (int j = 0; j < EFC_TYPECOUNT; j++)
+void CEffectManager::Update(CRectangle plrec) {
+	for (int type = 0; type < EFC_TYPECOUNT; type++)
 	{
-		for (int i = 0; i < EFFECTCOUNT; i++)
+		for (int mgmt = 0; mgmt < EFFECT_MGMT_COUNT; mgmt++)
 		{
-			//todo;タイプ別で更新内容を変更する？要検討
-			m_Effect[i][j].Update();
+			switch (type)
+			{
+
+			case EFC_GET_DP:
+				m_Effect[type][mgmt].Update(plrec);
+
+				break;
+			default:
+				break;
+			}
 		}
 	}
 }
@@ -95,27 +103,39 @@ void CEffectManager::Update(void) {
  *
  */
 void CEffectManager::Render(void) {
-	for (int j = 0; j < EFC_TYPECOUNT; j++)
+	for (int type = 0; type < EFC_TYPECOUNT; type++)
 	{
-		for (int i = 0; i < EFFECTCOUNT; i++)
+		for (int mgmt = 0; mgmt < EFFECT_MGMT_COUNT; mgmt++)
 		{
-			m_Effect[i][j].Render();
+			m_Effect[type][mgmt].Render();
 		}
 	}
 }
 
+//デバッグ表示
+void CEffectManager::RenderDebugging(void)
+{
+	for (int type = 0; type < EFC_TYPECOUNT; type++)
+	{
+		for (int mgmt = 0; mgmt < EFFECT_MGMT_COUNT; mgmt++)
+		{
+			m_Effect[type][mgmt].RenderDebugging();
+		}
+	}
+
+}
 
 /**
  * 解放
  *
  */
 void CEffectManager::Release(void) {
-	for (int j = 0; j < EFC_TYPECOUNT; j++)
+	for (int type = 0; type < EFC_TYPECOUNT; type++)
 	{
-		for (int i = 0; i < EFFECTCOUNT; i++)
+		for (int mgmt = 0; mgmt < EFFECT_MGMT_COUNT; mgmt++)
 		{
-			m_Effect[i][j].Release();
+			m_Effect[type][mgmt].Release();
 		}
-		m_Texture[j].Release();
+		m_Texture[type].Release();
 	}
 }
