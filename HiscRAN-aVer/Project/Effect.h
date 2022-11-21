@@ -3,16 +3,6 @@
 #include	"Mof.h"
 #include "Define.h"
 
-//エフェクト種類列挙
-enum tag_EFFECTTYPE {
-	EFC_GET_DP,						//DP取得
-	//EFC_EXPLOSION01,				//敵爆破
-	//EFC_EXPLOSION02,				//プレイヤー爆破
-
-	EFC_TYPE_COUNT,
-};
-
-
 class CEffect
 {	
 private:

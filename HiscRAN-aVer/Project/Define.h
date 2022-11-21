@@ -157,6 +157,14 @@ enum tag_BGM_TYPE
 	BGMT_TYPE_COUNT
 };
 
+//エフェクト種類列挙
+enum tag_EFFECTTYPE {
+	EFC_GET_DP,						//DP取得
+
+	EFC_TYPE_COUNT,
+};
+
+
 //存在するシーン
 enum tag_SCENENO {
 	//タイトル画面

@@ -69,7 +69,7 @@ void CEffectMgmt::Initialize(void) {
  * [in]			py					Y座標
  * [in]			mgmt				エフェクトタイプ
  */
-CEffect* CEffectMgmt::Start(float px, float py, int type) {
+CEffect* CEffectMgmt::Start(float px, float py, tag_EFFECTTYPE type) {
 	for (int mgmt = 0; mgmt < EFFECT_MGMT_COUNT; mgmt++)
 	{
 		if (m_Effect[type][mgmt].GetShow())
