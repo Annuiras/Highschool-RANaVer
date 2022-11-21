@@ -26,6 +26,9 @@ bool CEffectMgmt::Load(void) {
 		"エフェクト仮.png"
 	};
 
+	//リソース配置ディレクトリの設定
+	CUtilities::SetCurrentDirectoryA("Effect");
+
 
 	for (int i = 0; i < EFC_TYPE_COUNT; i++)
 	{
@@ -34,6 +37,10 @@ bool CEffectMgmt::Load(void) {
 			return false;
 		}
 	}
+
+	//リソース配置ディレクトリの設定
+	CUtilities::SetCurrentDirectoryA("../");
+
 	return true;
 }
 

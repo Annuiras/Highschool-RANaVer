@@ -13,36 +13,30 @@ bool CMusic::Initialize() {
 	return true;
 }
 
-void CMusic::Start(int ty) {
+void CMusic::Start(void) {
 
-	switch (ty)
-	{
+	m_SoundBou->Play();
 
-	case 0://Ô”š”­
-		m_SoundBou->Play();
-		break;
+}
 
-	case 1://Â”š”­
-		m_SoundBou->Play();
-		break;
-	case 2://à
-		m_SoundBou->Play();
-		break;
+void CMusic::Stop(void)
+{
+	m_SoundBou->Stop();
+}
 
-	case 3://‚Û‚í[‚ñ
-		m_SoundBou->Play();
-
-		break;
-	default:
-		break;
-	}
-
+void CMusic::SetLoop(bool b)
+{
+	m_SoundBou->SetLoop(b);
 }
 
 void CMusic::SetVolume(float volume)
 {
-
 	m_SoundBou->SetVolume(volume);
+}
+
+float CMusic::GetVolume(void)
+{
+	return 	m_SoundBou->GetVolume();
 }
 
 void CMusic::Release() {

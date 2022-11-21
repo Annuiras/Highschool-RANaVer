@@ -136,8 +136,26 @@ enum tag_BAR
 #define GROUND_Y 700
 
 //管理エフェクトの数
-#define		EFFECT_MGMT_COUNT						5
+#define		EFFECT_MGMT_COUNT 5
 
+//管理SEの数
+#define		SE_MGMT_COUNT 5
+
+//SE種類列挙
+enum tag_SE_TYPE {
+
+	SET_PAWANN,		//ぽわーん
+	SET_CHIME,		//チャイム
+	SET_TYPE_COUNT,	//総数
+};
+
+//BGM種類列挙
+enum tag_BGM_TYPE
+{
+	BGMT_OP,	//オプション画面BGM
+
+	BGMT_TYPE_COUNT
+};
 
 //存在するシーン
 enum tag_SCENENO {

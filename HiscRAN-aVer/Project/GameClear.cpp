@@ -75,6 +75,9 @@ void CGameClear::drawChart(Vector2* PointsStatus, MofU32 cl)
 //素材ロード
 bool CGameClear::Load(void)
 {
+	//リソース配置ディレクトリの設定
+	CUtilities::SetCurrentDirectoryA("GameClear");
+
 	if (!m_BackTexture.Load("GameClearBG.png"))
 	{
 		return false;
@@ -84,6 +87,9 @@ bool CGameClear::Load(void)
 	{
 		return false;
 	}
+
+	//リソース配置ディレクトリの設定
+	CUtilities::SetCurrentDirectoryA("../");
 
 	return true;
 }

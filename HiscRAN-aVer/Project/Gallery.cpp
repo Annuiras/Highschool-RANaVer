@@ -31,6 +31,10 @@ CGallery::~CGallery()
 //ロード
 bool CGallery::Load(void)
 {
+
+	//リソース配置ディレクトリの設定
+	CUtilities::SetCurrentDirectoryA("Gallery");
+
 	//背景テクスチャの読み込み
 	if (!m_BackTexture.Load("CollectionBG.png"))
 	{
@@ -126,16 +130,6 @@ bool CGallery::Load(void)
 		return false;
 	}
 
-	if (!m_SelectTexture_s.Load("Select_s.png"))
-	{
-		return false;
-	}
-
-	//戻るボタン
-	if (!m_BackButton.Load("BackButton.png"))
-	{
-		return false;
-	}
 
 
 	//最終容姿の台紙テクスチャ(バラ&ピックアップ用)
@@ -225,6 +219,19 @@ bool CGallery::Load(void)
 		return false;
 	}
 
+	//リソース配置ディレクトリの設定
+	CUtilities::SetCurrentDirectoryA("../");
+
+	if (!m_SelectTexture_s.Load("Select_s.png"))
+	{
+		return false;
+	}
+
+	//戻るボタン
+	if (!m_BackButton.Load("BackButton.png"))
+	{
+		return false;
+	}
 
 	return true;
 }

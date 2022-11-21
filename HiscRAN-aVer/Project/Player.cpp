@@ -24,13 +24,17 @@ CPlayer::~CPlayer() {
 //読み込み
 bool CPlayer::Load(void) {
 
-	//仮置きです
-	int n = 2.8;
+
+	//リソース配置ディレクトリの設定
+	CUtilities::SetCurrentDirectoryA("PlayerCharacter");
 
 	//キャラクター読み込み
 	if (!m_Texture.Load("走りとジャンプモーション2022_11_08.png")) {
 		return false;
 	}
+
+	//仮置きです
+	int n = 2.8;
 
 	//アニメーション
 	SpriteAnimationCreate anim[] = 
@@ -53,6 +57,10 @@ bool CPlayer::Load(void) {
 		}
 	};
 	m_Motion.Create(anim, MOTION_COUNT);
+
+	//リソース配置ディレクトリの設定
+	CUtilities::SetCurrentDirectoryA("../");
+
 	return true;
 }
 
@@ -86,7 +94,7 @@ void CPlayer::Update(void) {
 		}
 
 		//SE再生
-		m_MusicMgmt->Start(SET_PAWANN);
+		m_MusicMgmt->SEStart(SET_PAWANN);
 
 		m_JumpCount++;
 		m_Jumpflg = true;

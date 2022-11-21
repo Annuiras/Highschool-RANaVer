@@ -1,16 +1,6 @@
 #pragma once
 #include "Mof.h"
-
-//SE種類列挙
-enum tag_SETYPE {
-	SET_EXPLOSION01,//赤爆発
-	SET_EXPLOSION02,				//青爆発
-
-	SET_KANE,//鐘
-
-	SET_PAWANN,//ぽわーん
-	SET_TYPE_COUNT,//総数
-};
+#include "Define.h"
 
 class CMusic
 {
@@ -26,15 +16,28 @@ public:
 	~CMusic();
 
 	bool Initialize(void);
-	void Start(int ty);
+
+	//再生
+	void Start(void);
+
+	//停止
+	void Stop(void);
 
 	//再生中かtrue:再生中
 	bool IsPlay() { return m_SoundBou->IsPlay(); }
 
-	void SetSE(CSoundBuffer* se) { m_SoundBou = se; }
+	//音声セット
+	void SetMusic(CSoundBuffer* music) { m_SoundBou = music; }
+
+	//ループ設定
+	void SetLoop(bool b);
 
 	//音量設定
 	void SetVolume(float volume);
+
+	//ボリュームゲット
+	float GetVolume(void);
+
 	void Release(void);
 
 };

@@ -36,6 +36,9 @@ bool CStage::Load() {
 
 #pragma region ステージ背景ロード
 
+	//リソース配置ディレクトリの設定
+	CUtilities::SetCurrentDirectoryA("Game/StageBak");
+
 	if (!m_BakStart.Load("廊下始まり.png")) {
 		return false;
 	}
@@ -72,10 +75,15 @@ bool CStage::Load() {
 		return false;
 	}
 
+	//リソース配置ディレクトリの設定
+	CUtilities::SetCurrentDirectoryA("../../");
 
 #pragma endregion
 
 #pragma region DPテクスチャロード
+
+	//リソース配置ディレクトリの設定
+	CUtilities::SetCurrentDirectoryA("Game/DetailPoint");
 
 	//仮テクスチャ：学力
 	if (!dp_Textuer_Scholastic.Load("ハイスク　DP_0000_DP　学力.png")) {
@@ -102,10 +110,15 @@ bool CStage::Load() {
 		return false;
 	}
 
+	//リソース配置ディレクトリの設定
+	CUtilities::SetCurrentDirectoryA("../../");
 
 #pragma endregion
 
 #pragma region 障害物テクスチャロード
+
+	//リソース配置ディレクトリの設定
+	CUtilities::SetCurrentDirectoryA("Game/Obstacle");
 
 	//仮テクスチャ：机
 	if (!ob_Textuer_Desk.Load("ハイスク素材２　障害物 机.png")) {
@@ -127,20 +140,25 @@ bool CStage::Load() {
 		return false;
 	}
 
+	//リソース配置ディレクトリの設定
+	CUtilities::SetCurrentDirectoryA("../../");
 
 #pragma endregion
 
 #pragma region 足場テクスチャロード
+
+	//リソース配置ディレクトリの設定
+	CUtilities::SetCurrentDirectoryA("Game/Obstacle");
 
 	//仮テクスチャ：足場中
 	if (!bar_Textuer_Medium.Load("ハイスク_障害物_鉛筆_中.png")) {
 		return false;
 	}
 
+	//リソース配置ディレクトリの設定
+	CUtilities::SetCurrentDirectoryA("../../");
 
 #pragma endregion
-
-
 
 	return true;
 }

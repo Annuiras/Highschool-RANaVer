@@ -26,9 +26,15 @@ void CMenu::Create(int cnt)
 	//古いデータの解放
 	Release();
 
+	//リソース配置ディレクトリの設定
+	CUtilities::SetCurrentDirectoryA("Menu");
+
 	m_MenuTexture.Load("Menu.png");
 
 	m_MenuText.Load("Menu_text.png");
+
+	//リソース配置ディレクトリの設定
+	CUtilities::SetCurrentDirectoryA("../");
 
 	//引数の変更を保存
 	m_Count = cnt;

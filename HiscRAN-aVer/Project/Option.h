@@ -1,14 +1,19 @@
 #pragma once
 #include	"Mof.h"
 #include "SceneBase.h"
+#include "MusicManager.h"
 
 class COption :public CSceneBase
 {
 private:
+
+	//ミュージックマネージャー
+	CMusicMgmt m_MusicMgmt;
+
 	//BGM
-	CSoundBuffer	m_BGM;
+	//CSoundBuffer	m_BGM;
 	//SE
-	CSoundBuffer	m_SE;
+	//CSoundBuffer	m_SE;
 
 	//フォント
 	CFont			m_Font1;

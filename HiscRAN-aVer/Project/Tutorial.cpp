@@ -24,6 +24,9 @@ CTutorial::~CTutorial()
 //素材読み込み
 bool CTutorial::Load(void)
 {
+	//リソース配置ディレクトリの設定
+	CUtilities::SetCurrentDirectoryA("Tutorial");
+
 	if (!Texture.Load("tutorialBG.png"))
 	{
 		return false;
@@ -34,17 +37,20 @@ bool CTutorial::Load(void)
 		return false;
 	}
 
+	if (!ScreenTexture.Load("tutorialScreen.png"))
+	{
+		return false;
+	}
+
+	//リソース配置ディレクトリの設定
+	CUtilities::SetCurrentDirectoryA("../");
+
 	if (!BackButton.Load("BackButton.png"))
 	{
 		return false;
 	}
 
 	if (!ButtonSelect.Load("Select_s.png"))
-	{
-		return false;
-	}
-
-	if (!ScreenTexture.Load("tutorialScreen.png"))
 	{
 		return false;
 	}

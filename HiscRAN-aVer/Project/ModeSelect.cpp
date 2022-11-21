@@ -34,6 +34,9 @@ void  CModeSelect::Initialize(CGameProgMgmt* mamt)
 //ロード
 bool CModeSelect::Load()
 {
+	//リソース配置ディレクトリの設定
+	CUtilities::SetCurrentDirectoryA("ModeSelect");
+
 	if (!m_TutorialTextTexture.Load("ModeSelectTexture.png"))
 	{
 		return false;
@@ -43,6 +46,9 @@ bool CModeSelect::Load()
 	{
 		return false;
 	}
+
+	//リソース配置ディレクトリの設定
+	CUtilities::SetCurrentDirectoryA("../");
 
 	return true;
 }

@@ -16,13 +16,14 @@ CGAME::~CGAME()
 //素材読み込み
 void CGAME::Load(void)
 {
-	g_Player.Load();
-	g_Stage.Load();
 	g_MusicManager.Load();
 	g_EffectManeger.Load();
+	g_Player.Load();
+	g_Stage.Load();
 }
 
 //初期化
+//引数：ゲーム進捗管理クラス
 void CGAME::Initialize(CGameProgMgmt* mamt)
 {
 	//素材読み込み
@@ -34,7 +35,7 @@ void CGAME::Initialize(CGameProgMgmt* mamt)
 	gMenu.Create(gMenuItemCount);
 
 	//マネージャー初期化
- 	g_MusicManager.Initialize(m_GameProgMamt->GetSEVolume()/*,m_GameProgMamt*/);
+ 	g_MusicManager.Initialize(m_GameProgMamt->GetSEVolume(),m_GameProgMamt->GetBGMVolume());
 	g_EffectManeger.Initialize();
 
 	//プレイヤー初期化

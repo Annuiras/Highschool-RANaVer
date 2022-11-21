@@ -26,6 +26,9 @@ CTitle::~CTitle()
 //素材ロード
 bool CTitle::Load(void)
 {
+	//リソース配置ディレクトリの設定
+	CUtilities::SetCurrentDirectoryA("Title");
+
 	//背景テクスチャの読み込み
 	if (!m_BackTexture1.Load("TitleBG1.png"))
 	{
@@ -51,6 +54,9 @@ bool CTitle::Load(void)
 	{
 		return false;
 	}
+
+	//リソース配置ディレクトリの設定
+	CUtilities::SetCurrentDirectoryA("../");
 
 	return true;
 
