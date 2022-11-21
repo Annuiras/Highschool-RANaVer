@@ -80,7 +80,7 @@ void CMusicMgmt::Initialize(float bgmv, float sev) {
 }
 
 //SEçƒê∂
-CMusic* CMusicMgmt::SEStart(int type) {
+CMusic* CMusicMgmt::SEStart(tag_SE_TYPE type) {
 
 	for (int mgmt = 0; mgmt < SE_MGMT_COUNT; mgmt++)
 	{
@@ -95,7 +95,7 @@ CMusic* CMusicMgmt::SEStart(int type) {
 
 }
 
-void CMusicMgmt::SEStop(int type)
+void CMusicMgmt::SEStop(tag_SE_TYPE type)
 {
 	for (int mgmt = 0; mgmt < SE_MGMT_COUNT; mgmt++)
 	{
@@ -121,7 +121,7 @@ void CMusicMgmt::SESetVolume(float sev)
 
 }
 
-CMusic* CMusicMgmt::BGMStart(int type)
+CMusic* CMusicMgmt::BGMStart(tag_BGM_TYPE type)
 {
 	if (!m_Music_BGM[type].IsPlay())
 	{	
@@ -132,7 +132,7 @@ CMusic* CMusicMgmt::BGMStart(int type)
 	return NULL;
 }
 
-void CMusicMgmt::BGMStop(int type)
+void CMusicMgmt::BGMStop(tag_BGM_TYPE type)
 {
 	if (m_Music_BGM[type].IsPlay())
 	{
@@ -153,7 +153,7 @@ void CMusicMgmt::BGMSetVolume(float bgmv)
 }
 
 //BGMÉãÅ[Évê›íË
-void CMusicMgmt::BGMLoop(int type, bool b)
+void CMusicMgmt::BGMLoop(tag_BGM_TYPE type, bool b)
 {
 	m_Music_BGM[type].SetLoop(b);
 

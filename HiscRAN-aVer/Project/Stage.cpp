@@ -717,9 +717,9 @@ void CStage::MapChange(void) {
 
 	//スクロールが切り替わる時かつそれぞれのマップパターン情報で終端要素にたどり着いているなら
 	if (m_StageScroll <= 0 &&
-		m_barinfo[m_StageComposition[m_MapNo]][m_barcount].Type > 10 &&
-		m_dpinfo[m_StageComposition[m_MapNo]][m_dpcount].Type > 10 &&
-		m_obinfo[m_StageComposition[m_MapNo]][m_obcount].Type > 10) 
+		m_barinfo[m_StageComposition[m_MapNo]][m_barcount].Type >= BAR_COUNT &&
+		m_dpinfo[m_StageComposition[m_MapNo]][m_dpcount].Type >= DP_COUNT &&
+		m_obinfo[m_StageComposition[m_MapNo]][m_obcount].Type >= OB_COUNT)
 	{
 		m_barcount = 0;
 		m_dpcount = 0;

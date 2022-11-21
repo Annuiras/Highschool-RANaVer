@@ -21,7 +21,7 @@ DP_info s_stageAdp[][DP_INFO_STRUCT] =
 		{1346.0f,339.0f,DP_ACTION},
 		{1963.0f,207.0f,DP_SCHOLASTIC},
 		{2402.0f,168.0f,DP_COMMUNICATION},
-		{10000,0,100}
+		{10000,0,DP_COUNT}
 	},
 	//マップパターン1 S2
 	{
@@ -33,7 +33,7 @@ DP_info s_stageAdp[][DP_INFO_STRUCT] =
 		{1573.0f,188.0f,DP_IMAGINATION},
 		{2009.0f,22.0f,DP_SCHOLASTIC},
 		{2042.0f,486.0f,DP_ACTION},
-		{10000,0,100}
+		{10000,0,DP_COUNT}
 	},
 	//マップパターン2 S3
 	{
@@ -43,7 +43,7 @@ DP_info s_stageAdp[][DP_INFO_STRUCT] =
 		{1258.0f,526.0f,DP_IMAGINATION},
 		{1696.0f,526.0f,DP_CHARM},
 		{2104.0f,196.0f,DP_ACTION},
-		{10000,0,100}
+		{10000,0,DP_COUNT}
 	},
 	//マップパターン3
 	{
@@ -52,7 +52,7 @@ DP_info s_stageAdp[][DP_INFO_STRUCT] =
 		{1284.0f,222.0f,DP_ACTION},
 		{1975.0f,231.0f,DP_COMMUNICATION},//DP_IMAGINATION一時的な変更
 		{2462.0f,66.0f,	DP_SCHOLASTIC},
-		{10000,0,100}
+		{10000,0,DP_COUNT}
 	},
 	//マップパターン4
 	{
@@ -61,7 +61,7 @@ DP_info s_stageAdp[][DP_INFO_STRUCT] =
 		{1284.0f,222.0f,DP_ACTION},
 		{1975.0f,231.0f,DP_COMMUNICATION},//DP_IMAGINATION一時的な変更
 		{2462.0f,66.0f,	DP_SCHOLASTIC},
-		{10000,0,100}
+		{10000,0,DP_COUNT}
 	},
 	//マップパターン5
 	{
@@ -70,7 +70,7 @@ DP_info s_stageAdp[][DP_INFO_STRUCT] =
 		{1284.0f,222.0f,DP_ACTION},
 		{1975.0f,231.0f,DP_COMMUNICATION},//DP_IMAGINATION一時的な変更
 		{2462.0f,66.0f,	DP_SCHOLASTIC},
-		{10000,0,100}
+		{10000,0,DP_COUNT}
 	},
 	//マップパターン6
 	{
@@ -79,7 +79,7 @@ DP_info s_stageAdp[][DP_INFO_STRUCT] =
 		{1284.0f,222.0f,DP_ACTION},
 		{1975.0f,231.0f,DP_COMMUNICATION},//DP_IMAGINATION一時的な変更
 		{2462.0f,66.0f,	DP_SCHOLASTIC},
-		{10000,0,100}
+		{10000,0,DP_COUNT}
 	},
 	//マップパターン7
 	{
@@ -88,7 +88,7 @@ DP_info s_stageAdp[][DP_INFO_STRUCT] =
 		{1284.0f,222.0f,DP_ACTION},
 		{1975.0f,231.0f,DP_COMMUNICATION},//DP_IMAGINATION一時的な変更
 		{2462.0f,66.0f,	DP_SCHOLASTIC},
-		{10000,0,100}
+		{10000,0,DP_COUNT}
 	},
 	//マップパターン8
 	{
@@ -97,7 +97,7 @@ DP_info s_stageAdp[][DP_INFO_STRUCT] =
 		{1284.0f,222.0f,DP_ACTION},
 		{1975.0f,231.0f,DP_COMMUNICATION},//DP_IMAGINATION一時的な変更
 		{2462.0f,66.0f,	DP_SCHOLASTIC},
-		{10000,0,100}
+		{10000,0,DP_COUNT}
 	},
 	//マップパターン9
 	{
@@ -106,7 +106,7 @@ DP_info s_stageAdp[][DP_INFO_STRUCT] =
 		{1284.0f,222.0f,DP_ACTION},
 		{1975.0f,231.0f,DP_COMMUNICATION},//DP_IMAGINATION一時的な変更
 		{2462.0f,66.0f,	DP_SCHOLASTIC},
-		{10000,0,100}
+		{10000,0,DP_COUNT}
 	},
 	//マップパターン10
 	{
@@ -115,7 +115,7 @@ DP_info s_stageAdp[][DP_INFO_STRUCT] =
 		{1284.0f,222.0f,DP_ACTION},
 		{1975.0f,231.0f,DP_COMMUNICATION},//DP_IMAGINATION一時的な変更
 		{2462.0f,66.0f,	DP_SCHOLASTIC},
-		{10000,0,100}
+		{10000,0,DP_COUNT}
 	},
 	//マップパターン11
 	{
@@ -124,7 +124,7 @@ DP_info s_stageAdp[][DP_INFO_STRUCT] =
 		{1284.0f,222.0f,DP_ACTION},
 		{1975.0f,231.0f,DP_COMMUNICATION},//DP_IMAGINATION一時的な変更
 		{2462.0f,66.0f,	DP_SCHOLASTIC},
-		{10000,0,100}
+		{10000,0,DP_COUNT}
 	},
 	//マップパターン12
 	{
@@ -133,7 +133,7 @@ DP_info s_stageAdp[][DP_INFO_STRUCT] =
 		{1284.0f,222.0f,DP_ACTION},
 		{1975.0f,231.0f,DP_COMMUNICATION},//DP_IMAGINATION一時的な変更
 		{2462.0f,66.0f,	DP_SCHOLASTIC},
-		{10000,0,100}
+		{10000,0,DP_COUNT}
 	},
 	//マップパターン13
 	{
@@ -142,7 +142,7 @@ DP_info s_stageAdp[][DP_INFO_STRUCT] =
 		{1284.0f,222.0f,DP_ACTION},
 		{1975.0f,231.0f,DP_COMMUNICATION},//DP_IMAGINATION一時的な変更
 		{2462.0f,66.0f,	DP_SCHOLASTIC},
-		{10000,0,100}
+		{10000,0,DP_COUNT}
 	},
 	//マップパターン14
 	{
@@ -151,7 +151,7 @@ DP_info s_stageAdp[][DP_INFO_STRUCT] =
 		{1284.0f,222.0f,DP_ACTION},
 		{1975.0f,231.0f,DP_COMMUNICATION},//DP_IMAGINATION一時的な変更
 		{2462.0f,66.0f,	DP_SCHOLASTIC},
-		{10000,0,100}
+		{10000,0,DP_COUNT}
 	}
 
 };

@@ -27,13 +27,12 @@ enum tag_DP_TYPE
 	DP_ACTION,			//行動力
 	DP_IMAGINATION,		//想像力
 	DP_COMMUNICATION,	//コミュ力
-	DP_CHARM			//魅力
-
+	DP_CHARM,			//魅力
+	DP_COUNT			//総数（終端要素）	
 };
 
 
 #pragma endregion
-
 
 #pragma region 障害物定数群
 
@@ -42,7 +41,8 @@ enum tag_OBTYPE
 {
 	OB_DESK,		//机
 	OB_TWODESK,		//２段机
-	OB_LOCKER		//ロッカー
+	OB_LOCKER,		//ロッカー
+	OB_COUNT		//総数（終端要素）
 }; 
 
 //クラス数
@@ -73,7 +73,6 @@ enum tag_OBTYPE
 
 #pragma endregion
 
-
 #pragma region 足場定数群
 
 //足場タイプ定義
@@ -81,7 +80,8 @@ enum tag_BAR
 {
 	BAR_BIG,		//大
 	BAR_MEDIUM,		//中
-	BAR_SMALL		//小
+	BAR_SMALL,		//小
+	BAR_COUNT		//総数（終端要素）
 };
 
 //足場1パターンの要素数

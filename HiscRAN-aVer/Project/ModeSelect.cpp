@@ -9,6 +9,7 @@ int MenuNow_Mode = 0;
 //コンストラクタ
 CModeSelect::CModeSelect() :
 	m_TutorialTextTexture(),
+	m_Illustrat(),
 	m_Scroll(0.0f)
 {
 
@@ -35,12 +36,11 @@ void  CModeSelect::Initialize(CGameProgMgmt* mamt)
 bool CModeSelect::Load()
 {
 	//リソース配置ディレクトリの設定
-	CUtilities::SetCurrentDirectoryA("ModeSelect");
+	if (!CUtilities::SetCurrentDirectoryA("ModeSelect"))
+		return false;
 
 	if (!m_TutorialTextTexture.Load("ModeSelectTexture.png"))
-	{
 		return false;
-	}
 
 	if (!m_Illustrat.Load("ModeSelectIllust.png"))
 	{

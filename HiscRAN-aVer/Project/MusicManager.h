@@ -25,21 +25,21 @@ public:
 	void Initialize(float bgmv, float sev);
 
 	//SE再生
-	CMusic* SEStart(int type);
+	CMusic* SEStart(tag_SE_TYPE type);
 	//SE停止
-	void SEStop(int type);
+	void SEStop(tag_SE_TYPE type);
 	//SEボリュームセット
 	void SESetVolume(float sev);
 
 	//BGM再生
-	CMusic* BGMStart(int type);
+	CMusic* BGMStart(tag_BGM_TYPE type);
 	//BGM停止
-	void BGMStop(int type);
+	void BGMStop(tag_BGM_TYPE type);
 	//BGMボリュームセット
 	void BGMSetVolume(float bgmv);
 
 	//ループ設定
-	void BGMLoop(int type,bool b);
+	void BGMLoop(tag_BGM_TYPE type,bool b);
 
 	//SEボリュームゲット
 	float GetSEVolume();

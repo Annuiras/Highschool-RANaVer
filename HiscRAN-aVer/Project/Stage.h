@@ -14,7 +14,7 @@ typedef struct tag_DP_POS
 {
 	float Scroll;	//DP出現スクロール値
 	float Pos_y;	//DP出現Y座標
-	int	Type;		//DPタイプ
+	tag_DP_TYPE	Type;		//DPタイプ
 
 } DP_info;
 
@@ -23,7 +23,7 @@ typedef struct tag_OBSTAClE_POS
 {	
 	float Scroll;	//障害物出現スクロール値
 	float Pos_y;	//障害物出現Y座標
-	int	Type;		//障害物タイプ
+	tag_OBTYPE	Type;		//障害物タイプ
 
 } OB_info;
 
@@ -33,7 +33,7 @@ typedef struct tag_BAR_POS
 {	
 	float Scroll;	//足場出現スクロール値
 	float Pos_y;	//足場出現Y座標
-	int	Type;		//足場タイプ（仮）
+	tag_BAR	Type;		//足場タイプ（仮）
 
 } BAR_info;
 

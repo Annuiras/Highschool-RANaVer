@@ -27,7 +27,8 @@ void CMenu::Create(int cnt)
 	Release();
 
 	//リソース配置ディレクトリの設定
-	CUtilities::SetCurrentDirectoryA("Menu");
+	if (!CUtilities::SetCurrentDirectoryA("Menu"))
+		 false;
 
 	m_MenuTexture.Load("Menu.png");
 
