@@ -18,7 +18,7 @@ public:
 	~CEffectMgmt();
 	bool Load(void);
 	void Initialize(void);
-	CEffect* Start(float px, float py, tag_EFFECTTYPE type);
+	CEffect* Start(float px, float py, int type);
 	void Update(CRectangle plrec);
 	void Render(void);
 	//デバッグ表示
