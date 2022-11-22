@@ -17,6 +17,8 @@ CStage::CStage() :
 	m_obcount(0),
 	m_BakScroll(0.0f),
 	m_StageScroll(0.0f), 
+	m_BakAVal(0),
+	m_BakChange(false),
 	m_Scholastic(0),
 	m_Imagination(0),
 	m_Action(0),
@@ -181,6 +183,11 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 	//背景カウント初期化
 	m_countbak = 0;
 
+	//α値初期化
+	m_BakAVal = 255;
+
+	//初期化
+	m_BakChange = false;
 
 	//マップパターンをランダム化
 	for (int i = 0; i < 15; i++)
@@ -352,12 +359,12 @@ void CStage::Update(CRectangle plrect) {
 	}
 
 	//一時的な追加です
-	if (g_pInput->IsKeyHold(MOFKEY_RIGHT)) {
+	if (g_pInput->IsKeyPush(MOFKEY_RIGHT)) {
 		m_Scroll_Speed +=10;
 	}
 
 	//一時的な追加です
-	if (g_pInput->IsKeyHold(MOFKEY_LEFT)) {
+	if (g_pInput->IsKeyPush(MOFKEY_LEFT)) {
 		m_Scroll_Speed -= 10;
 	}
 
@@ -422,6 +429,22 @@ void CStage::Update(CRectangle plrect) {
 
 		}
 
+	}
+
+	//todo:ステージ変化
+	if (m_countbak >= 10&&!m_BakChange) {
+
+		//フェードアウト
+		m_BakAVal -= 5;
+		if (m_BakAVal <= 0) {
+			//変化済
+			m_BakChange = true;
+		}
+	}
+	else if (m_BakAVal < 255)
+	{
+		//フェードイン
+		m_BakAVal += 5;
 	}
 
 	//クリアフラグ変更
@@ -526,35 +549,35 @@ void CStage::Render(void) {
 			{
 
 				case 1:
-					m_BakRdoor.Render(x, 0.0f);
+					m_BakRdoor.Render(x, 0.0f,MOF_ARGB(m_BakAVal,255,255,255));
 					break;
 
 				case 2:
-					m_BakRwall.Render(x, 0.0f);
+					m_BakRwall.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
 					break;
 
 				case 3:
-					m_Bakldoor.Render(x, 0.0f);
+					m_Bakldoor.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
 					break;
 
 				case 4:
-					m_Baklwall.Render(x, 0.0f);
+					m_Baklwall.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
 					break;
 
 				case 5:
-					m_BakWindow.Render(x, 0.0f);
+					m_BakWindow.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
 					break;
 
 				case 6:
-					m_BakStairs.Render(x, 0.0f);
+					m_BakStairs.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
 					break;
 
 				case 7:
-					m_BakStart.Render(x, 0.0f);
+					m_BakStart.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
 					break;
 
 				case 8:
-					m_BakEnd.Render(x, 0.0f);
+					m_BakEnd.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
 					break;
 
 				default:
@@ -571,31 +594,31 @@ void CStage::Render(void) {
 			{
 
 			case 1:
-				m_BakRdoor.Render(x, 0.0f);
+				m_BakRdoor.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
 				break;
 
 			case 2:
-				m_BakRwall.Render(x, 0.0f);
+				m_BakRwall.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
 				break;
 
 			case 3:
-				m_Bakldoor.Render(x, 0.0f);
+				m_Bakldoor.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
 				break;
 
 			case 4:
-				m_Baklwall.Render(x, 0.0f);
+				m_Baklwall.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
 				break;
 
 			case 5:
-				m_BakWindow.Render(x, 0.0f);
+				m_BakWindow.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
 				break;
 
 			case 6:
-				m_BakStairs.Render(x, 0.0f);
+				m_BakStairs.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
 				break;
 
 			case 8:
-				m_BakEnd.Render(x, 0.0f);
+				m_BakEnd.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
 				break;
 
 			default:

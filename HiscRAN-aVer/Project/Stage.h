@@ -174,6 +174,12 @@ private:
 	//右側
 	int m_RandamuBakRight;
 
+	//todo:背景α値
+	int m_BakAVal;
+
+	//ステージ変化フラグ
+	bool m_BakChange;
+
 
 	//使用済みパターン番号記録用配列
 	int	m_AlreadyUsedArray[MAP_INFO_PATTERN];
