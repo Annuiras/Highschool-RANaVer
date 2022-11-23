@@ -120,25 +120,47 @@ bool CStage::Load() {
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("Game/Obstacle");
 
-	//仮テクスチャ：机
+	//テクスチャ：机
 	if (!ob_Textuer_Desk.Load("ハイスク素材２　障害物 机.png")) {
 		return false;
 	}
 
-	//todo:同じ当たり判定の画像違いを作成する
-	////仮テクスチャ：２段机
-	//if (!ob_Textuer_TwoDesk.Load("ハイスク素材２　障害物 ２段机.png")) {
-	//	return false;
-	//}
-	if (!ob_Textuer_TwoDesk.Load("ハイスク_障害物_ゴミ箱.png")) {
+	//テクスチャ：２段机
+	if (!ob_Textuer_TwoDesk.Load("ハイスク素材２　障害物 ２段机.png")) {
 		return false;
 	}
 
+	//テクスチャ：ごみ箱
+	if (!ob_Textuer_TrachCan.Load("ハイスク_障害物_ゴミ箱.png")) {
+		return false;
+	}
 
-	//仮テクスチャ：ロッカー
+	//テクスチャ：ロッカー
 	if (!ob_Textuer_Locker.Load("ハイスク素材２　障害物 ロッカー.png")) {
 		return false;
 	}
+
+	//テクスチャ：教科書_理科
+	if (!ob_Textuer_TextBookChem.Load("ハイスク_障害物_理科.png")) {
+		return false;
+	}
+
+	//テクスチャ：跳び箱
+	if (!ob_Textuer_VaultingHorse.Load("ハイスク_障害物＿跳び箱.png")) {
+		return false;
+	}
+
+	//テクスチャ：セロハンテープ
+	if (!ob_Textuer_ScotchTape.Load("ハイスク_障害物_セロハンテープ.png")) {
+		return false;
+	}
+
+	//テクスチャ：黒板消し
+	if (!ob_Textuer_BloackboardEraser.Load("ハイスク_障害物_黒板けし.png")) {
+		return false;
+	}
+
+
 
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("../../");
@@ -147,22 +169,21 @@ bool CStage::Load() {
 
 #pragma region 足場テクスチャロード
 
-	//リソース配置ディレクトリの設定
-	CUtilities::SetCurrentDirectoryA("Game/Obstacle");
+		//リソース配置ディレクトリの設定
+		CUtilities::SetCurrentDirectoryA("Game/Bar");
 
-	//仮テクスチャ：足場中
-	if (!bar_Textuer_Medium.Load("ハイスク_障害物_鉛筆_中.png")) {
-		return false;
-	}
+		//仮テクスチャ：足場中
+		if (!bar_Textuer_Medium.Load("ハイスク_障害物_鉛筆_中.png")) {
+			return false;
+		}
 
-	//リソース配置ディレクトリの設定
-	CUtilities::SetCurrentDirectoryA("../../");
+		//リソース配置ディレクトリの設定
+		CUtilities::SetCurrentDirectoryA("../../");
 
 #pragma endregion
 
-	return true;
+		return true;
 }
-
 
 //dpin:DP配置情報
 //dpco:DP配置情報数
@@ -231,18 +252,18 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 	m_StageComposition[0] = 0;
 	m_StageComposition[1] = 1;
 	m_StageComposition[2] = 2;
-	m_StageComposition[3] = 1;
-	m_StageComposition[4] = 0;
-	m_StageComposition[5] = 2;
+	m_StageComposition[3] = 3;
+	m_StageComposition[4] = 4;
+	m_StageComposition[5] = 3;
 	m_StageComposition[6] = 2;
 	m_StageComposition[7] = 1;
 	m_StageComposition[8] = 0;
-	m_StageComposition[9] = 1;
+	m_StageComposition[9] = 3;
 	m_StageComposition[10] = 1;
-	m_StageComposition[11] = 0;
-	m_StageComposition[12] = 0;
-	m_StageComposition[13] = 2;
-	m_StageComposition[14] = 2;
+	m_StageComposition[11] = 4;
+	m_StageComposition[12] = 2;
+	m_StageComposition[13] = 1;
+	m_StageComposition[14] = 4;
 
 
 	//DP配置情報コピー,
@@ -659,7 +680,12 @@ void CStage::Release(void) {
 
 	ob_Textuer_Desk.Release();
 	ob_Textuer_TwoDesk.Release();
+	ob_Textuer_TrachCan.Release();
 	ob_Textuer_Locker.Release();
+	ob_Textuer_TextBookChem.Release();
+	ob_Textuer_VaultingHorse.Release();
+	ob_Textuer_ScotchTape.Release();
+	ob_Textuer_BloackboardEraser.Release();
 
 	bar_Textuer_Medium.Release();
 
@@ -883,8 +909,28 @@ void CStage::OccurrenceOB(void) {
  				ob_array[i].SetTexture(&ob_Textuer_TwoDesk);
 				break;
 
+			case OB_TRACHCAN:
+				ob_array[i].SetTexture(&ob_Textuer_TrachCan);
+				break;
+
 			case OB_LOCKER:
 				ob_array[i].SetTexture(&ob_Textuer_Locker);
+				break;
+
+			case OB_TEXTBOOKCHEM:
+				ob_array[i].SetTexture(&ob_Textuer_TextBookChem);
+				break;
+
+			case OB_VAULTINGHORSE:
+				ob_array[i].SetTexture(&ob_Textuer_VaultingHorse);
+				break;
+
+			case OB_SCOTCHTAPE:
+				ob_array[i].SetTexture(&ob_Textuer_ScotchTape);
+				break;
+
+			case OB_BLOACKBOARDERASER:
+				ob_array[i].SetTexture(&ob_Textuer_BloackboardEraser);
 				break;
 
 			default:

@@ -40,24 +40,7 @@ void CObstacle::Start(float posy, int type) {
 
 	ob_Show = true;
 
-	switch (type)
-	{
-	case OB_DESK://机
-		ob_HitWidth = OB_DESK_WIDTH;
-		break;
-
-	case OB_TWODESK://２段机
-		ob_HitWidth = OB_DESK_WIDTH;
-		break;
-
-	case OB_LOCKER://ロッカー
-		ob_HitWidth = OB_LOCKER_WIDTH;
-		break;
-
-	default:
-		break;
-	}
-
+	ob_HitWidth = ob_Textuer->GetWidth();
 }
 
 void CObstacle::Update(float over) {
@@ -114,34 +97,23 @@ void CObstacle::RenderDebugging(void) {
 //ダメージ矩形取得
 CRectangle CObstacle::GetRect(int type){
 
-	//タイプ別で大きさを変更
+	//タイプで大きさ変更する場合
 	switch (type)
 	{
-		//机
-	case OB_DESK:
-		return CRectangle(ob_PosX, ob_PosY+ OB_TOPBAR_HEIGHT + OB_HITRECT_SPACE_,
-			ob_PosX + OB_DESK_WIDTH, ob_PosY + OB_DESK_HEIGHT);
-		break;
-
-		//２段机
-	case OB_TWODESK:
-		return CRectangle(ob_PosX, ob_PosY+ OB_TOPBAR_HEIGHT + OB_HITRECT_SPACE_,
-			ob_PosX + OB_TOWDESK_WIDTH, ob_PosY + OB_TOWDESK_HEIGHT);
-		break;
-
-		//ロッカー
-	case OB_LOCKER:
-		return CRectangle(ob_PosX, ob_PosY+ OB_TOPBAR_HEIGHT + OB_HITRECT_SPACE_,
-			ob_PosX + OB_LOCKER_WIDTH, ob_PosY + OB_LOCKER_HEIGHT);
-		break;
+	//	//ロッカー
+	//case OB_LOCKER:
+	//	return CRectangle(ob_PosX, ob_PosY+ OB_TOPBAR_HEIGHT + OB_HITRECT_SPACE_Y,
+	//		ob_PosX + ob_Textuer->GetWidth(), ob_PosY + ob_Textuer->GetHeight());
+	//	break;
 
 
 	default:
-		return CRectangle(ob_PosX, ob_PosY,
-			ob_PosX + 30, ob_PosY + 30);
-
 		break;
 	}
+
+	return CRectangle(ob_PosX, ob_PosY + OB_TOPBAR_HEIGHT + OB_HITRECT_SPACE_Y,
+		ob_PosX + ob_Textuer->GetWidth(), ob_PosY + ob_Textuer->GetHeight());
+
 }
 
 //試作障害物上に乗れる当たり判定取得
@@ -151,28 +123,15 @@ CRectangle CObstacle::GetTopBarRect(int type) {
 	switch (type)
 	{
 
-	case OB_DESK://机
-		return CRectangle(ob_PosX, ob_PosY + OB_HITRECT_SPACE_,
-			ob_PosX + OB_DESK_WIDTH, ob_PosY + OB_TOPBAR_HEIGHT + OB_HITRECT_SPACE_);
-		break;
-
-
-	case OB_TWODESK://２段机
-		return CRectangle(ob_PosX, ob_PosY + OB_HITRECT_SPACE_,
-			ob_PosX + OB_DESK_WIDTH, ob_PosY + OB_TOPBAR_HEIGHT + OB_HITRECT_SPACE_);
-		break;
-
-		
-	case OB_LOCKER://ロッカー
-		return CRectangle(ob_PosX, ob_PosY + OB_HITRECT_SPACE_,
-			ob_PosX + OB_LOCKER_WIDTH, ob_PosY + OB_TOPBAR_HEIGHT + OB_HITRECT_SPACE_);
-		break;
-
+	//case OB_DESK://机
+	//	return CRectangle(ob_PosX, ob_PosY + OB_HITRECT_SPACE_Y,
+	//		ob_PosX + ob_Textuer->GetWidth(), ob_PosY + OB_TOPBAR_HEIGHT + OB_HITRECT_SPACE_Y);
+	//	break;
 
 	default:
-		return CRectangle(ob_PosX, ob_PosY,
-			ob_PosX + 30, ob_PosY + 30);
-
 		break;
 	}
+	return CRectangle(ob_PosX, ob_PosY + OB_HITRECT_SPACE_Y,
+		ob_PosX + ob_Textuer->GetWidth(), ob_PosY + OB_TOPBAR_HEIGHT + OB_HITRECT_SPACE_Y);
+
 }
