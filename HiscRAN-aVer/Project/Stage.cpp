@@ -248,11 +248,11 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 		m_AdoptCount = 0;
 	}
 
-	//デバッグ用の指定コマンド、必要に応じていじってください
-	m_StageComposition[0] = 0;
-	m_StageComposition[1] = 1;
-	m_StageComposition[2] = 2;
-	m_StageComposition[3] = 3;
+	/*//デバッグ用の指定コマンド、必要に応じていじってください
+	m_StageComposition[0] = 3;
+	m_StageComposition[1] = 3;
+	m_StageComposition[2] = 3;
+	m_StageComposition[3] = 4;
 	m_StageComposition[4] = 4;
 	m_StageComposition[5] = 3;
 	m_StageComposition[6] = 2;
@@ -264,7 +264,7 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 	m_StageComposition[12] = 2;
 	m_StageComposition[13] = 1;
 	m_StageComposition[14] = 4;
-
+	//*/
 
 	//DP配置情報コピー,
 	//マップ一枚の情報分
