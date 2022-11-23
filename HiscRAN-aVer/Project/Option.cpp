@@ -28,8 +28,7 @@ COption::COption() :
 	flagBGM(false),
 	flagSE(false),
 	flagSC(false),
-	ScreenSize(false),
-	m_MusicMgmt()
+	ScreenSize(false)
 {
 
 }
@@ -113,25 +112,25 @@ bool COption::Load(void)
 		return false;
 	}
 
-	m_MusicMgmt.Load();
-
 	return true;
 }
 
 
 //初期化
-void COption::Initialize(CGameProgMgmt* mamt)
+void COption::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec)
 {
 	Load();
 
 	m_GameProgMamt = mamt;
+	g_MusicManager = musi;
+	g_EffectManeger = effec;
 
 	//フォント
 	m_Font1.Create(35, "UD デジタル 教科書体 N-B");
 
-	m_MusicMgmt.Initialize(VolumeSE, VolumeBGM);
-	m_MusicMgmt.BGMLoop(BGMT_OP, true);
-	m_MusicMgmt.BGMStart(BGMT_OP);
+	g_MusicManager->Initialize(VolumeSE, VolumeBGM);
+	g_MusicManager->BGMLoop(BGMT_OP, true);
+	g_MusicManager->BGMStart(BGMT_OP);
 
 	//BGMに選択枠を合わせておく
 	OptionCnt = 0;
@@ -144,7 +143,7 @@ void COption::Update(void)
 	//F1キーでタイトル画面へ
 	if (g_pInput->IsKeyPush(MOFKEY_F1))
 	{
-		m_MusicMgmt.BGMStop(BGMT_OP);
+		g_MusicManager->BGMStop(BGMT_OP);
 		m_bEnd = true;
 		m_NextScene = SCENENO_TITLE;
 	}
@@ -153,8 +152,8 @@ void COption::Update(void)
 	//ToDO:Enterで戻るかは検討中
 	if (OptionCnt == 3 && g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
-		m_MusicMgmt.BGMStop(BGMT_OP);
-		m_MusicMgmt.SEStop(SET_CHIME);
+		g_MusicManager->BGMStop(BGMT_OP);
+		g_MusicManager->SEStop(SET_CHIME);
 		m_bEnd = true;
 		m_NextScene = SCENENO_SELECTMODE;
 	}
@@ -223,7 +222,7 @@ void COption::Update(void)
 	//エンターで音を鳴らす
 	if (OptionCnt == 1 && flagSE == true && g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
-		m_MusicMgmt.SEStart(SET_CHIME);
+		g_MusicManager->SEStart(SET_CHIME);
 	}
 
 	//BGM音量設定にカーソルが当たった状態で、スペースキーを押した場合
@@ -245,22 +244,22 @@ void COption::Update(void)
 	//音量を上げる
 	if (flagBGM == true && g_pInput->IsKeyHold(MOFKEY_UP))
 	{
-		m_MusicMgmt.BGMSetVolume(m_MusicMgmt.GetBGMVolume() + 0.01f);
-		VolumeBGM = m_MusicMgmt.GetBGMVolume();
+		g_MusicManager->BGMSetVolume(g_MusicManager->GetBGMVolume() + 0.01f);
+		VolumeBGM = g_MusicManager->GetBGMVolume();
 	}
 	//音量を下げる
 	else if (flagBGM == true && g_pInput->IsKeyHold(MOFKEY_DOWN))
 	{
-		m_MusicMgmt.BGMSetVolume(m_MusicMgmt.GetBGMVolume() - 0.01f);
-		VolumeBGM = m_MusicMgmt.GetBGMVolume();
+		g_MusicManager->BGMSetVolume(g_MusicManager->GetBGMVolume() - 0.01f);
+		VolumeBGM = g_MusicManager->GetBGMVolume();
 	}
 
 	//BGM調節ボタンの上げ下げ
-	if (m_MusicMgmt.GetBGMVolume() < 1 && flagBGM == true && g_pInput->IsKeyHold(MOFKEY_UP) && y_1 >= 200)
+	if (g_MusicManager->GetBGMVolume() < 1 && flagBGM == true && g_pInput->IsKeyHold(MOFKEY_UP) && y_1 >= 200)
 	{
 		y_1 -= 3.0;
 	}
-	else if (m_MusicMgmt.GetBGMVolume() > 0 && flagBGM == true && g_pInput->IsKeyHold(MOFKEY_DOWN) && y_1 <= 542)
+	else if (g_MusicManager->GetBGMVolume() > 0 && flagBGM == true && g_pInput->IsKeyHold(MOFKEY_DOWN) && y_1 <= 542)
 	{
 		y_1 += 3.0;
 	}
@@ -268,24 +267,24 @@ void COption::Update(void)
 
 
 	//SEの音量を上げる
-	if (m_MusicMgmt.GetSEVolume() < 1 && flagSE == true && g_pInput->IsKeyHold(MOFKEY_UP))
+	if (g_MusicManager->GetSEVolume() < 1 && flagSE == true && g_pInput->IsKeyHold(MOFKEY_UP))
 	{
-		m_MusicMgmt.SESetVolume(m_MusicMgmt.GetSEVolume() + 0.01f);
-		VolumeSE = m_MusicMgmt.GetSEVolume();
+		g_MusicManager->SESetVolume(g_MusicManager->GetSEVolume() + 0.01f);
+		VolumeSE = g_MusicManager->GetSEVolume();
 	}
 	//SEの音量を下げる
-	else if (m_MusicMgmt.GetSEVolume() > 0 && flagSE == true && g_pInput->IsKeyHold(MOFKEY_DOWN))
+	else if (g_MusicManager->GetSEVolume() > 0 && flagSE == true && g_pInput->IsKeyHold(MOFKEY_DOWN))
 	{
-		m_MusicMgmt.SESetVolume(m_MusicMgmt.GetSEVolume() - 0.01f);
-		VolumeSE = m_MusicMgmt.GetSEVolume();
+		g_MusicManager->SESetVolume(g_MusicManager->GetSEVolume() - 0.01f);
+		VolumeSE = g_MusicManager->GetSEVolume();
 	}
 
 	//SE調整ボタンの上げ下げ
-	if (m_MusicMgmt.GetSEVolume() < 1 && flagSE == true && g_pInput->IsKeyHold(MOFKEY_UP) && y_2 >= 242)
+	if (g_MusicManager->GetSEVolume() < 1 && flagSE == true && g_pInput->IsKeyHold(MOFKEY_UP) && y_2 >= 242)
 	{
 		y_2 -= 3.0;
 	}
-	else if (m_MusicMgmt.GetSEVolume() > 0 && flagSE == true && g_pInput->IsKeyHold(MOFKEY_DOWN) && y_2 <= 542)
+	else if (g_MusicManager->GetSEVolume() > 0 && flagSE == true && g_pInput->IsKeyHold(MOFKEY_DOWN) && y_2 <= 542)
 	{
 		y_2 += 3.0;
 	}
@@ -499,9 +498,8 @@ void COption::RenderDebug(void)
 //素材解放
 void COption::Release(void)
 {
-
-	m_GameProgMamt->SetBGMVolume(VolumeBGM);
-	m_GameProgMamt->SetSEVolume(VolumeSE);
+	g_MusicManager->BGMSetVolume(VolumeBGM);
+	g_MusicManager->SESetVolume(VolumeSE);
 
 	m_Button1_1.Release();
 	m_Button1_2.Release();
@@ -516,5 +514,6 @@ void COption::Release(void)
 	m_BackButton.Release();
 	m_Font1.Release();
 
-	m_MusicMgmt.Release();
+	g_MusicManager->Release();
+	g_EffectManeger->Release();
 }

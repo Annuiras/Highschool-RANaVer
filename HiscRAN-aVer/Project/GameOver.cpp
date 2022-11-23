@@ -58,9 +58,12 @@ bool CGameOver::Load(void)
 }
 
 //èâä˙âª
-void CGameOver::Initialize(CGameProgMgmt* mamt)
+void CGameOver::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec)
 {
 	m_GameProgMamt = mamt;
+	g_MusicManager = musi;
+	g_EffectManeger = effec;
+
 	Rondom = CUtilities::Random(0, 3);
 	Load();
 }

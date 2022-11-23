@@ -49,6 +49,8 @@ bool CEffectMgmt::Load(void) {
  * パラメーターや座標を初期化する。
  */
 void CEffectMgmt::Initialize(void) {
+
+	Load();
 	//エフェクトの基礎設定
 	for (int type = 0; type < EFC_TYPE_COUNT; type++)
 	{

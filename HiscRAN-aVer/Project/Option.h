@@ -8,7 +8,7 @@ class COption :public CSceneBase
 private:
 
 	//ミュージックマネージャー
-	CMusicMgmt m_MusicMgmt;
+	//CMusicMgmt m_MusicMgmt;
 
 	//BGM
 	//CSoundBuffer	m_BGM;
@@ -67,7 +67,7 @@ private:
 public:
 	COption();
 	~COption();
-	void Initialize(CGameProgMgmt* mamt);
+	void Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec);
 	void Update(void);
 	void Render(void);
 	void RenderDebug(void);

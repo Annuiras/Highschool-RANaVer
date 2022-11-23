@@ -1,8 +1,6 @@
 #pragma once
 #include "Menu.h"
 #include "SceneBase.h"
-#include "MusicManager.h"
-#include "EffectManager.h"
 #include "Define.h"
 #include "GameApp.h"
 #include "Player.h"
@@ -16,12 +14,6 @@ private:
 	CMenu			gMenu;
 	bool			Menuflag = false;
 	int				gMenuItemCount = 2;
-
-	//エフェクトマネージャー
-	CEffectMgmt g_EffectManeger;
-
-	//SE・BGMマネージャー
-	CMusicMgmt g_MusicManager;
 
 	//プレイヤークラス
 	CPlayer g_Player;
@@ -38,7 +30,7 @@ private:
 public:
 	CGAME();
 	~CGAME();
-	void Initialize(CGameProgMgmt* mamt);
+	void Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec);
 	void Update(void);
 	void Render(void);
 	void Load(void);

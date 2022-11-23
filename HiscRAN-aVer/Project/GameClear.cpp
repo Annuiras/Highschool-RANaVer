@@ -95,11 +95,14 @@ bool CGameClear::Load(void)
 }
 
 //èâä˙âª
-void CGameClear::Initialize(CGameProgMgmt* mamt)
+void CGameClear::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec)
 {
 	Load();
 
 	m_GameProgMamt = mamt;
+	g_MusicManager = musi;
+	g_EffectManeger = effec;
+
 
 	for (int i = 0; i < ITEM_NUM; i++)
 	{
