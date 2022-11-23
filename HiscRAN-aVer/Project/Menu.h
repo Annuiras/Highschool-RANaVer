@@ -2,6 +2,8 @@
 
 #include "Mof.h"
 
+//メニュー管理クラスです
+//複数の画面で使うのでGame.Appでインスタンスしてもいいかも
 class CMenu
 {
 private:

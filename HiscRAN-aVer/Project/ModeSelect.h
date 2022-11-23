@@ -21,7 +21,7 @@ private:
 public:
 	CModeSelect();
 	~CModeSelect();
-	void Initialize(CGameProgMgmt* mamt);
+	void Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec);
 	void Update(void);
 	void Render(void);
 	void RenderDebug(void);

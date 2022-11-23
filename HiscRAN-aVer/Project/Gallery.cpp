@@ -237,9 +237,12 @@ bool CGallery::Load(void)
 }
 
 //初期化
-void CGallery::Initialize(CGameProgMgmt* mamt)
+void CGallery::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec)
 {
 	m_GameProgMamt = mamt;
+	g_MusicManager = musi;
+	g_EffectManeger = effec;
+
 	gFont1.Create(44, "UD デジタル 教科書体 N-B");
 	gFont2.Create(32, "UD デジタル 教科書体 N-B");
 	Load();

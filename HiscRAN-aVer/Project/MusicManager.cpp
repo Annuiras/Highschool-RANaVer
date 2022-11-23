@@ -6,7 +6,6 @@ CMusicMgmt::CMusicMgmt()
 CMusicMgmt::~CMusicMgmt()
 {}
 
-//todo;呼び出される画面によってロードの内容変える？
 bool CMusicMgmt::Load(void) {
 
 	//リソース配置ディレクトリの設定
@@ -51,8 +50,11 @@ bool CMusicMgmt::Load(void) {
 	return true;
 }
 
+//初期化
 void CMusicMgmt::Initialize(float bgmv, float sev) {
 
+
+	Load();
 	//SEの基礎設定
 	//種類の数
 	for (int type = 0; type < SET_TYPE_COUNT; type++)
@@ -84,6 +86,8 @@ CMusic* CMusicMgmt::SEStart(tag_SE_TYPE type) {
 
 	for (int mgmt = 0; mgmt < SE_MGMT_COUNT; mgmt++)
 	{
+		//todo:同じSEを重ねて再生出来ない？
+		//なら複数用意する必要ない二次元配列じゃなくていい
 		if (m_Music_SE[type][mgmt].IsPlay())
 		{
 			continue;
@@ -95,6 +99,7 @@ CMusic* CMusicMgmt::SEStart(tag_SE_TYPE type) {
 
 }
 
+//SE停止
 void CMusicMgmt::SEStop(tag_SE_TYPE type)
 {
 	for (int mgmt = 0; mgmt < SE_MGMT_COUNT; mgmt++)
@@ -106,6 +111,7 @@ void CMusicMgmt::SEStop(tag_SE_TYPE type)
 	}
 }
 
+//SEボリュームセット
 void CMusicMgmt::SESetVolume(float sev)
 {	
 	//SEの基礎設定
@@ -121,6 +127,7 @@ void CMusicMgmt::SESetVolume(float sev)
 
 }
 
+//BGMスタート
 CMusic* CMusicMgmt::BGMStart(tag_BGM_TYPE type)
 {
 	if (!m_Music_BGM[type].IsPlay())
@@ -132,6 +139,7 @@ CMusic* CMusicMgmt::BGMStart(tag_BGM_TYPE type)
 	return NULL;
 }
 
+//BGM停止
 void CMusicMgmt::BGMStop(tag_BGM_TYPE type)
 {
 	if (m_Music_BGM[type].IsPlay())
@@ -141,6 +149,7 @@ void CMusicMgmt::BGMStop(tag_BGM_TYPE type)
 
 }
 
+//BGMボリュームセット
 void CMusicMgmt::BGMSetVolume(float bgmv)
 {	
 	//BGMの基礎設定
@@ -159,16 +168,21 @@ void CMusicMgmt::BGMLoop(tag_BGM_TYPE type, bool b)
 
 }
 
+//SEボリュームゲット
+//SEのボリュームはすべて同じなので一つのみ取得
 float CMusicMgmt::GetSEVolume()
 {
 	return m_Music_SE[0][0].GetVolume();
 }
 
+//BGMボリュームゲット
+//BGMのボリュームはすべて同じなので一つのみ取得
 float CMusicMgmt::GetBGMVolume()
 {
 	return 	m_Music_BGM->GetVolume();
 }
 
+//解放
 void CMusicMgmt::Release() {
 
 	for (int type = 0; type < SET_TYPE_COUNT; type++)

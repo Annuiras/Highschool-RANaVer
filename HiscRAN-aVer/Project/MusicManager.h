@@ -47,6 +47,7 @@ public:
 	//BGMボリュームゲット
 	float GetBGMVolume();
 
+	//解放
 	void Release(void);
 
 };

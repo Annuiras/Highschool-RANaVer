@@ -63,11 +63,13 @@ bool CTitle::Load(void)
 }
 
 //èâä˙âª
-void CTitle::Initialize(CGameProgMgmt* mamt)
+void CTitle::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec)
 {
 	m_Scroll = 0;
 	Rondom = CUtilities::Random(0, 3);
 	m_GameProgMamt = mamt;
+	g_MusicManager = musi;
+	g_EffectManeger = effec;
 	Load();
 }
 

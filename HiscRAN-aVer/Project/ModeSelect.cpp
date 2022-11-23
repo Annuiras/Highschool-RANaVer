@@ -22,10 +22,12 @@ CModeSelect::~CModeSelect()
 }
 
 //‰Šú‰»
-void  CModeSelect::Initialize(CGameProgMgmt* mamt)
+void  CModeSelect::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec)
 {
 	m_Scroll = 0;
 	m_GameProgMamt = mamt;
+	g_MusicManager = musi;
+	g_EffectManeger = effec;
 	//ƒƒjƒ…[‚Ì¶¬
 	gMenu.Create(gMenuItemCount);
 
@@ -292,4 +294,5 @@ void CModeSelect::Release(void)
 	m_TutorialTextTexture.Release();
 	m_Illustrat.Release();
 	gMenu.Release();
+
 }

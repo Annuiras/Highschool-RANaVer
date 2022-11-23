@@ -28,8 +28,15 @@ bool		gDebagflag = false;
 //シーンベースクラスポインタ
 CSceneBase* gpScene = NULL;
 
-//ゲーム進捗管理クラス
+//ゲーム管理クラス
 CGameProgMgmt g_GameProgMamt;
+
+//エフェクトマネージャー
+CEffectMgmt g_EffectManeger;
+
+//SE・BGMマネージャー
+CMusicMgmt g_MusicManager;
+
 
 /*************************************************************************//*!
 		@brief			アプリケーションの初期化
@@ -46,7 +53,9 @@ MofBool CGameApp::Initialize(void){
 	//最初に実行されるシーンの初期化 
 	gpScene = new CTitle();
 	g_GameProgMamt.Initialize();
-	gpScene->Initialize(&g_GameProgMamt);
+	g_EffectManeger.Initialize();
+	g_MusicManager.Initialize(0.5,0.5);
+	gpScene->Initialize(&g_GameProgMamt,&g_MusicManager,&g_EffectManeger);
 
 
 	return TRUE;
@@ -112,7 +121,7 @@ MofBool CGameApp::Update(void){
 
 		}
 		//初期化
-		gpScene->Initialize(&g_GameProgMamt);
+		gpScene->Initialize(&g_GameProgMamt,&g_MusicManager,&g_EffectManeger);
 
 	}
 
@@ -155,6 +164,8 @@ MofBool CGameApp::Release(void){
 
 	if (gpScene != nullptr) {
 		gpScene->Release();
+		g_EffectManeger.Release();
+		g_MusicManager.Release();
 	}
 
 	return TRUE;

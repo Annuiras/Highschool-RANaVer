@@ -16,37 +16,39 @@ CGAME::~CGAME()
 //素材読み込み
 void CGAME::Load(void)
 {
-	g_MusicManager.Load();
-	g_EffectManeger.Load();
+	//g_MusicManager.Load();
+	//g_EffectManeger.Load();
 	g_Player.Load();
 	g_Stage.Load();
 }
 
 //初期化
 //引数：ゲーム進捗管理クラス
-void CGAME::Initialize(CGameProgMgmt* mamt)
+void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec)
 {
 	//素材読み込み
 	Load();
 
 	m_GameProgMamt = mamt;
+	g_MusicManager = musi;
+	g_EffectManeger = effec;
 
 	//メニュー
 	gMenu.Create(gMenuItemCount);
 
 	//マネージャー初期化
- 	g_MusicManager.Initialize(m_GameProgMamt->GetSEVolume(),m_GameProgMamt->GetBGMVolume());
-	g_EffectManeger.Initialize();
+ //	g_MusicManager.Initialize(m_GameProgMamt->GetSEVolume(),m_GameProgMamt->GetBGMVolume());
+	//g_EffectManeger.Initialize();
 
 	//プレイヤー初期化
 	g_Player.Initialize();
-	g_Player.SetMusicManager(&g_MusicManager);
-	g_Player.SetEffectManager(&g_EffectManeger);
+	g_Player.SetMusicManager(musi);
+	g_Player.SetEffectManager(effec);
 
 	//ステージ初期化
 	g_Stage.Initialize(s_stageAdp,s_stageAbar, s_stageAOB);
-	g_Stage.SetMusicManager(&g_MusicManager);
-	g_Stage.SetEffectManager(&g_EffectManeger);
+	g_Stage.SetMusicManager(musi);
+	g_Stage.SetEffectManager(effec);
 }
 
 //更新
@@ -198,7 +200,7 @@ void CGAME::Update(void)
 	}
 
 	//エフェクトの更新
-	g_EffectManeger.Update(g_Player.GetRect());
+	g_EffectManeger->Update(g_Player.GetRect());
 
 
 }
@@ -216,7 +218,7 @@ void CGAME::Render(void)
 	gMenu.Render(2);
 
 	//エフェクトの描画
-	g_EffectManeger.Render();
+	g_EffectManeger->Render();
 
 }
 
@@ -227,8 +229,8 @@ void CGAME::Release(void)
 
 	g_Stage.Release();
 
-	g_EffectManeger.Release();
-	g_MusicManager.Release();
+	g_EffectManeger->Release();
+	g_MusicManager->Release();
 
 	gMenu.Release();
 
@@ -238,6 +240,5 @@ void CGAME::RenderDebug(void)
 {
 	g_Stage.RenderDebugging();
 	g_Player.RenderDebugging();
-	g_EffectManeger.RenderDebugging();
 }
 	

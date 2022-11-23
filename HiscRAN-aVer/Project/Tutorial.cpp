@@ -60,7 +60,7 @@ bool CTutorial::Load(void)
 }
 
 //èâä˙âª
-void CTutorial::Initialize(CGameProgMgmt* mamt)
+void CTutorial::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec)
 {
 	m_Scroll = 0;
 	count = 0;
@@ -68,6 +68,8 @@ void CTutorial::Initialize(CGameProgMgmt* mamt)
 	gPosX = 0;
 	bShow = false;
 	m_GameProgMamt = mamt;
+	g_MusicManager = musi;
+	g_EffectManeger = effec;
 	Load();
 }
 
@@ -182,4 +184,5 @@ void CTutorial::Release(void)
 	BGTexture.Release();
 	BackButton.Release();
 	ButtonSelect.Release();
+
 }
