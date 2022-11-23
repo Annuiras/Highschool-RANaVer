@@ -30,7 +30,7 @@
 
 //DP1パターンの要素数
 //（1マップ中にあるDP数＋1）
-#define DP_INFO_STRUCT 15
+#define DP_INFO_STRUCT 25
 
 //DPタイプ定義
 enum tag_DP_TYPE
@@ -52,10 +52,15 @@ enum tag_DP_TYPE
 //障害物タイプ定義
 enum tag_OBTYPE
 {
-	OB_DESK,		//机
-	OB_TWODESK,		//２段机
-	OB_LOCKER,		//ロッカー
-	OB_COUNT		//総数（終端要素）
+	OB_DESK,				//机
+	OB_TWODESK,				//２段机
+	OB_TRACHCAN,			//ごみ箱
+	OB_LOCKER,				//ロッカー
+	OB_TEXTBOOKCHEM,		//教科書_理科
+	OB_VAULTINGHORSE,		//跳び箱
+	OB_SCOTCHTAPE,			//セロハンテープ
+	OB_BLOACKBOARDERASER,	//黒板消し
+	OB_COUNT				//総数（終端要素）
 }; 
 
 //クラス数
@@ -65,20 +70,8 @@ enum tag_OBTYPE
 //（1マップ中にある障害物数＋1）
 #define OB_INFO_STRUCT 10
 
-//障害物当たり判定減衰用
-#define OB_HITRECT_SPACE_ 12
-
-//机横・縦幅
-#define OB_DESK_WIDTH 131
-#define OB_DESK_HEIGHT 172
-
-//二段机横・縦幅
-#define OB_TOWDESK_WIDTH 131
-#define OB_TOWDESK_HEIGHT 292
-
-//ロッカー横・縦幅
-#define OB_LOCKER_WIDTH 138
-#define OB_LOCKER_HEIGHT 308
+//障害物当たり判定高さ減衰用
+#define OB_HITRECT_SPACE_Y 12
 
 //乗れる矩形判定高さ
 #define OB_TOPBAR_HEIGHT 80

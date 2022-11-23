@@ -104,16 +104,29 @@ private:
 
 	#pragma region 障害物テクスチャ
 
-	//仮テクスチャ：机
+	//テクスチャ：机
 	CTexture ob_Textuer_Desk;
 
-	//仮テクスチャ：２段机
+	//テクスチャ：２段机
 	CTexture ob_Textuer_TwoDesk;
 
-	//仮テクスチャ：ロッカー
+	//テクスチャ：ごみ箱
+	CTexture ob_Textuer_TrachCan;
+
+	//テクスチャ：ロッカー
 	CTexture ob_Textuer_Locker;
 
+	//テクスチャ：教科書_理科
+	CTexture ob_Textuer_TextBookChem;
 
+	//テクスチャ：跳び箱
+	CTexture ob_Textuer_VaultingHorse;
+
+	//テクスチャ：セロハンテープ
+	CTexture ob_Textuer_ScotchTape;
+
+	//テクスチャ：黒板消し
+	CTexture ob_Textuer_BloackboardEraser;
 
 #pragma endregion
 
