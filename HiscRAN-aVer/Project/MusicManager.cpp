@@ -15,12 +15,14 @@ bool CMusicMgmt::Load(void) {
 	char* sename[] = {
 		"strange_wave.mp3",//ぽわーん
 		"Chime-Announce07-1.mp3",//チャイム
-
-
 	};
+
 	for (int type = 0; type < SET_TYPE_COUNT; type++)
 	{
-		if (!m_SE[type].Load(sename[type]))
+		//同時再生数設定
+		m_Music_SE[SET_CHIME].SetBufferCount(5);
+
+		if (!m_Music_SE[type].Load(sename[type]))
 		{
 			return false;
 		}
@@ -38,7 +40,7 @@ bool CMusicMgmt::Load(void) {
 	};
 	for (int type = 0; type < BGMT_TYPE_COUNT; type++)
 	{
-		if (!m_BGM[type].Load(bgmname[type]))
+		if (!m_Music_BGM[type].Load(bgmname[type]))
 		{
 			return false;
 		}
@@ -53,49 +55,28 @@ bool CMusicMgmt::Load(void) {
 //初期化
 void CMusicMgmt::Initialize(float bgmv, float sev) {
 
-
 	Load();
-	//SEの基礎設定
-	//種類の数
-	for (int type = 0; type < SET_TYPE_COUNT; type++)
-	{
-		//管理する数
-		for (int mgmt = 0; mgmt < SE_MGMT_COUNT; mgmt++)
-		{
-			m_Music_SE[type][mgmt].SetMusic(&m_SE[type]);
-			m_Music_SE[type][mgmt].Initialize();
-		}
-	}
-
-	//BGMの基礎設定
-	//種類の数
-	for (int type = 0; type < BGMT_TYPE_COUNT; type++)
-	{
-		m_Music_BGM[type].SetMusic(&m_BGM[type]);
-		m_Music_BGM[type].Initialize();
-		
-	}
 	
 	//ボリュームセット
 	BGMSetVolume(bgmv);
 	SESetVolume(sev);
 }
 
-//SE再生
-CMusic* CMusicMgmt::SEStart(tag_SE_TYPE type) {
+//画面推移時の初期化命令
+void CMusicMgmt::InitializeIn_middle(float bgmv, float sev)
+{
+	//ボリュームセット
+	BGMSetVolume(bgmv);
+	SESetVolume(sev);
+}
 
-	for (int mgmt = 0; mgmt < SE_MGMT_COUNT; mgmt++)
-	{
-		//todo:同じSEを重ねて再生出来ない？
-		//なら複数用意する必要ない二次元配列じゃなくていい
-		if (m_Music_SE[type][mgmt].IsPlay())
-		{
-			continue;
-		}
-		m_Music_SE[type][mgmt].Start();
-		return &m_Music_SE[type][mgmt];
-	}
-	return NULL;
+//SE再生
+CSoundBuffer* CMusicMgmt::SEStart(tag_SE_TYPE type) {
+
+	//if (!m_Music_SE[type].IsPlay()) {
+		m_Music_SE[type].Play();
+	//}
+	return &m_Music_SE[type];
 
 }
 
@@ -104,9 +85,9 @@ void CMusicMgmt::SEStop(tag_SE_TYPE type)
 {
 	for (int mgmt = 0; mgmt < SE_MGMT_COUNT; mgmt++)
 	{
-		if (m_Music_SE[type][mgmt].IsPlay())
+		if (m_Music_SE[type].IsPlay())
 		{
-			m_Music_SE[type][mgmt].Start();
+			m_Music_SE[type].Stop();
 		}
 	}
 }
@@ -118,21 +99,17 @@ void CMusicMgmt::SESetVolume(float sev)
 	//種類の数
 	for (int type = 0; type < SET_TYPE_COUNT; type++)
 	{
-		//管理する数
-		for (int mgmt = 0; mgmt < SE_MGMT_COUNT; mgmt++)
-		{
-			m_Music_SE[type][mgmt].SetVolume(sev);
-		}
+		m_Music_SE[type].SetVolume(sev);	
 	}
 
 }
 
 //BGMスタート
-CMusic* CMusicMgmt::BGMStart(tag_BGM_TYPE type)
+CSoundBuffer* CMusicMgmt::BGMStart(tag_BGM_TYPE type)
 {
 	if (!m_Music_BGM[type].IsPlay())
 	{	
-		m_Music_BGM[type].Start();
+		m_Music_BGM[type].Play();
 		return &m_Music_BGM[type];
 	}
 	
@@ -172,7 +149,7 @@ void CMusicMgmt::BGMLoop(tag_BGM_TYPE type, bool b)
 //SEのボリュームはすべて同じなので一つのみ取得
 float CMusicMgmt::GetSEVolume()
 {
-	return m_Music_SE[0][0].GetVolume();
+	return m_Music_SE[0].GetVolume();
 }
 
 //BGMボリュームゲット
@@ -187,10 +164,7 @@ void CMusicMgmt::Release() {
 
 	for (int type = 0; type < SET_TYPE_COUNT; type++)
 	{
-		for (int mgmt = 0; mgmt < SE_MGMT_COUNT; mgmt++)
-		{
-			m_Music_SE[type][mgmt].Release();
-		}
+		m_Music_SE[type].Release();
 	}
 
 	for (int type = 0; type < BGMT_TYPE_COUNT; type++)

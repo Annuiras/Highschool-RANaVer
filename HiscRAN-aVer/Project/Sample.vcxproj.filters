@@ -132,9 +132,6 @@
     <ClCompile Include="GameClear.cpp">
       <Filter>ソース ファイル\Game\GameClear</Filter>
     </ClCompile>
-    <ClCompile Include="Music.cpp">
-      <Filter>ソース ファイル\Music</Filter>
-    </ClCompile>
     <ClCompile Include="MusicManager.cpp">
       <Filter>ソース ファイル\Music</Filter>
     </ClCompile>
@@ -187,9 +184,6 @@
     </ClInclude>
     <ClInclude Include="Define.h">
       <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Music.h">
-      <Filter>ソース ファイル\Music</Filter>
     </ClInclude>
     <ClInclude Include="MusicManager.h">
       <Filter>ソース ファイル\Music</Filter>

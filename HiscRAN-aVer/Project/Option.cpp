@@ -128,7 +128,7 @@ void COption::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* eff
 	//フォント
 	m_Font1.Create(35, "UD デジタル 教科書体 N-B");
 
-	g_MusicManager->Initialize(VolumeSE, VolumeBGM);
+	g_MusicManager->InitializeIn_middle(VolumeSE, VolumeBGM);
 	g_MusicManager->BGMLoop(BGMT_OP, true);
 	g_MusicManager->BGMStart(BGMT_OP);
 
