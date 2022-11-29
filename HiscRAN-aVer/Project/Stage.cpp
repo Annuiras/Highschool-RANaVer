@@ -248,7 +248,7 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 		m_AdoptCount = 0;
 	}
 
-	/*//デバッグ用の指定コマンド、必要に応じていじってください
+	//*//デバッグ用の指定コマンド、必要に応じていじってください
 	m_StageComposition[0] = 3;
 	m_StageComposition[1] = 3;
 	m_StageComposition[2] = 3;
