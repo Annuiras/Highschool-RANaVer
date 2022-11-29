@@ -15,13 +15,24 @@ private:
 public:
 	CEffect();
 	~CEffect();
+
+	//初期化
 	void Initialize(int type);
+	//画面推移時の初期化
+	void InitializeIn_middle(void);
+
+	//エフェクト開始
 	void Start(float px, float py);
+
+	//更新
 	void Update(CRectangle plrec);
+
+	//描画
 	void Render(void);
 	//デバッグ表示
 	void RenderDebugging(void);
 
+	//解放
 	void Release(void);
 
 	//テクスチャのポインタを受け取る

@@ -62,6 +62,19 @@ void CEffectMgmt::Initialize(void) {
 	}
 }
 
+//画面推移時の初期化命令
+void CEffectMgmt::InitializeIn_middle(void)
+{
+	for (int type = 0; type < EFC_TYPE_COUNT; type++)
+	{
+		for (int mgmt = 0; mgmt < EFFECT_MGMT_COUNT; mgmt++)
+		{
+			m_Effect[type][mgmt].InitializeIn_middle();
+		}
+	}
+
+}
+
 /**
  * 開始
  * 座標を設定してモーションを開始する。
@@ -69,7 +82,7 @@ void CEffectMgmt::Initialize(void) {
  * 引数
  * [in]			px					X座標
  * [in]			py					Y座標
- * [in]			mgmt				エフェクトタイプ
+ * [in]			type				エフェクトタイプ
  */
 CEffect* CEffectMgmt::Start(float px, float py, tag_EFFECTTYPE type) {
 	for (int mgmt = 0; mgmt < EFFECT_MGMT_COUNT; mgmt++)
