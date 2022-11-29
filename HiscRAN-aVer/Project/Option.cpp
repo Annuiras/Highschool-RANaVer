@@ -513,7 +513,4 @@ void COption::Release(void)
 	m_Select_s.Release();
 	m_BackButton.Release();
 	m_Font1.Release();
-
-	g_MusicManager->Release();
-	g_EffectManeger->Release();
 }

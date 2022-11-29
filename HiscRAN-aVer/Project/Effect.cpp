@@ -82,6 +82,14 @@ void CEffect::Initialize(int type) {
 	}
 }
 
+//画面推移時の初期化
+void CEffect::InitializeIn_middle(void)
+{
+	m_PosX = 0.0f;
+	m_PosY = 0.0f;
+	m_bShow = false;
+}
+
 /**
  * 開始
  * 座標を設定してモーションを開始する。

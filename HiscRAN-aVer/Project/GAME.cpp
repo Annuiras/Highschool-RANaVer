@@ -229,9 +229,6 @@ void CGAME::Release(void)
 
 	g_Stage.Release();
 
-	g_EffectManeger->Release();
-	g_MusicManager->Release();
-
 	gMenu.Release();
 
 }

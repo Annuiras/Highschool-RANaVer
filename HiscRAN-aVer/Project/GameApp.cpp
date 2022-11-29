@@ -121,6 +121,7 @@ MofBool CGameApp::Update(void){
 
 		}
 		//‰Šú‰»
+		g_EffectManeger.InitializeIn_middle();
 		gpScene->Initialize(&g_GameProgMamt,&g_MusicManager,&g_EffectManeger);
 
 	}
