@@ -122,7 +122,7 @@ enum tag_BAR
 #define PLAYER_LEGS_Y 100
 
 //“–‚½‚è”»’è’²®•
-#define PLAYER_ADMENT_SPACE 25
+#define PLAYER_ADMENT_SPACE 80
 
 #pragma endregion
 
