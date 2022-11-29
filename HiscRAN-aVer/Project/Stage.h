@@ -174,13 +174,6 @@ private:
 	//右側
 	int m_RandamuBakRight;
 
-	//todo:背景α値
-	int m_BakAVal;
-
-	//ステージ変化フラグ
-	bool m_BakChange;
-
-
 	//使用済みパターン番号記録用配列
 	int	m_AlreadyUsedArray[MAP_INFO_PATTERN];
 
@@ -200,6 +193,17 @@ private:
 	int	m_Communication;	//コミュ力
 	int	m_Charm;			//魅力
 
+	//ステージ変化
+	int					m_StageChange;
+	bool				m_bStart;//変化フラグ true:変化済
+	//todo:背景α値
+	int m_BakAVal;
+
+	//todo SPステージ
+	int					m_SPSitua;
+	int					m_SPcountbak;
+	bool				m_SPflg;
+
 	//クリアフラグ
 	bool m_bClear;
 
@@ -214,6 +218,10 @@ public:
 	//[]:マップパターンがいくつあるか
 	//[]:1マップパターンにいくつ構造体があるか
 	void Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INFO_STRUCT], OB_info obin[][OB_INFO_STRUCT]);
+
+	//todo SP内のDP配置をするための関数
+	void SPInitialize(void);
+
 
 	void Update(CRectangle plrect);
 	bool Load(void);

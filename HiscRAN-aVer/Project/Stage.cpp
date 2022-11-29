@@ -18,7 +18,6 @@ CStage::CStage() :
 	m_BakScroll(0.0f),
 	m_StageScroll(0.0f), 
 	m_BakAVal(0),
-	m_BakChange(false),
 	m_Scholastic(0),
 	m_Imagination(0),
 	m_Action(0),
@@ -186,8 +185,14 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 	//α値初期化
 	m_BakAVal = 255;
 
-	//初期化
-	m_BakChange = false;
+	//todo ステージ変化
+	m_StageChange = 0;	//背景画像枚数に変更
+	m_bStart = false;		//ステージ変化で使う初めと終わりの管理フラグ
+
+	//todo SPステージ
+	m_SPSitua = -1;		//SPのカウント
+	m_SPflg = true;		//SPのフラグ
+
 
 	//マップパターンをランダム化
 	for (int i = 0; i < 15; i++)
@@ -226,6 +231,15 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 		{
 			//採用
 			m_StageComposition[m_AdoptCount] = randam;
+
+			//todo SPアイテムがあるマップを採用
+			if (m_AdoptCount == MAP_SP_ITEM_PATTERN_NUM)
+			{
+				//15:SPアイテムがあるマップ
+				m_StageComposition[m_AdoptCount + 1] = 15;
+				//使用したパターンの場所に１をセット
+				m_AlreadyUsedArray[15] = 1;
+			}
 
 			//使用したパターンの場所に１をセット
 			m_AlreadyUsedArray[randam] = 1;
@@ -342,6 +356,35 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 
 }
 
+//todo:SP内のDP配置
+void CStage::SPInitialize(void)
+{
+	//上のステージ内のDP配置と同じ処理
+	for (int z = 1; z < 100; z++)
+	{
+		for (int x = 0; x < DP_INFO_STRUCT; x++)
+		{
+			if (m_AlreadyUsedArray[x] == 1)
+			{
+				//どこまで採用済みかカウント
+				m_AdoptCount += 1;
+			}
+		}
+		//SP内のDP用の処理  SP内のDP配置は2枚分?だけらしい
+		int randam = RandmuBak.GetRandomNumbe(16, 17);
+		if (m_AlreadyUsedArray[randam] == 0)
+		{
+			//SPの出現位置に合わせて+4してます
+			m_StageComposition[m_AdoptCount + 4] = randam;
+			//使用したパターンの場所に１をセット
+			m_AlreadyUsedArray[randam] = 1;
+		}
+		//採用済カウント
+		m_AdoptCount = 0;
+	}
+
+}
+
 //更新
 //plrect:プレイヤーの当たり判定矩形
 void CStage::Update(CRectangle plrect) {
@@ -432,19 +475,45 @@ void CStage::Update(CRectangle plrect) {
 	}
 
 	//todo:ステージ変化
-	if (m_countbak >= 10&&!m_BakChange) {
+	if (m_countbak == 10) {
 
-		//フェードアウト
-		m_BakAVal -= 5;
-		if (m_BakAVal <= 0) {
-			//変化済
-			m_BakChange = true;
+		//フェードアウト済フラグ
+		bool flg = false;
+		if (!flg) {
+			//フェードアウト
+			m_BakAVal -= 5;
+			if (m_BakAVal <= 0) {
+				//変化済
+				flg = true;
+			}
+
+		}
+		else if (m_BakAVal < 255)
+		{
+			//フェードイン
+			m_BakAVal += 5;
+
 		}
 	}
-	else if (m_BakAVal < 255)
+
+	//todo ステージ三分の二経過で容姿変化
+	if (m_countbak == 20)
 	{
-		//フェードイン
-		m_BakAVal += 5;
+		//済フラグ
+		bool flg = false;
+		if (!m_bStart)
+		{
+			//フェードアウト
+			m_BakAVal -= 5;
+			if (m_BakAVal <= 0)
+			{
+				m_bStart = true;	//flgをtrueにすることで、処理停止
+			}
+		}
+		else
+		{
+
+		}
 	}
 
 	//クリアフラグ変更
@@ -496,7 +565,12 @@ void CStage::UPdeteCollisionDP(int dpt) {
 		if (m_Charm > 100) {
 			m_Charm = 100;
 		}
+		break;	
+		//todo SPアイテム取得時、カウントスタート
+	case DP_SP_ITEM:
+		m_SPSitua = STAGE_SP_STILL;
 		break;
+
 	default:
 		m_Scholastic = -100;
 		break;
@@ -534,6 +608,66 @@ void CStage::Render(void) {
 		}
 	}
 
+	//todo SPカウント 
+	if (m_SPSitua == STAGE_SP_STILL)
+	{
+		bool flg;
+		//フェードアウト
+		if (m_BakAVal > 0 && m_SPflg)
+		{
+			m_BakAVal -= 5;
+		}
+		//フェードイン
+		else if (m_BakAVal < 255)
+		{
+			m_RandamuBakRight = 0;				//フェードアウトしたタイミングでSP背景描画
+			m_RandamuBakLeft = m_RandamuBakRight;	//左も描画
+			m_BakAVal += 5;
+			m_SPflg = false;	//もう一回フェードアウトしないためにflgをfalseに
+			SPInitialize();		//SP内のDP配置をするための関数呼び出し
+		}
+
+		//SPの背景カウント
+		if (m_BakScroll <= 0)
+		{
+			//SP背景カウント
+			m_SPcountbak += 1;
+		}
+		//SP背景カウントが5になった時SP終了	
+		else if (m_SPcountbak == 5)
+		{
+			m_SPSitua = 0;
+		}
+
+		//falseの間SP背景描画
+		if (!m_SPflg)
+		{
+			m_RandamuBakRight = 0;//フェードインした後に描画される用にするための処理
+		}
+	}
+	//todo SPが終了した直後の処理
+	else if (m_SPSitua == 0)
+	{
+		//フェードアウト
+		if (m_BakAVal > 0 && !m_SPflg)
+		{
+			m_BakAVal -= 5;
+		}
+		//フェードイン
+		else if (m_BakAVal < 255)
+		{
+
+			m_RandamuBakRight = 1;//本当はランダムにしたいけど、ランダムにすると描画バグるので1代入
+			m_RandamuBakLeft = m_RandamuBakRight;	//左も同時に描画
+			m_BakAVal += 5;
+			m_SPflg = true;		//flgをtrueにすることでフェードアウトしないようにする
+		}
+		if (m_BakAVal == 255)
+		{
+			m_SPSitua = -1;	//フェードインしたタイミングで、SPを終了させるために-1代入
+		}
+
+	}
 
 	//背景スクロール値＝背景画像の横幅：だんだん減る
 	//初期値X:背景スクロール値/背景横幅のあまり引く背景横幅 
@@ -628,6 +762,7 @@ void CStage::Render(void) {
 
 		}
 	}
+
 
 	//地面描画
 	g_ground.Render();

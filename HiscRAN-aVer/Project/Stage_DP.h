@@ -152,6 +152,60 @@ DP_info s_stageAdp[][DP_INFO_STRUCT] =
 		{1975.0f,231.0f,DP_COMMUNICATION},//DP_IMAGINATION一時的な変更
 		{2462.0f,66.0f,	DP_SCHOLASTIC},
 		{10000,0,DP_COUNT}
+	},
+		//todo マップパターン15  SPアイテム出現
+	{
+		{300.0f, 350.0f, DP_SP_ITEM},	//仮でSPアイテムのテクスチャは魅力と同じにしてます
+		{ 700.0f,229.0f,	DP_CHARM },
+		{ 1500.0f,300.0f,DP_IMAGINATION },
+		{ 1775.0f,231.0f,DP_COMMUNICATION },
+		{ 2000.0f,66.0f,	DP_SCHOLASTIC },
+		{ 10000,0,DP_COUNT }
+	},
+		//マップパターン16  SP配置1
+	{
+		{250.0f,350.0f,DP_IMAGINATION},
+		{536.0f,229.0f,	DP_CHARM},
+		{884.0f,302.0f,DP_ACTION},
+		{1775.0f,231.0f,DP_COMMUNICATION},
+		{1862.0f,66.0f,	DP_SCHOLASTIC},
+		{10000,0,DP_COUNT}
+	},
+			//マップパターン17  SP配置2
+	{
+		{180.0f,350.0f,DP_CHARM},
+		{556.0f,229.0f,	DP_IMAGINATION},
+		{584.0f,222.0f,DP_ACTION},
+		{1675.0f,231.0f,DP_COMMUNICATION},
+		{1762.0f,66.0f,	DP_SCHOLASTIC},
+		{10000,0,DP_COUNT}
+	},
+			//マップパターン18  SP配置3
+	{
+		{270.0f, 350.0f, DP_ACTION},
+		{796.0f,229.0f,	DP_IMAGINATION },
+		{984.0f,222.0f,DP_CHARM },
+		{1375.0f,231.0f,DP_SCHOLASTIC },
+		{2162.0f,66.0f,	DP_COMMUNICATION },
+		{10000,0,DP_COUNT }
+	},
+			//マップパターン19  SP配置4
+	{
+		{ 270.0f, 350.0f, DP_IMAGINATION},
+		{ 796.0f,229.0f,	DP_CHARM },
+		{ 984.0f,222.0f,DP_ACTION },
+		{ 1375.0f,231.0f,DP_COMMUNICATION},
+		{ 2162.0f,66.0f,DP_ACTION },
+		{ 10000,0,DP_COUNT }
+	},
+			//マップパターン20  SP配置5
+	{
+		{270.0f, 350.0f, DP_ACTION},
+		{796.0f,229.0f,	DP_COMMUNICATION },
+		{984.0f,222.0f,DP_CHARM},
+		{1375.0f,231.0f,DP_IMAGINATION },
+		{2162.0f,66.0f,	DP_SCHOLASTIC },
+		{10000,0,DP_COUNT }
 	}
 
 };

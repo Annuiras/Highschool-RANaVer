@@ -6,7 +6,10 @@
 #define WINDOWSIZE_HEIGHT 720
 
 //マップパターン数
-#define MAP_INFO_PATTERN 15
+#define MAP_INFO_PATTERN 21
+
+//SPアイテムあるマップパターンの出現位置(何マップ目)
+#define MAP_SP_ITEM_PATTERN_NUM 2
 
 //ステージスクロールスピード
 #define STAGE_SPEED 7
@@ -28,6 +31,7 @@ enum tag_DP_TYPE
 	DP_IMAGINATION,		//想像力
 	DP_COMMUNICATION,	//コミュ力
 	DP_CHARM,			//魅力
+	DP_SP_ITEM,			//SPアイテム
 	DP_COUNT			//総数（終端要素）	
 };
 
@@ -164,6 +168,13 @@ enum tag_EFFECTTYPE {
 	EFC_TYPE_COUNT,
 };
 
+//ステージの状態を定義
+enum tag_StageSituation
+{
+	STAGE_SP_YET,		//まだSPステージでない
+	STAGE_SP_STILL,		//SPの途中already 
+	STAGE_SP_ALREADY	//SPを終えたあと
+};
 
 //存在するシーン
 enum tag_SCENENO {
