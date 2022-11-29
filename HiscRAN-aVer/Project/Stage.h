@@ -195,13 +195,15 @@ private:
 
 	//ステージ変化
 	int					m_StageChange;
-	bool				m_bStart;//変化フラグ true:変化済
+	bool				v_StageChangeflg;//変化フラグ true:変化済
 	//todo:背景α値
 	int m_BakAVal;
 
 	//todo SPステージ
 	int					m_SPSitua;
 	int					m_SPcountbak;
+
+	//SPフェードアウトフラグ
 	bool				m_SPflg;
 
 	//クリアフラグ

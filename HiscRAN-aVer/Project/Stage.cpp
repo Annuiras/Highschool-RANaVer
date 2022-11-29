@@ -187,11 +187,11 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 
 	//todo ステージ変化
 	m_StageChange = 0;	//背景画像枚数に変更
-	m_bStart = false;		//ステージ変化で使う初めと終わりの管理フラグ
+	v_StageChangeflg = false;		//ステージ変化で使う初めと終わりの管理フラグ
 
 	//todo SPステージ
 	m_SPSitua = -1;		//SPのカウント
-	m_SPflg = true;		//SPのフラグ
+	m_SPflg = false;		//SPのフラグ
 
 
 	//マップパターンをランダム化
@@ -496,25 +496,23 @@ void CStage::Update(CRectangle plrect) {
 		}
 	}
 
-	//todo ステージ三分の二経過で容姿変化
-	if (m_countbak == 20)
-	{
-		//済フラグ
-		bool flg = false;
-		if (!m_bStart)
-		{
-			//フェードアウト
-			m_BakAVal -= 5;
-			if (m_BakAVal <= 0)
-			{
-				m_bStart = true;	//flgをtrueにすることで、処理停止
-			}
-		}
-		else
-		{
+	////todo ステージ三分の二経過で容姿変化
+	//if (m_countbak == 20)
+	//{
+	//	if ()
+	//	{
+	//		//フェードアウト
+	//		m_BakAVal -= 5;
+	//		if (m_BakAVal <= 0)
+	//		{
+	//			m_bStart = true;	//flgをtrueにすることで、処理停止
+	//		}
+	//	}
+	//	else
+	//	{
 
-		}
-	}
+	//	}
+	//}
 
 	//クリアフラグ変更
 	if (m_countbak + 1 == 33) {
@@ -588,7 +586,7 @@ void CStage::Render(void) {
 	int h = m_BakStart.GetWidth();
 	int sch = g_pGraphics->GetTargetWidth();
 
-
+	//次の背景を用意
 	if (m_BakScroll <= 0) {
 		
 		//右側で表示していたものと同じものを左側で表示
@@ -611,9 +609,8 @@ void CStage::Render(void) {
 	//todo SPカウント 
 	if (m_SPSitua == STAGE_SP_STILL)
 	{
-		bool flg;
 		//フェードアウト
-		if (m_BakAVal > 0 && m_SPflg)
+		if (m_BakAVal > 0 && !m_SPflg)
 		{
 			m_BakAVal -= 5;
 		}
@@ -623,7 +620,7 @@ void CStage::Render(void) {
 			m_RandamuBakRight = 0;				//フェードアウトしたタイミングでSP背景描画
 			m_RandamuBakLeft = m_RandamuBakRight;	//左も描画
 			m_BakAVal += 5;
-			m_SPflg = false;	//もう一回フェードアウトしないためにflgをfalseに
+			m_SPflg = true;	//もう一回フェードアウトしないためにflgをfalseに
 			SPInitialize();		//SP内のDP配置をするための関数呼び出し
 		}
 
@@ -714,6 +711,10 @@ void CStage::Render(void) {
 					m_BakEnd.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
 					break;
 
+				case 9:
+					m_SPBak.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
+					break;
+
 				default:
 					break;
 
@@ -754,6 +755,11 @@ void CStage::Render(void) {
 			case 8:
 				m_BakEnd.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
 				break;
+
+			case 9:
+				m_SPBak.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
+				break;
+
 
 			default:
 				break;
