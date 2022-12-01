@@ -8,8 +8,17 @@
 //マップパターン数
 #define MAP_INFO_PATTERN 21
 
+//１ステージ内のマップパターン数
+#define SATAGE_MAP_PATTERN 15
+
 //SPアイテムあるマップパターンの出現位置(何マップ目)
-#define MAP_SP_ITEM_PATTERN_NUM 2
+#define MAP_SP_ITEM_PATTERN_NUM 1
+
+//ステージ変化する背景枚数
+#define SATGE_CHANGE_BAK 20
+
+//ステージクリアの背景枚数
+#define STAGE_CLEAR_BAK 31
 
 //ステージスクロールスピード
 #define STAGE_SPEED 7
@@ -145,6 +154,7 @@ enum tag_BAR
 //管理SEの数
 #define		SE_MGMT_COUNT 5
 
+
 //SE種類列挙
 enum tag_SE_TYPE {
 
@@ -169,11 +179,13 @@ enum tag_EFFECTTYPE {
 };
 
 //ステージの状態を定義
-enum tag_StageSituation
+enum class  tag_StageSituation
 {
-	STAGE_SP_YET,		//まだSPステージでない
-	STAGE_SP_STILL,		//SPの途中already 
-	STAGE_SP_ALREADY	//SPを終えたあと
+	STAGE_SP_YET,			//まだSPステージでない
+	STAGE_SP_START,			//SPが始まった時
+	STAGE_SP_STILL,			//SPの途中
+	STAGE_SP_IMMEDIATELY,	//SPを終えた直後
+	STAGE_SP_ALREADY		//SPを終えたあと
 };
 
 //存在するシーン

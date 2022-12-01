@@ -164,20 +164,20 @@ DP_info s_stageAdp[][DP_INFO_STRUCT] =
 	},
 		//マップパターン16  SP配置1
 	{
-		{250.0f,350.0f,DP_IMAGINATION},
+		{250.0f,350.0f,DP_CHARM},
 		{536.0f,229.0f,	DP_CHARM},
-		{884.0f,302.0f,DP_ACTION},
-		{1775.0f,231.0f,DP_COMMUNICATION},
-		{1862.0f,66.0f,	DP_SCHOLASTIC},
+		{884.0f,302.0f,DP_CHARM},
+		{1775.0f,231.0f,DP_CHARM},
+		{1862.0f,66.0f,	DP_CHARM},
 		{10000,0,DP_COUNT}
 	},
 			//マップパターン17  SP配置2
 	{
-		{180.0f,350.0f,DP_CHARM},
-		{556.0f,229.0f,	DP_IMAGINATION},
+		{180.0f,350.0f,DP_ACTION},
+		{556.0f,229.0f,	DP_ACTION},
 		{584.0f,222.0f,DP_ACTION},
-		{1675.0f,231.0f,DP_COMMUNICATION},
-		{1762.0f,66.0f,	DP_SCHOLASTIC},
+		{1675.0f,231.0f,DP_ACTION},
+		{1762.0f,66.0f,	DP_ACTION},
 		{10000,0,DP_COUNT}
 	},
 			//マップパターン18  SP配置3

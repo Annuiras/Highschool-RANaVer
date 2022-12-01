@@ -128,7 +128,7 @@ private:
 	int m_MapNo;
 
 	//ステージ構成を決める配列
-	int m_StageComposition[MAP_INFO_PATTERN] = { 1 };
+	int m_StageComposition[SATAGE_MAP_PATTERN] = { 1 };
 
 
 	//DPの配置情報受け取る配列
@@ -194,13 +194,15 @@ private:
 	int	m_Charm;			//魅力
 
 	//ステージ変化
-	int					m_StageChange;
 	bool				v_StageChangeflg;//変化フラグ true:変化済
+
 	//todo:背景α値
 	int m_BakAVal;
 
 	//todo SPステージ
-	int					m_SPSitua;
+	//SPの状態を現す
+	tag_StageSituation	m_SPSitua;
+
 	int					m_SPcountbak;
 
 	//SPフェードアウトフラグ
