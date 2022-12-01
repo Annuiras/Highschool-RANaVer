@@ -196,10 +196,10 @@ private:
 	//ステージ変化
 	bool				v_StageChangeflg;//変化フラグ true:変化済
 
-	//todo:背景α値
+	//背景α値
 	int m_BakAVal;
 
-	//todo SPステージ
+	//SPステージ
 	//SPの状態を現す
 	tag_StageSituation	m_SPSitua;
 
@@ -223,7 +223,7 @@ public:
 	//[]:1マップパターンにいくつ構造体があるか
 	void Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INFO_STRUCT], OB_info obin[][OB_INFO_STRUCT]);
 
-	//todo SP内のDP配置をするための関数
+	//SP内のDP配置をするための関数
 	void SPInitialize(void);
 
 

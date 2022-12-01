@@ -126,7 +126,7 @@ bool CStage::Load() {
 		return false;
 	}
 
-	//todo:同じ当たり判定の画像違いを作成する
+	//:同じ当たり判定の画像違いを作成する
 	////仮テクスチャ：２段机
 	//if (!ob_Textuer_TwoDesk.Load("ハイスク素材２　障害物 ２段机.png")) {
 	//	return false;
@@ -185,13 +185,15 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 	//α値初期化
 	m_BakAVal = 255;
 
-	//todo ステージ変化
-	v_StageChangeflg = false;		//ステージ変化で使う初めと終わりの管理フラグ
+	//ステージ変化フラグ
+	v_StageChangeflg = false;		
 
-	//todo SPステージ
-	m_SPSitua = tag_StageSituation::STAGE_SP_YET;		//SPのカウント
+	//SPステージ状態用
+	m_SPSitua = tag_StageSituation::STAGE_SP_YET;
+	//SP背景カウント
 	m_SPcountbak = 0;
-	m_SPflg = false;		//SPのフラグ
+	//SPのaフラグ
+	m_SPflg = false;		
 
 
 	//マップパターンをランダム化
@@ -227,7 +229,7 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 			//採用
 			m_StageComposition[m_AdoptCount] = randam;
 
-			//todo SPアイテムがあるマップを採用
+			//SPアイテムがあるマップを採用
 			if (m_AdoptCount == MAP_SP_ITEM_PATTERN_NUM)
 			{
 				//15:SPアイテムがあるマップ
@@ -357,7 +359,7 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 
 }
 
-//todo:SP内のDP配置
+//SP内のステージをセット配置
 void CStage::SPInitialize(void)
 {
 	//上のステージ内のDP配置と同じ処理
@@ -483,7 +485,7 @@ void CStage::Update(CRectangle plrect) {
 
 	}
 
-	//todo:ステージ変化
+	//ステージ変化
 	if (m_countbak == SATGE_CHANGE_BAK) {
 
 		//フェードアウト済フラグ
@@ -504,26 +506,7 @@ void CStage::Update(CRectangle plrect) {
 		}
 	}
 
-	////todo ステージ三分の二経過で容姿変化
-	//if (m_countbak == 20)
-	//{
-	//	if ()
-	//	{
-	//		//フェードアウト
-	//		m_BakAVal -= 5;
-	//		if (m_BakAVal <= 0)
-	//		{
-	//			m_bStart = true;	//flgをtrueにすることで、処理停止
-	//		}
-	//	}
-	//	else
-	//	{
-
-	//	}
-	//}
-
-
-	//todo SP開始直後の処理 
+	//SP開始直後の処理 
 	if (m_SPSitua == tag_StageSituation::STAGE_SP_START)
 	{
 		//フェードアウト
@@ -569,7 +552,7 @@ void CStage::Update(CRectangle plrect) {
 		}
 
 	}
-	//todo SPが終了した直後の処理
+	//SPが終了した直後の処理
 	else if (m_SPSitua == tag_StageSituation::STAGE_SP_IMMEDIATELY)
 	{
 		//フェードアウト
@@ -643,7 +626,7 @@ void CStage::UPdeteCollisionDP(int dpt) {
 			m_Charm = 100;
 		}
 		break;	
-		//todo SPアイテム取得時、カウントスタート
+		//SPアイテム取得時、カウントスタート
 	case DP_SP_ITEM:
 		m_SPSitua = tag_StageSituation::STAGE_SP_START;
 		//SP内のステージに変更

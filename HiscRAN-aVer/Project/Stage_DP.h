@@ -153,7 +153,7 @@ DP_info s_stageAdp[][DP_INFO_STRUCT] =
 		{2462.0f,66.0f,	DP_SCHOLASTIC},
 		{10000,0,DP_COUNT}
 	},
-		//todo マップパターン15  SPアイテム出現
+		//マップパターン15  SPアイテム出現
 	{
 		{300.0f, 350.0f, DP_SP_ITEM},	//仮でSPアイテムのテクスチャは魅力と同じにしてます
 		{ 700.0f,229.0f,	DP_CHARM },
