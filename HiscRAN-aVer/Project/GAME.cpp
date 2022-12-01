@@ -3,6 +3,7 @@
 #include "Stage_DP.h"
 #include "Stage_Bar.h"
 #include "Stage_Obstacle.h"
+#include "Stage_Enemy.h"
 
 
 
@@ -46,7 +47,7 @@ void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec
 	g_Player.SetEffectManager(effec);
 
 	//ステージ初期化
-	g_Stage.Initialize(s_stageAdp,s_stageAbar, s_stageAOB);
+	g_Stage.Initialize(s_stageAdp,s_stageAbar, s_stageAOB, s_stageAEnemy);
 	g_Stage.SetMusicManager(musi);
 	g_Stage.SetEffectManager(effec);
 }
@@ -104,7 +105,7 @@ void CGAME::Update(void)
 		//初期化
 		g_Player.Initialize();
 
-		g_Stage.Initialize(s_stageAdp, s_stageAbar, s_stageAOB);
+		g_Stage.Initialize(s_stageAdp, s_stageAbar, s_stageAOB, s_stageAEnemy);
 
 	}
 
@@ -198,6 +199,20 @@ void CGAME::Update(void)
 			g_Player.UPdateCollisionBra(g_Stage.ob_array[i].GetY(g_Stage.ob_array[i].GetType()));
 		}
 	}
+
+	//敵との当たり判定
+	for (int i = 0; i < ENEMY_VOLUME; i++)
+	{
+		if (!g_Stage.ene_array[i].Getshow()) {
+			continue;
+		}
+
+		if (g_Player.CollosopnEnemy(g_Stage.ene_array[i].GetRect(g_Stage.ene_array[i].GetType())))
+		{
+			g_Player.UPdateCollisionOB();
+		}
+	}
+
 
 	//エフェクトの更新
 	g_EffectManeger->Update(g_Player.GetRect());

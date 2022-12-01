@@ -92,6 +92,7 @@
     <ClCompile Include="Bar.cpp" />
     <ClCompile Include="Effect.cpp" />
     <ClCompile Include="EffectManager.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="GameClear.cpp" />
     <ClCompile Include="GameOver.cpp" />
     <ClCompile Include="GameProgMgmt.cpp" />
@@ -117,6 +118,7 @@
     <ClInclude Include="Define.h" />
     <ClInclude Include="Effect.h" />
     <ClInclude Include="EffectManager.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="GameClear.h" />
     <ClInclude Include="GameOver.h" />
     <ClInclude Include="GameProgMgmt.h" />
@@ -136,6 +138,7 @@
     <ClInclude Include="Stage.h" />
     <ClInclude Include="Stage_Bar.h" />
     <ClInclude Include="Stage_DP.h" />
+    <ClInclude Include="Stage_Enemy.h" />
     <ClInclude Include="Stage_Obstacle.h" />
     <ClInclude Include="Title.h" />
     <ClInclude Include="Tutorial.h" />

@@ -247,7 +247,6 @@ void CPlayer::UPdateCollisionOB() {
 	{
 		return;
 	}
-	m_Motion.ChangeMotion(MOTION_MOVE/*MOTION_DAMAGE*/);
 	m_HP -= 1;
 	m_DamageWait = 60;
 
@@ -257,7 +256,7 @@ void CPlayer::UPdateCollisionOB() {
 	}
 }
 
-//–¢Žg—p:“G“–‚½‚è”»’è
+//“G“–‚½‚è”»’è
 bool CPlayer::CollosopnEnemy(CRectangle r) {
 
 	//–³“GŽžŠÔ’†‚Í”»’è‚µ‚È‚¢
@@ -266,7 +265,6 @@ bool CPlayer::CollosopnEnemy(CRectangle r) {
 		return false;
 	}
 	if (GetRect().CollisionRect(r)) {
-		m_DamageWait = 60;
 		return true;
 	}
 	return false;

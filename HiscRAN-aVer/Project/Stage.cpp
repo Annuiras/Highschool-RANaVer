@@ -174,16 +174,31 @@ bool CStage::Load() {
 
 #pragma region 足場テクスチャロード
 
-		//リソース配置ディレクトリの設定
-		CUtilities::SetCurrentDirectoryA("Game/Bar");
+	//リソース配置ディレクトリの設定
+	CUtilities::SetCurrentDirectoryA("Game/Bar");
 
-		//仮テクスチャ：足場中
-		if (!bar_Textuer_Medium.Load("ハイスク_障害物_鉛筆_中.png")) {
-			return false;
-		}
+	//仮テクスチャ：足場中
+	if (!bar_Textuer_Medium.Load("ハイスク_障害物_鉛筆_中.png")) {
+		return false;
+	}
 
-		//リソース配置ディレクトリの設定
-		CUtilities::SetCurrentDirectoryA("../../");
+	//リソース配置ディレクトリの設定
+	CUtilities::SetCurrentDirectoryA("../../");
+
+#pragma endregion
+
+#pragma region 敵
+
+	//リソース配置ディレクトリの設定
+	CUtilities::SetCurrentDirectoryA("Game/Enemy");
+
+	//todo 仮テクスチャ : 敵1
+	if (!ene_Texture_1.Load("Enemy1.png"))
+	{
+		return false;
+	}
+	//リソース配置ディレクトリの設定
+	CUtilities::SetCurrentDirectoryA("../../");
 
 #pragma endregion
 
@@ -196,7 +211,7 @@ bool CStage::Load() {
 //barco:足場の情報数
 //obin:障害物の配置情報
 //obco:障害物の情報数
-void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INFO_STRUCT], OB_info obin[][OB_INFO_STRUCT]) {
+void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INFO_STRUCT], OB_info obin[][OB_INFO_STRUCT], ENEMY_info enein[][ENEMY_INFO_STRUCT]) {
 
 	//スクロール値初期化
 	m_BakScroll = 0.0f;
@@ -278,7 +293,7 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 
 
 	//デバッグ用の指定コマンド、必要に応じていじってください
-	//m_StageComposition[0] = 0;
+	m_StageComposition[0] = 0;
 	//m_StageComposition[1] = 1;
 	//m_StageComposition[2] = 2;
 	//m_StageComposition[3] = 1;
@@ -330,12 +345,22 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 		}
 	}
 
+	//todo 敵配置情報コピー
+	for (int y = 0; y < MAP_INFO_PATTERN; y++)
+	{
+		//マップ一枚分の情報に構造体
+		for (int x = 0; x < ENEMY_INFO_STRUCT; x++)
+		{
+			m_eneinfo[y][x] = enein[y][x];
+		}
+	}
 
 
 	//表示済みカウント初期化
 	m_barcount = 0;
 	m_dpcount = 0;
 	m_obcount = 0;
+	m_enecount = 0;
 
 	//クリアフラグ初期化
 	m_bClear = false;
@@ -378,6 +403,13 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 	{
 		//初期化
 		ob_array[i].Initialize();
+	}
+
+	//todo 敵
+	for (int i = 0; i < ENEMY_VOLUME; i++)
+	{
+		//初期化
+		ene_array[i].Initialize();
 	}
 
 	g_ground.Initialize();
@@ -475,6 +507,9 @@ void CStage::Update(CRectangle plrect) {
 	//障害物OB生成
 	OccurrenceOB();
 
+	//todo 敵生成
+	OccurrenceENE();
+
 	//足場更新
 	for (int i = 0; i < BAR_VOLUME; i++)
 	{
@@ -491,6 +526,12 @@ void CStage::Update(CRectangle plrect) {
 	for (int i = 0; i < OB_VOLUME; i++)
 	{
 		ob_array[i].Update(m_Scroll_Speed);
+	}
+	
+	//todo 敵更新
+	for (int i = 0; i < ENEMY_VOLUME; i++)
+	{
+		ene_array[i].Update(m_Scroll_Speed);
 	}
 
 	//DPとの当たり判定
@@ -831,6 +872,13 @@ void CStage::Render(void) {
 		dp_array[i].Render();
 	}
 
+	//todo 敵描画
+	for (int i = 0; i < ENEMY_VOLUME; i++)
+	{
+		ene_array[i].Render();
+	}
+
+
 	CGraphicsUtilities::RenderString(250, 0, MOF_COLOR_BLACK, "このステージ内での取得数  学力：%d　行動力：%d　想像力：%d　コミュ力：%d　魅力：%d",
 		m_Scholastic, m_Action, m_Imagination, m_Communication, m_Charm);
 
@@ -871,6 +919,10 @@ void CStage::Release(void) {
 
 	bar_Textuer_Medium.Release();
 
+	//todo 敵
+	ene_Texture_1.Release();
+	ene_Texture_2.Release();
+
 }
 
 //デバック描画
@@ -908,6 +960,11 @@ void CStage::RenderDebugging() {
 		b_bar[i].RenderDebugging();
 	}
 
+	//todo 敵
+	for (int i = 0; i < ENEMY_VOLUME; i++)
+	{
+		ene_array[i].RenderDebug();
+	}
 
 
 	CGraphicsUtilities::RenderLine(m_BakScroll,0, m_BakScroll,g_pGraphics->GetTargetHeight(), MOF_COLOR_BLUE);
@@ -927,12 +984,13 @@ void CStage::MapChange(void) {
 	if (m_StageScroll <= 0 &&
 		m_barinfo[m_StageComposition[m_MapNo]][m_barcount].Type >= BAR_COUNT &&
 		m_dpinfo[m_StageComposition[m_MapNo]][m_dpcount].Type >= DP_COUNT &&
-		m_obinfo[m_StageComposition[m_MapNo]][m_obcount].Type >= OB_COUNT)
+		m_obinfo[m_StageComposition[m_MapNo]][m_obcount].Type >= OB_COUNT&&
+		m_eneinfo[m_StageComposition[m_MapNo]][m_enecount].Type >= ENEMY_COUNT)
 	{
 		m_barcount = 0;
 		m_dpcount = 0;
 		m_obcount = 0;
-
+		m_enecount = 0;
 		m_MapNo += 1;
 
 
@@ -1132,6 +1190,47 @@ void CStage::OccurrenceOB(void) {
 
 	}
 
+}
+
+//todo 敵生成
+void CStage::OccurrenceENE(void)
+{
+	if (m_MapNo < SATAGE_MAP_PATTERN && m_StageScroll > m_eneinfo[m_StageComposition[m_MapNo]][m_enecount].Scroll)
+	{
+
+		//割り当てられていないDPクラスを探す
+		for (int i = 0; i < ENEMY_VOLUME; i++)
+		{
+			//表示中ならスルー
+			if (ene_array[i].Getshow()) {
+				continue;
+			}
+
+			//表示テクスチャ準備
+			//出現位置とタイプを渡す
+			switch (m_eneinfo[m_StageComposition[m_MapNo]][m_enecount].Type)
+			{
+
+			case ENEMY_1:
+				ene_array[i].SetTexture(&ene_Texture_1);
+				break;
+
+				/*case ENEMY_2:
+					ene_array[i].SetTexture(&ene_Texture_2);
+					break;*/
+
+			default:
+				break;
+			}
+
+			ene_array[i].Start(m_eneinfo[m_StageComposition[m_MapNo]][m_enecount].Pos_y, m_eneinfo[m_StageComposition[m_MapNo]][m_enecount].Type);
+			break;
+		}
+
+		//表示済みDPを加算
+		m_enecount++;
+
+	}
 }
 
 //ゲームスタート切り替え
