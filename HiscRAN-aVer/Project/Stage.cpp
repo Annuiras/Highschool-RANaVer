@@ -187,6 +187,34 @@ bool CStage::Load() {
 
 #pragma endregion
 
+	//リソース配置ディレクトリの設定
+	CUtilities::SetCurrentDirectoryA("Game");
+
+	//ToDo　進行度バー、進行度中アイコン、アイコンの表示
+	if (!m_BarTextuer.Load("Game_Bar.png")) {
+		return false;
+	}
+	if (!m_CharaIconTexture.Load("Game_CharaIcon.png")) {
+		return false;
+	}
+	if (!m_CharaProgressTextuer.Load("Game_CharaProgress.png")) {
+		return false;
+	}
+
+	//ToDo　学年の表示　仮画像を使用中
+	if (!m_GradeOneTexture.Load("GradeOne.png")) {
+		return false;
+	}
+	if (!m_GradeTwoTexture.Load("GradeOne.png")) {
+		return false;
+	}
+	if (!m_GradeThreeTexture.Load("GradeOne.png")) {
+		return false;
+	}
+
+	//リソース配置ディレクトリの設定
+	CUtilities::SetCurrentDirectoryA("../");
+
 		return true;
 }
 
@@ -197,6 +225,12 @@ bool CStage::Load() {
 //obin:障害物の配置情報
 //obco:障害物の情報数
 void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INFO_STRUCT], OB_info obin[][OB_INFO_STRUCT]) {
+
+	//ToDo　進行度バーアイコンの初期化
+	m_BarProgress = 0;
+
+	//ToDo	学年表示の表示位置の初期化
+	m_GradeOffset = g_pGraphics->GetTargetWidth();
 
 	//スクロール値初期化
 	m_BakScroll = 0.0f;
@@ -445,6 +479,36 @@ void CStage::Update(CRectangle plrect) {
 	//一時的な追加です
 	if (g_pInput->IsKeyPush(MOFKEY_LEFT)) {
 		m_Scroll_Speed -= 10;
+	}
+
+	//ToDo　進行度アイコンの移動加算
+	int i = m_StageScroll;
+	if (g_pGraphics->GetTargetWidth() < i)
+	{
+		i -= g_pGraphics->GetTargetWidth();
+	}
+	if ((g_pGraphics->GetTargetWidth() * (m_countbak - 1) + i) % 10 == 0)
+	{
+		m_BarProgress++;
+	}
+
+	//ToDo	学年表示の表示位置の更新
+	//背景カウントが1枚、10枚、20枚になった時に学年画像のスライドイン、スライドアウトを行う。
+	if (m_countbak == 1 || m_countbak == 10 || m_countbak == 20) {
+		m_GradeOffset -= 5;
+		if (m_GradeOffset <= g_pGraphics->GetTargetWidth() - m_GradeOneTexture.GetWidth())
+		{
+			m_GradeOffset = g_pGraphics->GetTargetWidth() - m_GradeOneTexture.GetWidth();
+		}
+	}
+	else if (m_countbak != 1 && m_countbak != 10 && m_countbak != 20) {
+		if (m_GradeOffset >= g_pGraphics->GetTargetWidth() - m_GradeOneTexture.GetWidth()) {
+			m_GradeOffset += 5;
+			if (m_GradeOffset > g_pGraphics->GetTargetWidth())
+			{
+				m_GradeOffset = g_pGraphics->GetTargetWidth();
+			}
+		}
 	}
 
 
@@ -834,6 +898,17 @@ void CStage::Render(void) {
 	CGraphicsUtilities::RenderString(250, 0, MOF_COLOR_BLACK, "このステージ内での取得数  学力：%d　行動力：%d　想像力：%d　コミュ力：%d　魅力：%d",
 		m_Scholastic, m_Action, m_Imagination, m_Communication, m_Charm);
 
+	//ToDo　学年のカットイン
+	m_GradeOneTexture.Render(0 + m_GradeOffset, 50);
+	m_GradeTwoTexture.Render(0 + m_GradeOffset, 50);
+	m_GradeThreeTexture.Render(0 + m_GradeOffset, 50);
+
+
+	//ToDo　進行度バー、進行度中アイコン、アイコンの表示
+	m_BarTextuer.Render(335, 65);
+	m_CharaProgressTextuer.Render(310 + m_BarProgress, 25);
+	m_CharaIconTexture.Render(32, 3);
+
 	//クリアフラグ表示
 	if (m_bClear)
 	{
@@ -843,6 +918,16 @@ void CStage::Render(void) {
 
 //解放
 void CStage::Release(void) {
+
+	//ToDo　進行度バー、進行度中アイコン、アイコンの解放
+	m_BarTextuer.Release();
+	m_CharaProgressTextuer.Release();
+	m_CharaIconTexture.Release();
+	//ToDo　学年画像の開放
+	m_GradeOneTexture.Release();
+	m_GradeTwoTexture.Release();
+	m_GradeThreeTexture.Release();
+
 
 	m_BakStart.Release();
 	m_BakRdoor.Release();

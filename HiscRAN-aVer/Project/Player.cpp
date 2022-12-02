@@ -36,6 +36,14 @@ bool CPlayer::Load(void) {
 	//仮置きです
 	int n = 2;
 
+	//ToDo　HP表示テクスチャ読み込み
+	if (!m_HPTexture.Load("Game_HP.png")) {
+		return false;
+	}
+	if (!m_HPFrame.Load("Game_HPFrame.png")) {
+		return false;
+	}
+
 	//アニメーション
 	SpriteAnimationCreate anim[] = 
 	{
@@ -73,7 +81,7 @@ void CPlayer::Initialize(void) {
 	m_MoveY = 0.0f;
 	m_legsboxY = PLAYER_LEGS_Y;
 	m_Jumpflg = false;
-	m_HP = 3;
+	m_HP = 5;
 	m_DamageWait = 0;
 	m_deathflg = false;
 
@@ -289,6 +297,16 @@ void CPlayer::Render()
 
 	m_Texture.Render(px, py, br);
 
+	//ToDo	HPの表示
+	//HPのフレーム描画
+	m_HPFrame.Render(17, 172);
+	if (m_HP > 0) {
+		CRectangle rec(0, 0, 224 * (m_HP * 0.20f), 45);
+
+		//HP描画
+		m_HPTexture.Render(17, 172, rec);
+	}
+
 	//仮キャラ
 	//m_TEX.Render(px, py);
 		//HP表示
@@ -370,4 +388,9 @@ void CPlayer::RenderDebugging() {
 void CPlayer::Release(void) {
 	m_Texture.Release();
 	m_Motion.Release();
+
+	//ToDo	HP描画の解放
+	m_HPTexture.Release();
+	m_HPFrame.Release();
+
 }

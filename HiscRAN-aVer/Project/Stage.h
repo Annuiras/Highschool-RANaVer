@@ -137,6 +137,23 @@ private:
 
 #pragma endregion
 
+	//ToDo　進行度バー
+	CTexture m_BarTextuer;
+	//ToDo	進行度中アイコン
+	CTexture m_CharaProgressTextuer;
+	//ToDo	キャラアイコンの表示
+	CTexture m_CharaIconTexture;
+	//ToDo	学年の表示
+	CTexture m_GradeOneTexture;
+	CTexture m_GradeTwoTexture;
+	CTexture m_GradeThreeTexture;
+	//進行度表示用
+	int m_BarProgress;
+
+	//ToDo	学年画像表示の位置
+	float	m_GradeOffset;
+
+
 	//マップパターン添え字
 	int m_MapNo;
 

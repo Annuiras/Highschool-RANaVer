@@ -75,6 +75,7 @@ void CGAME::Update(void)
 	{
 		gStartTime = timeGetTime();
 	}
+
 	if (timeGetTime() - gStartTime > 1000 && gStartCount < 5) {
 		gStartTime = timeGetTime();
 		gStartCount++;

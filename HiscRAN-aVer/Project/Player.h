@@ -24,6 +24,10 @@ private:
 	//キャラクターテクスチャ
 	CTexture				m_Texture;
 
+	//ToDo　HP表示テクスチャ
+	CTexture				m_HPTexture;
+	CTexture				m_HPFrame;
+
 	//プレイヤー座標
 	float					m_PosX;
 	float					m_PosY;
