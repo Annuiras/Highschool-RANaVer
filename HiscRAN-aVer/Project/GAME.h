@@ -25,7 +25,15 @@ private:
 	bool Clearflag = false;
 	bool GameOverflag = false;
 
+	//ToDo　ゲーム開始時のカウントダウンテクスチャ　仮素材
+	CTexture	gStartThreeTexture;
+	CTexture	gStartTwoTexture;
+	CTexture	gStartOneTexture;
+	CTexture	gStartGoTexture;
 
+	//ToDo　ゲーム開始時のカウントダウン
+	DWORD	gStartTime;
+	int gStartCount = 0;
 
 public:
 	CGAME();

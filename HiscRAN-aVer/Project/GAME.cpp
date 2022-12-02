@@ -16,10 +16,24 @@ CGAME::~CGAME()
 //素材読み込み
 void CGAME::Load(void)
 {
+
 	//g_MusicManager.Load();
 	//g_EffectManeger.Load();
 	g_Player.Load();
 	g_Stage.Load();
+
+	//リソース配置ディレクトリの設定
+	CUtilities::SetCurrentDirectoryA("Game");
+
+	//カウントダウン画像の読み込み
+	gStartThreeTexture.Load("CountdownThree.png");
+	gStartTwoTexture.Load("CountdownTwo.png");
+	gStartOneTexture.Load("CountdownOne.png");
+	gStartGoTexture.Load("CountdownGo.png");
+
+	//リソース配置ディレクトリの設定
+	CUtilities::SetCurrentDirectoryA("../");
+
 }
 
 //初期化
@@ -56,11 +70,18 @@ void CGAME::Update(void)
 {
 
 	//ゲーム開始切り替え
-	if (g_pInput->IsKeyPush(MOFKEY_RETURN)&&!g_Stage.GetClear()&&!Menuflag)
+	//ToDo　開始時にカウントダウン開始
+	if (g_pInput->IsKeyPush(MOFKEY_RETURN) && !g_Stage.GetClear())
 	{
-		g_Stage.GameStopPlayChange();
+		gStartTime = timeGetTime();
 	}
-
+	if (timeGetTime() - gStartTime > 1000 && gStartCount < 5) {
+		gStartTime = timeGetTime();
+		gStartCount++;
+		if (gStartCount == 4) {
+			g_Stage.GameStopPlayChange();
+		}
+	}
 	//一時的な追加です
 	//F2でTitle画面へ
 	if (g_pInput->IsKeyPush(MOFKEY_F2))
@@ -217,6 +238,24 @@ void CGAME::Render(void)
 	//メニューの描画
 	gMenu.Render(2);
 
+	//ToDo　ゲーム開始時のカウントダウンの表示
+	if (gStartCount == 1) {
+		gStartThreeTexture.Render(g_pGraphics->GetTargetWidth() / 2 - gStartThreeTexture.GetWidth() / 2,
+			g_pGraphics->GetTargetHeight() / 2 - gStartThreeTexture.GetHeight() / 2);
+	}
+	else if (gStartCount == 2) {
+		gStartTwoTexture.Render(g_pGraphics->GetTargetWidth() / 2 - gStartTwoTexture.GetWidth() / 2,
+			g_pGraphics->GetTargetHeight() / 2 - gStartTwoTexture.GetHeight() / 2);
+	}
+	else if (gStartCount == 3) {
+		gStartOneTexture.Render(g_pGraphics->GetTargetWidth() / 2 - gStartOneTexture.GetWidth() / 2,
+			g_pGraphics->GetTargetHeight() / 2 - gStartOneTexture.GetHeight() / 2);
+	}
+	else if (gStartCount == 4) {
+		gStartGoTexture.Render(g_pGraphics->GetTargetWidth() / 2 - gStartGoTexture.GetWidth() / 2,
+			g_pGraphics->GetTargetHeight() / 2 - gStartGoTexture.GetHeight() / 2);
+	}
+
 	//エフェクトの描画
 	g_EffectManeger->Render();
 
@@ -230,6 +269,12 @@ void CGAME::Release(void)
 	g_Stage.Release();
 
 	gMenu.Release();
+
+	//ToDo	カウントダウン画像の開放
+	gStartThreeTexture.Release();
+	gStartTwoTexture.Release();
+	gStartOneTexture.Release();
+	gStartGoTexture.Release();
 
 }
 
