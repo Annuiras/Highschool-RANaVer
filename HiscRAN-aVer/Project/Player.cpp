@@ -299,12 +299,12 @@ void CPlayer::Render()
 
 	//ToDo	HPの表示
 	//HPのフレーム描画
-	m_HPFrame.Render(17, 172);
+	m_HPFrame.Render(17, 42);
 	if (m_HP > 0) {
 		CRectangle rec(0, 0, 224 * (m_HP * 0.20f), 45);
 
 		//HP描画
-		m_HPTexture.Render(17, 172, rec);
+		m_HPTexture.Render(17, 42, rec);
 	}
 
 	//仮キャラ

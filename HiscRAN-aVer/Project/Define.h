@@ -24,7 +24,7 @@
 #define STAGE_SPEED 7
 
 //重力
-#define  GRAVITY	0.5f
+#define  GRAVITY	0.7f
 
 #pragma region DP定数群
 
@@ -105,9 +105,9 @@ enum tag_BAR
 
 
 //大ジャンプ値
-#define  BIGJUMP -16.0f
+#define  BIGJUMP -17.0f
 //小ジャンプ値
-#define  SMALLJUMP	-15.0f
+#define  SMALLJUMP	-17.0f
 
 //最大スライディング値
 #define  SLIDING	100
