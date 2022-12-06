@@ -107,7 +107,7 @@ enum tag_BAR
 //大ジャンプ値
 #define  BIGJUMP -17.0f
 //小ジャンプ値
-#define  SMALLJUMP	-17.0f
+#define  SMALLJUMP	-15.0f
 
 //最大スライディング値
 #define  SLIDING	100
