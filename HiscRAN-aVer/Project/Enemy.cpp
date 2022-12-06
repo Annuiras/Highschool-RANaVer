@@ -19,29 +19,29 @@ void CEnemy::SetTexture(CTexture* enetex) {
 
 }
 
+void CEnemy::SetAnime(CSpriteMotionController* eneanim)
+{
+
+	m_Motion = eneanim;
+}
+
 bool CEnemy::Load()
 {
-	//仮置き
-	int n = 2;
-	//アニメーション
-	SpriteAnimationCreate anim[] =
-	{
-		{
-			//"移動",
-			//0,70,
-			//60,64,
-			//TRUE,{{5,0,0},{5,1,0},{5,2,0},{5,3,0},{5,4,0},{5,5,0}}
+	////仮置き
+	//float Encoma = 2;
+	////アニメーション
+	//SpriteAnimationCreate EneAnim[] =
+	//{
+	//	{
+	//		"移動",
+	//		0, 320,
+	//		160, 485,
+	//		TRUE,{ {Encoma,0,0},{Encoma,1,0},{Encoma,2,0},{Encoma,3,0},{Encoma,4,0},{Encoma,5,0},{Encoma,6,0},{Encoma,7,0},{Encoma,8,0},{Encoma,9,0},{Encoma,10,0}
+	//		,{Encoma,11,0},{Encoma,12,0},{Encoma,13,0},{Encoma,14,0},{Encoma,15,0},{Encoma,16,0} }
 
-			//仮モーション用
-			"移動",
-			0, 0,
-			160, 185,
-			TRUE,{ {n,0,0},{n,1,0},{n,2,0},{n,3,0},{n,4,0},{n,5,0},{n,6,0},{n,7,0},{n,8,0},{n,9,0},{n,10,0}
-			,{n,11,0},{n,12,0},{n,13,0},{n,14,0},{n,15,0},{n,16,0} }
-
-		},
-	};
-	m_Motion.Create(anim, MOTION_COUNT);
+	//	},
+	//};
+	//m_Motion.Create(EneAnim, MOTION_COUNT);
 	return true;
 }
 
@@ -68,14 +68,26 @@ void CEnemy::Start(float posy, int type)
 void CEnemy::Update(float over)
 {
 	//todo 敵が画面上にいる時、動く
-	if (ene_Show)
-	{
-		m_Motion.ChangeMotion(MOTION_MOVE);
-		ene_PosX -= over * 1.5;		//*1.5は速さの値です
+	if (!ene_Show)
+		return;
+	
+	if (m_Motion->GetMotionNo() != MOTION_MOVE) {
+		m_Motion->ChangeMotion(MOTION_MOVE);
 	}
+	ene_PosX -= over * 1.5;		//*1.5は速さの値です
+
 	//アニメーション再生
-	m_Motion.AddTimer(CUtilities::GetFrameSecond());
-	m_SrcRect = m_Motion.GetSrcRect();
+	m_Motion->AddTimer(CUtilities::GetFrameSecond());
+	m_SrcRect = m_Motion->GetSrcRect();
+	float r = m_SrcRect.Right;
+	m_SrcRect.Right = m_SrcRect.Left;
+	m_SrcRect.Left = r;
+
+	//画面左端で消去
+	if (ene_PosX + ENEMY_SIZE_WIDTH < 0) {
+		ene_Show = false;
+	}
+
 }
 
 void CEnemy::Render()
@@ -83,7 +95,9 @@ void CEnemy::Render()
 	if (!ene_Show) {
 		return;
 	}
-	ene_Texture->Render(ene_PosX, ene_PosY);
+
+
+	ene_Texture->Render(ene_PosX, ene_PosY, m_SrcRect);
 }
 
 void CEnemy::RenderDebug()

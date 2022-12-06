@@ -12,7 +12,7 @@
 class CEnemy
 {
 	//モーションクラス
-	CSpriteMotionController	m_Motion;
+	CSpriteMotionController* m_Motion;
 
 	//描画矩形
 	CRectangle				m_SrcRect;
@@ -53,6 +53,9 @@ public:
 
 	//敵テクスチャをセット
 	void SetTexture(CTexture* enetex);
+
+	//敵アニメーションをセット
+	void SetAnime(CSpriteMotionController* eneanim);
 
 	//敵の判定
 	CRectangle GetRect(int type);

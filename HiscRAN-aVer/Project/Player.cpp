@@ -34,7 +34,7 @@ bool CPlayer::Load(void) {
 	}
 
 	//仮置きです
-	int n = 2;
+	float n = 2;
 
 	//アニメーション
 	SpriteAnimationCreate anim[] = 

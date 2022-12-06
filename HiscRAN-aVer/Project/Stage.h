@@ -46,6 +46,13 @@ typedef struct tag_ENEMY_POS
 	int	  Type;
 } ENEMY_info;
 
+//モーション種類定義
+enum tag_ENEMY_MOTION {
+	ENEMY_MOTION_MOVE,
+
+	ENEMY_MOTION_COUNT,
+};
+
 class CStage
 {
 private:
@@ -154,6 +161,11 @@ private:
 	CTexture ene_Texture_2;
 
 #pragma endregion
+
+	//敵アニメーション
+	CSpriteMotionController Enemy_Motion;
+
+
 
 	//マップパターン添え字
 	int m_MapNo;
@@ -325,4 +337,3 @@ public:
 
 
 };
-

@@ -193,12 +193,31 @@ bool CStage::Load() {
 	CUtilities::SetCurrentDirectoryA("Game/Enemy");
 
 	//todo 仮テクスチャ : 敵1
-	if (!ene_Texture_1.Load("Enemy1.png"))
+	if (!ene_Texture_1.Load("モーション.png"))
 	{
 		return false;
 	}
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("../../");
+
+	//todo:敵アニメーションを用意
+	//仮置き
+	float Encoma = 4;
+	float Enedan = 3;
+	//アニメーション
+	SpriteAnimationCreate EneAnim[] =
+	{
+		{
+			"敵移動",
+			0, 370,
+			160, 185,
+			TRUE,{ {Encoma,0,Enedan},{Encoma,1,Enedan},{Encoma,2,Enedan},{Encoma,3,Enedan},{Encoma,4,Enedan},{Encoma,5,Enedan},{Encoma,6,Enedan},{Encoma,7,Enedan},{Encoma,8,Enedan},{Encoma,9,Enedan},{Encoma,10,Enedan}
+			,{Encoma,11,Enedan},{Encoma,12,Enedan},{Encoma,13,Enedan},{Encoma,14,Enedan}}
+
+		},
+	};
+	Enemy_Motion.Create(EneAnim, ENEMY_MOTION_COUNT);
+	return true;
 
 #pragma endregion
 
@@ -294,9 +313,9 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 
 	//デバッグ用の指定コマンド、必要に応じていじってください
 	m_StageComposition[0] = 0;
-	//m_StageComposition[1] = 1;
-	//m_StageComposition[2] = 2;
-	//m_StageComposition[3] = 1;
+	m_StageComposition[1] = 1;
+	m_StageComposition[2] = 4;
+	m_StageComposition[3] = 1;
 	//m_StageComposition[4] = 0;
 	//m_StageComposition[5] = 2;
 	//m_StageComposition[6] = 2;
@@ -1198,7 +1217,7 @@ void CStage::OccurrenceENE(void)
 	if (m_MapNo < SATAGE_MAP_PATTERN && m_StageScroll > m_eneinfo[m_StageComposition[m_MapNo]][m_enecount].Scroll)
 	{
 
-		//割り当てられていないDPクラスを探す
+		//割り当てられていないENEクラスを探す
 		for (int i = 0; i < ENEMY_VOLUME; i++)
 		{
 			//表示中ならスルー
@@ -1213,6 +1232,7 @@ void CStage::OccurrenceENE(void)
 
 			case ENEMY_1:
 				ene_array[i].SetTexture(&ene_Texture_1);
+				ene_array[i].SetAnime(&Enemy_Motion);
 				break;
 
 				/*case ENEMY_2:
@@ -1224,6 +1244,7 @@ void CStage::OccurrenceENE(void)
 			}
 
 			ene_array[i].Start(m_eneinfo[m_StageComposition[m_MapNo]][m_enecount].Pos_y, m_eneinfo[m_StageComposition[m_MapNo]][m_enecount].Type);
+
 			break;
 		}
 

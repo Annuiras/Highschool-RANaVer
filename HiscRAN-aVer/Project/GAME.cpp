@@ -17,8 +17,6 @@ CGAME::~CGAME()
 //素材読み込み
 void CGAME::Load(void)
 {
-	//g_MusicManager.Load();
-	//g_EffectManeger.Load();
 	g_Player.Load();
 	g_Stage.Load();
 }
@@ -37,9 +35,6 @@ void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec
 	//メニュー
 	gMenu.Create(gMenuItemCount);
 
-	//マネージャー初期化
- //	g_MusicManager.Initialize(m_GameProgMamt->GetSEVolume(),m_GameProgMamt->GetBGMVolume());
-	//g_EffectManeger.Initialize();
 
 	//プレイヤー初期化
 	g_Player.Initialize();
