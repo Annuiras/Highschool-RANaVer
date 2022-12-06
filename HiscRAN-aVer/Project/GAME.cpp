@@ -76,12 +76,17 @@ void CGAME::Update(void)
 		gStartTime = timeGetTime();
 	}
 
-	if (timeGetTime() - gStartTime > 1000 && gStartCount < 5) {
+	if (gStartCount < 5&&timeGetTime() - gStartTime > 1000  ) {
 		gStartTime = timeGetTime();
 		gStartCount++;
 		if (gStartCount == 4) {
 			g_Stage.GameStopPlayChange();
 		}
+	}
+
+	if (g_pInput->IsKeyPush(MOFKEY_RSHIFT)) {
+		g_Stage.GameStopPlayChange();
+
 	}
 	//一時的な追加です
 	//F2でTitle画面へ
@@ -97,12 +102,6 @@ void CGAME::Update(void)
 	{
 		m_bEnd = true;
 		m_NextScene = SCENENO_SELECTMODE;
-	}
-
-	//一時的な追加です
-	//Pキーでフルスクリーンに切り替え
-	if (g_pInput->IsKeyPush(MOFKEY_P)) {
-		g_pGraphics->ChangeScreenMode();
 	}
 
 	//Cでゲームクリア画面へ
@@ -256,6 +255,8 @@ void CGAME::Render(void)
 		gStartGoTexture.Render(g_pGraphics->GetTargetWidth() / 2 - gStartGoTexture.GetWidth() / 2,
 			g_pGraphics->GetTargetHeight() / 2 - gStartGoTexture.GetHeight() / 2);
 	}
+
+	CGraphicsUtilities::RenderString(0, 150,MOF_XRGB(80, 80, 80), "FPS：%d", CUtilities::GetFPS());
 
 	//エフェクトの描画
 	g_EffectManeger->Render();

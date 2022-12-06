@@ -115,7 +115,7 @@ enum tag_BAR
 #define  SLIDINGCOOL 60
 
 //ƒvƒŒƒCƒ„[“–‚½‚è”»’è
-#define PLAYER_HIT_X 130
+#define PLAYER_HIT_X 150
 #define PLAYER_HIT_Y 185
 
 //‘«“–‚½‚è”»’è

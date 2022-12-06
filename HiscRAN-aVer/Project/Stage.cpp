@@ -895,8 +895,8 @@ void CStage::Render(void) {
 		dp_array[i].Render();
 	}
 
-	CGraphicsUtilities::RenderString(250, 0, MOF_COLOR_BLACK, "このステージ内での取得数  学力：%d　行動力：%d　想像力：%d　コミュ力：%d　魅力：%d",
-		m_Scholastic, m_Action, m_Imagination, m_Communication, m_Charm);
+	//CGraphicsUtilities::RenderString(250, 0, MOF_COLOR_BLACK, "このステージ内での取得数  学力：%d　行動力：%d　想像力：%d　コミュ力：%d　魅力：%d",
+	//	m_Scholastic, m_Action, m_Imagination, m_Communication, m_Charm);
 
 	//ToDo　学年のカットイン
 	m_GradeOneTexture.Render(0 + m_GradeOffset, 50);
@@ -962,9 +962,8 @@ void CStage::Release(void) {
 void CStage::RenderDebugging() {
 
 	CGraphicsUtilities::RenderString(0, 120, MOF_XRGB(80, 80, 80), "背景：%d枚目", m_countbak);
-	CGraphicsUtilities::RenderString(0, 150, MOF_XRGB(80, 80, 80), "背景スクロール値%f", m_BakScroll);
-	CGraphicsUtilities::RenderString(0, 180, MOF_XRGB(80, 80, 80), "ステージスクロール値%f", m_StageScroll);
-	CGraphicsUtilities::RenderString(880, 690, MOF_XRGB(80, 80, 80), "Pキーでフルスクリーンに切り替え");
+	//CGraphicsUtilities::RenderString(0, 150, MOF_XRGB(80, 80, 80), "背景スクロール値%f", m_BakScroll);
+	//CGraphicsUtilities::RenderString(0, 180, MOF_XRGB(80, 80, 80), "ステージスクロール値%f", m_StageScroll);
 
 	//全体のパターン表示
 	for (int i = 0; i < 15; i++)

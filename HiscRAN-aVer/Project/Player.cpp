@@ -33,8 +33,6 @@ bool CPlayer::Load(void) {
 		return false;
 	}
 
-	//仮置きです
-	int n = 2;
 
 	//ToDo　HP表示テクスチャ読み込み
 	if (!m_HPTexture.Load("Game_HP.png")) {
@@ -43,10 +41,13 @@ bool CPlayer::Load(void) {
 	if (!m_HPFrame.Load("Game_HPFrame.png")) {
 		return false;
 	}
+	//仮置きです
+	float n = 2;
 
 	//アニメーション
 	SpriteAnimationCreate anim[] = 
 	{
+
 		{
 			//モーション
 			"移動",
@@ -306,12 +307,6 @@ void CPlayer::Render()
 		//HP描画
 		m_HPTexture.Render(17, 42, rec);
 	}
-
-	//仮キャラ
-	//m_TEX.Render(px, py);
-		//HP表示
-	CGraphicsUtilities::RenderString(0, 260, MOF_XRGB(80, 80, 80), "HP:%d", m_HP);
-
 }
 
 //デバック表示
