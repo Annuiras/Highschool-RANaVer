@@ -121,7 +121,7 @@ public:
 	float CircleX() { return m_PosX; }
 	float CircleY() { return m_PosY; }
 
-	//ToDo	ゲームオーバー判定を渡す
+	//ゲームオーバー判定を渡す
 	//true: ゲームオーバー
 	bool	GetOver(void) { return m_deathflg; }
 

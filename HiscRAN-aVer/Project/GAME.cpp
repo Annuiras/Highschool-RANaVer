@@ -70,7 +70,7 @@ void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec
 	//カウントダウン用カウンタ初期化
 	gStartCount = 0;
 
-	//ToDo	ゲームオーバ時のフェードインフェードアウト用
+	//ゲームオーバ時のフェードインフェードアウト用
 	m_BlackAlpha = 0;
 	m_WhiteAlpha = 0;
 
@@ -176,7 +176,7 @@ void CGAME::Update(void)
 	}
 
 
-	//ToDo	ゲームオーバー
+	//ゲームオーバー時の場合フェードアウト
 	if (g_Player.GetOver()||_GameOver) {
 		m_BlackAlpha += FADE_OUT_SPEED;
 		if (m_BlackAlpha >= 255) {
@@ -185,12 +185,12 @@ void CGAME::Update(void)
 		}
 	}
 
-	//ストップ中,ゲームオーバー中はゲーム処理を実行しない
+	//ストップ中,ゲームオーバー中は以下の処理を実行しない
 	if (!g_Stage.GetGameStopPlay()||g_Player.GetOver()||_GameOver) {
 		return;
 	}
 
-	//todo クリア時の処理
+	//クリア時の処理
 	if (g_Stage.GetClear()|| _GameClear)
 	{
 		m_WhiteAlpha += 1;//明転
@@ -206,8 +206,8 @@ void CGAME::Update(void)
 		}
 	}
 
-	if (_GameClear) {
-
+	//クリア時は以下の処理をしない
+	if (g_Stage.GetClear()||_GameClear) {
 		return;
 	}
 

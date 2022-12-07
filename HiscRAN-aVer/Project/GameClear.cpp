@@ -167,7 +167,7 @@ void CGameClear::Update(void)
 		//gChangeScene = SCENENO_TITLE;
 	}
 
-	//todo –¾“]ˆ—
+	//–¾“]ˆ—
 	if (m_WhiteAlpha >= 0 && !m_FadeOut)
 	{
 		m_WhiteAlpha -= FADE_OUT_SPEED;

@@ -12,10 +12,11 @@ private:
 	CTexture	m_SelectTexture;
 	int			Rondom;
 
-	//ToDo	ゲームオーバ時のフェードインフェードアウト用
+	//ゲームオーバ時のフェードインフェードアウト用
 	//アルファ値
 	int			m_Alpha;
-	bool		m_Over;
+	//フラグ
+	bool		m_FadeOutflg;
 
 
 public:
