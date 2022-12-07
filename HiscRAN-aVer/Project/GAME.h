@@ -25,6 +25,7 @@ private:
 	bool Clearflag = false;
 	bool GameOverflag = false;
 
+	bool Collosopn(CRectangle r1, CRectangle r2);
 	//ToDo　ゲーム開始時のカウントダウンテクスチャ　仮素材
 	CTexture	gStartThreeTexture;
 	CTexture	gStartTwoTexture;

@@ -129,7 +129,7 @@ void CPlayer::Update(void) {
 	//スピード反映
 	m_PosY += m_MoveY;
 	
-	//下降速度クリップ追加
+	//下降速度クリップ
 	if (m_MoveY >= 20) {
 		m_MoveY = 20 - 0.1f;
 	}
@@ -256,7 +256,6 @@ void CPlayer::UPdateCollisionOB() {
 	{
 		return;
 	}
-	m_Motion.ChangeMotion(MOTION_MOVE/*MOTION_DAMAGE*/);
 	m_HP -= 1;
 	m_DamageWait = 60;
 
@@ -266,7 +265,7 @@ void CPlayer::UPdateCollisionOB() {
 	}
 }
 
-//未使用:敵当たり判定
+//敵当たり判定
 bool CPlayer::CollosopnEnemy(CRectangle r) {
 
 	//無敵時間中は判定しない
@@ -275,7 +274,6 @@ bool CPlayer::CollosopnEnemy(CRectangle r) {
 		return false;
 	}
 	if (GetRect().CollisionRect(r)) {
-		m_DamageWait = 60;
 		return true;
 	}
 	return false;

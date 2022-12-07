@@ -6,6 +6,7 @@
 #include "DetailPoint.h"
 #include "Bar.h"
 #include "Obstacle.h"
+#include "Enemy.h"
 #include "EffectManager.h"
 #include "MusicManager.h"
 
@@ -36,6 +37,21 @@ typedef struct tag_BAR_POS
 	tag_BAR	Type;		//足場タイプ（仮）
 
 } BAR_info;
+
+//todo 敵の出現位置情報構造体
+typedef struct tag_ENEMY_POS
+{
+	float Scroll;
+	float Pos_y;
+	int	  Type;
+} ENEMY_info;
+
+//モーション種類定義
+enum tag_ENEMY_MOTION {
+	ENEMY_MOTION_MOVE,
+
+	ENEMY_MOTION_COUNT,
+};
 
 class CStage
 {
@@ -130,12 +146,26 @@ private:
 
 #pragma endregion
 
-#pragma region 足場テクスチャ
+	#pragma region 足場テクスチャ
 
 	//仮テクスチャ：足場中
 	CTexture bar_Textuer_Medium;
 
 #pragma endregion
+
+	#pragma region 敵テクスチャ
+
+	//敵テクスチャ : 敵1
+	CTexture ene_Texture_1;
+	//敵テクスチャ : 敵2
+	CTexture ene_Texture_2;
+
+#pragma endregion
+
+	//敵アニメーション
+	CSpriteMotionController Enemy_Motion;
+
+
 
 	//ToDo　進行度バー
 	CTexture m_BarTextuer;
@@ -191,6 +221,14 @@ private:
 	//表示済み足場数
 	int m_barcount;
 
+	//足場の配置情報受け取る配列
+	//[]:マップ敵パターン情報数
+	//[]:マップ敵パターン1枚分にいくつ構造体があるか
+	//敵配置情報
+	ENEMY_info m_eneinfo[MAP_INFO_PATTERN][ENEMY_INFO_STRUCT];
+
+	//表示済み敵数
+	int m_enecount;
 
 	//背景用スクロール値
 	float	m_BakScroll;
@@ -251,7 +289,7 @@ public:
 	//dpin[][]:DPの配置情報
 	//[]:マップパターンがいくつあるか
 	//[]:1マップパターンにいくつ構造体があるか
-	void Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INFO_STRUCT], OB_info obin[][OB_INFO_STRUCT]);
+	void Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INFO_STRUCT], OB_info obin[][OB_INFO_STRUCT], ENEMY_info enein[][ENEMY_INFO_STRUCT]);
 
 	//SP内のDP配置をするための関数
 	void SPInitialize(void);
@@ -274,6 +312,9 @@ public:
 
 	//障害物生成
 	void OccurrenceOB(void);
+
+	//敵生成
+	void OccurrenceENE(void);
 
 	//DPと接触処理
 	void UPdeteCollisionDP(int dpt);
@@ -300,6 +341,9 @@ public:
 	//DPクラス
 	DetailPoint dp_array[DP_VOLUME];
 
+	//敵クラス
+	CEnemy ene_array[ENEMY_VOLUME];
+
 	//ゲーム停止：再生切り替え
 	void GameStopPlayChange();
 
@@ -310,4 +354,3 @@ public:
 
 
 };
-

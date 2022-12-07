@@ -79,6 +79,29 @@ enum tag_OBTYPE
 
 #pragma endregion
 
+#pragma region 敵定数群
+
+//クラス数
+#define		ENEMY_VOLUME 10
+
+//敵1パターンの要素数
+//（1マップ中にある敵数＋1）
+#define ENEMY_INFO_STRUCT 5
+
+//敵当たり判定
+#define		ENEMY_SIZE_WIDTH	160	//横
+#define		ENEMY_SIZE_HEIGHT	185	//縦
+
+
+enum tag_ENEMY
+{
+	ENEMY_1,
+	ENEMY_2, 
+	ENEMY_COUNT,//総数（終端要素）
+};
+
+#pragma endregion
+
 #pragma region 足場定数群
 
 //足場タイプ定義

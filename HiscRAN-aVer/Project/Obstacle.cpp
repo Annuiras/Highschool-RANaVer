@@ -116,7 +116,7 @@ CRectangle CObstacle::GetRect(int type){
 
 }
 
-//試作障害物上に乗れる当たり判定取得
+//障害物上に乗れる当たり判定取得
 CRectangle CObstacle::GetTopBarRect(int type) {
 
 	//タイプ別で大きさを変更

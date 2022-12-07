@@ -3,8 +3,17 @@
 #include "Stage_DP.h"
 #include "Stage_Bar.h"
 #include "Stage_Obstacle.h"
+#include "Stage_Enemy.h"
 
 
+
+bool CGAME::Collosopn(CRectangle r1, CRectangle r2)
+{
+	if (r1.CollisionRect(r2)) {
+		return true;
+	}
+	return false;
+}
 
 CGAME::CGAME() {}
 
@@ -16,9 +25,6 @@ CGAME::~CGAME()
 //素材読み込み
 void CGAME::Load(void)
 {
-
-	//g_MusicManager.Load();
-	//g_EffectManeger.Load();
 	g_Player.Load();
 	g_Stage.Load();
 
@@ -50,9 +56,6 @@ void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec
 	//メニュー
 	gMenu.Create(gMenuItemCount);
 
-	//マネージャー初期化
- //	g_MusicManager.Initialize(m_GameProgMamt->GetSEVolume(),m_GameProgMamt->GetBGMVolume());
-	//g_EffectManeger.Initialize();
 
 	//プレイヤー初期化
 	g_Player.Initialize();
@@ -60,7 +63,7 @@ void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec
 	g_Player.SetEffectManager(effec);
 
 	//ステージ初期化
-	g_Stage.Initialize(s_stageAdp,s_stageAbar, s_stageAOB);
+	g_Stage.Initialize(s_stageAdp,s_stageAbar, s_stageAOB, s_stageAEnemy);
 	g_Stage.SetMusicManager(musi);
 	g_Stage.SetEffectManager(effec);
 }
@@ -125,7 +128,7 @@ void CGAME::Update(void)
 		//初期化
 		g_Player.Initialize();
 
-		g_Stage.Initialize(s_stageAdp, s_stageAbar, s_stageAOB);
+		g_Stage.Initialize(s_stageAdp, s_stageAbar, s_stageAOB, s_stageAEnemy);
 
 	}
 
@@ -208,7 +211,7 @@ void CGAME::Update(void)
 			continue;
 		}
 
-		//判定
+		//プレイヤーと判定
 		if (g_Player.CollosopnOB(g_Stage.ob_array[i].GetRect(g_Stage.ob_array[i].GetType())))
 		{
  			g_Player.UPdateCollisionOB();
@@ -218,7 +221,34 @@ void CGAME::Update(void)
 		{
 			g_Player.UPdateCollisionBra(g_Stage.ob_array[i].GetY(g_Stage.ob_array[i].GetType()));
 		}
+
+		//敵
+		for (int e = 0; e < ENEMY_VOLUME; e++)
+		{
+			if (!g_Stage.ene_array[e].Getshow())
+				continue;
+
+			if (Collosopn(g_Stage.ene_array[e].GetRect(), (g_Stage.ob_array[i].GetTopBarRect(g_Stage.ob_array[i].GetType())))) {
+				g_Stage.ene_array[e].SetPosY(g_Stage.ob_array[i].GetY(g_Stage.ob_array[i].GetType()));
+			}
+		}
 	}
+
+	//敵との当たり判定
+	for (int i = 0; i < ENEMY_VOLUME; i++)
+	{
+		if (!g_Stage.ene_array[i].Getshow()) {
+			continue;
+		}
+
+		//プレイヤーと敵の当たり判定
+		if (g_Player.CollosopnEnemy(g_Stage.ene_array[i].GetRect()))
+		{
+			g_Player.UPdateCollisionOB();
+		}
+
+	}
+
 
 	//エフェクトの更新
 	g_EffectManeger->Update(g_Player.GetRect());
