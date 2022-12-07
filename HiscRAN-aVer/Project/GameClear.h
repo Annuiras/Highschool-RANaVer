@@ -9,8 +9,15 @@ private:
 	CTexture	m_BackTexture;
 	CTexture	m_UITexture;
 
-	int gAlpha = 0;
+	//文字用アルファ値
+	int gAlpha;
+	//文字用フラグ
 	bool isStop = false;
+
+	//フェードイン用アルファ値
+	int m_WhiteAlpha;
+	//フラグ
+	bool m_FadeOut;
 
 	// ステータスを収納する配列
 	int Status[ITEM_NUM];

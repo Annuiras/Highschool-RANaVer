@@ -70,6 +70,10 @@ public:
 	void Initialize(void);
 
 	void Update(void);
+
+	//クリア時の更新
+	void UpdateClear(void);
+
 	void Render(void);
 	void Release(void);
 
@@ -119,6 +123,6 @@ public:
 
 	//ToDo	ゲームオーバー判定を渡す
 	//true: ゲームオーバー
-	bool	GetOver() { return m_deathflg; }
+	bool	GetOver(void) { return m_deathflg; }
 
 };

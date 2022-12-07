@@ -15,7 +15,7 @@
 #define MAP_SP_ITEM_PATTERN_NUM 1
 
 //ステージ変化する背景枚数
-#define SATGE_CHANGE_BAK 20
+#define SATGE_CHANGE_BAK 200
 
 //ステージクリアの背景枚数
 #define STAGE_CLEAR_BAK 31
@@ -26,7 +26,7 @@
 //重力
 #define  GRAVITY	0.7f
 
-//フェードアウト速度fade out
+//フェードアウト速度
 #define FADE_OUT_SPEED 3
 
 #pragma region DP定数群

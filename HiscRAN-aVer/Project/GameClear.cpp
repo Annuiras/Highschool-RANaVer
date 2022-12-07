@@ -9,6 +9,8 @@ CGameClear::CGameClear() :
 	m_BackTexture(),
 	m_UITexture(),
 	gAlpha(0.0f),
+	m_WhiteAlpha(0),
+	m_FadeOut(),
 	Memory1(),
 	Memory2(),
 	Status(),
@@ -138,6 +140,8 @@ void CGameClear::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* 
 	Status[4] = 18;
 
 	gAlpha = 0;
+	m_WhiteAlpha = 255;
+	m_FadeOut = false;
 	isStop = false;
 }
 
@@ -163,6 +167,16 @@ void CGameClear::Update(void)
 		//gChangeScene = SCENENO_TITLE;
 	}
 
+	//todo 明転処理
+	if (m_WhiteAlpha >= 0 && !m_FadeOut)
+	{
+		m_WhiteAlpha -= FADE_OUT_SPEED;
+		if (m_WhiteAlpha == 0)
+		{
+			m_FadeOut = true;
+		}
+	}
+
 
 	//α値変更処理
 	//ちかちかさせてる
@@ -184,6 +198,9 @@ void CGameClear::Update(void)
 		}
 	}
 
+	if (!m_FadeOut) {
+		return;
+	}
 
 	//グラフがじわじわ動く
 	for (int i = 0; i < ITEM_NUM; i++)
@@ -234,7 +251,8 @@ void CGameClear::Render(void)
 	CGraphicsUtilities::RenderFillTriangle(center, point4, point5, MOF_COLOR_BLUE, MOF_COLOR_BLUE, MOF_COLOR_BLUE);
 	CGraphicsUtilities::RenderFillTriangle(center, point5, point1, MOF_COLOR_BLUE, MOF_COLOR_BLUE, MOF_COLOR_BLUE);
 
-
+	//フェードアウト明転用
+	CGraphicsUtilities::RenderFillRect(0, 0, g_pGraphics->GetTargetWidth(), g_pGraphics->GetTargetHeight(), MOF_ARGB(m_WhiteAlpha, 255, 255, 255));
 
 
 }

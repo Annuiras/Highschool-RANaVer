@@ -21,8 +21,7 @@ private:
 	//ステージクラス
 	CStage g_Stage;
 
-
-	bool Clearflag = false;
+	//クリアフラグ
 
 	bool Collosopn(CRectangle r1, CRectangle r2);
 	//ゲーム開始時のカウントダウンテクスチャ　仮素材
@@ -35,11 +34,15 @@ private:
 	DWORD	gStartTime;
 	int gStartCount = 0;
 
-	//ToDo	フェードインフェードアウト用
-	int m_Alpha;
+	//ToDo	フェードインフェードアウト用アルファ値（暗転）
+	int m_BlackAlpha;
 
-	//デバッグ用
+	//（明転）
+	int m_WhiteAlpha;
+
+	//デバッグ用:ゲームオーバーフラグ
 	bool _GameOver;
+	bool _GameClear;
 
 public:
 	CGAME();
@@ -50,7 +53,5 @@ public:
 	void Load(void);
 	void Release(void);
 	void RenderDebug(void);
-
-
 };
 

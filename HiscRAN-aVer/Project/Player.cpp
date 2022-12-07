@@ -132,6 +132,11 @@ void CPlayer::Update(void) {
 	//下降速度クリップ
 	if (m_MoveY >= 20) {
 		m_MoveY = 20 - 0.1f;
+	
+	}
+	//地面よりも下か？
+	if (m_PosY + m_SrcRect.GetHeight() >= GROUND_Y) {
+		UPdateCollisionGround(GROUND_Y);
 	}
 
 	//下降中
@@ -260,7 +265,7 @@ void CPlayer::UPdateCollisionOB() {
 	m_DamageWait = 60;
 
 	if (m_HP <= 0) {
-		m_deathflg = true;
+		//m_deathflg = true;
 		//m_HP = 0;
 	}
 }
@@ -279,6 +284,38 @@ bool CPlayer::CollosopnEnemy(CRectangle r) {
 	return false;
 }
 
+
+void CPlayer::UpdateClear(void)
+{
+
+	//重力反映
+	m_MoveY += GRAVITY;
+
+	//スピード反映
+	m_PosY += m_MoveY;
+
+	m_PosX += 7;
+
+	//下降速度クリップ
+	if (m_MoveY >= 20) {
+		m_MoveY = 20 - 0.1f;
+
+	}
+	//地面よりも下か？
+	if (m_PosY + m_SrcRect.GetHeight() >= GROUND_Y) {
+		UPdateCollisionGround(GROUND_Y);
+	}
+
+	//アニメーション再生
+	m_Motion.AddTimer(CUtilities::GetFrameSecond());
+	m_SrcRect = m_Motion.GetSrcRect();
+	//ダメージのインターバルを減らす
+	if (m_DamageWait > 0)
+	{
+		m_DamageWait--;
+	}
+
+}
 
 //描画
 void CPlayer::Render()

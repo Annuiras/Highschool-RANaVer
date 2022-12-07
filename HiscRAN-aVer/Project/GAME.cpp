@@ -71,9 +71,11 @@ void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec
 	gStartCount = 0;
 
 	//ToDo	ゲームオーバ時のフェードインフェードアウト用
-	m_Alpha = 0;
+	m_BlackAlpha = 0;
+	m_WhiteAlpha = 0;
 
-	
+	//デバッグ用
+	_GameClear = false;
 	_GameOver = false;
 }
 
@@ -122,8 +124,7 @@ void CGAME::Update(void)
 	//Cでゲームクリア画面へ
 	if (g_pInput->IsKeyPush(MOFKEY_C))
 	{
-		m_bEnd = true;
-		m_NextScene = SCENENO_GAMECLEAR;
+		_GameClear = true;
 	}
 
 	//Vでゲームオーバー画面
@@ -174,34 +175,47 @@ void CGAME::Update(void)
 		Menuflag = false;
 	}
 
+
 	//ToDo	ゲームオーバー
-	if (g_Player.GetOver()|| _GameOver) {
-		m_Alpha += FADE_OUT_SPEED;
-		if (m_Alpha >= 255) {
+	if (g_Player.GetOver()||_GameOver) {
+		m_BlackAlpha += FADE_OUT_SPEED;
+		if (m_BlackAlpha >= 255) {
 			m_bEnd = true;
 			m_NextScene = SCENENO_GAMEOVER;
 		}
 	}
 
-
-	//ストップ中はゲーム処理を実行しない
+	//ストップ中,ゲームオーバー中はゲーム処理を実行しない
 	if (!g_Stage.GetGameStopPlay()||g_Player.GetOver()||_GameOver) {
 		return;
 	}
 
+	//todo クリア時の処理
+	if (g_Stage.GetClear()|| _GameClear)
+	{
+		m_WhiteAlpha += 1;//明転
 
-	//ステージ更新
-	g_Stage.Update(g_Player.GetRect());
+		//クリア時のキャラクター処理
+		g_Player.UpdateClear();
+
+		if (m_WhiteAlpha >= 255)
+		{
+			//画面切り替え
+			m_bEnd = true;
+			m_NextScene = SCENENO_GAMECLEAR;
+		}
+	}
+
+	if (_GameClear) {
+
+		return;
+	}
 
 	//プレイヤー更新
 	g_Player.Update();
 
-	//ステージクリアかつ開始状態の時実行
-	if (g_Stage.GetClear()&& g_Stage.GetGameStopPlay()) {
-
-		g_Stage.GameStopPlayChange();
-
-	}
+	//ステージ更新
+	g_Stage.Update(g_Player.GetRect());
 
 	//地面との当たり判定
 	if (g_Player.CollosopnGround(g_Stage.g_ground.GetRect())) {
@@ -310,7 +324,11 @@ void CGAME::Render(void)
 	//エフェクトの描画
 	g_EffectManeger->Render();
 
-	CGraphicsUtilities::RenderFillRect(0, 0, g_pGraphics->GetTargetWidth(), g_pGraphics->GetTargetHeight(),MOF_ARGB(m_Alpha,0,0,0));
+	//フェードアウト明転用
+	CGraphicsUtilities::RenderFillRect(0, 0, g_pGraphics->GetTargetWidth(), g_pGraphics->GetTargetHeight(), MOF_ARGB(m_WhiteAlpha, 255, 255, 255));
+
+	//フェードアウト暗転用
+	CGraphicsUtilities::RenderFillRect(0, 0, g_pGraphics->GetTargetWidth(), g_pGraphics->GetTargetHeight(),MOF_ARGB(m_BlackAlpha,0,0,0));
 
 }
 
