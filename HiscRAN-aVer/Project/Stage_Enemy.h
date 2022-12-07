@@ -6,7 +6,7 @@ ENEMY_info s_stageAEnemy[][ENEMY_INFO_STRUCT] =
 {
 	//マップパターン0
 	{
-		{450.0f,500.0f,0},
+		{450.0f,200.0f,0},
 		{ 10000,0,100 }
 	},
 	//マップパターン1

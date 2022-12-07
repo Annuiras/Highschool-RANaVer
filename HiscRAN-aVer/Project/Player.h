@@ -86,7 +86,7 @@ public:
 	void UPdateCollisionOB(void);
 
 
-	//“G“–‚½‚è”»’è:–¢Žg—p
+	//“G“–‚½‚è”»’è
 	bool CollosopnEnemy(CRectangle r);
 	
 

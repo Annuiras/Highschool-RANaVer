@@ -88,6 +88,11 @@ enum tag_OBTYPE
 //（1マップ中にある敵数＋1）
 #define ENEMY_INFO_STRUCT 5
 
+//敵当たり判定
+#define		ENEMY_SIZE_WIDTH	160	//横
+#define		ENEMY_SIZE_HEIGHT	185	//縦
+
+
 enum tag_ENEMY
 {
 	ENEMY_1,

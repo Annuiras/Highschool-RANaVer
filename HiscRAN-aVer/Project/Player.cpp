@@ -120,7 +120,7 @@ void CPlayer::Update(void) {
 	//スピード反映
 	m_PosY += m_MoveY;
 	
-	//下降速度クリップ追加
+	//下降速度クリップ
 	if (m_MoveY >= 20) {
 		m_MoveY = 20 - 0.1f;
 	}

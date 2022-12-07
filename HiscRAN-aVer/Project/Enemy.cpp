@@ -25,36 +25,18 @@ void CEnemy::SetAnime(CSpriteMotionController* eneanim)
 	m_Motion = eneanim;
 }
 
-bool CEnemy::Load()
-{
-	////仮置き
-	//float Encoma = 2;
-	////アニメーション
-	//SpriteAnimationCreate EneAnim[] =
-	//{
-	//	{
-	//		"移動",
-	//		0, 320,
-	//		160, 485,
-	//		TRUE,{ {Encoma,0,0},{Encoma,1,0},{Encoma,2,0},{Encoma,3,0},{Encoma,4,0},{Encoma,5,0},{Encoma,6,0},{Encoma,7,0},{Encoma,8,0},{Encoma,9,0},{Encoma,10,0}
-	//		,{Encoma,11,0},{Encoma,12,0},{Encoma,13,0},{Encoma,14,0},{Encoma,15,0},{Encoma,16,0} }
-
-	//	},
-	//};
-	//m_Motion.Create(EneAnim, MOTION_COUNT);
-	return true;
-}
-
 void CEnemy::Initialize()
 {
 	ene_PosX = 0;
 	ene_PosY = 0;
+	ene_SpeedY = 0;
 	ene_Type = 0;
 	ene_Show = false;
 }
 
 void CEnemy::Start(float posy, int type)
 {
+	//画面右端に生成
 	ene_PosX = g_pGraphics->GetTargetWidth();
 
 	ene_PosY = posy;
@@ -79,9 +61,28 @@ void CEnemy::Update(float over)
 	//アニメーション再生
 	m_Motion->AddTimer(CUtilities::GetFrameSecond());
 	m_SrcRect = m_Motion->GetSrcRect();
+
+	//敵を反転させる
 	float r = m_SrcRect.Right;
 	m_SrcRect.Right = m_SrcRect.Left;
 	m_SrcRect.Left = r;
+
+	//重力反映
+	ene_SpeedY += GRAVITY;
+
+	//下降速度クリップ追加
+	if (ene_SpeedY >= 10) {
+		ene_SpeedY = 10 - 0.1f;
+	}
+
+	//スピード反映
+	ene_PosY += ene_SpeedY;
+
+	//地面よりも下か？
+	if (ene_PosY + m_SrcRect.GetHeight() >= GROUND_Y) {
+		//地面よりも下に行かないように調整
+		SetPosY(GROUND_Y);
+	}
 
 	//画面左端で消去
 	if (ene_PosX + ENEMY_SIZE_WIDTH < 0) {
@@ -105,13 +106,13 @@ void CEnemy::RenderDebug()
 	if (!ene_Show) {
 		return;
 	}
-	CGraphicsUtilities::RenderRect(GetRect(ene_Type), MOF_COLOR_RED);
+	CGraphicsUtilities::RenderRect(GetRect(), MOF_COLOR_RED);
 }
 
-CRectangle CEnemy::GetRect(int type)
+CRectangle CEnemy::GetRect(void)
 {
 	//タイプ別で大きさを変更
-	switch (type)
+	switch (ene_Type)
 	{
 	case ENEMY_1://敵1		
 		return CRectangle(ene_PosX, ene_PosY,
@@ -124,6 +125,12 @@ CRectangle CEnemy::GetRect(int type)
 			ene_PosX + ENEMY_SIZE_WIDTH, ene_PosY + ENEMY_SIZE_HEIGHT);
 		break;
 	}
+}
+
+void CEnemy::SetPosY(float y)
+{
+	ene_PosY = y - ENEMY_SIZE_HEIGHT;
+	ene_SpeedY = 0;
 }
 
 void CEnemy::Release()

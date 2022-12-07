@@ -25,7 +25,7 @@ private:
 	bool Clearflag = false;
 	bool GameOverflag = false;
 
-
+	bool Collosopn(CRectangle r1, CRectangle r2);
 
 public:
 	CGAME();

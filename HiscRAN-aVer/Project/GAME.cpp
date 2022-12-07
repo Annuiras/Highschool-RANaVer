@@ -7,6 +7,14 @@
 
 
 
+bool CGAME::Collosopn(CRectangle r1, CRectangle r2)
+{
+	if (r1.CollisionRect(r2)) {
+		return true;
+	}
+	return false;
+}
+
 CGAME::CGAME() {}
 
 CGAME::~CGAME()
@@ -183,7 +191,7 @@ void CGAME::Update(void)
 			continue;
 		}
 
-		//判定
+		//プレイヤーと判定
 		if (g_Player.CollosopnOB(g_Stage.ob_array[i].GetRect(g_Stage.ob_array[i].GetType())))
 		{
  			g_Player.UPdateCollisionOB();
@@ -192,6 +200,17 @@ void CGAME::Update(void)
 		else if(g_Player.CollosopnBar(g_Stage.ob_array[i].GetTopBarRect(g_Stage.ob_array[i].GetType())))
 		{
 			g_Player.UPdateCollisionBra(g_Stage.ob_array[i].GetY(g_Stage.ob_array[i].GetType()));
+		}
+
+		//敵
+		for (int e = 0; e < ENEMY_VOLUME; e++)
+		{
+			if (!g_Stage.ene_array[e].Getshow())
+				continue;
+
+			if (Collosopn(g_Stage.ene_array[e].GetRect(), (g_Stage.ob_array[i].GetTopBarRect(g_Stage.ob_array[i].GetType())))) {
+				g_Stage.ene_array[e].SetPosY(g_Stage.ob_array[i].GetY(g_Stage.ob_array[i].GetType()));
+			}
 		}
 	}
 
@@ -202,10 +221,12 @@ void CGAME::Update(void)
 			continue;
 		}
 
-		if (g_Player.CollosopnEnemy(g_Stage.ene_array[i].GetRect(g_Stage.ene_array[i].GetType())))
+		//プレイヤーと敵の当たり判定
+		if (g_Player.CollosopnEnemy(g_Stage.ene_array[i].GetRect()))
 		{
 			g_Player.UPdateCollisionOB();
 		}
+
 	}
 
 
