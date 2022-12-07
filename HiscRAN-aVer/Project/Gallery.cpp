@@ -252,7 +252,7 @@ void CGallery::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* ef
 void CGallery::Update(void)
 {
 
-	//TODO:Enter‚Å–ß‚é‚©‚ÍŒŸ“¢
+	//Enter‚Å–ß‚é‚©‚ÍŒŸ“¢
 	if (galleryCnt == 15 && g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
 		m_bEnd = true;

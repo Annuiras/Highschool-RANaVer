@@ -1,6 +1,6 @@
 #include "Enemy.h"
 
-//todo “G
+//“G
 
 CEnemy::CEnemy() :
 	ene_PosX(0),
@@ -49,7 +49,7 @@ void CEnemy::Start(float posy, int type)
 
 void CEnemy::Update(float over)
 {
-	//todo “G‚ª‰æ–Êã‚É‚¢‚éA“®‚­
+	//“G‚ª‰æ–Êã‚É‚¢‚éA“®‚­
 	if (!ene_Show)
 		return;
 	

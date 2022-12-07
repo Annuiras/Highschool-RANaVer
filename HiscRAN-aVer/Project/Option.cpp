@@ -149,7 +149,7 @@ void COption::Update(void)
 	}
 
 	//戻るボタンでモードセレクト画面へ
-	//ToDO:Enterで戻るかは検討中
+	//Enterで戻るかは検討中
 	if (OptionCnt == 3 && g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
 		g_MusicManager->BGMStop(BGMT_OP);
@@ -348,7 +348,7 @@ void COption::Render(void)
 		"Screenサイズ"
 	};
 
-	////TODO:説明文は後日メニューと似た感じで実装します。
+	////説明文は後日メニューと似た感じで実装します。
 	//m_Font1.RenderString(267, 8, MOF_COLOR_BLACK, "スペースキーで調整したい項目を選択、選択の解除ができます。\n上下矢印ででスライダーが動かせます。\nボタンはエンターキーで動かせます。\n戻るでモードセレクト画面に戻ることができますよ。");
 	//m_Font1.RenderString(260, 135, MOF_COLOR_BLACK, MenuString[0]);
 	//m_Font1.RenderString(600, 135, MOF_COLOR_BLACK, MenuString[1]);

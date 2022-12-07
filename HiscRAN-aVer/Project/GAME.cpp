@@ -66,6 +66,15 @@ void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec
 	g_Stage.Initialize(s_stageAdp,s_stageAbar, s_stageAOB, s_stageAEnemy);
 	g_Stage.SetMusicManager(musi);
 	g_Stage.SetEffectManager(effec);
+
+	//カウントダウン用カウンタ初期化
+	gStartCount = 0;
+
+	//ToDo	ゲームオーバ時のフェードインフェードアウト用
+	m_Alpha = 0;
+
+	
+	_GameOver = false;
 }
 
 //更新
@@ -73,12 +82,13 @@ void CGAME::Update(void)
 {
 
 	//ゲーム開始切り替え
-	//ToDo　開始時にカウントダウン開始
+	//開始時にカウントダウン開始
 	if (g_pInput->IsKeyPush(MOFKEY_RETURN) && !g_Stage.GetClear())
 	{
 		gStartTime = timeGetTime();
 	}
 
+	//カウントダウン判定
 	if (gStartCount < 5&&timeGetTime() - gStartTime > 1000  ) {
 		gStartTime = timeGetTime();
 		gStartCount++;
@@ -87,6 +97,8 @@ void CGAME::Update(void)
 		}
 	}
 
+	//一時的な追加です
+	//ゲーム一時停止
 	if (g_pInput->IsKeyPush(MOFKEY_RSHIFT)) {
 		g_Stage.GameStopPlayChange();
 
@@ -117,8 +129,7 @@ void CGAME::Update(void)
 	//Vでゲームオーバー画面
 	else if (g_pInput->IsKeyPush(MOFKEY_V))
 	{
-		m_bEnd = true;
-		m_NextScene = SCENENO_GAMEOVER;
+		_GameOver = true;
 	}
 
 	//一時的な追加です
@@ -163,10 +174,18 @@ void CGAME::Update(void)
 		Menuflag = false;
 	}
 
+	//ToDo	ゲームオーバー
+	if (g_Player.GetOver()|| _GameOver) {
+		m_Alpha += FADE_OUT_SPEED;
+		if (m_Alpha >= 255) {
+			m_bEnd = true;
+			m_NextScene = SCENENO_GAMEOVER;
+		}
+	}
+
 
 	//ストップ中はゲーム処理を実行しない
-	if (!g_Stage.GetGameStopPlay()) {
-
+	if (!g_Stage.GetGameStopPlay()||g_Player.GetOver()||_GameOver) {
 		return;
 	}
 
@@ -268,7 +287,7 @@ void CGAME::Render(void)
 	//メニューの描画
 	gMenu.Render(2);
 
-	//ToDo　ゲーム開始時のカウントダウンの表示
+	//ゲーム開始時のカウントダウンの表示
 	if (gStartCount == 1) {
 		gStartThreeTexture.Render(g_pGraphics->GetTargetWidth() / 2 - gStartThreeTexture.GetWidth() / 2,
 			g_pGraphics->GetTargetHeight() / 2 - gStartThreeTexture.GetHeight() / 2);
@@ -291,6 +310,8 @@ void CGAME::Render(void)
 	//エフェクトの描画
 	g_EffectManeger->Render();
 
+	CGraphicsUtilities::RenderFillRect(0, 0, g_pGraphics->GetTargetWidth(), g_pGraphics->GetTargetHeight(),MOF_ARGB(m_Alpha,0,0,0));
+
 }
 
 
@@ -302,7 +323,7 @@ void CGAME::Release(void)
 
 	gMenu.Release();
 
-	//ToDo	カウントダウン画像の開放
+	//カウントダウン画像の開放
 	gStartThreeTexture.Release();
 	gStartTwoTexture.Release();
 	gStartOneTexture.Release();

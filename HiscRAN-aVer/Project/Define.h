@@ -26,6 +26,9 @@
 //重力
 #define  GRAVITY	0.7f
 
+//フェードアウト速度fade out
+#define FADE_OUT_SPEED 3
+
 #pragma region DP定数群
 
 //DP1パターンの要素数

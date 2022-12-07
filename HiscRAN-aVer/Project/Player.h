@@ -24,7 +24,7 @@ private:
 	//キャラクターテクスチャ
 	CTexture				m_Texture;
 
-	//ToDo　HP表示テクスチャ
+	//HP表示テクスチャ
 	CTexture				m_HPTexture;
 	CTexture				m_HPFrame;
 
@@ -117,5 +117,8 @@ public:
 	float CircleX() { return m_PosX; }
 	float CircleY() { return m_PosY; }
 
+	//ToDo	ゲームオーバー判定を渡す
+	//true: ゲームオーバー
+	bool	GetOver() { return m_deathflg; }
 
 };

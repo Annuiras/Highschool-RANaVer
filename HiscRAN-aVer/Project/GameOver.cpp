@@ -64,6 +64,13 @@ void CGameOver::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* e
 	g_MusicManager = musi;
 	g_EffectManeger = effec;
 
+	//ToDo	ゲームオーバー
+	//黒画面表示
+	m_Alpha = 255;
+
+	//推移状態
+	m_Over = true;
+
 	Rondom = CUtilities::Random(0, 3);
 	Load();
 }
@@ -71,6 +78,17 @@ void CGameOver::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* e
 //更新
 void CGameOver::Update(void)
 {
+
+	//ToDo	ゲームオーバー
+	if (m_Over) {
+		//調整
+		m_Alpha -= FADE_OUT_SPEED+2;
+		if (m_Alpha <= 0) {
+			m_Alpha = 0;
+			m_Over = false;
+		}
+	}
+
 	if (g_pInput->IsKeyPush(MOFKEY_RIGHT))
 	{
 		if (GameOverCount < MenuCnt - 1)
@@ -143,6 +161,10 @@ void CGameOver::Render(void)
 		m_UITexture.Render(236, 629, Extex2);
 		m_SelectTexture.Render(668, 407);
 	}
+
+	//ToDo　画面遷移用の黒画面
+	CGraphicsUtilities::RenderFillRect(0, 0, g_pGraphics->GetTargetWidth(), g_pGraphics->GetTargetHeight(), MOF_ARGB(m_Alpha, 0, 0, 0));
+
 }
 
 void CGameOver::RenderDebug(void)

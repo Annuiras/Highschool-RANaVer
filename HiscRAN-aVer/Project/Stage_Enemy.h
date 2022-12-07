@@ -1,7 +1,7 @@
 #pragma once
 #include "Stage.h"
 
-//todo ステージのA敵配置情報
+//ステージの敵配置情報
 ENEMY_info s_stageAEnemy[][ENEMY_INFO_STRUCT] =
 {
 	//マップパターン0

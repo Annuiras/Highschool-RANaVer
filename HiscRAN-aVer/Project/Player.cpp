@@ -34,7 +34,7 @@ bool CPlayer::Load(void) {
 	}
 
 
-	//ToDo　HP表示テクスチャ読み込み
+	//HP表示テクスチャ読み込み
 	if (!m_HPTexture.Load("Game_HP.png")) {
 		return false;
 	}
@@ -296,7 +296,7 @@ void CPlayer::Render()
 
 	m_Texture.Render(px, py, br);
 
-	//ToDo	HPの表示
+	//HPの表示
 	//HPのフレーム描画
 	m_HPFrame.Render(17, 42);
 	if (m_HP > 0) {
@@ -382,7 +382,7 @@ void CPlayer::Release(void) {
 	m_Texture.Release();
 	m_Motion.Release();
 
-	//ToDo	HP描画の解放
+	//描画の解放
 	m_HPTexture.Release();
 	m_HPFrame.Release();
 

@@ -190,7 +190,7 @@ bool CStage::Load() {
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("Game");
 
-	//ToDo　進行度バー、進行度中アイコン、アイコンの表示
+	//進行度バー、進行度中アイコン、アイコンの表示
 	if (!m_BarTextuer.Load("Game_Bar.png")) {
 		return false;
 	}
@@ -201,7 +201,7 @@ bool CStage::Load() {
 		return false;
 	}
 
-	//ToDo　学年の表示　仮画像を使用中
+	//学年の表示　仮画像を使用中
 	if (!m_GradeOneTexture.Load("GradeOne.png")) {
 		return false;
 	}
@@ -220,7 +220,7 @@ bool CStage::Load() {
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("Game/Enemy");
 
-	//todo 仮テクスチャ : 敵1
+	//敵1
 	if (!ene_Texture_1.Load("モーション.png"))
 	{
 		return false;
@@ -228,7 +228,7 @@ bool CStage::Load() {
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("../../");
 
-	//todo:敵アニメーションを用意
+	//敵アニメーションを用意
 	//仮置き
 	float Encoma = 4;
 	float Enedan = 3;
@@ -260,10 +260,10 @@ bool CStage::Load() {
 //obco:障害物の情報数
 void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INFO_STRUCT], OB_info obin[][OB_INFO_STRUCT], ENEMY_info enein[][ENEMY_INFO_STRUCT]) {
 
-	//ToDo　進行度バーアイコンの初期化
+	//進行度バーアイコンの初期化
 	m_BarProgress = 0;
 
-	//ToDo	学年表示の表示位置の初期化
+	//学年表示の表示位置の初期化
 	m_GradeOffset = g_pGraphics->GetTargetWidth();
 
 	//スクロール値初期化
@@ -398,7 +398,7 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 		}
 	}
 
-	//todo 敵配置情報コピー
+	//敵配置情報コピー
 	for (int y = 0; y < MAP_INFO_PATTERN; y++)
 	{
 		//マップ一枚分の情報に構造体
@@ -458,7 +458,7 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 		ob_array[i].Initialize();
 	}
 
-	//todo 敵
+	//敵
 	for (int i = 0; i < ENEMY_VOLUME; i++)
 	{
 		//初期化
@@ -532,7 +532,7 @@ void CStage::Update(CRectangle plrect) {
 		m_Scroll_Speed -= 10;
 	}
 
-	//ToDo　進行度アイコンの移動加算
+	//進行度アイコンの移動加算
 	int i = m_StageScroll;
 	if (g_pGraphics->GetTargetWidth() < i)
 	{
@@ -543,7 +543,7 @@ void CStage::Update(CRectangle plrect) {
 		m_BarProgress++;
 	}
 
-	//ToDo	学年表示の表示位置の更新
+	//学年表示の表示位置の更新
 	//背景カウントが1枚、10枚、20枚になった時に学年画像のスライドイン、スライドアウトを行う。
 	if (m_countbak == 1 || m_countbak == 10 || m_countbak == 20) {
 		m_GradeOffset -= 5;
@@ -590,7 +590,7 @@ void CStage::Update(CRectangle plrect) {
 	//障害物OB生成
 	OccurrenceOB();
 
-	//todo 敵生成
+	//敵生成
 	OccurrenceENE();
 
 	//足場更新
@@ -611,7 +611,7 @@ void CStage::Update(CRectangle plrect) {
 		ob_array[i].Update(m_Scroll_Speed);
 	}
 	
-	//todo 敵更新
+	//敵更新
 	for (int i = 0; i < ENEMY_VOLUME; i++)
 	{
 		ene_array[i].Update(m_Scroll_Speed);
@@ -955,7 +955,7 @@ void CStage::Render(void) {
 		dp_array[i].Render();
 	}
 
-	//todo 敵描画
+	//敵描画
 	for (int i = 0; i < ENEMY_VOLUME; i++)
 	{
 		ene_array[i].Render();
@@ -967,16 +967,15 @@ void CStage::Render(void) {
 	//CGraphicsUtilities::RenderString(250, 0, MOF_COLOR_BLACK, "このステージ内での取得数  学力：%d　行動力：%d　想像力：%d　コミュ力：%d　魅力：%d",
 	//	m_Scholastic, m_Action, m_Imagination, m_Communication, m_Charm);
 
-	//ToDo　学年のカットイン
+	//学年のカットイン
 	m_GradeOneTexture.Render(0 + m_GradeOffset, 50);
 	m_GradeTwoTexture.Render(0 + m_GradeOffset, 50);
 	m_GradeThreeTexture.Render(0 + m_GradeOffset, 50);
 
 
-	//ToDo　進行度バー、進行度中アイコン、アイコンの表示
+	//進行度バー、進行度中アイコン、アイコンの表示
 	m_BarTextuer.Render(335, 65);
 	m_CharaProgressTextuer.Render(310 + m_BarProgress, 25);
-	//m_CharaIconTexture.Render(32, 3);
 
 	//クリアフラグ表示
 	if (m_bClear)
@@ -988,11 +987,11 @@ void CStage::Render(void) {
 //解放
 void CStage::Release(void) {
 
-	//ToDo　進行度バー、進行度中アイコン、アイコンの解放
+	//進行度バー、進行度中アイコン、アイコンの解放
 	m_BarTextuer.Release();
 	m_CharaProgressTextuer.Release();
 	m_CharaIconTexture.Release();
-	//ToDo　学年画像の開放
+	//学年画像の開放
 	m_GradeOneTexture.Release();
 	m_GradeTwoTexture.Release();
 	m_GradeThreeTexture.Release();
@@ -1025,7 +1024,7 @@ void CStage::Release(void) {
 
 	bar_Textuer_Medium.Release();
 
-	//todo 敵
+	//敵
 	ene_Texture_1.Release();
 	ene_Texture_2.Release();
 
@@ -1065,7 +1064,7 @@ void CStage::RenderDebugging() {
 		b_bar[i].RenderDebugging();
 	}
 
-	//todo 敵
+	//敵
 	for (int i = 0; i < ENEMY_VOLUME; i++)
 	{
 		ene_array[i].RenderDebug();
@@ -1297,7 +1296,7 @@ void CStage::OccurrenceOB(void) {
 
 }
 
-//todo 敵生成
+//敵生成
 void CStage::OccurrenceENE(void)
 {
 	if (m_MapNo < SATAGE_MAP_PATTERN && m_StageScroll > m_eneinfo[m_StageComposition[m_MapNo]][m_enecount].Scroll)

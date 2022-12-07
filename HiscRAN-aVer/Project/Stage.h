@@ -38,7 +38,7 @@ typedef struct tag_BAR_POS
 
 } BAR_info;
 
-//todo 敵の出現位置情報構造体
+//敵の出現位置情報構造体
 typedef struct tag_ENEMY_POS
 {
 	float Scroll;
@@ -167,20 +167,20 @@ private:
 
 
 
-	//ToDo　進行度バー
+	//進行度バー
 	CTexture m_BarTextuer;
-	//ToDo	進行度中アイコン
+	//進行度中アイコン
 	CTexture m_CharaProgressTextuer;
-	//ToDo	キャラアイコンの表示
+	//キャラアイコンの表示
 	CTexture m_CharaIconTexture;
-	//ToDo	学年の表示
+	//学年の表示
 	CTexture m_GradeOneTexture;
 	CTexture m_GradeTwoTexture;
 	CTexture m_GradeThreeTexture;
 	//進行度表示用
 	int m_BarProgress;
 
-	//ToDo	学年画像表示の位置
+	//学年画像表示の位置
 	float	m_GradeOffset;
 
 

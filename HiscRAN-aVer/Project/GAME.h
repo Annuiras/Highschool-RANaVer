@@ -23,18 +23,23 @@ private:
 
 
 	bool Clearflag = false;
-	bool GameOverflag = false;
 
 	bool Collosopn(CRectangle r1, CRectangle r2);
-	//ToDo　ゲーム開始時のカウントダウンテクスチャ　仮素材
+	//ゲーム開始時のカウントダウンテクスチャ　仮素材
 	CTexture	gStartThreeTexture;
 	CTexture	gStartTwoTexture;
 	CTexture	gStartOneTexture;
 	CTexture	gStartGoTexture;
 
-	//ToDo　ゲーム開始時のカウントダウン
+	//ゲーム開始時のカウントダウン
 	DWORD	gStartTime;
 	int gStartCount = 0;
+
+	//ToDo	フェードインフェードアウト用
+	int m_Alpha;
+
+	//デバッグ用
+	bool _GameOver;
 
 public:
 	CGAME();
