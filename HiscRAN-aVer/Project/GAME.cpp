@@ -213,6 +213,8 @@ void CGAME::Update(void)
 			//SE‚ð‚·‚×‚Ä’âŽ~
 			g_MusicManager->SEALLStop();
 
+
+
 			//‰æ–ÊØ‚è‘Ö‚¦
 			m_bEnd = true;
 			m_NextScene = SCENENO_GAMECLEAR;

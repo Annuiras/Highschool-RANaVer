@@ -33,26 +33,52 @@ void CEffect::Initialize(int type) {
 	m_bShow = false;
 	switch (type)
 	{
-		//各DP
-		case EFC_GET_SCHOLASTIC:		
-		case EFC_GET_ACTION:
-		case EFC_GET_IMAGINATION:
-		case EFC_GET_COMMUNICATION:
-		case EFC_GET_CHARM:
-		{
-			//アニメーションを作成
-			SpriteAnimationCreate anim[] = {
-				//ダメージ
-				{
-					"エフェクト",
-					0,0,
-					200,200,
-					FALSE,{{2,0,0},{2,1,0},{2,2,0},{2,3,0},{2,4,0},{2,0,1},{2,1,1},{2,2,1},{2,3,1},{2,4,1},{2,0,2},{2,1,2},}
-				},
-			};
-			m_Motion.Create(anim, 1);
-			break;
-		}
+	case EFC_GET_DP:
+	{
+		//アニメーションを作成
+		SpriteAnimationCreate anim[] = {
+			//ダメージ
+			{
+				"エフェクト",
+				0,0,
+				200,200,
+				FALSE,{{2,0,0},{2,1,0},{2,2,0},{2,3,0},{2,4,0},{2,0,1},{2,1,1},{2,2,1},{2,3,1},{2,4,1},{2,0,2},{2,1,2},}
+			},
+		};
+		m_Motion.Create(anim, 1);
+		break;
+	}
+	//case EFC_EXPLOSION01:
+	//{
+	//	//アニメーションを作成
+	//	SpriteAnimationCreate anim[] = {
+	//		//ダメージ
+	//		{
+	//			"エフェクト",
+	//			0,0,
+	//			120,120,
+	//			FALSE,{{3,0,0},{3,1,0},{3,2,0},{3,3,0},{3,4,0},{3,5,0},{3,6,0},{3,7,0},{3,8,0},{3,9,0},{3,10,0},{3,11,0},{3,12,0},{3,13,0},{3,14,0},{3,15,0}}
+	//		},
+	//	};
+	//	m_Motion.Create(anim, 1);
+	//	break;
+	//}
+	//case EFC_EXPLOSION02:
+	//{
+	//	//アニメーションを作成
+	//	SpriteAnimationCreate anim[] = {
+	//		//ダメージ
+	//		{
+	//			"エフェクト",
+	//			0,0,
+	//			180,180,
+	//			FALSE,{{3,0,0},{3,1,0},{3,2,0},{3,3,0},{3,4,0},{3,5,0},{3,6,0},{3,7,0},{3,8,0},{3,9,0},{3,10,0},
+	//					{3,0,1},{3,1,1},{3,2,1},{3,3,1},{3,4,1},{3,5,1},{3,6,1},{3,7,1},{3,8,1},{3,9,1},{3,10,1}}
+	//		},
+	//	};
+	//	m_Motion.Create(anim, 1);
+	//	break;
+	//}
 	}
 }
 
@@ -74,8 +100,8 @@ void CEffect::InitializeIn_middle(void)
  */
 void CEffect::Start(float px, float py) {
 	m_SrcRect = m_Motion.GetSrcRect();
-	m_PosX = px;
-	m_PosY = py;
+	m_PosX = px /*- m_SrcRect.GetWidth() * 0.5f*/;
+	m_PosY = py /*- m_SrcRect.GetHeight() * 0.5f*/;
 	m_bShow = true;
 	m_Motion.ChangeMotion(0);
 }
@@ -84,9 +110,14 @@ void CEffect::Start(float px, float py) {
  * 更新
  *
  */
-void CEffect::UpdateDP(CRectangle plrec) {
+void CEffect::Update(CRectangle plrec) {
+	//非表示
+	if (!m_bShow)
+	{
+		return;
+	}
 
-	m_PosX = plrec.Left-80;
+	m_PosX = plrec.Left-30;
 	m_PosY = plrec.Top;
 
 	//アニメーションの更新
