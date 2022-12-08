@@ -108,13 +108,13 @@ public:
 	//プレイヤー矩形取得
 	CRectangle GetRect(void) {
 		return CRectangle(m_PosX + PLAYER_ADMENT_SPACE, m_PosY,
-			m_PosX + PLAYER_HIT_X, m_PosY + PLAYER_HIT_Y);
+			m_PosX + PLAYER_ADMENT_SPACE+ PLAYER_HIT_X, m_PosY + PLAYER_HIT_Y);
 	}
 
 	//プレイヤー足だけ判定
 	CRectangle legsGetRect() {
 		return CRectangle(m_PosX+ PLAYER_ADMENT_SPACE,m_PosY + m_legsboxY,
-			m_PosX + PLAYER_HIT_X, m_PosY + PLAYER_HIT_Y);
+			m_PosX+ PLAYER_ADMENT_SPACE + PLAYER_HIT_X, m_PosY + PLAYER_HIT_Y);
 	}
 
 	//座標取得

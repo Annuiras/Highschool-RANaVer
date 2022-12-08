@@ -92,7 +92,7 @@ enum tag_OBTYPE
 #define ENEMY_INFO_STRUCT 5
 
 //“G“–‚½‚è”»’è
-#define		ENEMY_SIZE_WIDTH	160	//‰¡
+#define		ENEMY_SIZE_WIDTH	70	//‰¡
 #define		ENEMY_SIZE_HEIGHT	185	//c
 
 
@@ -141,7 +141,7 @@ enum tag_BAR
 #define  SLIDINGCOOL 60
 
 //ƒvƒŒƒCƒ„[“–‚½‚è”»’è
-#define PLAYER_HIT_X 150
+#define PLAYER_HIT_X 70
 #define PLAYER_HIT_Y 185
 
 //‘«“–‚½‚è”»’è
