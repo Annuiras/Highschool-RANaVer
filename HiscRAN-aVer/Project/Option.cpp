@@ -129,11 +129,13 @@ void COption::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* eff
 	m_Font1.Create(35, "UD デジタル 教科書体 N-B");
 
 	g_MusicManager->InitializeIn_middle(VolumeSE, VolumeBGM);
-	g_MusicManager->BGMLoop(BGMT_OP, true);
-	g_MusicManager->BGMStart(BGMT_OP);
+	//g_MusicManager->BGMLoop(BGMT_OP, true);
+	//g_MusicManager->BGMStart(BGMT_OP);
 
 	//BGMに選択枠を合わせておく
 	OptionCnt = 0;
+
+	g_MusicManager->BGMStart(BGMT_MOOP);
 
 }
 
@@ -143,7 +145,6 @@ void COption::Update(void)
 	//F1キーでタイトル画面へ
 	if (g_pInput->IsKeyPush(MOFKEY_F1))
 	{
-		g_MusicManager->BGMStop(BGMT_OP);
 		m_bEnd = true;
 		m_NextScene = SCENENO_TITLE;
 	}
@@ -152,8 +153,6 @@ void COption::Update(void)
 	//Enterで戻るかは検討中
 	if (OptionCnt == 3 && g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
-		g_MusicManager->BGMStop(BGMT_OP);
-		g_MusicManager->SEStop(SET_CHIME);
 		m_bEnd = true;
 		m_NextScene = SCENENO_SELECTMODE;
 	}
@@ -222,7 +221,7 @@ void COption::Update(void)
 	//エンターで音を鳴らす
 	if (OptionCnt == 1 && flagSE == true && g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
-		g_MusicManager->SEStart(SET_CHIME);
+		g_MusicManager->SEStart(SE_T_OPTION_CHIME);
 	}
 
 	//BGM音量設定にカーソルが当たった状態で、スペースキーを押した場合
@@ -513,4 +512,8 @@ void COption::Release(void)
 	m_Select_s.Release();
 	m_BackButton.Release();
 	m_Font1.Release();
+
+	g_MusicManager->SEALLStop();
+	g_MusicManager->BGMStop(BGMT_MOOP);
+
 }

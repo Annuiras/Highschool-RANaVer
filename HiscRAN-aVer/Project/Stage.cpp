@@ -735,6 +735,8 @@ void CStage::Update(CRectangle plrect) {
 //DP‚Æ“–‚½‚Á‚½ê‡
 void CStage::UPdeteCollisionDP(int dpt) {
 
+	m_MusicMgmt->SEStart(SE_T_DP_HIT);
+
 	switch (dpt)
 	{
 

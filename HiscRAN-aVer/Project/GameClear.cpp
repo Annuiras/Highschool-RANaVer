@@ -143,6 +143,9 @@ void CGameClear::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* 
 	m_WhiteAlpha = 255;
 	m_FadeOut = false;
 	isStop = false;
+
+	//BGMÄ¶
+	g_MusicManager->BGMStart(BGMT_CLEAR);
 }
 
 

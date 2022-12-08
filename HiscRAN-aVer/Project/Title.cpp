@@ -70,6 +70,9 @@ void CTitle::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effe
 	m_GameProgMamt = mamt;
 	g_MusicManager = musi;
 	g_EffectManeger = effec;
+
+	g_MusicManager->BGMStart(BGMT_TITLE);
+
 	Load();
 }
 
@@ -146,4 +149,6 @@ void CTitle::Release(void)
 	m_TiTleUITexture.Release();
 	gFont.Release();
 	gFont2.Release();
+
+	g_MusicManager->BGMStop(BGMT_TITLE);
 }

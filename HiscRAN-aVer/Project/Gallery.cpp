@@ -246,6 +246,8 @@ void CGallery::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* ef
 	gFont1.Create(44, "UD デジタル 教科書体 N-B");
 	gFont2.Create(32, "UD デジタル 教科書体 N-B");
 	Load();
+
+	g_MusicManager->BGMStart(BGMT_GALLERY);
 }
 
 //更新
@@ -268,6 +270,8 @@ void CGallery::Update(void)
 	//矢印キー右で選択が右に行くようにする
 	if (g_pInput->IsKeyPush(MOFKEY_RIGHT))
 	{
+		//SE再生被りなし調整可
+		g_MusicManager->SEStart(SE_T_GALL_CURSORMOVE);
 		if (galleryCnt < MenuCnt - 1)
 		{
 			galleryCnt++;
@@ -277,6 +281,7 @@ void CGallery::Update(void)
 	//矢印キー左で選択が左に行くようにする
 	if (g_pInput->IsKeyPush(MOFKEY_LEFT))
 	{
+		g_MusicManager->SEStart(SE_T_GALL_CURSORMOVE);
 		if (galleryCnt > 0)
 		{
 			galleryCnt--;
@@ -287,6 +292,7 @@ void CGallery::Update(void)
 	//下に下がる＝5つ先のものになる
 	if (g_pInput->IsKeyPush(MOFKEY_DOWN))
 	{
+		g_MusicManager->SEStart(SE_T_GALL_CURSORMOVE);
 		if (galleryCnt < MenuCnt - 1 && galleryCnt <= 10)
 		{
 			galleryCnt += 5;
@@ -300,6 +306,7 @@ void CGallery::Update(void)
 	//上に上がる＝5つ前のものになる
 	if (g_pInput->IsKeyPush(MOFKEY_UP))
 	{
+		g_MusicManager->SEStart(SE_T_GALL_CURSORMOVE);
 		if (galleryCnt > 0 && galleryCnt - 5 >= 0)
 		{
 			galleryCnt -= 5;
@@ -1132,6 +1139,8 @@ void CGallery::Release(void)
 
 	m_PickUp.Release();
 	m_Text.Release();
+
+	g_MusicManager->BGMStop(BGMT_GALLERY);
 
 }
 

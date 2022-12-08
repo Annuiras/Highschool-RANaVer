@@ -177,17 +177,51 @@ enum tag_BAR
 //SE種類列挙
 enum tag_SE_TYPE {
 
-	SET_PAWANN,		//ぽわーん
-	SET_CHIME,		//チャイム
-	SET_TYPE_COUNT,	//総数
+	//ゲーム,オーバー,クリア画面
+	SE_T_JUMP,			//ジャンプ候補
+	SE_T_GREAT_JUMP,	//グレートジャンプ
+	SE_T_JUMP_LANDING,	//ジャンプ着地
+	SE_T_HALLDASH,		//学校の廊下を走る
+	SE_T_DP_HIT,		//DP_GET候補
+	//SE_T_HIT_LOCKER,	//障害物ロッカ_候補1
+	//SE_T_HIT_DESK1,		//障害物机_候補1
+	//SE_T_HIT_DESK2,		//障害物机_候補2
+	//SE_T_HIT_DESK3,		//障害物机_候補3
+	//SE_T_HIT_1,			//被弾_候補1
+	SE_T_HIT,			//被弾_候補
+	SE_T_GAMEOVER,		//Gameover_候補
+	SE_T_GAMECLEAR,		//クリア_候補
+
+	//ギャラリー画面
+	SE_T_GALL_CURSORMOVE,		//ギャラリー_カーソル移動候補1
+	SE_T_UNOPENED,			//未開放選択時_候補1
+
+	//モードセレクト,オプション画面
+	SE_T_MOOP_CURSORMOVE,	//モードセレクト、オプション画面カーソル移動_候補
+	SE_T_DECISION,			//決定_候補
+	SE_T_OPTION_CHIME,		//オプションチャイム
+
+	SE_TYPE_COUNT,		//総数
 };
 
 //BGM種類列挙
 enum tag_BGM_TYPE
 {
-	BGMT_OP,	//オプション画面BGM
+	//タイトル画面
+	BGMT_TITLE,//候補
 
-	BGMT_TYPE_COUNT
+	//ゲーム,オーバー,クリア画面
+	BGMT_STAGE,		//候補
+	//BGMT_STAGE_SP_1,	//SP候補
+	BGMT_CLEAR,			//クリア候補
+
+	//ギャラリー画面
+	BGMT_GALLERY,		//候補
+
+	//モードセレクト,オプション画面
+	BGMT_MOOP,			//候補
+
+	BGM_TYPE_COUNT		//総数
 };
 
 //エフェクト種類列挙

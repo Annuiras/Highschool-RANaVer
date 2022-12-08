@@ -7,15 +7,11 @@ class CMusicMgmt
 {
 private:
 
-	//SE格納
-	//CSoundBuffer m_SE[SET_TYPE_COUNT];
 	//SE用クラス
-	CSoundBuffer m_Music_SE[SET_TYPE_COUNT];
+	CSoundBuffer m_Music_SE[SE_TYPE_COUNT];
 
 	//BGM用クラス
-	CSoundBuffer m_Music_BGM[BGMT_TYPE_COUNT];
-	//BGM格納
-	//CSoundBuffer m_BGM[BGMT_TYPE_COUNT];
+	CSoundBuffer m_Music_BGM[BGM_TYPE_COUNT];
 
 public:
 	CMusicMgmt();
@@ -35,6 +31,9 @@ public:
 	void SEStop(tag_SE_TYPE type);
 	//SEボリュームセット
 	void SESetVolume(float sev);
+	//SEが再生されているか取得
+	//true :再生中
+	bool SEisPlay(tag_SE_TYPE type);
 
 	//BGM再生
 	CSoundBuffer* BGMStart(tag_BGM_TYPE type);
@@ -42,6 +41,9 @@ public:
 	void BGMStop(tag_BGM_TYPE type);
 	//BGMボリュームセット
 	void BGMSetVolume(float bgmv);
+
+	//SEをすべて停止
+	void SEALLStop(void);
 
 	//ループ設定
 	void BGMLoop(tag_BGM_TYPE type,bool b);

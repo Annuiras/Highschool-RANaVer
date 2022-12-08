@@ -74,6 +74,9 @@ void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec
 	m_BlackAlpha = 0;
 	m_WhiteAlpha = 0;
 
+	//BGM開始
+	g_MusicManager->BGMStart(BGMT_STAGE);
+
 	//デバッグ用
 	_GameClear = false;
 	_GameOver = false;
@@ -178,8 +181,15 @@ void CGAME::Update(void)
 
 	//ゲームオーバー時の場合フェードアウト
 	if (g_Player.GetOver()||_GameOver) {
+
 		m_BlackAlpha += FADE_OUT_SPEED;
+
 		if (m_BlackAlpha >= 255) {
+			//SEをすべて停止
+			g_MusicManager->SEALLStop();
+
+			g_MusicManager->SEStart(SE_T_GAMEOVER);
+
 			m_bEnd = true;
 			m_NextScene = SCENENO_GAMEOVER;
 		}
@@ -200,6 +210,11 @@ void CGAME::Update(void)
 
 		if (m_WhiteAlpha >= 255)
 		{
+			//SEをすべて停止
+			g_MusicManager->SEALLStop();
+
+
+
 			//画面切り替え
 			m_bEnd = true;
 			m_NextScene = SCENENO_GAMECLEAR;
@@ -346,6 +361,8 @@ void CGAME::Release(void)
 	gStartTwoTexture.Release();
 	gStartOneTexture.Release();
 	gStartGoTexture.Release();
+
+	g_MusicManager->BGMStop(BGMT_STAGE);
 
 }
 

@@ -103,7 +103,7 @@ void CPlayer::Update(void) {
 		}
 
 		//SEÄ¶
-		m_MusicMgmt->SEStart(SET_PAWANN);
+		m_MusicMgmt->SEStart(SE_T_JUMP);
 
 		m_JumpCount++;
 		m_Jumpflg = true;
@@ -114,6 +114,7 @@ void CPlayer::Update(void) {
 		if (m_JumpCount >= 10&& m_BSflg) {
    			m_MoveY = BIGJUMP;
 			m_BSflg = false;
+			m_MusicMgmt->SEStart(SE_T_GREAT_JUMP);
 		}
 		
 	}
@@ -136,7 +137,11 @@ void CPlayer::Update(void) {
 	}
 	//’n–Ê‚æ‚è‚à‰º‚©H
 	if (m_PosY + m_SrcRect.GetHeight() >= GROUND_Y) {
+
 		UPdateCollisionGround(GROUND_Y);
+
+		if (!m_MusicMgmt->SEisPlay(SE_T_HALLDASH))
+			m_MusicMgmt->SEStart(SE_T_HALLDASH);
 	}
 
 	//‰º~’†
@@ -261,6 +266,7 @@ void CPlayer::UPdateCollisionOB() {
 	{
 		return;
 	}
+	m_MusicMgmt->SEStart(SE_T_HIT);
 	m_HP -= 1;
 	m_DamageWait = 60;
 

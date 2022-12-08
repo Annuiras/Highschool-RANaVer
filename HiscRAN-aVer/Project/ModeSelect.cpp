@@ -31,6 +31,8 @@ void  CModeSelect::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt
 	//メニューの生成
 	gMenu.Create(gMenuItemCount);
 
+	g_MusicManager->BGMStart(BGMT_MOOP);
+
 	Load();
 }
 
@@ -63,6 +65,7 @@ void CModeSelect::Update()
 	//矢印キー下で選択が下がるようにする
 	if (Menuflag == false && g_pInput->IsKeyPush(MOFKEY_DOWN))
 	{
+		g_MusicManager->SEStart(SE_T_MOOP_CURSORMOVE);
 		if (MenuNow_Mode < MenuCnt - 1)
 		{
 			++MenuNow_Mode;
@@ -71,6 +74,7 @@ void CModeSelect::Update()
 	//矢印キー上で選択が上がるようにする
 	if (Menuflag == false && g_pInput->IsKeyPush(MOFKEY_UP))
 	{
+		g_MusicManager->SEStart(SE_T_MOOP_CURSORMOVE);
 		if (MenuNow_Mode > 0)
 		{
 			--MenuNow_Mode;
@@ -80,6 +84,7 @@ void CModeSelect::Update()
 	//エンターを押したら各画面へ移動
 	if (Menuflag == false && g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
+		g_MusicManager->SEStart(SE_T_DECISION);
 
 		switch (MenuNow_Mode)
 		{
@@ -294,5 +299,7 @@ void CModeSelect::Release(void)
 	m_TutorialTextTexture.Release();
 	m_Illustrat.Release();
 	gMenu.Release();
+
+	g_MusicManager->BGMStop(BGMT_MOOP);
 
 }

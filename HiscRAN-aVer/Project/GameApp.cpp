@@ -54,7 +54,7 @@ MofBool CGameApp::Initialize(void){
 	gpScene = new CTitle();
 	g_GameProgMamt.Initialize();
 	g_EffectManeger.Initialize();
-	g_MusicManager.Initialize(0.5,0.5);
+	g_MusicManager.Initialize(0.2,0.2);
 	gpScene->Initialize(&g_GameProgMamt,&g_MusicManager,&g_EffectManeger);
 
 

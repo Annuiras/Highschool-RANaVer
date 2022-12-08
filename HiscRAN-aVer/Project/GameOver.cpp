@@ -72,6 +72,8 @@ void CGameOver::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* e
 
 	Rondom = CUtilities::Random(0, 3);
 	Load();
+
+
 }
 
 //çXêV
