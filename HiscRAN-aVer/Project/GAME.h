@@ -2,7 +2,6 @@
 #include "Menu.h"
 #include "SceneBase.h"
 #include "Define.h"
-#include "GameApp.h"
 #include "Player.h"
 #include "Stage.h"
 

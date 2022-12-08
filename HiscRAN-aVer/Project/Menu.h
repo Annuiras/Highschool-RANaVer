@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Mof.h"
+#include "Define.h"
 
 //メニュー管理クラスです
 //複数の画面で使うのでGame.Appでインスタンスしてもいいかも

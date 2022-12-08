@@ -1,8 +1,8 @@
 #pragma once
 
-#include	"Mof.h"
 #include "SceneBase.h"
 #include	"Menu.h"
+#include "Define.h"
 
 //スクロール速度
 #define		SCROLL_SPEED	1;

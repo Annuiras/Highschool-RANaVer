@@ -1,4 +1,3 @@
-#include "Define.h"
 #include "GameClear.h"
 
 //変更するシーン（外部参照。実態はGameApp.cpp）

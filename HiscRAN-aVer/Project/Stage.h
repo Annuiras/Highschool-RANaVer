@@ -1,5 +1,4 @@
 #pragma once
-#include "Mof.h"
 #include "Define.h"
 #include "RandomValue.h"
 #include "DetailPoint.h"

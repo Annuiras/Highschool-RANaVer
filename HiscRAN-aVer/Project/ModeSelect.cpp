@@ -1,5 +1,4 @@
 #include "ModeSelect.h"
-#include "Define.h"
 
 
 #define MenuCnt (4)

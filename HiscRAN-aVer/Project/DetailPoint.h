@@ -1,5 +1,5 @@
 #pragma once
-#include "Mof.h"
+#include "Define.h"
 
 //ˆê‰æ–Ê‚É‘¶İ‚·‚éÅ‘åDP
 #define DP_VOLUME	20

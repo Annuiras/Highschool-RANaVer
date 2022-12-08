@@ -1,5 +1,4 @@
 #include "Option.h"
-#include "Define.h"
 
 //変更するシーン（外部参照、実態はGameApp.cpp）
 extern int			gChangeScene;

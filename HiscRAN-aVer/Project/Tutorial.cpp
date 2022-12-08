@@ -1,5 +1,4 @@
 #include "Tutorial.h"
-#include "Define.h"
 
 CTutorial::CTutorial() :
 	Texture(),

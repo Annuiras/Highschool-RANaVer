@@ -227,7 +227,7 @@ bool CStage::Load() {
 	//敵アニメーションを用意
 	//仮置き
 	float Encoma = 4;
-	float Enedan = 3;
+	MofS32 Enedan = 3;
 	//アニメーション
 	SpriteAnimationCreate EneAnim[] =
 	{
