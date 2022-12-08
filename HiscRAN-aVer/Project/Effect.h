@@ -6,12 +6,24 @@
 class CEffect
 {	
 private:
+
+	//エフェクトのテクスチャ用
 	CTexture* m_pTexture;
+
+	//アニメーション
 	CSpriteMotionController	m_Motion;
+
+	//表示X,Y
 	float					m_PosX;
 	float					m_PosY;
+
+	//表示フラグ
+	//true:表示中
 	bool					m_bShow;
+
+	//表示矩形
 	CRectangle				m_SrcRect;
+
 public:
 	CEffect();
 	~CEffect();
@@ -25,7 +37,7 @@ public:
 	void Start(float px, float py);
 
 	//更新
-	void Update(CRectangle plrec);
+	void UpdateDP(CRectangle plrec);
 
 	//描画
 	void Render(void);
