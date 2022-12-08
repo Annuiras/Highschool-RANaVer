@@ -159,9 +159,7 @@ void CMusicMgmt::InitializeIn_middle(float bgmv, float sev)
 //SEçƒê∂
 CSoundBuffer* CMusicMgmt::SEStart(tag_SE_TYPE type) {
 
-	//if (!m_Music_SE[type].IsPlay()) {
-		m_Music_SE[type].Play();
-	//}
+	m_Music_SE[type].Play();
 	return &m_Music_SE[type];
 
 }

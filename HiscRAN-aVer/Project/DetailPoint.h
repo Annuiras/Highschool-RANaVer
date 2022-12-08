@@ -8,44 +8,33 @@ class DetailPoint
 {
 private:
 
-	float dp_PosX;
-	float dp_PosY;
+	//座標
+	float m_PosX;
+	float m_PosY;
 
-	bool dp_Show;
+	//表示フラグ
+	//true:表示中
+	bool m_Show;
 
 	//DPテクスチャ
-	CTexture* dp_texture;
+	CTexture* m_Texture;
 
 	//DPタイプ
-	//0：学力
-	//1：行動力
-	//2：想像力
-	//3：コミュ力
-	//4：魅力
-	int dp_Type;
-
-	//ステータス上昇値
-	float dp_value;
+	int m_Type;
 
 	//当たり判定
-	float	dp_hitboxX;
-	float	dp_hitboxY;
-
-	//スピード
-	float dp_SpeedX;
-	float dp_SpeedY;
-
-
-	//DP引き寄せ
-	bool dp_attraction;
-
+	float	m_HitboxX;
+	float	m_HitboxY;
 
 public:
 
 	DetailPoint();
 	~DetailPoint();
 
+	//描画
 	void Render(void);
+
+	//初期化
 	void Initialize(void);
 
 	//DPテクスチャをセット
@@ -54,35 +43,25 @@ public:
 	//表示開始
 	void Start(float posy, int type);
 
-	//[over]：プレイヤーのオーバー値
-	void Update(float over);
+	//[scroll]：スクロール値
+	void Update(float scroll);
+
 	void RenderDebugging(void);
-
-	//DPをプレイヤーへ飛ばす
-	void UpdateAtraction(float px, float py);
-	//DP引き寄せ
-	void UpdateFire(float sx, float sy);
-
-
-	//DP（ポイント）当たり判定
-	bool CollosopnDP(CRectangle r);
 
 	CRectangle GetRect(void) {
 
-		return CRectangle(dp_PosX, dp_PosY,
-			dp_PosX + dp_hitboxX, dp_PosY + dp_hitboxY);
+		return CRectangle(m_PosX, m_PosY,
+			m_PosX + m_HitboxX, m_PosY + m_HitboxY);
 	}
 
 	//DPの種類を取得
-	int Gettype(void) { return dp_Type; }
+	int Gettype(void) { return m_Type; }
 
 	//表示true：非表示falseフラグ
-	bool Getshow(void) { return dp_Show; }
-
-	float Getvalue(void) { return dp_value; }
+	bool Getshow(void) { return m_Show; }
 
 	//DPの表示切り替え
-	void Setshow(bool b) { dp_Show = b; }
+	void Setshow(bool b) { m_Show = b; }
 
 };
 

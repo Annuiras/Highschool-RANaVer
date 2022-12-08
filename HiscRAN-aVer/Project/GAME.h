@@ -11,8 +11,15 @@ class CGAME :public CSceneBase
 {
 
 private:
+	
+	//rect1とrect2の接触判定
+	bool Collosopn(CRectangle rect1, CRectangle rect2);
+
+	//DPと接触処理
+	void UPdeteCollisionDP(int dpt);
+
+	//メニュークラス
 	CMenu			gMenu;
-	bool			Menuflag = false;
 	int				gMenuItemCount = 2;
 
 	//プレイヤークラス
@@ -21,9 +28,14 @@ private:
 	//ステージクラス
 	CStage g_Stage;
 
-	//クリアフラグ
+	//ステージ内で取得したDPの数
+	int	m_Scholastic;		//学力
+	int	m_Action;			//行動力
+	int	m_Imagination;		//想像力
+	int	m_Communication;	//コミュ力
+	int	m_Charm;			//魅力
 
-	bool Collosopn(CRectangle r1, CRectangle r2);
+
 	//ゲーム開始時のカウントダウンテクスチャ　仮素材
 	CTexture	gStartThreeTexture;
 	CTexture	gStartTwoTexture;
@@ -34,15 +46,19 @@ private:
 	DWORD	gStartTime;
 	int gStartCount = 0;
 
-	//ToDo	フェードインフェードアウト用アルファ値（暗転）
+	//フェードインフェードアウト用アルファ値（暗転）
 	int m_BlackAlpha;
 
 	//（明転）
 	int m_WhiteAlpha;
 
-	//デバッグ用:ゲームオーバーフラグ
+	//デバッグ用
+	//ゲームオーバーフラグ
 	bool _GameOver;
+	//クリアフラグ
 	bool _GameClear;
+
+
 
 public:
 	CGAME();

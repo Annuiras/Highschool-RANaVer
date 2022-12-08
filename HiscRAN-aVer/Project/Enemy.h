@@ -1,6 +1,7 @@
 #pragma once
 #include	"Define.h"
 
+//敵クラス
 class CEnemy
 {
 	//モーションクラス
@@ -10,19 +11,18 @@ class CEnemy
 	CRectangle				m_SrcRect;
 
 	//敵座標
-	float	ene_PosX;
-	float	ene_PosY;
+	float	m_PosX;
+	float	m_PosY;
 
-	bool	ene_Show;
+	//表示フラグ
+	//ture:表示中
+	bool	m_Show;
 
 	//敵テクスチャ
-	CTexture* ene_Texture;
-
-	int		ene_Type;
+	CTexture* m_Texture;
 
 	//スピード
-	float	ene_SpeedX;
-	float	ene_SpeedY;
+	float	m_MoveY;
 
 	//モーション種類定義
 	enum tag_MOTION {
@@ -35,11 +35,20 @@ public:
 	CEnemy();
 	~CEnemy();
 
+	//初期化
 	void Initialize();
+
+	//生成
 	void Start(float posy, int type);
-	void Update(float over);
+
+	//更新
+	void Update(float scroll);
+
+	//描画
 	void Render();
 	void RenderDebug();
+
+	//解放
 	void Release();
 
 	//敵テクスチャをセット
@@ -50,13 +59,12 @@ public:
 
 	//敵の判定
 	CRectangle GetRect(void);
-	//ステージの表示中での問いで使用
-	bool Getshow(void) { return ene_Show; }
+
+	//表示中フラグを渡す
+	bool Getshow(void) { return m_Show; }
 
 	//Y座標調整
 	//y:合わせたいｙ座標
 	void SetPosY(float y);
-
-	int GetType(void) { return ene_Type; }
 };
 

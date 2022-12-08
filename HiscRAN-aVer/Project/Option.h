@@ -7,14 +7,6 @@ class COption :public CSceneBase
 {
 private:
 
-	//ミュージックマネージャー
-	//CMusicMgmt m_MusicMgmt;
-
-	//BGM
-	//CSoundBuffer	m_BGM;
-	//SE
-	//CSoundBuffer	m_SE;
-
 	//フォント
 	CFont			m_Font1;
 

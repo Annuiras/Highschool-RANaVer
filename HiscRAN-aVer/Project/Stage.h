@@ -2,7 +2,6 @@
 #include "Mof.h"
 #include "Define.h"
 #include "RandomValue.h"
-#include "Ground.h"
 #include "DetailPoint.h"
 #include "Bar.h"
 #include "Obstacle.h"
@@ -165,8 +164,6 @@ private:
 	//敵アニメーション
 	CSpriteMotionController Enemy_Motion;
 
-
-
 	//進行度バー
 	CTexture m_BarTextuer;
 	//進行度中アイコン
@@ -183,49 +180,20 @@ private:
 	//学年画像表示の位置
 	float	m_GradeOffset;
 
-
 	//マップパターン添え字
 	int m_MapNo;
 
 	//ステージ構成を決める配列
 	int m_StageComposition[SATAGE_MAP_PATTERN] = { 1 };
 
-
-	//DPの配置情報受け取る配列
-	//[]:マップDPパターン情報数
-	//[]:マップDPパターン1枚分にいくつ構造体があるか
-	//DPの配置情報
-	DP_info m_dpinfo[MAP_INFO_PATTERN][DP_INFO_STRUCT];
-
 	//表示済みDP数
 	int m_dpcount;
-
-
-	//OBの配置情報受け取る配列
-	//[]:マップOBパターン情報数
-	//[]:マップOBパターン1枚分にいくつ構造体があるか
-	//OBの配置情報
-	OB_info m_obinfo[MAP_INFO_PATTERN][OB_INFO_STRUCT];
 
 	//表示済障害物
 	int m_obcount;
 
-
-	//足場の配置情報受け取る配列
-	//[]:マップ足場パターン情報数
-	//[]:マップ足場パターン1枚分にいくつ構造体があるか
-	//足場の配置情報
-	BAR_info m_barinfo[MAP_INFO_PATTERN][OB_INFO_STRUCT];
-
-
 	//表示済み足場数
 	int m_barcount;
-
-	//足場の配置情報受け取る配列
-	//[]:マップ敵パターン情報数
-	//[]:マップ敵パターン1枚分にいくつ構造体があるか
-	//敵配置情報
-	ENEMY_info m_eneinfo[MAP_INFO_PATTERN][ENEMY_INFO_STRUCT];
 
 	//表示済み敵数
 	int m_enecount;
@@ -253,13 +221,6 @@ private:
 
 	//スクロールスピード
 	float m_Scroll_Speed;
-
-	//ステージ内で取得したDPの数
-	int	m_Scholastic;		//学力
-	int	m_Action;			//行動力
-	int	m_Imagination;		//想像力
-	int	m_Communication;	//コミュ力
-	int	m_Charm;			//魅力
 
 	//ステージ変化
 	bool				v_StageChangeflg;//変化フラグ true:変化済
@@ -289,7 +250,7 @@ public:
 	//dpin[][]:DPの配置情報
 	//[]:マップパターンがいくつあるか
 	//[]:1マップパターンにいくつ構造体があるか
-	void Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INFO_STRUCT], OB_info obin[][OB_INFO_STRUCT], ENEMY_info enein[][ENEMY_INFO_STRUCT]);
+	void Initialize(void);
 
 	//SP内のDP配置をするための関数
 	void SPInitialize(void);
@@ -316,9 +277,6 @@ public:
 	//敵生成
 	void OccurrenceENE(void);
 
-	//DPと接触処理
-	void UPdeteCollisionDP(int dpt);
-
 	//クリア判定の取得
 	bool GetClear(void);
 
@@ -330,9 +288,6 @@ public:
 
 	//障害物
 	CObstacle ob_array[OB_VOLUME];
-
-	//地面クラス
-	Ground g_ground;
 
 	//足場クラス
 	Bar	b_bar[BAR_VOLUME];
@@ -350,7 +305,8 @@ public:
 	//ステージが動いているか取得
 	bool GetGameStopPlay();
 
-
+	//SPの状態をセット
+	void SetSPSitua(tag_StageSituation i) { m_SPSitua = i; }
 
 
 };

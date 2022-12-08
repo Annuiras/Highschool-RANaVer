@@ -1,21 +1,103 @@
 #pragma once
 #include "GAME.h"
-#include "Stage_DP.h"
-#include "Stage_Bar.h"
-#include "Stage_Obstacle.h"
-#include "Stage_Enemy.h"
 
 
-
-bool CGAME::Collosopn(CRectangle r1, CRectangle r2)
+//rect1とrect2の接触判定
+bool CGAME::Collosopn(CRectangle rect1, CRectangle rect2)
 {
-	if (r1.CollisionRect(r2)) {
+	if (rect1.CollisionRect(rect2)) {
 		return true;
 	}
 	return false;
 }
 
-CGAME::CGAME() {}
+//DPと当たった場合
+//dpt->DPの種類
+void CGAME::UPdeteCollisionDP(int dpt) {
+
+	g_MusicManager->SEStart(SE_T_DP_HIT);
+
+	switch (dpt)
+	{
+		//学力
+	case DP_SCHOLASTIC:
+		//エフェクト再生
+		g_EffectManeger->Start(0, 0, EFC_GET_SCHOLASTIC);
+		m_Scholastic += 1;
+		if (m_Scholastic > 100) {
+			m_Scholastic = 100;
+		}
+		break;
+
+		//行動力
+	case DP_ACTION:
+		//エフェクト再生
+		g_EffectManeger->Start(0, 0, EFC_GET_ACTION);
+		m_Action += 1;
+		if (m_Action > 100) {
+			m_Action = 100;
+		}
+		break;
+
+		//想像力
+	case DP_IMAGINATION:
+		//エフェクト再生
+		g_EffectManeger->Start(0, 0, EFC_GET_IMAGINATION);
+		m_Imagination += 1;
+		if (m_Imagination > 100) {
+			m_Imagination = 100;
+		}
+		break;
+
+		//コミュ力
+	case DP_COMMUNICATION:
+		//エフェクト再生
+		g_EffectManeger->Start(0, 0, EFC_GET_COMMUNICATION);
+		m_Communication += 1;
+		if (m_Communication > 100) {
+			m_Communication = 100;
+		}
+		break;
+
+		//魅力
+	case DP_CHARM:
+		//エフェクト再生
+		g_EffectManeger->Start(0, 0, EFC_GET_CHARM);
+		m_Charm += 1;
+		if (m_Charm > 100) {
+			m_Charm = 100;
+		}
+		break;
+
+		//SPアイテム取得時、カウントスタート
+	case DP_SP_ITEM:
+		g_Stage.SetSPSitua(tag_StageSituation::STAGE_SP_START);
+
+		//SP内のステージに変更
+		g_Stage.SPInitialize();
+		break;
+
+	default:
+		m_Scholastic = -100;
+		break;
+	}
+}
+
+CGAME::CGAME():
+	gMenu(),
+	gMenuItemCount(),
+	gStartCount(),
+	m_BlackAlpha(),
+	m_WhiteAlpha(),
+	_GameOver(),
+	_GameClear(),
+	gStartTime(),
+	m_Scholastic(),
+	m_Action(),
+	m_Imagination(),
+	m_Communication(),
+	m_Charm()
+{}
 
 CGAME::~CGAME()
 {
@@ -56,14 +138,13 @@ void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec
 	//メニュー
 	gMenu.Create(gMenuItemCount);
 
-
 	//プレイヤー初期化
 	g_Player.Initialize();
 	g_Player.SetMusicManager(musi);
 	g_Player.SetEffectManager(effec);
 
 	//ステージ初期化
-	g_Stage.Initialize(s_stageAdp,s_stageAbar, s_stageAOB, s_stageAEnemy);
+	g_Stage.Initialize();
 	g_Stage.SetMusicManager(musi);
 	g_Stage.SetEffectManager(effec);
 
@@ -74,12 +155,21 @@ void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec
 	m_BlackAlpha = 0;
 	m_WhiteAlpha = 0;
 
-	//BGM開始
-	g_MusicManager->BGMStart(BGMT_STAGE);
-
 	//デバッグ用
 	_GameClear = false;
 	_GameOver = false;
+
+	//ステージ内で取得したDPの数初期化
+	m_Scholastic	= 0;	//学力
+	m_Action		= 0;	//行動力
+	m_Imagination	= 0;	//想像力
+	m_Communication = 0;	//コミュ力
+	m_Charm			= 0;	//魅力
+
+
+	//BGM開始
+	g_MusicManager->BGMStart(BGMT_STAGE);
+
 }
 
 //更新
@@ -108,21 +198,6 @@ void CGAME::Update(void)
 		g_Stage.GameStopPlayChange();
 
 	}
-	//一時的な追加です
-	//F2でTitle画面へ
-	if (g_pInput->IsKeyPush(MOFKEY_F2))
-	{
-		m_bEnd = true;
-		m_NextScene = SCENENO_TITLE;
-	}
-
-	//一時的な追加です
-	//エンターキーでモードセレクト画面へ
-	else if (Menuflag == false && g_pInput->IsKeyPush(MOFKEY_F3))
-	{
-		m_bEnd = true;
-		m_NextScene = SCENENO_SELECTMODE;
-	}
 
 	//Cでゲームクリア画面へ
 	if (g_pInput->IsKeyPush(MOFKEY_C))
@@ -143,23 +218,27 @@ void CGAME::Update(void)
 		//初期化
 		g_Player.Initialize();
 
-		g_Stage.Initialize(s_stageAdp, s_stageAbar, s_stageAOB, s_stageAEnemy);
+		g_Stage.Initialize();
 
 	}
 
 	//メニューの更新
 	if (gMenu.IsShow())
 	{
+		//カウントダウンを停止するため
+		gStartTime = timeGetTime();
+
 		gMenu.Update();
 		if (gMenu.IsEnter())
 		{
+			//やめる
 			if (gMenu.GetSelect() == 0)
 			{
+				//モードセレクトへ
 				m_bEnd = true;
 				m_NextScene = SCENENO_SELECTMODE;
-
-				//gChangeScene = SCENENO_SELECTMODE;
 			}
+			//メニューを非表示
 			gMenu.Hide();
 		}
 	}
@@ -170,26 +249,24 @@ void CGAME::Update(void)
 		if (g_Stage.GetGameStopPlay())
 			g_Stage.GameStopPlayChange();
 
-		Menuflag = true;
 		gMenu.Show(g_pGraphics->GetTargetWidth() * 0.5f, g_pGraphics->GetTargetHeight() * 0.5f);
-	}
-	else
-	{
-		Menuflag = false;
 	}
 
 
 	//ゲームオーバー時の場合フェードアウト
 	if (g_Player.GetOver()||_GameOver) {
 
+		//フェードアウト
 		m_BlackAlpha += FADE_OUT_SPEED;
 
 		if (m_BlackAlpha >= 255) {
 			//SEをすべて停止
 			g_MusicManager->SEALLStop();
 
+			//SE再生
 			g_MusicManager->SEStart(SE_T_GAMEOVER);
 
+			//ゲームオーバー画面へ
 			m_bEnd = true;
 			m_NextScene = SCENENO_GAMEOVER;
 		}
@@ -228,13 +305,7 @@ void CGAME::Update(void)
 	g_Player.Update();
 
 	//ステージ更新
-	g_Stage.Update(g_Player.GetRect());
-
-	//地面との当たり判定
-	if (g_Player.CollosopnGround(g_Stage.g_ground.GetRect())) {
-
-		g_Player.UPdateCollisionGround(g_Stage.g_ground.GetPosY());
-	}
+	g_Stage.Update(g_Player.GetRect());	
 
 	//足場との当たり判定
 	for (int i = 0; i < BAR_VOLUME; i++)
@@ -243,7 +314,7 @@ void CGAME::Update(void)
 			continue;
 		}
 
-		if (g_Player.CollosopnBar(g_Stage.b_bar[i].GetRect(g_Stage.b_bar[i].Gettype()))) {
+		if (Collosopn(g_Player.GetRect(),(g_Stage.b_bar[i].GetRect()))){
 
 			g_Player.UPdateCollisionBra(g_Stage.b_bar[i].GetY());
 		}
@@ -253,19 +324,20 @@ void CGAME::Update(void)
 	//障害物との当たり判定
 	for (int i = 0; i < OB_VOLUME; i++)
 	{
+		//非表示のものは判定しない
 		if (!g_Stage.ob_array[i].Getshow()) {
 			continue;
 		}
 
 		//プレイヤーと判定
-		if (g_Player.CollosopnOB(g_Stage.ob_array[i].GetRect(g_Stage.ob_array[i].GetType())))
+		if (Collosopn(g_Stage.ob_array[i].GetRect(),g_Player.GetRect()))
 		{
  			g_Player.UPdateCollisionOB();
 		}
 		//障害物からのダメージを受けていない場合だけ上の足場判定
-		else if(g_Player.CollosopnBar(g_Stage.ob_array[i].GetTopBarRect(g_Stage.ob_array[i].GetType())))
+		else if(Collosopn(g_Player.GetLegsRect(),(g_Stage.ob_array[i].GetTopBarRect())))
 		{
-			g_Player.UPdateCollisionBra(g_Stage.ob_array[i].GetY(g_Stage.ob_array[i].GetType()));
+			g_Player.UPdateCollisionBra(g_Stage.ob_array[i].GetY());
 		}
 
 		//敵
@@ -274,8 +346,8 @@ void CGAME::Update(void)
 			if (!g_Stage.ene_array[e].Getshow())
 				continue;
 
-			if (Collosopn(g_Stage.ene_array[e].GetRect(), (g_Stage.ob_array[i].GetTopBarRect(g_Stage.ob_array[i].GetType())))) {
-				g_Stage.ene_array[e].SetPosY(g_Stage.ob_array[i].GetY(g_Stage.ob_array[i].GetType()));
+			if (Collosopn(g_Stage.ene_array[e].GetRect(), (g_Stage.ob_array[i].GetTopBarRect()))) {
+				g_Stage.ene_array[e].SetPosY(g_Stage.ob_array[i].GetY());
 			}
 		}
 	}
@@ -283,23 +355,35 @@ void CGAME::Update(void)
 	//敵との当たり判定
 	for (int i = 0; i < ENEMY_VOLUME; i++)
 	{
+		//非表示のものは判定しない
 		if (!g_Stage.ene_array[i].Getshow()) {
 			continue;
 		}
-
 		//プレイヤーと敵の当たり判定
-		if (g_Player.CollosopnEnemy(g_Stage.ene_array[i].GetRect()))
+		if (Collosopn(g_Player.GetRect(),(g_Stage.ene_array[i].GetRect())))
 		{
 			g_Player.UPdateCollisionOB();
 		}
+	}
 
+	//DPとの当たり判定
+	for (int i = 0; i < DP_VOLUME; i++)
+	{
+		//非表示の場合は判定しない
+		if (!g_Stage.dp_array[i].Getshow()) {
+			continue;
+		}
+
+		if (Collosopn(g_Player.GetRect(), g_Stage.dp_array[i].GetRect())) {
+			//DPと接触した場合
+			UPdeteCollisionDP(g_Stage.dp_array[i].Gettype());
+			g_Stage.dp_array[i].Setshow(false);
+		}
 	}
 
 
 	//エフェクトの更新
 	g_EffectManeger->Update(g_Player.GetRect());
-
-
 }
 
 void CGAME::Render(void)
@@ -332,6 +416,7 @@ void CGAME::Render(void)
 			g_pGraphics->GetTargetHeight() / 2 - gStartGoTexture.GetHeight() / 2);
 	}
 
+	//FPS表示
 	CGraphicsUtilities::RenderString(0, 150,MOF_XRGB(80, 80, 80), "FPS：%d", CUtilities::GetFPS());
 
 	//エフェクトの描画
@@ -360,12 +445,18 @@ void CGAME::Release(void)
 	gStartOneTexture.Release();
 	gStartGoTexture.Release();
 
+	//BGM停止
 	g_MusicManager->BGMStop(BGMT_STAGE);
 
 }
 
 void CGAME::RenderDebug(void)
 {
+	CGraphicsUtilities::RenderString(250, 0, MOF_COLOR_BLACK, "このステージ内での取得数  学力：%d　行動力：%d　想像力：%d　コミュ力：%d　魅力：%d",
+	m_Scholastic, m_Action, m_Imagination, m_Communication, m_Charm);
+CGraphicsUtilities::RenderString(250, 0, MOF_COLOR_BLACK, "このステージ内での取得数  学力：%d　行動力：%d　想像力：%d　コミュ力：%d　魅力：%d",
+	m_Scholastic, m_Action, m_Imagination, m_Communication, m_Charm);
+
 	g_Stage.RenderDebugging();
 	g_Player.RenderDebugging();
 }

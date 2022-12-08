@@ -50,11 +50,13 @@ MofBool CGameApp::Initialize(void){
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("Resource");
 
-	//最初に実行されるシーンの初期化 
+	//最初に実行されるシーン,マネージャーの初期化 
 	gpScene = new CTitle();
 	g_GameProgMamt.Initialize();
 	g_EffectManeger.Initialize();
 	g_MusicManager.Initialize(0.2,0.2);
+
+	//最初のシーンにマネージャーのポインタを渡す
 	gpScene->Initialize(&g_GameProgMamt,&g_MusicManager,&g_EffectManeger);
 
 

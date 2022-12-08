@@ -103,7 +103,6 @@
     <ClCompile Include="Gallery.cpp" />
     <ClCompile Include="GAME.cpp" />
     <ClCompile Include="GameApp.cpp" />
-    <ClCompile Include="Ground.cpp" />
     <ClCompile Include="ModeSelect.cpp" />
     <ClCompile Include="Obstacle.cpp" />
     <ClCompile Include="Option.cpp" />
@@ -129,7 +128,6 @@
     <ClInclude Include="Gallery.h" />
     <ClInclude Include="GAME.h" />
     <ClInclude Include="GameApp.h" />
-    <ClInclude Include="Ground.h" />
     <ClInclude Include="ModeSelect.h" />
     <ClInclude Include="Obstacle.h" />
     <ClInclude Include="Option.h" />

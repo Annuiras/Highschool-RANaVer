@@ -26,6 +26,9 @@
 //重力
 #define  GRAVITY	0.7f
 
+//地面高さ
+#define GROUND_Y 700
+
 //フェードアウト速度
 #define FADE_OUT_SPEED 3
 
@@ -107,6 +110,17 @@ enum tag_ENEMY
 
 #pragma region 足場定数群
 
+//クラス数
+#define BAR_VOLUME	5
+
+//大
+#define BAR_BIG_WIDTH	800
+#define BAR_BIG_HEIGHT	40
+
+//中
+#define BAR_MEDIUM_WIDTH	500
+#define BAR_MEDIUM_HEIGHT	25
+
 //足場タイプ定義
 enum tag_BAR
 {
@@ -121,14 +135,16 @@ enum tag_BAR
 #define BAR_INFO_STRUCT 10
 
 
+
 #pragma endregion
 
 #pragma region プレイヤー定数群
 
-//プレイヤー初期位置
-#define PLAYER_START_POS_X 50
-#define PLAYER_START_POS_Y 500
+//HP
+#define START_HP 5
 
+//無敵時間
+#define INVINCIBLE_TIME 60
 
 //大ジャンプ値
 #define  BIGJUMP -17.0f
@@ -150,6 +166,11 @@ enum tag_BAR
 //当たり判定調整幅
 #define PLAYER_ADMENT_SPACE 80
 
+//プレイヤー初期位置
+#define PLAYER_START_POS_X 50
+#define PLAYER_START_POS_Y GROUND_Y - PLAYER_HIT_Y
+
+
 #pragma endregion
 
 #pragma region 最終容姿画面定数群
@@ -164,8 +185,6 @@ enum tag_BAR
 #pragma endregion
 
 
-//地面高さ
-#define GROUND_Y 700
 
 //管理エフェクトの数
 #define		EFFECT_MGMT_COUNT 5

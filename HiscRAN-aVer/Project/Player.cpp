@@ -12,7 +12,9 @@ CPlayer::CPlayer() :
 	m_deathflg(false),
 	m_Jumpflg(false),
 	m_JumpCount(0.0f),
-	m_BSflg(true)
+	m_BSflg(true),
+	m_MusicMgmt(),
+	m_pEffectMgmt()
 {
 }
 
@@ -76,18 +78,20 @@ bool CPlayer::Load(void) {
 //初期化
 void CPlayer::Initialize(void) {
 
-
+	//初期位置
 	m_PosX = PLAYER_START_POS_X;
 	m_PosY = PLAYER_START_POS_Y;
+
 	m_MoveY = 0.0f;
 	m_legsboxY = PLAYER_LEGS_Y;
 	m_Jumpflg = false;
-	m_HP = 5;
+	m_HP = START_HP;
 	m_DamageWait = 0;
 	m_deathflg = false;
 
-
+	//モーション初期化
 	m_Motion.ChangeMotion(MOTION_MOVE);
+	m_SrcRect = m_Motion.GetSrcRect();
 
 }
 
@@ -133,8 +137,8 @@ void CPlayer::Update(void) {
 	//下降速度クリップ
 	if (m_MoveY >= 20) {
 		m_MoveY = 20 - 0.1f;
-	
 	}
+
 	//地面よりも下か？
 	if (m_PosY + m_SrcRect.GetHeight() >= GROUND_Y) {
 
@@ -145,10 +149,11 @@ void CPlayer::Update(void) {
 	}
 
 	//下降中
-	if (m_MoveY >= 0) {
+	if (m_MoveY > 0) {
 		m_Jumpflg = false;
 		m_BSflg = false;
 	}
+
 
 	//アニメーション再生
 	m_Motion.AddTimer(CUtilities::GetFrameSecond());
@@ -161,24 +166,12 @@ void CPlayer::Update(void) {
 
 }
 
-
-//足場当たり判定
-bool CPlayer::CollosopnBar(CRectangle r) {
-	if (legsGetRect().CollisionRect(r))
-	{
-		return true;
-	}
-	return false;
-}
-
-
-//足場と当たった場合
+//乗れる物(上昇中すり抜け)と当たった場合
 void CPlayer::UPdateCollisionBra(float y) {
 
 	//上昇中フラグがfalseになった時に上からバーに乗る
 	if (!m_Jumpflg) {
-		m_PosY = y;
-		m_PosY -= PLAYER_HIT_Y;
+		m_PosY = y- PLAYER_HIT_Y;
 
 		m_MoveY = 0;
 
@@ -201,20 +194,8 @@ void CPlayer::UPdateCollisionBra(float y) {
 	}
 }
 
-//地面と当たり判定
-//CRectangle 相手の矩形
-bool CPlayer::CollosopnGround(CRectangle r) {
-
-	//地面矩形と判定
-	if (legsGetRect().CollisionRect(r))
-	{
-		return true;
-	}
-	return false;
-}
-
-//地面と当たった場合
-//float y:地面の高さ
+//乗れる物と当たった場合
+//float y:乗れる物の高さ
 void CPlayer::UPdateCollisionGround(float y) {
 
 	//地面の高さに移動
@@ -245,19 +226,6 @@ void CPlayer::UPdateCollisionGround(float y) {
 
 }
 
-
-//障害物と当たり判定
-bool CPlayer::CollosopnOB(CRectangle r) {
-
-	if (GetRect().CollisionRect(r))
-	{
-
-		return true;
-	}
-	return false;
-}
-
-
 //障害物・敵と当たった場合
 void CPlayer::UPdateCollisionOB() {
 
@@ -268,32 +236,17 @@ void CPlayer::UPdateCollisionOB() {
 	}
 	m_MusicMgmt->SEStart(SE_T_HIT);
 	m_HP -= 1;
-	m_DamageWait = 60;
+	m_DamageWait = INVINCIBLE_TIME;
 
 	if (m_HP <= 0) {
-		//m_deathflg = true;
-		//m_HP = 0;
+		m_deathflg = true;
+		m_HP = 0;
 	}
 }
 
-//敵当たり判定
-bool CPlayer::CollosopnEnemy(CRectangle r) {
-
-	//無敵時間中は判定しない
-	if (m_DamageWait > 0)
-	{
-		return false;
-	}
-	if (GetRect().CollisionRect(r)) {
-		return true;
-	}
-	return false;
-}
-
-
+//クリア時の更新
 void CPlayer::UpdateClear(void)
 {
-
 	//重力反映
 	m_MoveY += GRAVITY;
 
@@ -326,20 +279,23 @@ void CPlayer::UpdateClear(void)
 //描画
 void CPlayer::Render()
 {
+	//無敵時間2フレーム描画しない
 	if (m_DamageWait % 4 >= 2)
 	{
 		return;
 	}
 
+	//描画矩形
 	CRectangle br = m_SrcRect;
 
 	//描画位置
 	float px = m_PosX;
 	float py = m_PosY;
 
+	//キャラクター描画
 	m_Texture.Render(px, py, br);
 
-	//HPの表示
+	//HPの描画
 	//HPのフレーム描画
 	m_HPFrame.Render(17, 42);
 	if (m_HP > 0) {
@@ -368,7 +324,7 @@ void CPlayer::RenderDebugging() {
 
 	//キャラクターの判定矩形
 	CGraphicsUtilities::RenderRect(GetRect(), MOF_COLOR_RED);
-	CGraphicsUtilities::RenderRect(legsGetRect(), MOF_COLOR_GREEN);
+	CGraphicsUtilities::RenderRect(GetLegsRect(), MOF_COLOR_GREEN);
 
 #pragma region デバッグ用
 

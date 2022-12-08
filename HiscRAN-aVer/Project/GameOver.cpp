@@ -15,7 +15,6 @@ CGameOver::CGameOver() :
 	m_SelectTexture(),
 	Rondom(0.0f)
 {
-
 }
 
 //デストラクタ

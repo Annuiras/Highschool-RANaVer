@@ -40,9 +40,6 @@
     <Filter Include="ソース ファイル\Game\Stage\Composition">
       <UniqueIdentifier>{23d6de7e-4e20-47f3-95ac-6d126110cd25}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Game\Stage\Ground">
-      <UniqueIdentifier>{9131d772-f5ea-49ad-83d6-0940a92bdc67}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Game\Stage\Bar">
       <UniqueIdentifier>{820efdcb-8351-4444-bbfa-04527d11f3a4}</UniqueIdentifier>
     </Filter>
@@ -114,9 +111,6 @@
     <ClCompile Include="Bar.cpp">
       <Filter>ソース ファイル\Game\Stage\Bar</Filter>
     </ClCompile>
-    <ClCompile Include="Ground.cpp">
-      <Filter>ソース ファイル\Game\Stage\Ground</Filter>
-    </ClCompile>
     <ClCompile Include="RandomValue.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -181,9 +175,6 @@
     </ClInclude>
     <ClInclude Include="Bar.h">
       <Filter>ソース ファイル\Game\Stage\Bar</Filter>
-    </ClInclude>
-    <ClInclude Include="Ground.h">
-      <Filter>ソース ファイル\Game\Stage\Ground</Filter>
     </ClInclude>
     <ClInclude Include="RandomValue.h">
       <Filter>ヘッダー ファイル</Filter>

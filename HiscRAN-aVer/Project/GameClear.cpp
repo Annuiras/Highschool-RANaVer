@@ -298,4 +298,8 @@ void CGameClear::Release(void)
 {
 	m_BackTexture.Release();
 	m_UITexture.Release();
+	
+	//BGM’âŽ~
+	g_MusicManager->BGMStop(BGMT_CLEAR);
+
 }

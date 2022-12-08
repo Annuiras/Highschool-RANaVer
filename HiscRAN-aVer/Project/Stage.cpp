@@ -2,6 +2,10 @@
 #include "Stage.h"
 #include "ctime"
 #include "string"
+#include "Stage_DP.h"
+#include "Stage_Bar.h"
+#include "Stage_Obstacle.h"
+#include "Stage_Enemy.h"
 
 
 CStage::CStage() :
@@ -9,22 +13,14 @@ CStage::CStage() :
 	m_countbak(0),
 	m_BakStart(),
 	m_SPBak(),
-	m_dpinfo(),
 	m_dpcount(0),
-	m_barinfo(),
 	m_barcount(0),
-	m_obinfo(),
 	m_obcount(0),
 	m_BakScroll(0.0f),
 	m_StageScroll(0.0f), 
 	m_BakAVal(0),
-	m_Scholastic(0),
-	m_Imagination(0),
-	m_Action(0),
 	m_AdoptCount(0),
 	m_AlreadyUsedArray(),
-	m_Communication(0),
-	m_Charm(0),
 	m_bClear(false),
 	m_Scroll_Speed(0.0f)
 {}
@@ -258,7 +254,7 @@ bool CStage::Load() {
 //barco:足場の情報数
 //obin:障害物の配置情報
 //obco:障害物の情報数
-void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INFO_STRUCT], OB_info obin[][OB_INFO_STRUCT], ENEMY_info enein[][ENEMY_INFO_STRUCT]) {
+void CStage::Initialize(void) {
 
 	//進行度バーアイコンの初期化
 	m_BarProgress = 0;
@@ -363,52 +359,6 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 	//m_StageComposition[14] = 2;
 
 
-	//DP配置情報コピー,
-	//マップ一枚の情報分
-
-	for (int y = 0; y < MAP_INFO_PATTERN; y++)
-	{
-		//マップ一枚分の情報に構造体
-		for (int x = 0; x < DP_INFO_STRUCT; x++) {
-
-			m_dpinfo[y][x] = dpin[y][x];
-		}
-	}
-
-	//障害物配置情報コピー
-	//マップ一枚の情報分
-	for (int y = 0; y < MAP_INFO_PATTERN; y++)
-	{
-		//マップ一枚分の情報に構造体
-		for (int x = 0; x < OB_INFO_STRUCT; x++) {
-
-
-			m_obinfo[y][x] = obin[y][x];
-		}
-	}
-
-	//足場配置情報コピー
-	//マップ一枚の情報分
-	for (int y = 0; y < MAP_INFO_PATTERN; y++)
-	{
-		//マップ一枚分の情報に構造体
-		for (int x = 0; x < BAR_INFO_STRUCT; x++) {
-
-			m_barinfo[y][x] = barin[y][x];
-		}
-	}
-
-	//敵配置情報コピー
-	for (int y = 0; y < MAP_INFO_PATTERN; y++)
-	{
-		//マップ一枚分の情報に構造体
-		for (int x = 0; x < ENEMY_INFO_STRUCT; x++)
-		{
-			m_eneinfo[y][x] = enein[y][x];
-		}
-	}
-
-
 	//表示済みカウント初期化
 	m_barcount = 0;
 	m_dpcount = 0;
@@ -423,15 +373,6 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 
 	//開始フラグ
 	m_Startflg = false;
-
-
-	//ステータスを初期化
-	m_Scholastic = 0;
-	m_Action = 0;
-	m_Imagination = 0;
-	m_Communication = 0;
-	m_Charm = 0;
-
 
 	//背景用ランダム数値初期化
 	m_RandamuBakLeft = RandmuBak.GetRandomNumbe(1, 6); 
@@ -464,8 +405,6 @@ void CStage::Initialize(DP_info dpin[][DP_INFO_STRUCT], BAR_info barin[][BAR_INF
 		//初期化
 		ene_array[i].Initialize();
 	}
-
-	g_ground.Initialize();
 
 }
 
@@ -617,23 +556,6 @@ void CStage::Update(CRectangle plrect) {
 		ene_array[i].Update(m_Scroll_Speed);
 	}
 
-	//DPとの当たり判定
-	for (int i = 0; i < DP_VOLUME; i++)
-	{
-		//非表示の場合は判定しない
-		if (!dp_array[i].Getshow()) {
-			continue;
-		}
-
-		if (dp_array[i].CollosopnDP(plrect)) {
-			//DPと接触した場合
-			UPdeteCollisionDP(dp_array[i].Gettype());
-			dp_array[i].Setshow(false);
-
-		}
-
-	}
-
 	//ステージ変化
 	if (m_countbak == SATGE_CHANGE_BAK) {
 
@@ -731,69 +653,6 @@ void CStage::Update(CRectangle plrect) {
 	}
 
 }
-
-//DPと当たった場合
-void CStage::UPdeteCollisionDP(int dpt) {
-
-	m_MusicMgmt->SEStart(SE_T_DP_HIT);
-
-	switch (dpt)
-	{
-
-	case DP_SCHOLASTIC:
-		m_pEffectMgmt->Start(0, 0, EFC_GET_SCHOLASTIC);
-		m_Scholastic += 1;
-		if (m_Scholastic > 100) {
-			m_Scholastic = 100;
-		}
-		break;
-
-	case DP_ACTION:
-		m_Action += 1;
-
-		//エフェクト再生
-		m_pEffectMgmt->Start(0, 0, EFC_GET_ACTION);
-		if (m_Action > 100) {
-			m_Action = 100;
-		}
-		break;
-
-	case DP_IMAGINATION:
-		m_pEffectMgmt->Start(0, 0, EFC_GET_IMAGINATION);
-		m_Imagination += 1;
-		if (m_Imagination > 100) {
-			m_Imagination = 100;
-		}
-		break;
-
-	case DP_COMMUNICATION:
-		m_pEffectMgmt->Start(0, 0, EFC_GET_COMMUNICATION);
-		m_Communication += 1;
-		if (m_Communication > 100) {
-			m_Communication = 100;
-		}
-		break;
-
-	case DP_CHARM:
-		m_pEffectMgmt->Start(0, 0, EFC_GET_CHARM);
-		m_Charm += 1;
-		if (m_Charm > 100) {
-			m_Charm = 100;
-		}
-		break;	
-		//SPアイテム取得時、カウントスタート
-	case DP_SP_ITEM:
-		m_SPSitua = tag_StageSituation::STAGE_SP_START;
-		//SP内のステージに変更
-		SPInitialize();		
-		break;
-
-	default:
-		m_Scholastic = -100;
-		break;
-	}
-}
-
 
 //描画
 void CStage::Render(void) {
@@ -939,9 +798,6 @@ void CStage::Render(void) {
 	}
 
 
-	//地面描画
-	g_ground.Render();
-
 	//足場描画
 	for (int i = 0; i < BAR_VOLUME; i++)
 	{
@@ -967,11 +823,6 @@ void CStage::Render(void) {
 		ene_array[i].Render();
 	}
 
-
-	CGraphicsUtilities::RenderString(250, 0, MOF_COLOR_BLACK, "このステージ内での取得数  学力：%d　行動力：%d　想像力：%d　コミュ力：%d　魅力：%d",
-		m_Scholastic, m_Action, m_Imagination, m_Communication, m_Charm);
-	//CGraphicsUtilities::RenderString(250, 0, MOF_COLOR_BLACK, "このステージ内での取得数  学力：%d　行動力：%d　想像力：%d　コミュ力：%d　魅力：%d",
-	//	m_Scholastic, m_Action, m_Imagination, m_Communication, m_Charm);
 
 	//学年のカットイン
 	m_GradeOneTexture.Render(0 + m_GradeOffset, 50);
@@ -1002,7 +853,7 @@ void CStage::Release(void) {
 	m_GradeTwoTexture.Release();
 	m_GradeThreeTexture.Release();
 
-
+	//ステージ背景
 	m_BakStart.Release();
 	m_BakRdoor.Release();
 	m_BakRwall.Release();
@@ -1013,12 +864,14 @@ void CStage::Release(void) {
 	m_BakEnd.Release();
 	m_SPBak.Release();
 
+	//DPテクスチャ
 	dp_Textuer_Scholastic.Release();
 	dp_Textuer_Action.Release();
 	dp_Textuer_Imagination.Release();
 	dp_Textuer_Communication.Release();
 	dp_Textuer_Charm.Release();
 
+	//障害物テクスチャ
 	ob_Textuer_Desk.Release();
 	ob_Textuer_TwoDesk.Release();
 	ob_Textuer_TrachCan.Release();
@@ -1028,9 +881,10 @@ void CStage::Release(void) {
 	ob_Textuer_ScotchTape.Release();
 	ob_Textuer_BloackboardEraser.Release();
 
+	//足場テクスチャ
 	bar_Textuer_Medium.Release();
 
-	//敵
+	//敵テクスチャ
 	ene_Texture_1.Release();
 	ene_Texture_2.Release();
 
@@ -1048,9 +902,6 @@ void CStage::RenderDebugging() {
 	{
 		CGraphicsUtilities::RenderString(40*i, 680, "%d", m_StageComposition[i]);
 	}
-
-	//地面デバック表示
-	g_ground.RenderDebugging();
 
 	//障害物デバッグ表示
 	for (int i = 0; i < OB_VOLUME; i++)
@@ -1092,10 +943,10 @@ void CStage::MapChange(void) {
 
 	//スクロールが切り替わる時かつそれぞれのマップパターン情報で終端要素にたどり着いているなら
 	if (m_StageScroll <= 0 &&
-		m_barinfo[m_StageComposition[m_MapNo]][m_barcount].Type >= BAR_COUNT &&
-		m_dpinfo[m_StageComposition[m_MapNo]][m_dpcount].Type >= DP_COUNT &&
-		m_obinfo[m_StageComposition[m_MapNo]][m_obcount].Type >= OB_COUNT&&
-		m_eneinfo[m_StageComposition[m_MapNo]][m_enecount].Type >= ENEMY_COUNT)
+		s_stageBAR[m_StageComposition[m_MapNo]][m_barcount].Type >= BAR_COUNT &&
+		s_stageDP[m_StageComposition[m_MapNo]][m_dpcount].Type >= DP_COUNT &&
+		s_stageOB[m_StageComposition[m_MapNo]][m_obcount].Type >= OB_COUNT&&
+		s_stageENEMY[m_StageComposition[m_MapNo]][m_enecount].Type >= ENEMY_COUNT)
 	{
 		m_barcount = 0;
 		m_dpcount = 0;
@@ -1103,15 +954,12 @@ void CStage::MapChange(void) {
 		m_enecount = 0;
 		m_MapNo += 1;
 
-
 		//最後のマップ足場パターン情報の場合
 		if (m_MapNo >= 15)
 		{
 			m_MapNo = 100;
 		}
-
 	}
-
 }
 
 //足場生成
@@ -1123,7 +971,7 @@ void CStage::OccurrenceBar(void) {
 	//マップパターン番号が用意している数以下のときかつ
 	//スクロール値が出現値よりも小さくなった場合表示
 	//スクロール値をプラスに変更しました
-	if (m_MapNo < SATAGE_MAP_PATTERN && m_StageScroll > m_barinfo[m_StageComposition[m_MapNo]][m_barcount].Scroll)
+	if (m_MapNo < SATAGE_MAP_PATTERN && m_StageScroll > s_stageBAR[m_StageComposition[m_MapNo]][m_barcount].Scroll)
 	{
 
 		//割り当てられていない足場クラスを探す
@@ -1136,7 +984,7 @@ void CStage::OccurrenceBar(void) {
 
 			//表示テクスチャ準備
 			//出現位置とタイプを渡す
-			switch (m_barinfo[m_StageComposition[m_MapNo]][m_barcount].Type)
+			switch (s_stageBAR[m_StageComposition[m_MapNo]][m_barcount].Type)
 			{
 
 			case BAR_MEDIUM:
@@ -1156,8 +1004,8 @@ void CStage::OccurrenceBar(void) {
 
 			//表示準備
 			//出現位置とタイプを渡す
-			b_bar[i].Start(m_barinfo[m_StageComposition[m_MapNo]][m_barcount].Pos_y,
-				m_barinfo[m_StageComposition[m_MapNo]][m_barcount].Type);
+			b_bar[i].Start(s_stageBAR[m_StageComposition[m_MapNo]][m_barcount].Pos_y,
+				s_stageBAR[m_StageComposition[m_MapNo]][m_barcount].Type);
 			break;
 		}
 
@@ -1177,7 +1025,7 @@ void CStage::OccurrenceDP(void) {
 	//マップDPパターン番号が用意している数以下のときかつ
 	//スクロール値が出現値よりも小さくなった場合表示
 	//スクロール値をプラスに変更しました
-	if (m_MapNo < SATAGE_MAP_PATTERN && m_StageScroll > m_dpinfo[m_StageComposition[m_MapNo]][m_dpcount].Scroll)
+	if (m_MapNo < SATAGE_MAP_PATTERN && m_StageScroll > s_stageDP[m_StageComposition[m_MapNo]][m_dpcount].Scroll)
 	{
 
 		//割り当てられていないDPクラスを探す
@@ -1190,7 +1038,7 @@ void CStage::OccurrenceDP(void) {
 
 			//表示テクスチャ準備
 			//出現位置とタイプを渡す
-			switch (m_dpinfo[m_StageComposition[m_MapNo]][m_dpcount].Type)
+			switch (s_stageDP[m_StageComposition[m_MapNo]][m_dpcount].Type)
 			{
 
 			case DP_SCHOLASTIC:
@@ -1216,7 +1064,7 @@ void CStage::OccurrenceDP(void) {
 			default:
 				break;
 			}
-			dp_array[i].Start(m_dpinfo[m_StageComposition[m_MapNo]][m_dpcount].Pos_y, m_dpinfo[m_StageComposition[m_MapNo]][m_dpcount].Type);
+			dp_array[i].Start(s_stageDP[m_StageComposition[m_MapNo]][m_dpcount].Pos_y, s_stageDP[m_StageComposition[m_MapNo]][m_dpcount].Type);
 			break;
 		}
 
@@ -1235,7 +1083,7 @@ void CStage::OccurrenceOB(void) {
 	//マップパターン番号が用意している数以下のときかつ
 	//スクロール値が出現値よりも小さくなった場合表示
 	//スクロール値をプラスに変更しました
-	if (m_MapNo < SATAGE_MAP_PATTERN && m_StageScroll > m_obinfo[m_StageComposition[m_MapNo]][m_obcount].Scroll)
+	if (m_MapNo < SATAGE_MAP_PATTERN && m_StageScroll > s_stageOB[m_StageComposition[m_MapNo]][m_obcount].Scroll)
 	{
 
 		//割り当てられていないDPクラスを探す
@@ -1248,7 +1096,7 @@ void CStage::OccurrenceOB(void) {
 
 			//表示テクスチャ準備
 			//出現位置とタイプを渡す
-			switch (m_obinfo[m_StageComposition[m_MapNo]][m_obcount].Type)
+			switch (s_stageOB[m_StageComposition[m_MapNo]][m_obcount].Type)
 			{
 
 			case OB_DESK:
@@ -1290,8 +1138,8 @@ void CStage::OccurrenceOB(void) {
 
 			//表示準備
 			//出現位置とタイプを渡す
-			ob_array[i].Start(m_obinfo[m_StageComposition[m_MapNo]][m_obcount].Pos_y,
-				m_obinfo[m_StageComposition[m_MapNo]][m_obcount].Type);
+			ob_array[i].Start(s_stageOB[m_StageComposition[m_MapNo]][m_obcount].Pos_y,
+				s_stageOB[m_StageComposition[m_MapNo]][m_obcount].Type);
 			break;
 		}
 
@@ -1305,7 +1153,7 @@ void CStage::OccurrenceOB(void) {
 //敵生成
 void CStage::OccurrenceENE(void)
 {
-	if (m_MapNo < SATAGE_MAP_PATTERN && m_StageScroll > m_eneinfo[m_StageComposition[m_MapNo]][m_enecount].Scroll)
+	if (m_MapNo < SATAGE_MAP_PATTERN && m_StageScroll > s_stageENEMY[m_StageComposition[m_MapNo]][m_enecount].Scroll)
 	{
 
 		//割り当てられていないENEクラスを探す
@@ -1318,7 +1166,7 @@ void CStage::OccurrenceENE(void)
 
 			//表示テクスチャ準備
 			//出現位置とタイプを渡す
-			switch (m_eneinfo[m_StageComposition[m_MapNo]][m_enecount].Type)
+			switch (s_stageENEMY[m_StageComposition[m_MapNo]][m_enecount].Type)
 			{
 
 			case ENEMY_1:
@@ -1334,7 +1182,7 @@ void CStage::OccurrenceENE(void)
 				break;
 			}
 
-			ene_array[i].Start(m_eneinfo[m_StageComposition[m_MapNo]][m_enecount].Pos_y, m_eneinfo[m_StageComposition[m_MapNo]][m_enecount].Type);
+			ene_array[i].Start(s_stageENEMY[m_StageComposition[m_MapNo]][m_enecount].Pos_y, s_stageENEMY[m_StageComposition[m_MapNo]][m_enecount].Type);
 
 			break;
 		}
@@ -1368,9 +1216,8 @@ bool CStage::GetGameStopPlay() {
 
 }
 
+//クリア判定の取得
 bool CStage::GetClear(void) {
-
 	return m_bClear;
-
 }
 

@@ -2,74 +2,61 @@
 #include "Mof.h"
 #include "Define.h"
 
-//大
-#define BAR_BIG_WIDTH	800
-#define BAR_BIG_HEIGHT	40
-
-//中
-#define BAR_MEDIUM_WIDTH	500
-#define BAR_MEDIUM_HEIGHT	25
-
-//小
-#define BAR_SMALL_WIDTH		300
-#define BAR_SMALL_HEIGHT	5
-
-
-#define BAR_VOLUME	5
-
-
 class Bar
 {
 private:
 
 	//足場のテクスチャを追加
 	//足場テクスチャ
-	CTexture* bar_texture;
+	CTexture* m_Texture;
 
 
 	//座標
-	float b_PosX;
-	float b_PosY;
+	float m_PosX;
+	float m_PosY;
 
 	//足場タイプ別横幅
-	float b_HitWidth;
+	float m_HitWidth;
 
 	//表示フラグ:true：表示
-	bool b_Show;
+	bool m_Show;
 
-	//足場種類（仮）
-	//1:大
-	//2:中
-	//3:小
-	int b_Type;
-
-
+	//タイプ
+	int m_Type;
 
 public:
 
 	Bar();
 	~Bar();
 
+	//初期化
+	void Initialize(void);
 
+	//更新
+	void Update(float over);
 
+	//生成
+	void Start(float posy, int type);
+
+	//描画
 	void Render(void);
 	void RenderDebugging(void);
 
-	void Initialize(void);
-	void Start(float posy,int type);
-	void Update(float over);
+	//当たり判定渡す
+	CRectangle GetRect(void);
 
-	CRectangle GetRect(int type);
+	//Y座標を渡す
+	float GetY(void) { return m_PosY; }
 
+	//表示中？
+	//true:表示中
+	bool Getshow(void) { return m_Show; }
 
-	float GetY(void) { return b_PosY; }
-
-	bool Getshow(void) { return b_Show; }
-
+	//テクスチャをセット
 	void SetTexture(CTexture* bartex);
 
 	//足場の種類を取得
-	int Gettype(void) { return b_Type; }
+	int Gettype(void) { return m_Type; }
 
 
 };

@@ -57,46 +57,44 @@ private:
 
 	//モーション種類定義
 	enum tag_MOTION {
-		MOTION_MOVE,
-		MOTION_JUMPSTART,
-		MOTION_COUNT,
+		MOTION_MOVE,		//移動
+		MOTION_JUMPSTART,	//ジャンプ開始
+		MOTION_COUNT,		//総数
 	};
 
 public:
 	CPlayer();
 	~CPlayer();
 
+	//素材ロード
 	bool Load(void);
+
+	//初期化
 	void Initialize(void);
 
+	//更新
 	void Update(void);
 
 	//クリア時の更新
 	void UpdateClear(void);
 
+	//描画
 	void Render(void);
+
+	//解放
 	void Release(void);
 
 	//デバッグ表示
 	void RenderDebugging(void);
 
-	//足場当たり判定
-	bool CollosopnBar(CRectangle r);
+	//乗れる物(上昇中すり抜け)と当たった場合
 	void UPdateCollisionBra(float y);
 
-	//地面の当たり判定
-	bool CollosopnGround(CRectangle r);
+	//地面と当たった場合
 	void UPdateCollisionGround(float y);
 
-	//障害物当たり判定
-	bool CollosopnOB(CRectangle r);
 	//障害物・敵と当たった場合
 	void UPdateCollisionOB(void);
-
-
-	//敵当たり判定
-	bool CollosopnEnemy(CRectangle r);
-	
 
 	//SE・BGMマネージャーセット
 	void SetMusicManager(CMusicMgmt* mgmt) { m_MusicMgmt = mgmt; }
@@ -112,7 +110,7 @@ public:
 	}
 
 	//プレイヤー足だけ判定
-	CRectangle legsGetRect() {
+	CRectangle GetLegsRect() {
 		return CRectangle(m_PosX+ PLAYER_ADMENT_SPACE,m_PosY + m_legsboxY,
 			m_PosX+ PLAYER_ADMENT_SPACE + PLAYER_HIT_X, m_PosY + PLAYER_HIT_Y);
 	}
