@@ -741,6 +741,7 @@ void CStage::UPdeteCollisionDP(int dpt) {
 	{
 
 	case DP_SCHOLASTIC:
+		m_pEffectMgmt->Start(0, 0, EFC_GET_SCHOLASTIC);
 		m_Scholastic += 1;
 		if (m_Scholastic > 100) {
 			m_Scholastic = 100;
@@ -751,13 +752,14 @@ void CStage::UPdeteCollisionDP(int dpt) {
 		m_Action += 1;
 
 		//エフェクト再生
-		m_pEffectMgmt->Start(0, 0, EFC_GET_DP);
+		m_pEffectMgmt->Start(0, 0, EFC_GET_ACTION);
 		if (m_Action > 100) {
 			m_Action = 100;
 		}
 		break;
 
 	case DP_IMAGINATION:
+		m_pEffectMgmt->Start(0, 0, EFC_GET_IMAGINATION);
 		m_Imagination += 1;
 		if (m_Imagination > 100) {
 			m_Imagination = 100;
@@ -765,6 +767,7 @@ void CStage::UPdeteCollisionDP(int dpt) {
 		break;
 
 	case DP_COMMUNICATION:
+		m_pEffectMgmt->Start(0, 0, EFC_GET_COMMUNICATION);
 		m_Communication += 1;
 		if (m_Communication > 100) {
 			m_Communication = 100;
@@ -772,6 +775,7 @@ void CStage::UPdeteCollisionDP(int dpt) {
 		break;
 
 	case DP_CHARM:
+		m_pEffectMgmt->Start(0, 0, EFC_GET_CHARM);
 		m_Charm += 1;
 		if (m_Charm > 100) {
 			m_Charm = 100;

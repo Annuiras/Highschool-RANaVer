@@ -21,14 +21,18 @@ CEffectMgmt::~CEffectMgmt() {
  * 利用するテクスチャを読み込む。
  */
 bool CEffectMgmt::Load(void) {
-	//テクスチャの読み込み
-	char* name[] = {
-		"エフェクト仮.png"
-	};
 
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("Effect");
 
+	//テクスチャの読み込み
+	char* name[] = {
+		"エフェクト学力.png",
+		"エフェクト行動力.png",
+		"エフェクト想像力.png",
+		"エフェクトコミュ力.png",
+		"エフェクト魅力.png",
+	};
 
 	for (int i = 0; i < EFC_TYPE_COUNT; i++)
 	{
@@ -106,11 +110,19 @@ void CEffectMgmt::Update(CRectangle plrec) {
 	{
 		for (int mgmt = 0; mgmt < EFFECT_MGMT_COUNT; mgmt++)
 		{
+			//非表示の場合無視
+			if (!m_Effect[type][mgmt].GetShow()) {
+				continue;
+			}
 			switch (type)
 			{
-
-			case EFC_GET_DP:
-				m_Effect[type][mgmt].Update(plrec);
+				//各DPの場合
+				case EFC_GET_SCHOLASTIC:
+				case EFC_GET_ACTION:
+				case EFC_GET_IMAGINATION:
+				case EFC_GET_COMMUNICATION:
+				case EFC_GET_CHARM:
+				m_Effect[type][mgmt].UpdateDP(plrec);
 
 				break;
 			default:
