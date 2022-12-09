@@ -101,16 +101,11 @@ void CPlayer::Update(void) {
 	//ジャンプ処理
 	if (g_pInput->IsKeyHold(MOFKEY_SPACE) && m_BSflg) {
 
-		//ジャンプ開始
-		if (!m_Jumpflg) {
-			m_MoveY = SMALLJUMP;
-		}
-
 		//SE再生
 		m_MusicMgmt->SEStart(SE_T_JUMP);
 
 		m_JumpCount++;
-		m_Jumpflg = true;
+		m_Jumpflg = false;
 		m_Motion.ChangeMotion(MOTION_JUMPSTART);
 
 		//大小ジャンプ切り替え
@@ -120,7 +115,11 @@ void CPlayer::Update(void) {
 			m_BSflg = false;
 			m_MusicMgmt->SEStart(SE_T_GREAT_JUMP);
 		}
-		
+		else if (!m_Jumpflg)
+		{
+			//ジャンプ開始 
+          	m_MoveY = SMALLJUMP;
+		}
 	}
 
 	//小ジャンプの何回もできるやつを阻止したやつ
@@ -149,8 +148,9 @@ void CPlayer::Update(void) {
 	}
 
 	//下降中
-	if (m_MoveY > 0) {
-		m_Jumpflg = false;
+	if (m_MoveY > 1) {
+		m_Motion.ChangeMotion(MOTION_JUMPSTART);
+		m_Jumpflg = true;
 		m_BSflg = false;
 	}
 
@@ -189,8 +189,10 @@ void CPlayer::UPdateCollisionBra(float y) {
 	}
 
 	//移動モーション
-	if (m_Motion.GetMotionNo() != MOTION_MOVE) {
-		m_Motion.ChangeMotion(MOTION_MOVE);
+	if (m_MoveY == 0) {
+		if (m_Motion.GetMotionNo() != MOTION_MOVE) {
+			m_Motion.ChangeMotion(MOTION_MOVE);
+		}
 	}
 }
 
@@ -312,7 +314,6 @@ void CPlayer::RenderDebugging() {
 	switch (m_Motion.GetMotionNo())
 	{
 
-
 		case MOTION_MOVE:
 			CGraphicsUtilities::RenderString(0, 90, MOF_XRGB(80, 80, 80), "現在モーション：MOTION_MOVE");
 			break;
@@ -321,6 +322,9 @@ void CPlayer::RenderDebugging() {
 			CGraphicsUtilities::RenderString(0, 90, MOF_XRGB(80, 80, 80), "現在モーション：MOTION_JUMPSTART");
 			break;
 	}
+
+	CGraphicsUtilities::RenderString(0, 150, MOF_XRGB(80, 80, 80), "m_MoveY=%f", m_MoveY);
+
 
 	//キャラクターの判定矩形
 	CGraphicsUtilities::RenderRect(GetRect(), MOF_COLOR_RED);
