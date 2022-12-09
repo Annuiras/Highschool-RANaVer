@@ -78,7 +78,7 @@ void CGAME::UPdeteCollisionDP(int dpt) {
 CGAME::CGAME():
 	gMenu(),
 	gMenuItemCount(),
-	gStartCount(),
+	m_StartCount(),
 	m_BlackAlpha(),
 	m_WhiteAlpha(),
 	_GameOver(),
@@ -106,9 +106,9 @@ void CGAME::Load(void)
 	CUtilities::SetCurrentDirectoryA("Game");
 
 	//カウントダウン画像の読み込み
-	gStartThreeTexture.Load("CountdownThree.png");
-	gStartTwoTexture.Load("CountdownTwo.png");
-	gStartOneTexture.Load("CountdownOne.png");
+	gStartThreeTexture.Load("ハイスク　カウントダウンロゴ無し　３.png");
+	gStartTwoTexture.Load("ハイスク　カウントダウンロゴ無し　２.png");
+	gStartOneTexture.Load("ハイスク　カウントダウンロゴ無し　１.png");
 	gStartGoTexture.Load("CountdownGo.png");
 
 	//リソース配置ディレクトリの設定
@@ -141,7 +141,7 @@ void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec
 	g_Stage.SetEffectManager(effec);
 
 	//カウントダウン用カウンタ初期化
-	gStartCount = 0;
+	m_StartCount = 0;
 
 	//ゲームオーバ時のフェードインフェードアウト用
 	m_BlackAlpha = 0;
@@ -158,6 +158,7 @@ void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec
 	m_Communication = 0;	//コミュ力
 	m_Charm			= 0;	//魅力
 
+	m_StartScale = 0.0f;
 
 	//BGM開始
 	g_MusicManager->BGMStart(BGMT_STAGE);
@@ -176,11 +177,23 @@ void CGAME::Update(void)
 	}
 
 	//カウントダウン判定
-	if (gStartCount < 5&&timeGetTime() - gStartTime > 1000  ) {
+	if (m_StartCount < 5&&timeGetTime() - gStartTime > 1000) {
 		gStartTime = timeGetTime();
-		gStartCount++;
-		if (gStartCount == 4) {
+		m_StartCount++;
+
+		//ズームインリセット
+		m_StartScale = 0.0f;
+
+		if (m_StartCount == 4) {
 			g_Stage.GameStopPlayChange();
+		}
+	}
+
+	//ズームイン数値更新　1.0f最大画像サイズ　0.0f最小画像サイズ
+	if (m_StartCount < 5) {
+		m_StartScale += 0.08f;
+		if (m_StartScale >= 1.0f) {
+			m_StartScale = 1.0f;
 		}
 	}
 
@@ -391,21 +404,21 @@ void CGAME::Render(void)
 	gMenu.Render(2);
 
 	//ゲーム開始時のカウントダウンの表示
-	if (gStartCount == 1) {
-		gStartThreeTexture.Render(g_pGraphics->GetTargetWidth() / 2 - gStartThreeTexture.GetWidth() / 2,
-			g_pGraphics->GetTargetHeight() / 2 - gStartThreeTexture.GetHeight() / 2);
+	if (m_StartCount == 1) {
+		gStartThreeTexture.RenderScale(g_pGraphics->GetTargetWidth() / 2 - gStartThreeTexture.GetWidth() / 2 * m_StartScale,
+			g_pGraphics->GetTargetHeight() / 2 - gStartThreeTexture.GetHeight() / 2 * m_StartScale, m_StartScale);
 	}
-	else if (gStartCount == 2) {
-		gStartTwoTexture.Render(g_pGraphics->GetTargetWidth() / 2 - gStartTwoTexture.GetWidth() / 2,
-			g_pGraphics->GetTargetHeight() / 2 - gStartTwoTexture.GetHeight() / 2);
+	else if (m_StartCount == 2) {
+		gStartTwoTexture.RenderScale(g_pGraphics->GetTargetWidth() / 2 - gStartTwoTexture.GetWidth() / 2 * m_StartScale,
+			g_pGraphics->GetTargetHeight() / 2 - gStartTwoTexture.GetHeight() / 2 * m_StartScale, m_StartScale);
 	}
-	else if (gStartCount == 3) {
-		gStartOneTexture.Render(g_pGraphics->GetTargetWidth() / 2 - gStartOneTexture.GetWidth() / 2,
-			g_pGraphics->GetTargetHeight() / 2 - gStartOneTexture.GetHeight() / 2);
+	else if (m_StartCount == 3) {
+		gStartOneTexture.RenderScale(g_pGraphics->GetTargetWidth() / 2 - gStartOneTexture.GetWidth() / 2 * m_StartScale,
+			g_pGraphics->GetTargetHeight() / 2 - gStartOneTexture.GetHeight() / 2 * m_StartScale, m_StartScale);
 	}
-	else if (gStartCount == 4) {
-		gStartGoTexture.Render(g_pGraphics->GetTargetWidth() / 2 - gStartGoTexture.GetWidth() / 2,
-			g_pGraphics->GetTargetHeight() / 2 - gStartGoTexture.GetHeight() / 2);
+	else if (m_StartCount == 4) {
+		gStartGoTexture.RenderScale(g_pGraphics->GetTargetWidth() / 2 - gStartGoTexture.GetWidth() / 2 * m_StartScale,
+			g_pGraphics->GetTargetHeight() / 2 - gStartGoTexture.GetHeight() / 2 * m_StartScale, m_StartScale);
 	}
 
 	//FPS表示
