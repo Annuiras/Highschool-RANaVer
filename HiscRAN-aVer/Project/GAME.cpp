@@ -199,7 +199,7 @@ void CGAME::Update(void)
 
 	//ˆêŽž“I‚È’Ç‰Á‚Å‚·
 	//ƒQ[ƒ€ˆêŽž’âŽ~
-	if (g_pInput->IsKeyPush(MOFKEY_RSHIFT)) {
+	if (g_pInput->IsKeyPush(MOFKEY_0)) {
 		g_Stage.GameStopPlayChange();
 
 	}

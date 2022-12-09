@@ -42,7 +42,7 @@ private:
 	//ゲーム開始時のカウントダウン
 	DWORD	gStartTime;
 	int m_StartCount = 0;
-	//ToDo　カウントダウン時のフェードイン
+	//カウントダウン時のフェードイン
 	float m_StartScale;
 
 

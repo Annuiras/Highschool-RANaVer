@@ -122,7 +122,7 @@ void CPlayer::Update(void) {
 		}
 	}
 
-	//小ジャンプの何回もできるやつを阻止したやつ
+	//一度ジャンプしたらfalse
 	if (g_pInput->IsKeyPull(MOFKEY_SPACE)) {
 		m_BSflg = false;
 	}
@@ -166,11 +166,10 @@ void CPlayer::Update(void) {
 
 }
 
-//乗れる物(上昇中すり抜け)と当たった場合
+//足場、障害物上と当たった場合
 void CPlayer::UPdateCollisionBra(float y) {
 
-	//上昇中フラグがfalseになった時に上からバーに乗る
-	if (!m_Jumpflg) {
+	if (m_Jumpflg) {
 		m_PosY = y- PLAYER_HIT_Y;
 
 		m_MoveY = 0;
@@ -186,18 +185,18 @@ void CPlayer::UPdateCollisionBra(float y) {
 			m_BSflg = true;
 			m_JumpCount = 0;
 		}
-	}
 
-	//移動モーション
-	if (m_MoveY == 0) {
+
+		//移動モーション
 		if (m_Motion.GetMotionNo() != MOTION_MOVE) {
 			m_Motion.ChangeMotion(MOTION_MOVE);
 		}
 	}
+
 }
 
-//乗れる物と当たった場合
-//float y:乗れる物の高さ
+//地面と当たった場合
+//float y:乗る高さ
 void CPlayer::UPdateCollisionGround(float y) {
 
 	//地面の高さに移動
