@@ -2,14 +2,6 @@
 #include "GAME.h"
 
 
-//rect1とrect2の接触判定
-bool CGAME::Collosopn(CRectangle rect1, CRectangle rect2)
-{
-	if (rect1.CollisionRect(rect2)) {
-		return true;
-	}
-	return false;
-}
 
 //DPと当たった場合
 //dpt->DPの種類
@@ -314,7 +306,7 @@ void CGAME::Update(void)
 			continue;
 		}
 
-		if (Collosopn(g_Player.GetRect(),(g_Stage.b_bar[i].GetRect()))){
+		if (g_Player.GetRect().CollisionRect((g_Stage.b_bar[i].GetRect()))){
 
 			g_Player.UPdateCollisionBra(g_Stage.b_bar[i].GetY());
 		}
@@ -330,12 +322,12 @@ void CGAME::Update(void)
 		}
 
 		//プレイヤーと判定
-		if (Collosopn(g_Stage.ob_array[i].GetRect(),g_Player.GetRect()))
+		if (g_Stage.ob_array[i].GetRect().CollisionRect(g_Player.GetRect()))
 		{
  			g_Player.UPdateCollisionOB();
 		}
 		//障害物からのダメージを受けていない場合だけ上の足場判定
-		else if(Collosopn(g_Player.GetLegsRect(),(g_Stage.ob_array[i].GetTopBarRect())))
+		else if(g_Player.GetLegsRect().CollisionRect(g_Stage.ob_array[i].GetTopBarRect()))
 		{
 			g_Player.UPdateCollisionBra(g_Stage.ob_array[i].GetY());
 		}
@@ -346,7 +338,7 @@ void CGAME::Update(void)
 			if (!g_Stage.ene_array[e].Getshow())
 				continue;
 
-			if (Collosopn(g_Stage.ene_array[e].GetRect(), (g_Stage.ob_array[i].GetTopBarRect()))) {
+			if (g_Stage.ene_array[e].GetRect().CollisionRect(g_Stage.ob_array[i].GetTopBarRect())) {
 				g_Stage.ene_array[e].SetPosY(g_Stage.ob_array[i].GetY());
 			}
 		}
@@ -360,7 +352,7 @@ void CGAME::Update(void)
 			continue;
 		}
 		//プレイヤーと敵の当たり判定
-		if (Collosopn(g_Player.GetRect(),(g_Stage.ene_array[i].GetRect())))
+		if (g_Player.GetRect().CollisionRect(g_Stage.ene_array[i].GetRect()))
 		{
 			g_Player.UPdateCollisionOB();
 		}
@@ -374,7 +366,7 @@ void CGAME::Update(void)
 			continue;
 		}
 
-		if (Collosopn(g_Player.GetRect(), g_Stage.dp_array[i].GetRect())) {
+		if (g_Player.GetRect().CollisionRect(g_Stage.dp_array[i].GetRect())) {
 			//DPと接触した場合
 			UPdeteCollisionDP(g_Stage.dp_array[i].Gettype());
 			g_Stage.dp_array[i].Setshow(false);

@@ -11,8 +11,6 @@ class CGAME :public CSceneBase
 
 private:
 	
-	//rect1‚Ærect2‚ÌÚG”»’è
-	bool Collosopn(CRectangle rect1, CRectangle rect2);
 
 	//DP‚ÆÚGˆ—
 	void UPdeteCollisionDP(int dpt);
