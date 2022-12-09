@@ -41,7 +41,10 @@ private:
 
 	//ゲーム開始時のカウントダウン
 	DWORD	gStartTime;
-	int gStartCount = 0;
+	int m_StartCount = 0;
+	//ToDo　カウントダウン時のフェードイン
+	float m_StartScale;
+
 
 	//フェードインフェードアウト用アルファ値（暗転）
 	int m_BlackAlpha;
