@@ -122,15 +122,6 @@ bool CStage::Load() {
 		return false;
 	}
 
-	//:同じ当たり判定の画像違いを作成する
-	////仮テクスチャ：２段机
-	//if (!ob_Textuer_TwoDesk.Load("ハイスク素材２　障害物 ２段机.png")) {
-	//	return false;
-	//}
-	if (!ob_Textuer_TwoDesk.Load("ハイスク_障害物_ゴミ箱.png")) {
-		return false;
-	}
-
 	//テクスチャ：ごみ箱
 	if (!ob_Textuer_TrachCan.Load("ハイスク_障害物_ゴミ箱.png")) {
 		return false;
@@ -141,8 +132,28 @@ bool CStage::Load() {
 		return false;
 	}
 
+	//テクスチャ：教科書_国語
+	if (!ob_Textuer_TextBookNL.Load("ハイスク_障害物_国語.png")) {
+		return false;
+	}
+
+	//テクスチャ：教科書_数学
+	if (!ob_Textuer_TextBookMATH.Load("ハイスク_障害物_数学.png")) {
+		return false;
+	}
+
 	//テクスチャ：教科書_理科
-	if (!ob_Textuer_TextBookChem.Load("ハイスク_障害物_理科.png")) {
+	if (!ob_Textuer_TextBookCHEM.Load("ハイスク_障害物_理科.png")) {
+		return false;
+	}
+
+	//テクスチャ：教科書_社会
+	if (!ob_Textuer_TextBookSOC.Load("ハイスク_障害物_社会.png")) {
+		return false;
+	}
+
+	//テクスチャ：教科書_英語
+	if (!ob_Textuer_TextBookENG.Load("ハイスク_障害物_英語.png")) {
 		return false;
 	}
 
@@ -161,6 +172,20 @@ bool CStage::Load() {
 		return false;
 	}
 
+	//テクスチャ：スティックのり
+	if (!ob_Seaweed.Load("ハイスク_障害物_スティックのり.png")) {
+		return false;
+	}
+
+	//テクスチャ：スマホ1
+	if (!ob_Smartphone1.Load("ハイスク_障害物_スマホ１.png")) {
+		return false;
+	}
+
+	//テクスチャ：スマホ1
+	if (!ob_Eraser.Load("ハイスク_障害物_消しゴム横.png")) {
+		return false;
+	}
 
 
 	//リソース配置ディレクトリの設定
@@ -172,6 +197,11 @@ bool CStage::Load() {
 
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("Game/Bar");
+
+	//仮テクスチャ：足場大
+	if (!bar_Textuer_Big.Load("ハイスク_障害物_鉛筆大.png")) {
+		return false;
+	}
 
 	//仮テクスチャ：足場中
 	if (!bar_Textuer_Medium.Load("ハイスク_障害物_鉛筆_中.png")) {
@@ -876,13 +906,21 @@ void CStage::Release(void) {
 	ob_Textuer_TwoDesk.Release();
 	ob_Textuer_TrachCan.Release();
 	ob_Textuer_Locker.Release();
-	ob_Textuer_TextBookChem.Release();
+	ob_Textuer_TextBookNL.Release();
+	ob_Textuer_TextBookMATH.Release();
+	ob_Textuer_TextBookCHEM.Release();
+	ob_Textuer_TextBookSOC.Release();
+	ob_Textuer_TextBookENG.Release();
 	ob_Textuer_VaultingHorse.Release();
 	ob_Textuer_ScotchTape.Release();
 	ob_Textuer_BloackboardEraser.Release();
+	ob_Seaweed.Release();
+	ob_Smartphone1.Release();
+	ob_Eraser.Release();
 
 	//足場テクスチャ
 	bar_Textuer_Medium.Release();
+	bar_Textuer_Big.Release();
 
 	//敵テクスチャ
 	ene_Texture_1.Release();
@@ -987,16 +1025,13 @@ void CStage::OccurrenceBar(void) {
 			switch (s_stageBAR[m_StageComposition[m_MapNo]][m_barcount].Type)
 			{
 
+			case BAR_BIG:
+				b_bar[i].SetTexture(&bar_Textuer_Big);
+				break;
+
 			case BAR_MEDIUM:
 				b_bar[i].SetTexture(&bar_Textuer_Medium);
 				break;
-
-			//case BAR_MEDIUM:
-			//	break;
-
-			//case BAR_SMALL:
-			//	break;
-
 			default:
 				break;
 			}
@@ -1115,8 +1150,24 @@ void CStage::OccurrenceOB(void) {
 				ob_array[i].SetTexture(&ob_Textuer_Locker);
 				break;
 
+			case OB_TEXTBOOKNL:
+				ob_array[i].SetTexture(&ob_Textuer_TextBookNL);
+				break;
+
+			case OB_TEXTBOOKMATH:
+				ob_array[i].SetTexture(&ob_Textuer_TextBookMATH);
+				break;
+
 			case OB_TEXTBOOKCHEM:
-				ob_array[i].SetTexture(&ob_Textuer_TextBookChem);
+				ob_array[i].SetTexture(&ob_Textuer_TextBookCHEM);
+				break;
+
+			case OB_TEXTBOOKSOC:
+				ob_array[i].SetTexture(&ob_Textuer_TextBookSOC);
+				break;
+
+			case OB_TEXTBOOKENG:
+				ob_array[i].SetTexture(&ob_Textuer_TextBookENG);
 				break;
 
 			case OB_VAULTINGHORSE:
@@ -1129,6 +1180,18 @@ void CStage::OccurrenceOB(void) {
 
 			case OB_BLOACKBOARDERASER:
 				ob_array[i].SetTexture(&ob_Textuer_BloackboardEraser);
+				break;
+
+			case OB_SEAWEED:
+				ob_array[i].SetTexture(&ob_Seaweed);
+				break;
+
+			case OB_SMARTPHONE1:
+				ob_array[i].SetTexture(&ob_Smartphone1);
+				break;
+
+			case OB_ERASER:
+				ob_array[i].SetTexture(&ob_Eraser);
 				break;
 
 			default:
@@ -1165,23 +1228,8 @@ void CStage::OccurrenceENE(void)
 			}
 
 			//表示テクスチャ準備
-			//出現位置とタイプを渡す
-			switch (s_stageENEMY[m_StageComposition[m_MapNo]][m_enecount].Type)
-			{
-
-			case ENEMY_1:
-				ene_array[i].SetTexture(&ene_Texture_1);
-				ene_array[i].SetAnime(&Enemy_Motion);
-				break;
-
-				/*case ENEMY_2:
-					ene_array[i].SetTexture(&ene_Texture_2);
-					break;*/
-
-			default:
-				break;
-			}
-
+			ene_array[i].SetTexture(&ene_Texture_1);
+			ene_array[i].SetAnime(&Enemy_Motion);
 			ene_array[i].Start(s_stageENEMY[m_StageComposition[m_MapNo]][m_enecount].Pos_y, s_stageENEMY[m_StageComposition[m_MapNo]][m_enecount].Type);
 
 			break;

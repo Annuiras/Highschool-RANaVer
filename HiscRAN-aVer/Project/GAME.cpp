@@ -319,7 +319,7 @@ void CGAME::Update(void)
 			continue;
 		}
 
-		if (g_Player.GetRect().CollisionRect((g_Stage.b_bar[i].GetRect()))){
+		if (g_Player.GetLegsRect().CollisionRect((g_Stage.b_bar[i].GetRect()))){
 
 			g_Player.UPdateCollisionBra(g_Stage.b_bar[i].GetY());
 		}
