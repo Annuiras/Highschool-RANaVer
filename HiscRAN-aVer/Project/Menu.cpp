@@ -2,7 +2,6 @@
 
 //コンストラクタ
 CMenu::CMenu() :
-	m_MenuTexture(),
 	m_cx(0.0f),
 	m_cy(0.0f),
 	m_Count(0),
@@ -30,9 +29,9 @@ void CMenu::Create(int cnt)
 	if (!CUtilities::SetCurrentDirectoryA("Menu"))
 		 false;
 
-	m_MenuTexture.Load("Menu.png");
-
-	m_MenuText.Load("Menu_text.png");
+	m_MenuEndTexture.Load("Menu_BGEND.png");
+	m_MenuPauseTexture.Load("Menu_BGPause.png");
+	m_MenuCheck.Load("Menu_Check.png");
 
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("../");
@@ -45,26 +44,19 @@ void CMenu::Create(int cnt)
 void CMenu::Release(void)
 {
 	m_Count = 0;
-	m_Rect = CRectangle(0, 0, 0, 0);
-	m_MenuTexture.Release();
-	m_MenuText.Release();
+	m_MenuEndTexture.Release();
+	m_MenuPauseTexture.Release();
+	m_MenuCheck.Release();
 }
 
 //表示
 void CMenu::Show(float cx, float cy)
 {
-	m_cx = cx;
-	m_cy = cy;
+	m_cx = 371;
+	m_cy = 159;
 	m_bShow = true;
 	m_bEnter = false;
 	m_Select = 0;
-	float w = m_MenuTexture.GetWidth();
-	float h = m_MenuTexture.GetHeight();
-
-	m_Rect.Top = m_cy - h * 0.5f;
-	m_Rect.Bottom = m_Rect.Top + h;
-	m_Rect.Left = m_cx - w * 0.5f;
-	m_Rect.Right = m_Rect.Left + w;
 }
 
 //更新
@@ -75,8 +67,8 @@ void CMenu::Update(void)
 		return;
 	}
 
-	//上下のキーで選択
-	if (g_pInput->IsKeyPush(MOFKEY_UP))
+	//左右のキーで選択
+	if (g_pInput->IsKeyPush(MOFKEY_LEFT))
 	{
 		m_Select--;
 		if (m_Select < 0)
@@ -84,7 +76,7 @@ void CMenu::Update(void)
 			m_Select = m_Count - 1;
 		}
 	}
-	else if (g_pInput->IsKeyPush(MOFKEY_DOWN))
+	else if (g_pInput->IsKeyPush(MOFKEY_RIGHT))
 	{
 		m_Select++;
 		if (m_Select >= m_Count)
@@ -108,62 +100,35 @@ void CMenu::Render(int cnt)
 		return;
 	}
 
-	//矩形設定
-	CRectangle MenuTitle1(0, 0, 495, 116);
-	CRectangle MenuTitle2(0, 116, 396, 230);
-
-	CRectangle MenuSelecttex1(0, 232, 163, 328);
-	CRectangle MenuSelecttex2(0, 328, 348, 430);
-
-	CRectangle MenuSelecttex3(0, 430, 261, 532);
-	CRectangle MenuSelecttex4(222, 225, 569, 326);
-
-	CRectangle MenuExtex1(0, 532, 490, 590);
-	CRectangle MenuExtex2(0, 590, 637, 648);
-	CRectangle MenuExtex3(0, 648, 440, 706);
-
 	//メニューの背景描画
-	m_MenuTexture.Render(258, 61);
-
 	if (cnt == 1)
 	{
-		m_MenuText.Render(393, 71, MenuTitle1);
-
+		CGraphicsUtilities::RenderFillRect(0, 0, g_pGraphics->GetTargetWidth(), g_pGraphics->GetTargetHeight(), MOF_ARGB(100, 0, 0, 0));
+		m_MenuEndTexture.Render(m_cx, m_cy);
 
 		if (m_Select == 0)
 		{
-			m_MenuText.Render(558, 247, MenuSelecttex1);
-			m_MenuText.Render(466, 403, MenuSelecttex2, MOF_ARGB(135, 20, 20, 20));
-			m_MenuText.Render(395, 588, MenuExtex1);
+			m_MenuCheck.Render(526, 422);
 		}
 		else if (m_Select == 1)
 		{
-			m_MenuText.Render(466, 403, MenuSelecttex2);
-			m_MenuText.Render(558, 247, MenuSelecttex1, MOF_ARGB(135, 20, 20, 20));
-			m_MenuText.Render(322, 588, MenuExtex2);
-
+			m_MenuCheck.Render(770, 424);
 		}
 	}
 	else if (cnt == 2)
 	{
-		m_MenuText.Render(460, 71, MenuTitle2);
+		m_MenuPauseTexture.Render(m_cx, m_cy);
 
 
 		if (m_Select == 0)
 		{
-			m_MenuText.Render(504, 243, MenuSelecttex3);
-			m_MenuText.Render(470, 403, MenuSelecttex4, MOF_ARGB(135, 20, 20, 20));
-			m_MenuText.Render(322, 588, MenuExtex2);
+			m_MenuCheck.Render(526, 422);
 		}
 		else if (m_Select == 1)
 		{
-			m_MenuText.Render(470, 403, MenuSelecttex4);
-			m_MenuText.Render(504, 243, MenuSelecttex3, MOF_ARGB(135, 20, 20, 20));
-			m_MenuText.Render(396, 588, MenuExtex3);
-
+			m_MenuCheck.Render(770, 424);
 		}
 	}
-
 
 }
 

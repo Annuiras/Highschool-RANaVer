@@ -17,16 +17,12 @@ private:
 	CRectangle recDPENDTex[5] = { {0,334,664,403}, {0,403,600,471},{0,471,780,542},{0,542,360,612},{0,612,601,680} };
 	int		   PosXHPEND[5] = { 276,453,218,396,124 };
 	int		   PosXDPEND[5] = { 304,337,259,458,350 };
-	
 	//ゲームオーバ時のフェードインフェードアウト用
 	//アルファ値
 	int			m_Alpha;
 	//フラグ
 	bool		m_FadeOutflg;
 
-	//ゲームオーバー原因フラグ
-	bool HPEND = false;
-	bool DPEND = false;
 
 public:
 	CGameOver();

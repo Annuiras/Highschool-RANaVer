@@ -3,13 +3,14 @@
 #include "Define.h"
 
 //メニュー管理クラスです
-//複数の画面で使うのでGame.Appでインスタンスしてもいいかも
 class CMenu
 {
 private:
-	CTexture	m_MenuTexture;
 
-	CTexture	m_MenuText;
+	CTexture	m_MenuEndTexture;
+	CTexture	m_MenuPauseTexture;
+
+	CTexture	m_MenuCheck;
 
 	float		m_cx;
 	float		m_cy;

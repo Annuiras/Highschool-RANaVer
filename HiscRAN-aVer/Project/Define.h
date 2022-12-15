@@ -46,7 +46,7 @@ enum tag_DP_TYPE
 	DP_IMAGINATION,		//想像力
 	DP_COMMUNICATION,	//コミュ力
 	DP_CHARM,			//魅力
-	DP_SP_ITEM,			//SPアイテム
+	//DP_SP_ITEM,			//SPアイテム
 	DP_COUNT			//総数（終端要素）	
 };
 

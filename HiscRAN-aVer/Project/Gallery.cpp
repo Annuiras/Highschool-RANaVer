@@ -247,6 +247,9 @@ void CGallery::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* ef
 	Load();
 
 	g_MusicManager->BGMStart(BGMT_GALLERY);
+
+	m_NowScene = SCENENO_GALLERY;
+
 }
 
 //çXêV

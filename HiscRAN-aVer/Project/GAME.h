@@ -26,11 +26,7 @@ private:
 	CStage g_Stage;
 
 	//ステージ内で取得したDPの数
-	int	m_Scholastic;		//学力
-	int	m_Action;			//行動力
-	int	m_Imagination;		//想像力
-	int	m_Communication;	//コミュ力
-	int	m_Charm;			//魅力
+	int m_DPNum[DP_COUNT];
 
 	//ゲーム開始時のカウントダウンテクスチャ　仮素材
 	CTexture	m_StartThreeTexture;

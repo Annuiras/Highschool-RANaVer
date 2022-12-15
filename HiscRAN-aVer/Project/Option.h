@@ -13,6 +13,9 @@ private:
 	//下地
 	CTexture		m_mount;
 
+	//背景
+	CTexture		m_BG;
+
 	//音量ボタン（BGM）
 	CTexture		m_Button1_1;
 	//音量ボタン（SE）
@@ -34,9 +37,15 @@ private:
 	//戻るボタン
 	CTexture	m_BackButton;
 
+	//説明
+	CTexture		m_ExTexture;
+	bool flag = false;
+
+
 	//BGM音量
-	float VolumeBGM = 0;
-	float VolumeSE = 0;
+	double VolumeBGM;
+	double VolumeSE;
+
 	//double
 	//ボタン座標（y軸）
 	double y_1 = 0;

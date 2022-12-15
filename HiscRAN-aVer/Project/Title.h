@@ -8,11 +8,14 @@
 class CTitle :public CSceneBase
 {
 private:
-	//背景のテクスチャ
+	//背景のテクスチャタイプ1
 	CTexture	m_BackTexture1;
-	CTexture	m_BackTexture2;
-	CTexture	m_BackTexture3;
 
+	//背景のテクスチャタイプ2
+	CTexture	m_BackTexture2;
+
+	//背景のテクスチャタイプ3
+	CTexture	m_BackTexture3;
 
 	//タイトルのテクスチャ
 	CTexture	m_TitleTexture;
@@ -29,7 +32,6 @@ private:
 
 	//ランダム用
 	int			Rondom;
-
 public:
 	CTitle();
 	~CTitle();
