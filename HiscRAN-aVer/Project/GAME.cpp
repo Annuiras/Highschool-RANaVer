@@ -76,19 +76,20 @@ void CGAME::UPdeteCollisionDP(int dpt) {
 }
 
 CGAME::CGAME():
-	gMenu(),
-	gMenuItemCount(),
+	m_Menu(),
+	m_MenuItemCount(),
 	m_StartCount(),
 	m_BlackAlpha(),
 	m_WhiteAlpha(),
 	_GameOver(),
 	_GameClear(),
-	gStartTime(),
+	m_StartTime(),
 	m_Scholastic(),
 	m_Action(),
 	m_Imagination(),
 	m_Communication(),
-	m_Charm()
+	m_Charm(),
+	m_StartScale()
 {}
 
 CGAME::~CGAME()
@@ -106,10 +107,10 @@ void CGAME::Load(void)
 	CUtilities::SetCurrentDirectoryA("Game");
 
 	//カウントダウン画像の読み込み
-	gStartThreeTexture.Load("ハイスク　カウントダウンロゴ無し　３.png");
-	gStartTwoTexture.Load("ハイスク　カウントダウンロゴ無し　２.png");
-	gStartOneTexture.Load("ハイスク　カウントダウンロゴ無し　１.png");
-	gStartGoTexture.Load("CountdownGo.png");
+	m_StartThreeTexture.Load("ハイスク　カウントダウンロゴ無し　３.png");
+	m_StartTwoTexture.Load("ハイスク　カウントダウンロゴ無し　２.png");
+	m_StartOneTexture.Load("ハイスク　カウントダウンロゴ無し　１.png");
+	m_StartGoTexture.Load("CountdownGo.png");
 
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("../");
@@ -128,7 +129,7 @@ void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec
 	g_EffectManeger = effec;
 
 	//メニュー
-	gMenu.Create(gMenuItemCount);
+	m_Menu.Create(m_MenuItemCount);
 
 	//プレイヤー初期化
 	g_Player.Initialize();
@@ -158,6 +159,7 @@ void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec
 	m_Communication = 0;	//コミュ力
 	m_Charm			= 0;	//魅力
 
+	//カウントダウン倍率初期化
 	m_StartScale = 0.0f;
 
 	//BGM開始
@@ -173,18 +175,23 @@ void CGAME::Update(void)
 	//開始時にカウントダウン開始
 	if (g_pInput->IsKeyPush(MOFKEY_RETURN) && !g_Stage.GetClear())
 	{
-		gStartTime = timeGetTime();
+		//開始時刻
+		m_StartTime = timeGetTime();
 	}
 
 	//カウントダウン判定
-	if (m_StartCount < 5&&timeGetTime() - gStartTime > 1000) {
-		gStartTime = timeGetTime();
+	if (m_StartCount < 5&&timeGetTime() - m_StartTime > 1000) {
+		//開始時刻
+		m_StartTime = timeGetTime();
+		//カウント増加
 		m_StartCount++;
 
 		//ズームインリセット
 		m_StartScale = 0.0f;
 
+		
 		if (m_StartCount == 4) {
+			//ゲーム開始
 			g_Stage.GameStopPlayChange();
 		}
 	}
@@ -228,23 +235,23 @@ void CGAME::Update(void)
 	}
 
 	//メニューの更新
-	if (gMenu.IsShow())
+	if (m_Menu.IsShow())
 	{
 		//カウントダウンを停止するため
-		gStartTime = timeGetTime();
+		m_StartTime = timeGetTime();
 
-		gMenu.Update();
-		if (gMenu.IsEnter())
+		m_Menu.Update();
+		if (m_Menu.IsEnter())
 		{
 			//やめる
-			if (gMenu.GetSelect() == 0)
+			if (m_Menu.GetSelect() == 0)
 			{
 				//モードセレクトへ
 				m_bEnd = true;
 				m_NextScene = SCENENO_SELECTMODE;
 			}
 			//メニューを非表示
-			gMenu.Hide();
+			m_Menu.Hide();
 		}
 	}
 	//エスケープキーで終了メニューを表示
@@ -254,7 +261,7 @@ void CGAME::Update(void)
 		if (g_Stage.GetGameStopPlay())
 			g_Stage.GameStopPlayChange();
 
-		gMenu.Show(g_pGraphics->GetTargetWidth() * 0.5f, g_pGraphics->GetTargetHeight() * 0.5f);
+		m_Menu.Show(g_pGraphics->GetTargetWidth() * 0.5f, g_pGraphics->GetTargetHeight() * 0.5f);
 	}
 
 
@@ -301,8 +308,11 @@ void CGAME::Update(void)
 		}
 	}
 
-	//クリア時は以下の処理をしない
 	if (g_Stage.GetClear()||_GameClear) {
+		//エフェクトの更新
+		g_EffectManeger->Update(g_Player.GetRect());
+
+		//クリア時は以下の処理をしない
 		return;
 	}
 
@@ -319,7 +329,7 @@ void CGAME::Update(void)
 			continue;
 		}
 
-		if (g_Player.GetRect().CollisionRect((g_Stage.b_bar[i].GetRect()))){
+		if (g_Player.GetLegsRect().CollisionRect((g_Stage.b_bar[i].GetRect()))){
 
 			g_Player.UPdateCollisionBra(g_Stage.b_bar[i].GetY());
 		}
@@ -401,28 +411,27 @@ void CGAME::Render(void)
 	g_Player.Render();
 
 	//メニューの描画
-	gMenu.Render(2);
+	m_Menu.Render(2);
 
 	//ゲーム開始時のカウントダウンの表示
+	//画面中央に配置
 	if (m_StartCount == 1) {
-		gStartThreeTexture.RenderScale(g_pGraphics->GetTargetWidth() / 2 - gStartThreeTexture.GetWidth() / 2 * m_StartScale,
-			g_pGraphics->GetTargetHeight() / 2 - gStartThreeTexture.GetHeight() / 2 * m_StartScale, m_StartScale);
+		m_StartThreeTexture.RenderScale(g_pGraphics->GetTargetWidth() / 2 - m_StartThreeTexture.GetWidth() / 2 * m_StartScale,
+			g_pGraphics->GetTargetHeight() / 2 - m_StartThreeTexture.GetHeight() / 2 * m_StartScale, m_StartScale);
 	}
 	else if (m_StartCount == 2) {
-		gStartTwoTexture.RenderScale(g_pGraphics->GetTargetWidth() / 2 - gStartTwoTexture.GetWidth() / 2 * m_StartScale,
-			g_pGraphics->GetTargetHeight() / 2 - gStartTwoTexture.GetHeight() / 2 * m_StartScale, m_StartScale);
+		m_StartTwoTexture.RenderScale(g_pGraphics->GetTargetWidth() / 2 - m_StartTwoTexture.GetWidth() / 2 * m_StartScale,
+			g_pGraphics->GetTargetHeight() / 2 - m_StartTwoTexture.GetHeight() / 2 * m_StartScale, m_StartScale);
 	}
 	else if (m_StartCount == 3) {
-		gStartOneTexture.RenderScale(g_pGraphics->GetTargetWidth() / 2 - gStartOneTexture.GetWidth() / 2 * m_StartScale,
-			g_pGraphics->GetTargetHeight() / 2 - gStartOneTexture.GetHeight() / 2 * m_StartScale, m_StartScale);
+		m_StartOneTexture.RenderScale(g_pGraphics->GetTargetWidth() / 2 - m_StartOneTexture.GetWidth() / 2 * m_StartScale,
+			g_pGraphics->GetTargetHeight() / 2 - m_StartOneTexture.GetHeight() / 2 * m_StartScale, m_StartScale);
 	}
 	else if (m_StartCount == 4) {
-		gStartGoTexture.RenderScale(g_pGraphics->GetTargetWidth() / 2 - gStartGoTexture.GetWidth() / 2 * m_StartScale,
-			g_pGraphics->GetTargetHeight() / 2 - gStartGoTexture.GetHeight() / 2 * m_StartScale, m_StartScale);
+		m_StartGoTexture.RenderScale(g_pGraphics->GetTargetWidth() / 2 - m_StartGoTexture.GetWidth() / 2 * m_StartScale,
+			g_pGraphics->GetTargetHeight() / 2 - m_StartGoTexture.GetHeight() / 2 * m_StartScale, m_StartScale);
 	}
 
-	//FPS表示
-	CGraphicsUtilities::RenderString(0, 150,MOF_XRGB(80, 80, 80), "FPS：%d", CUtilities::GetFPS());
 
 	//エフェクトの描画
 	g_EffectManeger->Render();
@@ -442,13 +451,13 @@ void CGAME::Release(void)
 
 	g_Stage.Release();
 
-	gMenu.Release();
+	m_Menu.Release();
 
 	//カウントダウン画像の開放
-	gStartThreeTexture.Release();
-	gStartTwoTexture.Release();
-	gStartOneTexture.Release();
-	gStartGoTexture.Release();
+	m_StartThreeTexture.Release();
+	m_StartTwoTexture.Release();
+	m_StartOneTexture.Release();
+	m_StartGoTexture.Release();
 
 	//BGM停止
 	g_MusicManager->BGMStop(BGMT_STAGE);
@@ -461,6 +470,9 @@ void CGAME::RenderDebug(void)
 	m_Scholastic, m_Action, m_Imagination, m_Communication, m_Charm);
 CGraphicsUtilities::RenderString(250, 0, MOF_COLOR_BLACK, "このステージ内での取得数  学力：%d　行動力：%d　想像力：%d　コミュ力：%d　魅力：%d",
 	m_Scholastic, m_Action, m_Imagination, m_Communication, m_Charm);
+
+	//FPS表示
+	CGraphicsUtilities::RenderString(0, 150, MOF_XRGB(80, 80, 80), "FPS：%d", CUtilities::GetFPS());
 
 	g_Stage.RenderDebugging();
 	g_Player.RenderDebugging();

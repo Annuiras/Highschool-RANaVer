@@ -16,8 +16,8 @@ private:
 	void UPdeteCollisionDP(int dpt);
 
 	//メニュークラス
-	CMenu			gMenu;
-	int				gMenuItemCount = 2;
+	CMenu			m_Menu;
+	int				m_MenuItemCount = 2;
 
 	//プレイヤークラス
 	CPlayer g_Player;
@@ -32,17 +32,16 @@ private:
 	int	m_Communication;	//コミュ力
 	int	m_Charm;			//魅力
 
-
 	//ゲーム開始時のカウントダウンテクスチャ　仮素材
-	CTexture	gStartThreeTexture;
-	CTexture	gStartTwoTexture;
-	CTexture	gStartOneTexture;
-	CTexture	gStartGoTexture;
+	CTexture	m_StartThreeTexture;
+	CTexture	m_StartTwoTexture;
+	CTexture	m_StartOneTexture;
+	CTexture	m_StartGoTexture;
 
 	//ゲーム開始時のカウントダウン
-	DWORD	gStartTime;
+	DWORD	m_StartTime;
 	int m_StartCount = 0;
-	//カウントダウン時のフェードイン
+	//カウントダウン時のズーム倍率
 	float m_StartScale;
 
 
