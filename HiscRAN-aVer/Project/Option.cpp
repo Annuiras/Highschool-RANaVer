@@ -9,6 +9,7 @@ int OptionCnt = 0;
 
 COption::COption() :
 	m_Font1(),
+	m_BG(),
 	m_mount(),
 	m_Button1_1(),
 	m_Button1_2(),
@@ -19,11 +20,12 @@ COption::COption() :
 	m_Select_SE(),
 	m_Select_Screen(),
 	m_Select_s(),
+	m_ExTexture(),
 	m_BackButton(),
-	VolumeBGM(0.5),
-	VolumeSE(0.5),
-	y_1(407),
-	y_2(407),
+	VolumeBGM(0.0),
+	VolumeSE(0.0),
+	y_1(0.0),
+	y_2(0.0),
 	flagBGM(false),
 	flagSE(false),
 	flagSC(false),
@@ -43,6 +45,12 @@ bool COption::Load(void)
 
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("Option");
+
+	//背景
+	if (!m_BG.Load("Option_BG.png"))
+	{
+		return false;
+	}
 
 	//土台
 	if (!m_mount.Load("Option_mount.png"))
@@ -95,6 +103,12 @@ bool COption::Load(void)
 		return false;
 	}
 
+	//説明
+	if (!m_ExTexture.Load("Option_Ex.png"))
+	{
+		return false;
+	}
+
 
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("../");
@@ -127,14 +141,54 @@ void COption::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* eff
 	//フォント
 	m_Font1.Create(35, "UD デジタル 教科書体 N-B");
 
-	g_MusicManager->InitializeIn_middle(VolumeSE, VolumeBGM);
-	//g_MusicManager->BGMLoop(BGMT_OP, true);
-	//g_MusicManager->BGMStart(BGMT_OP);
+	//ボリューム取得
+	VolumeBGM = g_MusicManager->GetBGMVolume();
+	VolumeSE = g_MusicManager->GetSEVolume();
 
 	//BGMに選択枠を合わせておく
 	OptionCnt = 0;
 
+	//BGM再生
+	g_MusicManager->BGMLoop(BGMT_MOOP, true);
 	g_MusicManager->BGMStart(BGMT_MOOP);
+
+	//todo:オプションのシークバーの位置が音量によって変わらない
+	double BGM = VolumeBGM - 0.01;
+	double SE = VolumeSE - 0.01;
+
+	y_1 = 200.0 / BGM;
+	y_2 = 200.0 / SE;
+
+	//ボタン座標初期化
+	if (y_1 < 242)
+	{
+		y_1 = 242;
+	}
+	else if (y_1 > 542)
+	{
+		y_1 = 542;
+	}
+
+	if (y_2 < 242)
+	{
+		y_2 = 242;
+	}
+	else if (y_2 > 542)
+	{
+		y_2 = 542;
+	}
+
+	if (VolumeBGM == 0.0)
+	{
+		y_1 = 542;
+	}
+
+	if (VolumeSE == 0.0)
+	{
+		y_2 = 542;
+	}
+
+	m_NowScene = SCENENO_OPTION;
 
 }
 
@@ -146,6 +200,19 @@ void COption::Update(void)
 	{
 		m_bEnd = true;
 		m_NextScene = SCENENO_TITLE;
+	}
+
+	//説明表示
+	if (g_pInput->IsKeyPush(MOFKEY_F3))
+	{
+		if (flag == true)
+		{
+			flag = false;
+		}
+		else
+		{
+			flag = true;
+		}
 	}
 
 	//戻るボタンでモードセレクト画面へ
@@ -165,6 +232,11 @@ void COption::Update(void)
 			//右に行くことができる
 			OptionCnt++;
 		}
+		else if (OptionCnt == 3)
+		{
+			OptionCnt = 0;
+		}
+
 	}
 	//矢印キー左で左に行くようにする
 	else if (g_pInput->IsKeyPush(MOFKEY_LEFT) && flagBGM == false && flagSE == false && flagSC == false)
@@ -173,122 +245,80 @@ void COption::Update(void)
 		{
 			OptionCnt--;
 		}
+		else if (OptionCnt == 0)
+		{
+			OptionCnt = 3;
+		}
 	}
 
 	//戻るボタンにカーソルがあって、上ボタンを押したらBGMに選択枠が行く
-	if (OptionCnt == 3 && g_pInput->IsKeyPush(MOFKEY_UP) && flagBGM == false && flagSE == false && flagSC == false)
+	if (OptionCnt == 3 && g_pInput->IsKeyPush(MOFKEY_UP))
 	{
 		OptionCnt = 0;
 	}
 	//下ボタンを押したら戻るボタンに行く
-	else if (g_pInput->IsKeyPush(MOFKEY_DOWN) && flagBGM == false && flagSE == false && flagSC == false)
+	else if (OptionCnt == 3 && g_pInput->IsKeyPush(MOFKEY_DOWN))
 	{
 		OptionCnt = 3;
 	}
 
 
-	//BGM音量設定にカーソルが当たった状態で、スペースキーを押した場合
-	if (OptionCnt == 0 && g_pInput->IsKeyPush(MOFKEY_SPACE))
-	{
-		if (flagBGM)
-		{
-			//選択済みになっている場合は選択解除する
-			flagBGM = false;
-		}
-		else
-		{
-			//選択解除になっている場合は選択済みにする
-			flagBGM = true;
-		}
-	}
-
-	//SE音量設定にカーソルが当たった状態で、スペースキーを押した場合
-	if (OptionCnt == 1 && g_pInput->IsKeyPush(MOFKEY_SPACE))
-	{
-		if (flagSE)
-		{
-			//選択済みになっている場合は選択解除する
-			flagSE = false;
-		}
-		else
-		{
-			//選択解除になっている場合は選択済みにする
-			flagSE = true;
-		}
-	}
-
-	//エンターで音を鳴らす
-	if (OptionCnt == 1 && flagSE == true && g_pInput->IsKeyPush(MOFKEY_RETURN))
-	{
-		g_MusicManager->SEStart(SE_T_OPTION_CHIME);
-	}
-
-	//BGM音量設定にカーソルが当たった状態で、スペースキーを押した場合
-	if (OptionCnt == 2 && g_pInput->IsKeyPush(MOFKEY_SPACE))
-	{
-		if (flagSC)
-		{
-			//選択済みになっている場合は選択解除する
-			flagSC = false;
-		}
-		else
-		{
-			//選択解除になっている場合は選択済みにする
-			flagSC = true;
-		}
-	}
-
-
-	//音量を上げる
-	if (flagBGM == true && g_pInput->IsKeyHold(MOFKEY_UP))
+	//BGM音量を上げる
+	if (OptionCnt == 0 && g_pInput->IsKeyHold(MOFKEY_UP))
 	{
 		g_MusicManager->BGMSetVolume(g_MusicManager->GetBGMVolume() + 0.01f);
 		VolumeBGM = g_MusicManager->GetBGMVolume();
 	}
 	//音量を下げる
-	else if (flagBGM == true && g_pInput->IsKeyHold(MOFKEY_DOWN))
+	else if (OptionCnt == 0 && g_pInput->IsKeyHold(MOFKEY_DOWN))
 	{
 		g_MusicManager->BGMSetVolume(g_MusicManager->GetBGMVolume() - 0.01f);
 		VolumeBGM = g_MusicManager->GetBGMVolume();
 	}
 
 	//BGM調節ボタンの上げ下げ
-	if (g_MusicManager->GetBGMVolume() < 1 && flagBGM == true && g_pInput->IsKeyHold(MOFKEY_UP) && y_1 >= 200)
+	if (g_MusicManager->GetBGMVolume() < 1 && OptionCnt == 0 && g_pInput->IsKeyHold(MOFKEY_UP) && y_1 >= 242)
 	{
 		y_1 -= 3.0;
 	}
-	else if (g_MusicManager->GetBGMVolume() > 0 && flagBGM == true && g_pInput->IsKeyHold(MOFKEY_DOWN) && y_1 <= 542)
+	else if (g_MusicManager->GetBGMVolume() > 0 && OptionCnt == 0 && g_pInput->IsKeyHold(MOFKEY_DOWN) && y_1 <= 542)
 	{
 		y_1 += 3.0;
 	}
 
 
-
 	//SEの音量を上げる
-	if (g_MusicManager->GetSEVolume() < 1 && flagSE == true && g_pInput->IsKeyHold(MOFKEY_UP))
+	if (g_MusicManager->GetSEVolume() < 1 && OptionCnt == 1 && g_pInput->IsKeyHold(MOFKEY_UP))
 	{
 		g_MusicManager->SESetVolume(g_MusicManager->GetSEVolume() + 0.01f);
 		VolumeSE = g_MusicManager->GetSEVolume();
 	}
 	//SEの音量を下げる
-	else if (g_MusicManager->GetSEVolume() > 0 && flagSE == true && g_pInput->IsKeyHold(MOFKEY_DOWN))
+	else if (g_MusicManager->GetSEVolume() > 0 && OptionCnt == 1 && g_pInput->IsKeyHold(MOFKEY_DOWN))
 	{
 		g_MusicManager->SESetVolume(g_MusicManager->GetSEVolume() - 0.01f);
 		VolumeSE = g_MusicManager->GetSEVolume();
 	}
 
 	//SE調整ボタンの上げ下げ
-	if (g_MusicManager->GetSEVolume() < 1 && flagSE == true && g_pInput->IsKeyHold(MOFKEY_UP) && y_2 >= 242)
+	if (g_MusicManager->GetSEVolume() < 1 && OptionCnt == 1 && g_pInput->IsKeyHold(MOFKEY_UP) && y_2 >= 242)
 	{
 		y_2 -= 3.0;
 	}
-	else if (g_MusicManager->GetSEVolume() > 0 && flagSE == true && g_pInput->IsKeyHold(MOFKEY_DOWN) && y_2 <= 542)
+	else if (g_MusicManager->GetSEVolume() > 0 && OptionCnt == 1 && g_pInput->IsKeyHold(MOFKEY_DOWN) && y_2 <= 542)
 	{
 		y_2 += 3.0;
 	}
 
+	//SE再生
+	if (OptionCnt == 1 && g_pInput->IsKeyPush(MOFKEY_RETURN))
+	{
+		g_MusicManager->SEStart(SE_T_OPTION_CHIME);
+	}
+
+
 	//フルスクリーン
-	if (flagSC == true && g_pInput->IsKeyPush(MOFKEY_RETURN))
+	if (OptionCnt == 2 && g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
 		g_pGraphics->ChangeScreenMode();
 		if (ScreenSize)
@@ -307,6 +337,9 @@ void COption::Update(void)
 //描画
 void COption::Render(void)
 {
+
+	m_BG.Render(0, 0);
+
 	//土台描画
 	m_mount.Render(241, 116);
 
@@ -368,21 +401,21 @@ void COption::Render(void)
 		//BGM
 	case 0:
 		m_Select_BGM.Render(375, 181, yellowBGM);
-		if (flagBGM == true)
+		/*if (flagBGM == true)
 		{
-			m_Select_BGM.Render(375, 181, redBGM);
-		}
+			m_Select_BGM.Render(375, 181,redBGM);
+		}*/
 		break;
 
 		//SE
 	case 1:
 		m_Select_SE.Render(543, 183, yellowSE);
-		if (flagSE == true)
+		/*if (OptionCnt==1)
 		{
 			m_Select_SE.Render(543, 183, redSE);
-		}
+		}*/
 
-		if (flagSE == true && g_pInput->IsKeyHold(MOFKEY_RETURN))
+		if (OptionCnt == 1 && g_pInput->IsKeyHold(MOFKEY_RETURN))
 		{
 			m_Button2.Render(622, 414, MOF_ARGB(155, 20, 20, 20));
 		}
@@ -391,10 +424,10 @@ void COption::Render(void)
 		//Screenサイズ
 	case 2:
 		m_Select_Screen.Render(815, 340, yellowScreen);
-		if (flagSC == true)
+		/*if (flagSC == true)
 		{
-			m_Select_Screen.Render(815, 340, redScreen);
-		}
+			m_Select_Screen.Render(815, 340,redScreen);
+		}*/
 		break;
 
 		//戻るボタン
@@ -403,6 +436,12 @@ void COption::Render(void)
 		break;
 
 	}
+
+	if (flag != false)
+	{
+		m_ExTexture.Render(0, 0);
+	}
+
 }
 
 //デバッグ
@@ -511,7 +550,8 @@ void COption::Release(void)
 	m_Select_s.Release();
 	m_BackButton.Release();
 	m_Font1.Release();
-
+	m_BG.Release();
+	m_ExTexture.Release();
 	g_MusicManager->SEALLStop();
 	g_MusicManager->BGMStop(BGMT_MOOP);
 

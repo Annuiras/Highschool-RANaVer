@@ -1,7 +1,147 @@
 #include "GameClear.h"
 
-//変更するシーン（外部参照。実態はGameApp.cpp）
-extern int gChangeScene;
+//ステータスから最終容姿を判定する
+void CGameClear::StatusJudgement(void)
+{
+	//ステータス上位２つの添え字
+	int m_Status_1=0, m_Status_2=0;
+
+	//todo:同数の処理聞く
+	//ステータスの大きさ一番目の添え字保存
+	for (int i = 0; i < DP_COUNT; i++)
+	{
+		if (Status[i] > Status[m_Status_1])
+		{
+			m_Status_1 = i;
+		}
+	}
+
+	//ステータスの大きさ二番目の添え字保存
+	for (int i = 0; i < DP_COUNT; i++)
+	{
+		if (m_Status_1 == i) {
+			continue;
+		}
+
+		if (Status[i] > Status[m_Status_2])
+		{
+			m_Status_2 = i;
+		}
+	}
+
+	//学力一点突破
+	if (m_Status_1 == DP_SCHOLASTIC && m_Status_1 >= 100) {
+		//文学少女
+		LastDetailNo = 0;
+		return;
+	}
+	//行動力一点突破
+	if (m_Status_1 == DP_ACTION&& m_Status_1 >= 100) {
+		//お調子者
+		LastDetailNo = 1;
+		return;
+	}
+	//想像力一点突破
+	if (m_Status_1 == DP_IMAGINATION && m_Status_1 >= 100) {
+		//中二病
+		LastDetailNo = 2;
+		return;
+	}
+	//コミュ力一点突破
+	if (m_Status_1 == DP_COMMUNICATION && m_Status_1 >= 100) {
+		//神対応
+		LastDetailNo = 3;
+		return;
+	}
+	//魅力一点突破
+	if (m_Status_1 == DP_CHARM && m_Status_1 >= 100) {
+		//スーパーレディ
+		LastDetailNo = 4;
+		return;
+	}
+
+	//以下二点参照
+	//学力
+	if (m_Status_1 == DP_SCHOLASTIC || m_Status_2 == DP_SCHOLASTIC) {
+
+		//と行動力
+		if (m_Status_1 == DP_ACTION || m_Status_2 == DP_ACTION) {
+			//委員長
+			LastDetailNo = 5;
+			return;
+		}
+		//と想像力
+		if (m_Status_1 == DP_IMAGINATION || m_Status_2 == DP_IMAGINATION) {
+			//図書室の長
+			LastDetailNo = 6;
+			return;
+		}
+		//とコミュ力
+		if (m_Status_1 == DP_COMMUNICATION || m_Status_2 == DP_COMMUNICATION) {
+			//人気者
+			LastDetailNo = 7;
+			return;
+		}
+		//と魅力
+		if (m_Status_1 == DP_CHARM || m_Status_2 == DP_CHARM) {
+			//高嶺の花
+			LastDetailNo = 8;
+			return;
+		}
+	}
+
+	//行動力
+	if (m_Status_1 == DP_ACTION || m_Status_2 == DP_ACTION) {
+
+		//と想像力
+		if (m_Status_1 == DP_IMAGINATION || m_Status_2 == DP_IMAGINATION) {
+			//オタク
+			LastDetailNo = 9;
+			return;
+		}
+		//とコミュ力
+		if (m_Status_1 == DP_COMMUNICATION || m_Status_2 == DP_COMMUNICATION) {
+			//応援団長
+			LastDetailNo = 10;
+			return;
+		}
+		//と魅力
+		if (m_Status_1 == DP_CHARM || m_Status_2 == DP_CHARM) {
+			//ヤンキー
+			LastDetailNo = 11;
+			return;
+		}
+	}
+
+	//想像力
+	if (m_Status_1 == DP_IMAGINATION || m_Status_2 == DP_IMAGINATION) {
+
+		//とコミュ力
+		if (m_Status_1 == DP_COMMUNICATION || m_Status_2 == DP_COMMUNICATION) {
+			//姉御
+			LastDetailNo = 12;
+			return;
+		}
+		//と魅力
+		if (m_Status_1 == DP_CHARM || m_Status_2 == DP_CHARM) {
+			//インフルエンサー
+			LastDetailNo = 13;
+			return;
+		}
+	}
+
+	//コミュ力
+	if (m_Status_1 == DP_COMMUNICATION || m_Status_2 == DP_COMMUNICATION) {
+
+		//と魅力
+		if (m_Status_1 == DP_CHARM || m_Status_2 == DP_CHARM) {
+			//ギャル
+			LastDetailNo = 14;
+			return;
+		}
+	}
+
+}
 
 //コンストラクタ
 CGameClear::CGameClear() :
@@ -14,6 +154,7 @@ CGameClear::CGameClear() :
 	Memory2(),
 	Status(),
 	StatusRender(),
+	LastDetailNo(),
 	isStop(false)
 {}
 
@@ -77,11 +218,32 @@ void CGameClear::drawChart(Vector2* PointsStatus, MofU32 cl)
 bool CGameClear::Load(void)
 {
 	//リソース配置ディレクトリの設定
-	CUtilities::SetCurrentDirectoryA("GameClear");
+	CUtilities::SetCurrentDirectoryA("Game/GameClear");
 
-	if (!m_BackTexture.Load("GameClearBG.png"))
+	char* name[15] =
 	{
-		return false;
+		"GameClearBG_LiteratureGirl.png",//0 文学少女
+		"GameClearBG_FussyPerson.png",	 //1 お調子者
+		"GameClearBG_Chu-nibyou.png",	 //2 中二病
+		"GameClearBG_GodSupport.png",	 //3 神対応
+		"GameClearBG_SuperLady.png",	 //4 スーパーレディ
+		"GameClearBG_Chairman.png",		 //5 委員長
+		"GameClearBG_LibraryManager.png",//6 図書室の長
+		"GameClearBG_ClassFavorite.png", //7 人気者
+		"GameClearBG_LoftyDream.png",	 //8 高嶺の花
+		"GameClearBG_Otaku.png",		 //9 オタク
+		"GameClearBG_CheerLeader.png",	 //10応援団長
+		"GameClearBG_Yankee.png",		 //11ヤンキー
+		"GameClearBG_OlderSister.png",	 //12姉御
+		"GameClearBG_Infulencer.png",	 //13インフルエンサー
+		"GameClearBG_Gal.png",			 //14ギャル
+	};
+
+	for (int i = 0; i < 15; i++)
+	{
+		if (!m_BackTexture[i].Load(name[i])) {
+			return false;
+		}
 	}
 
 	if (!m_UITexture.Load("GameClearUI.png"))
@@ -90,7 +252,7 @@ bool CGameClear::Load(void)
 	}
 
 	//リソース配置ディレクトリの設定
-	CUtilities::SetCurrentDirectoryA("../");
+	CUtilities::SetCurrentDirectoryA("../../");
 
 	return true;
 }
@@ -98,50 +260,55 @@ bool CGameClear::Load(void)
 //初期化
 void CGameClear::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec)
 {
+	//素材ロード
 	Load();
 
+	//各マネージャーセット
 	m_GameProgMamt = mamt;
 	g_MusicManager = musi;
 	g_EffectManeger = effec;
 
-
+	//最大値メモリ用
 	for (int i = 0; i < ITEM_NUM; i++)
 	{
 		Memory1[i] = MAX_STATUS;
 
 	}
 
+	//グラフ半分値メモリ用
 	for (int i = 0; i < ITEM_NUM; i++)
 	{
 		Memory2[i] = MAX_STATUS / 2;
 
 	}
 
-	//動的なステータス
+	//動的なステータス初期化
 	for (int i = 0; i < ITEM_NUM; i++)
 	{
 		StatusRender[i] = 0;
 	}
 
-	//魅力
-	Status[0] = 70;
+	//ゲーム画面からDP取得数受けとる
+	for (int i = 0; i < DP_COUNT; i++)
+	{
+		Status[i] = *(m_GameProgMamt->GetGame_DPNum()+i);
+	}
 
-	//行動力
-	Status[1] = 57;
-
-	//学力
-	Status[2] = 130;
-
-	//想像力
-	Status[3] = 30;
-
-	//コミュ力
-	Status[4] = 18;
-
+	//文字用アルファ値
 	gAlpha = 0;
+
+	//フェードイン用アルファ値
 	m_WhiteAlpha = 255;
+
+	//フェードインフラグ
 	m_FadeOut = false;
 	isStop = false;
+
+	LastDetailNo = 0;
+
+	//ステータスから最終容姿を判定する
+	StatusJudgement();
+
 
 	//BGM再生
 	g_MusicManager->BGMStart(BGMT_CLEAR);
@@ -157,16 +324,6 @@ void CGameClear::Update(void)
 	{
 		m_bEnd = true;
 		m_NextScene = SCENENO_SELECTMODE;
-
-		//gChangeScene = SCENENO_SELECTMODE;
-	}
-	//F1キーでタイトル画面へ
-	if (g_pInput->IsKeyPush(MOFKEY_F1))
-	{
-		m_bEnd = true;
-		m_NextScene = SCENENO_TITLE;
-
-		//gChangeScene = SCENENO_TITLE;
 	}
 
 	//明転処理
@@ -226,11 +383,7 @@ void CGameClear::Update(void)
 //描画
 void CGameClear::Render(void)
 {
-	m_BackTexture.Render(0, 0);
-
-	//半透明にしていく
-	g_pGraphics->SetBlending(BLEND_NORMAL);
-	m_UITexture.Render(370, 2, MOF_ARGB(gAlpha, 255, 255, 255));
+	m_BackTexture[LastDetailNo].Render(0, 0);
 
 	// チャートを描画
 	drawChart(PointsStatus, MOF_COLOR_RED);
@@ -245,27 +398,39 @@ void CGameClear::Render(void)
 	Vector2 point4(PointsStatus[3].x + CHART_CENTER_X, PointsStatus[3].y + CHART_CENTER_Y);
 	Vector2 point5(PointsStatus[4].x + CHART_CENTER_X, PointsStatus[4].y + CHART_CENTER_Y);
 
-	//:色指定未実装指定できるようにしたい
 	//三角形を描いてグラフを塗りつぶす
-	CGraphicsUtilities::RenderFillTriangle(center, point1, point2, MOF_ARGB(155,0,0,255), MOF_ARGB(155, 0, 0, 255), MOF_ARGB(155, 0, 0, 255));
-	CGraphicsUtilities::RenderFillTriangle(center, point2, point3, MOF_COLOR_BLUE, MOF_COLOR_BLUE, MOF_COLOR_BLUE);
-	CGraphicsUtilities::RenderFillTriangle(center, point3, point4, MOF_COLOR_BLUE, MOF_COLOR_BLUE, MOF_COLOR_BLUE);
-	CGraphicsUtilities::RenderFillTriangle(center, point4, point5, MOF_COLOR_BLUE, MOF_COLOR_BLUE, MOF_COLOR_BLUE);
-	CGraphicsUtilities::RenderFillTriangle(center, point5, point1, MOF_COLOR_BLUE, MOF_COLOR_BLUE, MOF_COLOR_BLUE);
+	CGraphicsUtilities::RenderFillTriangle(center, point1, point2, 
+		Chartcol[LastDetailNo], Chartcol[LastDetailNo], Chartcol[LastDetailNo]);
+
+	CGraphicsUtilities::RenderFillTriangle(center, point2, point3, 
+		Chartcol[LastDetailNo], Chartcol[LastDetailNo], Chartcol[LastDetailNo]);
+
+	CGraphicsUtilities::RenderFillTriangle(center, point3, point4, 
+		Chartcol[LastDetailNo], Chartcol[LastDetailNo], Chartcol[LastDetailNo]);
+
+	CGraphicsUtilities::RenderFillTriangle(center, point4, point5, 
+		Chartcol[LastDetailNo], Chartcol[LastDetailNo], Chartcol[LastDetailNo]);
+
+	CGraphicsUtilities::RenderFillTriangle(center, point5, point1, 
+		Chartcol[LastDetailNo], Chartcol[LastDetailNo], Chartcol[LastDetailNo]);
+
+
+	//半透明にしていく
+	g_pGraphics->SetBlending(BLEND_NORMAL);
+	m_UITexture.Render(370, 2, MOF_ARGB(gAlpha, 255, 255, 255));
 
 	//フェードアウト明転用
 	CGraphicsUtilities::RenderFillRect(0, 0, g_pGraphics->GetTargetWidth(), g_pGraphics->GetTargetHeight(), MOF_ARGB(m_WhiteAlpha, 255, 255, 255));
-
 
 }
 
 void CGameClear::RenderDebug(void)
 {
-	CGraphicsUtilities::RenderString(10, 10, "ゲームクリア画面");
-	CGraphicsUtilities::RenderString(10, 40, "エンターでモードセレクト");
-	CGraphicsUtilities::RenderString(10, 70, "F1でタイトル");
+	//CGraphicsUtilities::RenderString(10, 10, "ゲームクリア画面");
+	//CGraphicsUtilities::RenderString(10, 40, "エンターでモードセレクト");
 
-	CGraphicsUtilities::RenderString(10, 100, MOF_COLOR_BLACK, "%d", gAlpha);
+	//文字アルファ値表示
+	//CGraphicsUtilities::RenderString(10, 100, MOF_COLOR_BLACK, "%d", gAlpha);
 
 	//中心点
 	CGraphicsUtilities::RenderFillCircle(CHART_CENTER_X, CHART_CENTER_Y, 2, MOF_COLOR_YELLOW);
@@ -278,8 +443,8 @@ void CGameClear::RenderDebug(void)
 
 	for (int i = 0; i < ITEM_NUM; i++)
 	{
-		CGraphicsUtilities::RenderString(0, 30 * i, MOF_COLOR_BLACK, "%f", PointsStatus[i].x);
-		CGraphicsUtilities::RenderString(150, 30 * i, MOF_COLOR_BLACK, "%f", PointsStatus[i].y);
+		//CGraphicsUtilities::RenderString(0, 30 * i, MOF_COLOR_BLACK, "%f", PointsStatus[i].x);
+		//CGraphicsUtilities::RenderString(150, 30 * i, MOF_COLOR_BLACK, "%f", PointsStatus[i].y);
 		CGraphicsUtilities::RenderString(100, 40 * i + 450, MOF_COLOR_BLACK, StatusName[i], Status[i]);
 
 		CGraphicsUtilities::RenderLine((int)(CHART_CENTER_X),
@@ -287,15 +452,12 @@ void CGameClear::RenderDebug(void)
 			(int)(MemoryPoints1[i].x + CHART_CENTER_X),
 			(int)(MemoryPoints1[i].y + CHART_CENTER_Y),
 			MOF_COLOR_BLACK);
-
-
 	}
 
 }
 
 void CGameClear::Release(void)
 {
-	m_BackTexture.Release();
 	m_UITexture.Release();
 	
 	//BGM停止

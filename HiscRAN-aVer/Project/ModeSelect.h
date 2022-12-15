@@ -10,8 +10,11 @@
 class CModeSelect :public CSceneBase
 {
 private:
+	CTexture		m_TutorialTextureSmall;
+	CTexture		m_TutorialTextureBig;
+	CTexture		m_TutorialBG[4];
+	CTexture		m_TutorialTextBox;
 	CTexture		m_TutorialTextTexture;
-	CTexture		m_Illustrat;
 	float			m_Scroll;
 	CMenu			gMenu;
 	bool			Menuflag = false;

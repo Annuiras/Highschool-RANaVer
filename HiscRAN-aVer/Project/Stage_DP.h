@@ -175,7 +175,7 @@ DP_info s_stageDP[][DP_INFO_STRUCT] =
 	},
 		//マップパターン15  SPアイテム出現
 	{
-		{300.0f, 350.0f, DP_SP_ITEM},	//仮でSPアイテムのテクスチャは魅力と同じにしてます
+		{300.0f, 350.0f, DP_CHARM},	
 		{ 700.0f,229.0f,	DP_CHARM },
 		{ 1500.0f,300.0f,DP_IMAGINATION },
 		{ 1775.0f,231.0f,DP_COMMUNICATION },

@@ -6,8 +6,37 @@
 class CGameClear:public CSceneBase
 {
 private:
-	CTexture	m_BackTexture;
+
+	//背景
+	CTexture	m_BackTexture[15];
+
+	//グラフ塗りつぶしカラー
+	MofU32 Chartcol[15] =
+	{
+		MOF_XRGB(250, 157, 185),
+		MOF_XRGB(255, 232, 87),
+		MOF_XRGB(233, 255, 111),
+		MOF_XRGB(210, 54, 43),
+		MOF_XRGB(69, 101, 87),
+		MOF_XRGB(106,106, 106),
+		MOF_XRGB(248, 54, 141),
+		MOF_XRGB(255, 156, 123),
+		MOF_XRGB(255, 232, 87),
+		MOF_XRGB(53, 78, 177),
+		MOF_XRGB(255, 89, 0),
+		MOF_XRGB(255, 123, 41),
+		MOF_XRGB(80, 132, 93),
+		MOF_XRGB(95, 59, 116),
+		MOF_XRGB(255, 209, 46)
+	};
+
+	//文字テクスチャ
 	CTexture	m_UITexture;
+
+
+	//ステータスから最終容姿を判定する
+	void StatusJudgement(void);
+
 
 	//文字用アルファ値
 	int gAlpha;
@@ -17,14 +46,17 @@ private:
 	//フェードイン用アルファ値
 	int m_WhiteAlpha;
 	//フラグ
+	//false:推移中
 	bool m_FadeOut;
 
 	// ステータスを収納する配列
-	int Status[ITEM_NUM];
+	int Status[DP_COUNT];
 
 	//グラフ描画用配列
 	int StatusRender[ITEM_NUM];
 
+	//最終容姿番号
+	int LastDetailNo;
 
 	// ステータス用チャートのポリゴン座標を収納する配列
 	Vector2 PointsStatus[ITEM_NUM];
@@ -39,7 +71,7 @@ private:
 	// ステータス用チャートのポリゴン座標を収納する配列
 	Vector2 MemoryPoints2[ITEM_NUM];
 
-	char* StatusName[ITEM_NUM] = { "1魅力:%d","2行動力:%d","3学力:%d","4想像力:%d","5コミュ力:%d" };
+	char* StatusName[ITEM_NUM] = { "1学力:%d","2行動力:%d","3想像力:%d","4コミュ力:%d","5魅力:%d" };
 
 public:
 	CGameClear();

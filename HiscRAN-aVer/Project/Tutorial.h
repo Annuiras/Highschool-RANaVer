@@ -5,17 +5,39 @@
 class CTutorial:public CSceneBase
 {
 private:
-	CTexture Texture;
-	CTexture ScreenTexture;
+
+	//背景テクスチャ
 	CTexture BGTexture;
+
+	//説明背景テクスチャ
+	CTexture ScreenBGTexture;
+
+	//カーテン部分テクスチャ（後日削除）
+	CTexture CurtainBGTexture;
+
+	//戻るボタンテクスチャ
 	CTexture BackButton;
+
+	//選択枠
 	CTexture ButtonSelect;
 
-	int m_Scroll = 0;
-	int gPosX = 0;
-	int count = 0;
-	int MoveX = 0;
-	bool bShow = false;
+	//スクロール値
+	int m_Scroll;
+
+	//座標値（X軸方向）
+	int gPosX;
+
+	//画像枚数カウント
+	int count;
+
+	//X軸方向にどれだけ動いたか
+	int MoveX;
+
+	//見えてるか見えてないか
+	bool bShow;
+
+	//戻るボタンにカーソルがあるかないか
+	int TMenuCnt;
 
 public:
 	CTutorial();

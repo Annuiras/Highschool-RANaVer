@@ -1,14 +1,19 @@
 #pragma once
+#include "Define.h"
 
-//ゲーム管理クラス
-//現在は機能を持っていませんギャラリー画面などのフラグを管理するつもりです
+//ゲーム情報受け渡しクラス
 class CGameProgMgmt
 {
 
 private:
 
-	////BGM・SE音量
-	//float BGM_Volume, SE_Volume;
+	//ゲームクリア時のDPの取得数保存用
+	//0:学力
+	//1:行動力
+	//2:想像力
+	//3:コミュ力
+	//4:魅力
+	int Game_DPNum[DP_COUNT];
 
 public:
 	CGameProgMgmt(); 
@@ -17,13 +22,11 @@ public:
 	//初期化
 	void Initialize(void);
 
-	////設定された音量をセット
-	//void SetBGMVolume(float volume);
-	//void SetSEVolume(float volume);
+	//ゲーム画面：DP取得数をセット
+	void SetGame_DPNum(int DP[]);
 
-	////設定された音量を渡す
-	//float GetBGMVolume(void);
-	//float GetSEVolume(void);
+	//ゲーム画面：DP取得数をゲット
+	int* GetGame_DPNum(void);
 
 };
 

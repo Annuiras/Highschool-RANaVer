@@ -9,68 +9,40 @@ void CGAME::UPdeteCollisionDP(int dpt) {
 
 	g_MusicManager->SEStart(SE_T_DP_HIT);
 
+	m_DPNum[dpt]++;
+
 	switch (dpt)
 	{
 		//学力
 	case DP_SCHOLASTIC:
 		//エフェクト再生
 		g_EffectManeger->Start(0, 0, EFC_GET_SCHOLASTIC);
-		m_Scholastic += 1;
-		if (m_Scholastic > 100) {
-			m_Scholastic = 100;
-		}
 		break;
 
 		//行動力
 	case DP_ACTION:
 		//エフェクト再生
 		g_EffectManeger->Start(0, 0, EFC_GET_ACTION);
-		m_Action += 1;
-		if (m_Action > 100) {
-			m_Action = 100;
-		}
 		break;
 
 		//想像力
 	case DP_IMAGINATION:
 		//エフェクト再生
 		g_EffectManeger->Start(0, 0, EFC_GET_IMAGINATION);
-		m_Imagination += 1;
-		if (m_Imagination > 100) {
-			m_Imagination = 100;
-		}
 		break;
 
 		//コミュ力
 	case DP_COMMUNICATION:
 		//エフェクト再生
 		g_EffectManeger->Start(0, 0, EFC_GET_COMMUNICATION);
-		m_Communication += 1;
-		if (m_Communication > 100) {
-			m_Communication = 100;
-		}
 		break;
 
 		//魅力
 	case DP_CHARM:
 		//エフェクト再生
 		g_EffectManeger->Start(0, 0, EFC_GET_CHARM);
-		m_Charm += 1;
-		if (m_Charm > 100) {
-			m_Charm = 100;
-		}
 		break;
-
-		//SPアイテム取得時、カウントスタート
-	case DP_SP_ITEM:
-		g_Stage.SetSPSitua(tag_StageSituation::STAGE_SP_START);
-
-		//SP内のステージに変更
-		g_Stage.SPInitialize();
-		break;
-
 	default:
-		m_Scholastic = -100;
 		break;
 	}
 }
@@ -84,11 +56,7 @@ CGAME::CGAME():
 	_GameOver(),
 	_GameClear(),
 	gStartTime(),
-	m_Scholastic(),
-	m_Action(),
-	m_Imagination(),
-	m_Communication(),
-	m_Charm()
+	m_DPNum()
 {}
 
 CGAME::~CGAME()
@@ -152,16 +120,17 @@ void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec
 	_GameOver = false;
 
 	//ステージ内で取得したDPの数初期化
-	m_Scholastic	= 0;	//学力
-	m_Action		= 0;	//行動力
-	m_Imagination	= 0;	//想像力
-	m_Communication = 0;	//コミュ力
-	m_Charm			= 0;	//魅力
-
+	for (int i = 0; i < DP_COUNT; i++)
+	{
+		m_DPNum[i] = 0;
+	}
 	m_StartScale = 0.0f;
 
 	//BGM開始
 	g_MusicManager->BGMStart(BGMT_STAGE);
+
+	m_NowScene = SCENENO_GAME;
+
 
 }
 
@@ -226,6 +195,28 @@ void CGAME::Update(void)
 		g_Stage.Initialize();
 
 	}
+
+	if (g_pInput->IsKeyPush(MOFKEY_1)) {
+		//DPと接触した場合
+		UPdeteCollisionDP(DP_SCHOLASTIC);
+	}
+	if (g_pInput->IsKeyPush(MOFKEY_2)) {
+		//DPと接触した場合
+		UPdeteCollisionDP(DP_ACTION);
+	}
+	if (g_pInput->IsKeyPush(MOFKEY_3)) {
+		//DPと接触した場合
+		UPdeteCollisionDP(DP_IMAGINATION);
+	}
+	if (g_pInput->IsKeyPush(MOFKEY_4)) {
+		//DPと接触した場合
+		UPdeteCollisionDP(DP_COMMUNICATION);
+	}
+	if (g_pInput->IsKeyPush(MOFKEY_5)) {
+		//DPと接触した場合
+		UPdeteCollisionDP(DP_CHARM);
+	}
+
 
 	//メニューの更新
 	if (gMenu.IsShow())
@@ -294,6 +285,9 @@ void CGAME::Update(void)
 		{
 			//SEをすべて停止
 			g_MusicManager->SEALLStop();
+
+			//DPの取得数を保存
+			m_GameProgMamt->SetGame_DPNum(m_DPNum);
 
 			//画面切り替え
 			m_bEnd = true;
@@ -384,6 +378,8 @@ void CGAME::Update(void)
 			UPdeteCollisionDP(g_Stage.dp_array[i].Gettype());
 			g_Stage.dp_array[i].Setshow(false);
 		}
+
+
 	}
 
 
@@ -457,10 +453,10 @@ void CGAME::Release(void)
 
 void CGAME::RenderDebug(void)
 {
-	CGraphicsUtilities::RenderString(250, 0, MOF_COLOR_BLACK, "このステージ内での取得数  学力：%d　行動力：%d　想像力：%d　コミュ力：%d　魅力：%d",
-	m_Scholastic, m_Action, m_Imagination, m_Communication, m_Charm);
-CGraphicsUtilities::RenderString(250, 0, MOF_COLOR_BLACK, "このステージ内での取得数  学力：%d　行動力：%d　想像力：%d　コミュ力：%d　魅力：%d",
-	m_Scholastic, m_Action, m_Imagination, m_Communication, m_Charm);
+	for (int i = 0; i < DP_COUNT; i++)
+	{
+		CGraphicsUtilities::RenderString(200 + i * 30, 0, MOF_COLOR_BLACK,"%d", m_DPNum[i]);
+	}
 
 	g_Stage.RenderDebugging();
 	g_Player.RenderDebugging();

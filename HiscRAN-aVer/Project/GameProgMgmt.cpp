@@ -1,8 +1,7 @@
 #include "GameProgMgmt.h"
 
-CGameProgMgmt::CGameProgMgmt()
-//BGM_Volume(0.0f),
-//SE_Volume(0.0f)
+CGameProgMgmt::CGameProgMgmt():
+Game_DPNum ()
 {
 }
 
@@ -10,31 +9,28 @@ CGameProgMgmt::~CGameProgMgmt()
 {
 }
 
+//初期化
 void CGameProgMgmt::Initialize(void)
 {
-	//初期音量
-	//BGM_Volume = 0.5f;
-	//SE_Volume = 0.5f;
+	//初期化
+	for (int i = 0; i < DP_COUNT; i++)
+	{
+		Game_DPNum[i] = 0;
+	}
 }
 
-//void CGameProgMgmt::SetBGMVolume(float volume)
-//{
-//	BGM_Volume = volume;
-//}
-//
-//void CGameProgMgmt::SetSEVolume(float volume)
-//{
-//	SE_Volume = volume;
-//
-//}
-//
-//float CGameProgMgmt::GetBGMVolume(void)
-//{
-//	return BGM_Volume;
-//}
-//
-//float CGameProgMgmt::GetSEVolume(void)
-//{
-//	return SE_Volume;
-//}
+//ゲーム画面：DP取得数をセット
+void CGameProgMgmt::SetGame_DPNum(int DP[])
+{
+	for (int i = 0; i < DP_COUNT; i++)
+	{
+		Game_DPNum[i] = DP[i];
+	}
+}
+
+//ゲーム画面：DP取得数をゲット
+int* CGameProgMgmt::GetGame_DPNum(void)
+{
+	return Game_DPNum;
+}
 

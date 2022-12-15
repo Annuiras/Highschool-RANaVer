@@ -13,7 +13,6 @@ CTitle::CTitle() :
 	m_Scroll(0.0f),
 	Rondom(0.0f)
 {
-
 }
 
 //デストラクタ
@@ -44,11 +43,13 @@ bool CTitle::Load(void)
 		return false;
 	}
 
+	//タイトルロゴ読み込み
 	if (!m_TitleTexture.Load("GameLogo_s.png"))
 	{
 		return false;
 	}
 
+	//タイトルUI読み込み
 	if (!m_TiTleUITexture.Load("TitleUI.png"))
 	{
 		return false;
@@ -64,25 +65,36 @@ bool CTitle::Load(void)
 //初期化
 void CTitle::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec)
 {
+	//初期化
 	m_Scroll = 0;
+
 	Rondom = CUtilities::Random(0, 3);
 	m_GameProgMamt = mamt;
 	g_MusicManager = musi;
 	g_EffectManeger = effec;
 
+	//BGM再生
 	g_MusicManager->BGMStart(BGMT_TITLE);
 
+	m_NowScene = SCENENO_TITLE;
+
+	//素材ロード
 	Load();
+
+	m_NowScene = SCENENO_TITLE;
+
 }
 
 //更新
 void CTitle::Update(void)
 {
+	//左にスクロールしていく
 	m_Scroll -= SCROLL_SPEED;
 
 	//エンターキーでセレクト画面へ
 	if (g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
+		//モードセレクト画面へ
 		m_bEnd = true;
 		m_NextScene = SCENENO_SELECTMODE;
 	}
@@ -91,6 +103,7 @@ void CTitle::Update(void)
 //描画
 void CTitle::Render(void)
 {
+	//ランダムの値ごとにテクスチャを変える
 	if (Rondom == 0)
 	{
 		//テクスチャの描画
@@ -126,9 +139,10 @@ void CTitle::Render(void)
 	}
 
 
-
+	//真ん中にLogo描画
 	m_TitleTexture.Render(g_pGraphics->GetTargetWidth() * 0.5 - m_TitleTexture.GetWidth() * 0.5, 40);
 
+	//真ん中にUI描画
 	m_TiTleUITexture.Render(g_pGraphics->GetTargetWidth() * 0.5 - m_TitleTexture.GetWidth() * 0.5, 500);
 
 }

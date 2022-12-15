@@ -7,11 +7,11 @@ int GameOverCount = 0;
 
 //コンストラクタ
 CGameOver::CGameOver() :
-	m_BackTexture1(),
-	m_BackTexture2(),
-	m_BackTexture3(),
-	m_UITexture(),
-	m_SelectTexture(),
+	m_BackTexture(),
+	m_BackButton(),
+	m_StartButton(),
+	m_TextBack(),
+	m_TextStart(),
 	Rondom(0.0f)
 {
 }
@@ -26,31 +26,35 @@ CGameOver::~CGameOver()
 bool CGameOver::Load(void)
 {
 	//リソース配置ディレクトリの設定
-	CUtilities::SetCurrentDirectoryA("GameOver");
+	CUtilities::SetCurrentDirectoryA("Game/GameOver");
 
-	if (!m_BackTexture1.Load("GameOverBG1.png"))
+	if (!m_BackTexture.Load("GameOver_BG.png"))
 	{
 		return false;
 	}
-	if (!m_BackTexture2.Load("GameOverBG2.png"))
+	if (!m_BackButton.Load("GameOver_Button_End.png"))
 	{
 		return false;
 	}
-	if (!m_BackTexture3.Load("GameOverBG3.png"))
+	if (!m_StartButton.Load("GameOver_Button_Beginning.png"))
 	{
 		return false;
 	}
-	if (!m_UITexture.Load("GameOverUI.png"))
+	if (!m_TextBack.Load("GameOver_Text_End.png"))
 	{
 		return false;
 	}
-	if (!m_SelectTexture.Load("GameOverSelect.png"))
+	if (!m_TextStart.Load("GameOver_Text_Beginning.png"))
+	{
+		return false;
+	}
+	if (!m_ENDText.Load("GameOver_Text_flavor.png"))
 	{
 		return false;
 	}
 
 	//リソース配置ディレクトリの設定
-	CUtilities::SetCurrentDirectoryA("../");
+	CUtilities::SetCurrentDirectoryA("../../");
 
 	return true;
 }
@@ -71,6 +75,10 @@ void CGameOver::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* e
 	Rondom = CUtilities::Random(0, 3);
 	Load();
 
+	m_NowScene = SCENENO_GAMEOVER;
+
+	//ゲームオーバー原因をセット
+	DPEND = true;
 
 }
 
@@ -129,36 +137,26 @@ void CGameOver::Update(void)
 //描画
 void CGameOver::Render(void)
 {
-	CRectangle Button1(0, 0, 479, 111);
-	CRectangle Button2(0, 111, 479, 224);
-	CRectangle Extex1(0, 224, 809, 293);
-	CRectangle Extex2(0, 293, 809, 362);
+	m_BackTexture.Render(0, 0);
 
-	if (Rondom == 0)
+	if (HPEND == true)
 	{
-		m_BackTexture1.Render(0, 0);
+		m_ENDText.Render(PosXHPEND[Rondom], 140, recHPENDTex[Rondom]);
 	}
-	else if (Rondom == 1)
+	else if (DPEND == true)
 	{
-		m_BackTexture2.Render(0, 0);
+		m_ENDText.Render(PosXDPEND[Rondom], 140, recDPENDTex[Rondom]);
 	}
-	else if (Rondom == 2)
-	{
-		m_BackTexture3.Render(0, 0);
-	}
-
-	m_UITexture.Render(140, 407, Button1);
-	m_UITexture.Render(668, 407, Button2);
 
 	if (GameOverCount == 0)
 	{
-		m_UITexture.Render(236, 629, Extex1);
-		m_SelectTexture.Render(140, 407);
+		m_StartButton.Render(133, 260);
+		m_TextStart.Render(168, 618);
 	}
 	else if (GameOverCount == 1)
 	{
-		m_UITexture.Render(236, 629, Extex2);
-		m_SelectTexture.Render(668, 407);
+		m_BackButton.Render(133, 260);
+		m_TextBack.Render(168, 618);
 	}
 
 	//画面遷移用の黒画面
@@ -175,10 +173,11 @@ void CGameOver::RenderDebug(void)
 
 void CGameOver::Release(void)
 {
-	m_BackTexture1.Release();
-	m_BackTexture2.Release();
-	m_BackTexture3.Release();
-	m_UITexture.Release();
-	m_SelectTexture.Release();
+	m_BackButton.Release();
+	m_BackTexture.Release();
+	m_StartButton.Release();
+	m_TextBack.Release();
+	m_TextStart.Release();
+	m_ENDText.Release();
 }
 

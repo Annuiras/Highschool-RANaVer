@@ -1,16 +1,17 @@
 #include "Tutorial.h"
 
 CTutorial::CTutorial() :
-	Texture(),
-	ScreenTexture(),
 	BGTexture(),
+	ScreenBGTexture(),
+	CurtainBGTexture(),
 	BackButton(),
 	ButtonSelect(),
 	m_Scroll(0.0f),
 	gPosX(0.0f),
 	count(0.0f),
 	MoveX(0.0f),
-	bShow(false)
+	bShow(false),
+	TMenuCnt(0)
 {
 
 }
@@ -26,17 +27,20 @@ bool CTutorial::Load(void)
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("Tutorial");
 
-	if (!Texture.Load("tutorialBG.png"))
+	//背景テクスチャ
+	if (!BGTexture.Load("tutorialBG.png"))
 	{
 		return false;
 	}
 
-	if (!BGTexture.Load("TutorialMak.png"))
+	//背景幕（後日削除）
+	if (!CurtainBGTexture.Load("TutorialMak.png"))
 	{
 		return false;
 	}
 
-	if (!ScreenTexture.Load("tutorialScreen.png"))
+	//チュートリアル画像
+	if (!ScreenBGTexture.Load("tutorialScreen.png"))
 	{
 		return false;
 	}
@@ -61,6 +65,7 @@ bool CTutorial::Load(void)
 //初期化
 void CTutorial::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec)
 {
+	//初期化
 	m_Scroll = 0;
 	count = 0;
 	MoveX = 0;
@@ -69,33 +74,131 @@ void CTutorial::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* e
 	m_GameProgMamt = mamt;
 	g_MusicManager = musi;
 	g_EffectManeger = effec;
+
+	//素材ロード
 	Load();
+
+	m_NowScene = SCENENO_TUTORIAL;
+
 }
 
 //更新
 void CTutorial::Update(void)
 {
+	//戻るボタンにカーソル合わせる必要あんまりないかもね～
+	//Enterで戻るでええかも
 
 	//チュートリアル画像最大枚数以下
 	//動いているフラグがFALSE（動いていないという意味になる）
 	//右矢印キーを押している
 	//だったら、カウントしてページ送りする
-	if (count < 5 && bShow == false && g_pInput->IsKeyPush(MOFKEY_RIGHT))
+	if (bShow == false && g_pInput->IsKeyPush(MOFKEY_RIGHT))
 	{
-		count = count + 1;
-		MoveX = -20;
-		bShow = true;
-	}
+		switch (count)
+		{
+		case -1:
+			count = count + 1;
+			MoveX = -20;
+			bShow = true;
+			break;
 
-	//-1以上（変数の関係上、0が1枚目の意味になるため）
-	//動いているフラグがFALSE（動いていない）
-	//左矢印キーを押している
-	//だったら、カウントしてページ送りする
-	else if (count > -1 && bShow == false && g_pInput->IsKeyPush(MOFKEY_LEFT))
+		case 0:
+			count = count + 1;
+			MoveX = -20;
+			bShow = true;
+			break;
+
+		case 1:
+			count = count + 1;
+			MoveX = -20;
+			bShow = true;
+			break;
+
+		case 2:
+			count = count + 1;
+			MoveX = -20;
+			bShow = true;
+			break;
+
+		case 3:
+			count = count + 1;
+			MoveX = -20;
+			bShow = true;
+			break;
+
+		case 4:
+			count = count + 1;
+			MoveX = -20;
+			bShow = true;
+			break;
+
+		case 5:
+			TMenuCnt = 1;
+			break;
+		}
+	}
+	else if (bShow == false && g_pInput->IsKeyPush(MOFKEY_LEFT))
 	{
-		count = count - 1;
-		MoveX = 20;
-		bShow = true;
+		switch (count)
+		{
+		case -1:
+			TMenuCnt = 1;
+			break;
+
+		case 0:
+			count = count - 1;
+			MoveX = 20;
+			bShow = true;
+			break;
+
+		case 1:
+			count = count - 1;
+			MoveX = 20;
+			bShow = true;
+			break;
+
+		case 2:
+			count = count - 1;
+			MoveX = 20;
+			bShow = true;
+			break;
+
+		case 3:
+			count = count - 1;
+			MoveX = 20;
+			bShow = true;
+			break;
+
+		case 4:
+			count = count - 1;
+			MoveX = 20;
+			bShow = true;
+			break;
+
+		case 5:
+			count = count - 1;
+			MoveX = 20;
+			bShow = true;
+			break;
+		}
+	}
+	//矢印キー下を押した時、戻るボタンにカーソルを合わせる
+	else if (TMenuCnt == 0 && g_pInput->IsKeyPush(MOFKEY_DOWN))
+	{
+		TMenuCnt = 1;
+	}
+	//矢印キー上を押した時、カーソルを外す
+	else if (TMenuCnt == 1 && g_pInput->IsKeyPush(MOFKEY_UP))
+	{
+
+		TMenuCnt = 0;
+
+		if (count == 5)
+		{
+			count = count - 1;
+			MoveX = 20;
+			bShow = true;
+		}
 	}
 
 	//実際に座標を動かす
@@ -119,16 +222,10 @@ void CTutorial::Update(void)
 		}
 	}
 
-	//F1キーでタイトル画面へ
-	if (g_pInput->IsKeyPush(MOFKEY_F1))
-	{
-		m_bEnd = true;
-		m_NextScene = SCENENO_TITLE;
-	}
-
 	//エンターキーでモードセレクト画面へ
-	if (count == 5 && g_pInput->IsKeyPush(MOFKEY_RETURN) || count == -1 && g_pInput->IsKeyPush(MOFKEY_RETURN))
+	if (TMenuCnt == 1 && g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
+		//モードセレクト画面へ
 		m_bEnd = true;
 		m_NextScene = SCENENO_SELECTMODE;
 	}
@@ -142,18 +239,24 @@ void CTutorial::Render(void)
 	CGraphicsUtilities::RenderString(10, 40, "F1キーでタイトル画面へ遷移");
 	CGraphicsUtilities::RenderString(10, 70, "Enterキーでモードセレクト画面へ遷移");
 
-	Texture.Render(gPosX, 0);
+	//背景画像描画
+	BGTexture.Render(gPosX, 0);
 
-	ScreenTexture.Render(0, 0);
-	BGTexture.Render(0, 0);
+	//Screen画像描画
+	ScreenBGTexture.Render(0, 0);
 
+	//幕描画（後日削除）
+	CurtainBGTexture.Render(0, 0);
+
+	//戻るボタン
 	BackButton.Render(60, 650);
 
-	if (count == 5 || count == -1)
+	//もしTMenuCntが1なら
+	if (TMenuCnt == 1)
 	{
+		//戻るボタンにカーソルを合わせる
 		ButtonSelect.Render(60, 650);
 	}
-
 }
 
 void CTutorial::RenderDebug(void)
@@ -178,10 +281,9 @@ void CTutorial::RenderDebug(void)
 //素材解放
 void CTutorial::Release(void)
 {
-	ScreenTexture.Release();
-	Texture.Release();
+	ScreenBGTexture.Release();
 	BGTexture.Release();
+	CurtainBGTexture.Release();
 	BackButton.Release();
 	ButtonSelect.Release();
-
 }

@@ -8,7 +8,6 @@ int MenuNow_Mode = 0;
 //コンストラクタ
 CModeSelect::CModeSelect() :
 	m_TutorialTextTexture(),
-	m_Illustrat(),
 	m_Scroll(0.0f)
 {
 
@@ -32,6 +31,8 @@ void  CModeSelect::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt
 
 	g_MusicManager->BGMStart(BGMT_MOOP);
 
+	m_NowScene = SCENENO_SELECTMODE;
+
 	Load();
 }
 
@@ -39,13 +40,47 @@ void  CModeSelect::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt
 bool CModeSelect::Load()
 {
 	//リソース配置ディレクトリの設定
-	if (!CUtilities::SetCurrentDirectoryA("ModeSelect"))
+	CUtilities::SetCurrentDirectoryA("ModeSelect");
+
+	if (!m_TutorialTextureSmall.Load("ModeSelect_Min.png"))
+	{
 		return false;
+	}
+	
+	if (!m_TutorialTextureBig.Load("ModeSelect_Big.png")) 
+	{
+		return false;
+	}
+
+	if (!m_TutorialTextTexture.Load("ModeSelect_Text.png"))
+	{
+		return false;
+	}
+
+	if (!m_TutorialTextBox.Load("ModeSelect_TextBox.png")) 
+	{
+		return false;
+	}
 
 	if (!m_TutorialTextTexture.Load("ModeSelectTexture.png"))
 		return false;
+		
+	if (!m_TutorialBG[0].Load("ModeSelect_AddmissionEx_BG.png")) 
+	{
+		return false;
+	}
 
-	if (!m_Illustrat.Load("ModeSelectIllust.png"))
+	if (!m_TutorialBG[1].Load("ModeSelect_Addmission_BG.png"))
+	{
+		return false;
+	}
+	
+	if (!m_TutorialBG[2].Load("ModeSelect_Library_BG.png"))
+	{
+		return false;
+	}
+
+	if (!m_TutorialBG[3].Load("ModeSelect_Broadcasting_BG.png"))
 	{
 		return false;
 	}
@@ -62,7 +97,7 @@ void CModeSelect::Update()
 	m_Scroll -= SCROLL_SPEED;
 
 	//矢印キー下で選択が下がるようにする
-	if (Menuflag == false && g_pInput->IsKeyPush(MOFKEY_DOWN))
+	if (g_pInput->IsKeyPush(MOFKEY_DOWN))
 	{
 		g_MusicManager->SEStart(SE_T_MOOP_CURSORMOVE);
 		if (MenuNow_Mode < MenuCnt - 1)
@@ -71,7 +106,7 @@ void CModeSelect::Update()
 		}
 	}
 	//矢印キー上で選択が上がるようにする
-	if (Menuflag == false && g_pInput->IsKeyPush(MOFKEY_UP))
+	if (g_pInput->IsKeyPush(MOFKEY_UP))
 	{
 		g_MusicManager->SEStart(SE_T_MOOP_CURSORMOVE);
 		if (MenuNow_Mode > 0)
@@ -81,7 +116,7 @@ void CModeSelect::Update()
 	}
 
 	//エンターを押したら各画面へ移動
-	if (Menuflag == false && g_pInput->IsKeyPush(MOFKEY_RETURN))
+	if (g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
 		g_MusicManager->SEStart(SE_T_DECISION);
 
@@ -108,38 +143,6 @@ void CModeSelect::Update()
 			break;
 		}
 	}
-
-	//F1キーでタイトル画面へ
-	if (g_pInput->IsKeyPush(MOFKEY_F1))
-	{
-		m_bEnd = true;
-		m_NextScene = SCENENO_TITLE;
-	}
-	//F2キーでチュートリアル画面へ
-	else if (g_pInput->IsKeyPush(MOFKEY_F2))
-	{
-		m_bEnd = true;
-		m_NextScene = SCENENO_TUTORIAL;
-	}
-	//F3キーでゲーム画面へ
-	else if (g_pInput->IsKeyPush(MOFKEY_F3))
-	{
-		m_bEnd = true;
-		m_NextScene = SCENENO_GAME;
-	}
-	//F4キーでギャラリー画面へ
-	else if (g_pInput->IsKeyPush(MOFKEY_F4))
-	{
-		m_bEnd = true;
-		m_NextScene = SCENENO_GALLERY;
-	}
-	//F5キーでオプション画面へ
-	else if (g_pInput->IsKeyPush(MOFKEY_F5))
-	{
-		m_bEnd = true;
-		m_NextScene = SCENENO_OPTION;
-	}
-
 
 	//メニューの更新
 	if (gMenu.IsShow())
@@ -174,89 +177,136 @@ void CModeSelect::Render(void)
 	CRectangle recGameTex(0, 45, 1780, 90);
 	CRectangle recGalleryTex(0, 90, 1780, 135);
 	CRectangle recOptionTex(0, 135, 1780, 180);
-	CRectangle recTextile(0, 180, 1280, 234);
+	
 
-	//メニュー表示用画像の矩形
-	CRectangle recGameSel(0, 234, 498, 329);
-	CRectangle recGallerySel(0, 328, 498, 424);
-	CRectangle recOptionSel(0, 423, 498, 519);
-	CRectangle recTutorialSel(0, 519, 498, 614);
-
-	//イラスト表示用矩形
-	CRectangle recAdmissionExIll(533, 613, 1066, 1226);
-	CRectangle recAdmissionIll(0, 0, 533, 613);
-	CRectangle recLibraryIll(533, 0, 1066, 613);
-	CRectangle reccastingIll(0, 613, 533, 1226);
-
-	//チュートリアル画像
-	m_TutorialTextTexture.Render(782, 44, recTutorialSel);
-
-	//ゲーム本編画像
-	m_TutorialTextTexture.Render(782, 201, recGameSel);
-
-	//ギャラリー画像
-	m_TutorialTextTexture.Render(782, 359, recGallerySel);
-
-	//オプション画像
-	m_TutorialTextTexture.Render(782, 518, recOptionSel);
-
-	//下に出すテキストの下地
-	m_TutorialTextTexture.Render(0, 654, recTextile);
+	//メニュー表示用画像の矩形(大)
+	CRectangle recTutorialSelbig(0, 0, 477, 188);
+	CRectangle recGameSelbig(0, 188, 477, 371);
+	CRectangle recGallerySelbig(0, 371, 477, 568);
+	CRectangle recOptionSelbig(0, 568, 477, 750);
 
 
+		//メニュー表示用画像の矩形(小)
+	CRectangle recTutorialSelmin(0, 168, 413, 350);
+	CRectangle recGameSelmin(0, 0, 413, 168);
+	CRectangle recOptionSelmin(0, 350, 413, 523);
+	CRectangle recGallerySelmin(0, 523, 413, 700);
+	
+	//背景描画
+	//下のswitch文に入れ込むとレイヤー順の加減でメニュー表示を何度も描画しないといけなくなるので
+	//ここで分岐させてます。
+
+	//スクロール
 	int W = m_TutorialTextTexture.GetWidth();
 	int scw = g_pGraphics->GetTargetWidth();
 
 	switch (MenuNow_Mode)
 	{
 	case 0:
+		//背景画像
+		m_TutorialBG[0].Render(0, 0);
+
+		//チュートリアル画像(大)
+		m_TutorialTextureBig.Render(803, 35, recTutorialSelbig);
+
+		//ゲーム本編画像(小)
+		m_TutorialTextureSmall.Render(867, 190, recGameSelmin);
+
+		//ギャラリー画像(小)
+		m_TutorialTextureSmall.Render(867, 337, recGallerySelmin);
+
+		//オプション画像(小)
+		m_TutorialTextureSmall.Render(867, 489, recOptionSelmin);
+
+		//下に出すテキストの下地
+		m_TutorialTextBox.Render(0, 612);
+
 		for (float x = ((int)m_Scroll % W) - W; x < scw; x += W)
 		{
-			m_TutorialTextTexture.Render(x, 659, recTutorialTex);
+			m_TutorialTextTexture.Render(x, 644, recTutorialTex);
 		}
-
-		m_TutorialTextTexture.RenderScale(560, 23, 1.5f, recTutorialSel);
-		m_Illustrat.Render(11, 22, recAdmissionExIll);
-
 		break;
 
 	case 1:
+		//背景画像
+		m_TutorialBG[1].Render(0, 0);
+
+		//チュートリアル画像(小)
+		m_TutorialTextureSmall.Render(867, 45, recTutorialSelmin);
+
+		//ゲーム本編画像(大)
+		m_TutorialTextureBig.Render(803, 181, recGameSelbig);
+
+		//ギャラリー画像(小)
+		m_TutorialTextureSmall.Render(867, 337, recGallerySelmin);
+
+		//オプション画像(小)
+		m_TutorialTextureSmall.Render(867, 489, recOptionSelmin);
+
+		//下に出すテキストの下地
+		m_TutorialTextBox.Render(0, 612);
+
 		for (float x = ((int)m_Scroll % W) - W; x < scw; x += W)
 		{
-			m_TutorialTextTexture.Render(x, 659, recGameTex);
+			m_TutorialTextTexture.Render(x, 644, recGameTex);
 		}
-
-		m_TutorialTextTexture.RenderScale(560, 180, 1.5f, recGameSel);
-		m_Illustrat.Render(11, 22, recAdmissionIll);
-
 		break;
 
 	case 2:
+		
+		//背景画像
+		m_TutorialBG[2].Render(0, 0);
+
+		//チュートリアル画像(小)
+		m_TutorialTextureSmall.Render(867, 45, recTutorialSelmin);
+
+		//ゲーム本編画像(小)
+		m_TutorialTextureSmall.Render(867, 190, recGameSelmin);
+
+		//ギャラリー画像(大)
+		m_TutorialTextureBig.Render(803, 330, recGallerySelbig);
+
+		//オプション画像(小)
+		m_TutorialTextureSmall.Render(867, 489, recOptionSelmin);
+
+		//下に出すテキストの下地
+		m_TutorialTextBox.Render(0, 612);
+
+	
 		for (float x = ((int)m_Scroll % W) - W; x < scw; x += W)
 		{
-			m_TutorialTextTexture.Render(x, 659, recGalleryTex);
+			m_TutorialTextTexture.Render(x, 644, recGalleryTex);
 		}
-
-		m_TutorialTextTexture.RenderScale(560, 338, 1.5f, recGallerySel);
-		m_Illustrat.Render(11, 22, recLibraryIll);
-
 		break;
 
 	case 3:
+		//背景画像
+		m_TutorialBG[3].Render(0, 0);
+
+		//チュートリアル画像(小)
+		m_TutorialTextureSmall.Render(867, 45, recTutorialSelmin);
+
+		//ゲーム本編画像(小)
+		m_TutorialTextureSmall.Render(867, 190, recGameSelmin);
+
+		//ギャラリー画像(小)
+		m_TutorialTextureSmall.Render(867, 337, recGallerySelmin);
+
+		//オプション画像(大)
+		m_TutorialTextureBig.Render(803, 481, recOptionSelbig);
+
+		//下に出すテキストの下地
+		m_TutorialTextBox.Render(0, 612);
+
+	
 		for (float x = ((int)m_Scroll % W) - W; x < scw; x += W)
 		{
-			m_TutorialTextTexture.Render(x, 659, recOptionTex);
+			m_TutorialTextTexture.Render(x, 644, recOptionTex);
 		}
 
-		m_TutorialTextTexture.RenderScale(560, 496, 1.5f, recOptionSel);
-		m_Illustrat.Render(11, 22, reccastingIll);
+		
 		break;
 	}
-
-	//メニューの描画
-	gMenu.Render(1);
-
-
 }
 
 void CModeSelect::RenderDebug(void)
@@ -295,8 +345,14 @@ void CModeSelect::RenderDebug(void)
 
 void CModeSelect::Release(void)
 {
+	m_TutorialTextureSmall.Release();
+	m_TutorialTextureBig.Release();
+	for (int i = 0; i < 4; i++) 
+	{
+		m_TutorialBG[i].Release();
+	}
 	m_TutorialTextTexture.Release();
-	m_Illustrat.Release();
+	m_TutorialTextBox.Release();
 	gMenu.Release();
 
 	g_MusicManager->BGMStop(BGMT_MOOP);
