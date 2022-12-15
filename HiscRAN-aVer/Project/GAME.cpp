@@ -77,7 +77,7 @@ void CGAME::Load(void)
 	m_StartThreeTexture.Load("ハイスク　カウントダウンロゴ無し　３.png");
 	m_StartTwoTexture.Load("ハイスク　カウントダウンロゴ無し　２.png");
 	m_StartOneTexture.Load("ハイスク　カウントダウンロゴ無し　１.png");
-	m_StartGoTexture.Load("CountdownGo.png");
+	m_StartGoTexture.Load("ハイスク_開始カウントダウン_GO.png");
 
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("../");

@@ -501,13 +501,9 @@ void CStage::Update(CRectangle plrect) {
 		m_Scroll_Speed -= 10;
 	}
 
-	//進行度アイコンの移動加算
+	//スクロール値が一定数増えると、アイコンの移動量を加算する
 	int i = m_StageScroll;
-	if (g_pGraphics->GetTargetWidth() < i)
-	{
-		i -= g_pGraphics->GetTargetWidth();
-	}
-	if ((g_pGraphics->GetTargetWidth() * (m_countbak - 1) + i) % 10 == 0)
+	if (i % 9 == 0)
 	{
 		m_BarProgress++;
 	}
@@ -861,8 +857,8 @@ void CStage::Render(void) {
 
 
 	//進行度バー、進行度中アイコン、アイコンの表示
-	m_BarTextuer.Render(335, 65);
-	m_CharaProgressTextuer.Render(310 + m_BarProgress, 25);
+	m_BarTextuer.Render(270, 25);
+	m_CharaProgressTextuer.Render(285 + m_BarProgress, 45);
 
 	//クリアフラグ表示
 	if (m_bClear)
