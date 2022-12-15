@@ -62,10 +62,17 @@ enum tag_OBTYPE
 	OB_TWODESK,				//２段机
 	OB_TRACHCAN,			//ごみ箱
 	OB_LOCKER,				//ロッカー
+	OB_TEXTBOOKNL,			//教科書_国語
+	OB_TEXTBOOKMATH,		//教科書_数学
 	OB_TEXTBOOKCHEM,		//教科書_理科
+	OB_TEXTBOOKSOC,			//教科書_社会
+	OB_TEXTBOOKENG,			//教科書_英語
 	OB_VAULTINGHORSE,		//跳び箱
 	OB_SCOTCHTAPE,			//セロハンテープ
 	OB_BLOACKBOARDERASER,	//黒板消し
+	OB_SEAWEED,				//スティックのり
+	OB_SMARTPHONE1,			//スマホ１
+	OB_ERASER,				//消しゴム
 	OB_COUNT				//総数（終端要素）
 }; 
 
@@ -126,7 +133,6 @@ enum tag_BAR
 {
 	BAR_BIG,		//大
 	BAR_MEDIUM,		//中
-	BAR_SMALL,		//小
 	BAR_COUNT		//総数（終端要素）
 };
 

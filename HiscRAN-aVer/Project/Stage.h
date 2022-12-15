@@ -130,8 +130,20 @@ private:
 	//テクスチャ：ロッカー
 	CTexture ob_Textuer_Locker;
 
+	//テクスチャ：教科書_国語
+	CTexture ob_Textuer_TextBookNL;
+
+	//テクスチャ：教科書_数学
+	CTexture ob_Textuer_TextBookMATH;
+
 	//テクスチャ：教科書_理科
-	CTexture ob_Textuer_TextBookChem;
+	CTexture ob_Textuer_TextBookCHEM;
+
+	//テクスチャ：教科書_社会
+	CTexture ob_Textuer_TextBookSOC;
+
+	//テクスチャ：教科書_英語
+	CTexture ob_Textuer_TextBookENG;
 
 	//テクスチャ：跳び箱
 	CTexture ob_Textuer_VaultingHorse;
@@ -142,9 +154,21 @@ private:
 	//テクスチャ：黒板消し
 	CTexture ob_Textuer_BloackboardEraser;
 
+	//テクスチャ：スティックのり
+	CTexture ob_Seaweed;
+
+	//テクスチャ：スマホ１
+	CTexture ob_Smartphone1;
+
+	//テクスチャ：消しゴム
+	CTexture ob_Eraser;
+
 #pragma endregion
 
 	#pragma region 足場テクスチャ
+
+	//仮テクスチャ：足場大
+	CTexture bar_Textuer_Big;
 
 	//仮テクスチャ：足場中
 	CTexture bar_Textuer_Medium;
