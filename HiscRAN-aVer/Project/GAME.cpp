@@ -55,7 +55,7 @@ CGAME::CGAME():
 	m_WhiteAlpha(),
 	_GameOver(),
 	_GameClear(),
-	gStartTime(),
+	m_StartTime(),
 	m_DPNum()
 {}
 
