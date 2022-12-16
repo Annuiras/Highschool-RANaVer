@@ -377,11 +377,11 @@ void CStage::Initialize(void) {
 	m_StageComposition[2] = 2;
 	m_StageComposition[3] = 3;
 	m_StageComposition[4] = 4;
-	//m_StageComposition[5] = 2;
-	//m_StageComposition[6] = 2;
-	//m_StageComposition[7] = 1;
-	//m_StageComposition[8] = 0;
-	//m_StageComposition[9] = 1;
+	m_StageComposition[5] = 5;
+	m_StageComposition[6] = 6;
+	m_StageComposition[7] = 7;
+	m_StageComposition[8] = 8;
+	//m_StageComposition[9] = 9;
 	//m_StageComposition[10] = 1;
 	//m_StageComposition[11] = 0;
 	//m_StageComposition[12] = 0;

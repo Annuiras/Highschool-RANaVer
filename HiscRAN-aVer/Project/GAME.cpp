@@ -199,6 +199,7 @@ void CGAME::Update(void)
 
 		g_Stage.Initialize();
 
+		Initialize(m_GameProgMamt, g_MusicManager, g_EffectManeger);
 	}
 
 	if (g_pInput->IsKeyPush(MOFKEY_1)) {
