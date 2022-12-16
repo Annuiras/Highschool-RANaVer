@@ -187,6 +187,11 @@ bool CStage::Load() {
 		return false;
 	}
 
+	//テクスチャ：スマホ縦
+	if (!ob_SmartphoneVertical.Load("ハイスク_障害物_スマホ縦.png")) {
+		return false;
+	}
+
 
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("../../");
@@ -372,17 +377,17 @@ void CStage::Initialize(void) {
 
 
 	//デバッグ用の指定コマンド、必要に応じていじってください
-	m_StageComposition[0] = 0;
-	m_StageComposition[1] = 1;
-	m_StageComposition[2] = 2;
-	m_StageComposition[3] = 3;
-	m_StageComposition[4] = 4;
-	m_StageComposition[5] = 5;
-	m_StageComposition[6] = 6;
-	m_StageComposition[7] = 7;
-	m_StageComposition[8] = 8;
+	//m_StageComposition[0] = 14;
+	//m_StageComposition[1] = 1;
+	//m_StageComposition[2] = 2;
+	//m_StageComposition[3] = 3;
+	//m_StageComposition[4] = 4;
+	//m_StageComposition[5] = 5;
+	//m_StageComposition[6] = 6;
+	//m_StageComposition[7] = 7;
+	//m_StageComposition[8] = 8;
 	//m_StageComposition[9] = 9;
-	//m_StageComposition[10] = 1;
+	//m_StageComposition[10] = 10;
 	//m_StageComposition[11] = 0;
 	//m_StageComposition[12] = 0;
 	//m_StageComposition[13] = 2;
@@ -863,7 +868,7 @@ void CStage::Render(void) {
 	//クリアフラグ表示
 	if (m_bClear)
 	{
-		CGraphicsUtilities::RenderString(500, 350, MOF_XRGB(255, 0, 0), "クリア!\nF1でリスタート");
+		//CGraphicsUtilities::RenderString(500, 350, MOF_XRGB(255, 0, 0), "クリア!\nF1でリスタート");
 	}
 }
 
@@ -913,6 +918,7 @@ void CStage::Release(void) {
 	ob_Seaweed.Release();
 	ob_Smartphone1.Release();
 	ob_Eraser.Release();
+	ob_SmartphoneVertical.Release();
 
 	//足場テクスチャ
 	bar_Textuer_Medium.Release();
@@ -1188,6 +1194,10 @@ void CStage::OccurrenceOB(void) {
 
 			case OB_ERASER:
 				ob_array[i].SetTexture(&ob_Eraser);
+				break;
+
+			case OB_SMARTPHONEVERTICAL:
+				ob_array[i].SetTexture(&ob_SmartphoneVertical);
 				break;
 
 			default:

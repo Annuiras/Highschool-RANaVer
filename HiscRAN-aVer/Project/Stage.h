@@ -163,6 +163,9 @@ private:
 	//テクスチャ：消しゴム
 	CTexture ob_Eraser;
 
+	//テクスチャ：スマホ縦
+	CTexture ob_SmartphoneVertical;
+
 #pragma endregion
 
 	#pragma region 足場テクスチャ

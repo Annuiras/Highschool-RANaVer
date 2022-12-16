@@ -69,6 +69,7 @@ ENEMY_info s_stageENEMY[][ENEMY_INFO_STRUCT] =
 	},
 	//マップパターン14
 	{
+		{1933,505,0},
 		{ 10000,0,ENEMY_COUNT}
 	},
 	//マップパターン15

@@ -12,7 +12,7 @@
 #define SATAGE_MAP_PATTERN 15
 
 //SPアイテムあるマップパターンの出現位置(何マップ目)
-#define MAP_SP_ITEM_PATTERN_NUM 1
+#define MAP_SP_ITEM_PATTERN_NUM 100
 
 //ステージ変化する背景枚数
 #define SATGE_CHANGE_BAK 200
@@ -73,6 +73,7 @@ enum tag_OBTYPE
 	OB_SEAWEED,				//スティックのり
 	OB_SMARTPHONE1,			//スマホ１
 	OB_ERASER,				//消しゴム
+	OB_SMARTPHONEVERTICAL,	//スマホ縦
 	OB_COUNT				//総数（終端要素）
 }; 
 
