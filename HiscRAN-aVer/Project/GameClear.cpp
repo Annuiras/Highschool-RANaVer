@@ -16,6 +16,11 @@ void CGameClear::StatusJudgement(void)
 		}
 	}
 
+	//二番目の初期値
+	m_Status_2 = m_Status_1 + 1;
+	if (m_Status_2 >= DP_COUNT)
+		m_Status_2 = 0;
+
 	//ステータスの大きさ二番目の添え字保存
 	for (int i = 0; i < DP_COUNT; i++)
 	{
@@ -30,31 +35,31 @@ void CGameClear::StatusJudgement(void)
 	}
 
 	//学力一点突破
-	if (m_Status_1 == DP_SCHOLASTIC && m_Status_1 >= 100) {
+	if (m_Status_1 == DP_SCHOLASTIC && Status[m_Status_1]>= 100) {
 		//文学少女
 		LastDetailNo = 0;
 		return;
 	}
 	//行動力一点突破
-	if (m_Status_1 == DP_ACTION&& m_Status_1 >= 100) {
+	if (m_Status_1 == DP_ACTION&& Status[m_Status_1] >= 100) {
 		//お調子者
 		LastDetailNo = 1;
 		return;
 	}
 	//想像力一点突破
-	if (m_Status_1 == DP_IMAGINATION && m_Status_1 >= 100) {
+	if (m_Status_1 == DP_IMAGINATION && Status[m_Status_1] >= 100) {
 		//中二病
 		LastDetailNo = 2;
 		return;
 	}
 	//コミュ力一点突破
-	if (m_Status_1 == DP_COMMUNICATION && m_Status_1 >= 100) {
+	if (m_Status_1 == DP_COMMUNICATION && Status[m_Status_1] >= 100) {
 		//神対応
 		LastDetailNo = 3;
 		return;
 	}
 	//魅力一点突破
-	if (m_Status_1 == DP_CHARM && m_Status_1 >= 100) {
+	if (m_Status_1 == DP_CHARM && Status[m_Status_1] >= 100) {
 		//スーパーレディ
 		LastDetailNo = 4;
 		return;
