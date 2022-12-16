@@ -18,12 +18,12 @@ OB_info s_stageOB[][OB_INFO_STRUCT] =
 	},
 	//マップパターン1 S2
 	{
-		{360.0f,519.0f,OB_TEXTBOOKSOC},//todo 社会
-		{491.0f,519.0f,OB_TEXTBOOKSOC},//todo 社会
-		{622.0f,519.0f,OB_TEXTBOOKENG},//todo 英語
-		{1274.0f,519.0f,OB_TEXTBOOKNL},//todo 国語
+		{360.0f,519.0f,OB_TEXTBOOKSOC},
+		{491.0f,519.0f,OB_TEXTBOOKSOC},
+		{622.0f,519.0f,OB_TEXTBOOKENG},
+		{1274.0f,519.0f,OB_TEXTBOOKNL},
 		{1956.0f,519.0f,OB_TEXTBOOKCHEM},
-		{2087.0f,519.0f,OB_TEXTBOOKMATH},//todo 数学
+		{2087.0f,519.0f,OB_TEXTBOOKMATH},
 		{10000,0,OB_COUNT}
 	},
 	//マップパターン2 S3
