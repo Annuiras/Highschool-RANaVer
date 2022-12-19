@@ -3,6 +3,9 @@
 #include "SceneBase.h"
 #include	"Menu.h"
 #include "Define.h"
+#include <thread>
+using namespace std;
+
 
 //スクロール速度
 #define		SCROLL_SPEED	1;
@@ -10,6 +13,10 @@
 class CModeSelect :public CSceneBase
 {
 private:
+
+	//素材ロードスレッド
+	thread Thread_Load;
+
 	CTexture		m_TutorialTextureSmall;
 	CTexture		m_TutorialTextureBig;
 	CTexture		m_TutorialBG[4];
@@ -20,15 +27,16 @@ private:
 	bool			Menuflag = false;
 	int				gMenuItemCount = 2;
 
+	int m_BakAlph;
 
 public:
 	CModeSelect();
 	~CModeSelect();
-	void Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec);
+	void Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec, CLoad* loma);
 	void Update(void);
 	void Render(void);
 	void RenderDebug(void);
-	bool Load(void);
+	void Load(void);
 	void Release(void);
 
 };

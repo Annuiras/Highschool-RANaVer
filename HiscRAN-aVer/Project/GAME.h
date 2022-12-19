@@ -4,13 +4,14 @@
 #include "Define.h"
 #include "Player.h"
 #include "Stage.h"
+#include <thread>
 
+using namespace std;
 
 class CGAME :public CSceneBase
 {
 
 private:
-	
 
 	//DPと接触処理
 	void UPdeteCollisionDP(int dpt);
@@ -40,12 +41,8 @@ private:
 	//カウントダウン時のズーム倍率
 	float m_StartScale;
 
-
-	//フェードインフェードアウト用アルファ値（暗転）
-	int m_BlackAlpha;
-
-	//（明転）
-	int m_WhiteAlpha;
+	int m_BlackBakAlph;
+	int m_WhiteBakAlph;
 
 	//デバッグ用
 	//ゲームオーバーフラグ
@@ -58,7 +55,7 @@ private:
 public:
 	CGAME();
 	~CGAME();
-	void Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec);
+	void Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec, CLoad* loma);
 	void Update(void);
 	void Render(void);
 	void Load(void);

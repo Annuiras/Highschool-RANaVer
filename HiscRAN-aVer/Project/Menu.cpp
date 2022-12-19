@@ -26,12 +26,17 @@ void CMenu::Create(int cnt)
 	Release();
 
 	//リソース配置ディレクトリの設定
-	if (!CUtilities::SetCurrentDirectoryA("Menu"))
-		 false;
+	CUtilities::SetCurrentDirectoryA("Menu");
 
-	m_MenuEndTexture.Load("Menu_BGEND.png");
-	m_MenuPauseTexture.Load("Menu_BGPause.png");
-	m_MenuCheck.Load("Menu_Check.png");
+	if (!m_MenuEndTexture.Load("Menu_BGEND.png")) {
+		return;
+	}
+	if (!m_MenuPauseTexture.Load("Menu_BGPause.png")) {
+		return;
+	}
+	if (!m_MenuCheck.Load("Menu_Check.png")) {
+		return;
+	}
 
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("../");

@@ -15,6 +15,7 @@ private:
 	//4:魅力
 	int Game_DPNum[DP_COUNT];
 
+
 public:
 	CGameProgMgmt(); 
 	~CGameProgMgmt();
@@ -24,9 +25,7 @@ public:
 
 	//ゲーム画面：DP取得数をセット
 	void SetGame_DPNum(int DP[]);
-
 	//ゲーム画面：DP取得数をゲット
 	int* GetGame_DPNum(void);
-
 };
 

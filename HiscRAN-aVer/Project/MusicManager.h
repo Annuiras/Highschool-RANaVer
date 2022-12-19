@@ -16,7 +16,9 @@ public:
 	CMusicMgmt();
 	~CMusicMgmt();
 
-	bool Load(void);
+	//‘fŞƒ[ƒh
+	tag_LoadSituation Load(void);
+
 	//‰Šú‰»
 	void Initialize(float bgmv, float sev);
 

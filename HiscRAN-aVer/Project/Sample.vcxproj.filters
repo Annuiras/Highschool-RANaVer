@@ -70,6 +70,9 @@
     <Filter Include="ソース ファイル\Game\Stage\Enemy">
       <UniqueIdentifier>{d6115f8f-efe2-46ef-9c35-a732668e3bd7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Load">
+      <UniqueIdentifier>{c5a86243-3a47-4e8d-a942-0b7ea2460981}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -137,6 +140,12 @@
     </ClCompile>
     <ClCompile Include="Enemy.cpp">
       <Filter>ソース ファイル\Game\Stage\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Load.cpp">
+      <Filter>ソース ファイル\Load</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneBase.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -220,6 +229,9 @@
     </ClInclude>
     <ClInclude Include="Stage_Enemy.h">
       <Filter>ソース ファイル\Game\Stage\Composition</Filter>
+    </ClInclude>
+    <ClInclude Include="Load.h">
+      <Filter>ソース ファイル\Load</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

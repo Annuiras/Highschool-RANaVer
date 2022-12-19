@@ -20,9 +20,8 @@ private:
 	
 	//ゲームオーバ時のフェードインフェードアウト用
 	//アルファ値
-	int			m_Alpha;
-	//フラグ
-	bool		m_FadeOutflg;
+	int m_BlackBakAlph;
+	int m_WhiteBakAlph;
 
 	//ゲームオーバー原因フラグ
 	bool HPEND = false;
@@ -31,11 +30,11 @@ private:
 public:
 	CGameOver();
 	~CGameOver();
-	void Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec);
+	void Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec, CLoad* loma);
 	void Update(void);
 	void Render(void);
 	void RenderDebug(void);
-	bool Load(void);
+	void Load(void);
 	void Release(void);
 };
 

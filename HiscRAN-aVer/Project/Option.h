@@ -63,16 +63,17 @@ private:
 	//フルスクリーンか否か
 	bool ScreenSize = false;
 
-
+	//背景α値
+	int m_BakAlph;
 
 public:
 	COption();
 	~COption();
-	void Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec);
+	void Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec, CLoad* loma);
 	void Update(void);
 	void Render(void);
 	void RenderDebug(void);
-	bool Load(void);
+	void Load(void);
 	void Release(void);
 };
 

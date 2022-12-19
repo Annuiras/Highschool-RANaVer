@@ -271,6 +271,26 @@ enum class  tag_StageSituation
 	STAGE_SP_ALREADY		//SPを終えたあと
 };
 
+//ロード状態を定義
+enum tag_LoadSituation {
+
+	LOAD_YET,		//ロード前
+	LOAD_COMP,		//ロード完了
+	LOAD_DONE,		//ロード済:初期化済
+	LOAD_ERROR,		//ロードエラー
+};
+
+//シーン推移状況
+enum tag_SceneSituation
+{
+	FADE_IN,		//フェードイン
+	FADE_OUT,		//フェードアウト	
+	FADE_NOT,		//推移なし
+	FADE_NEXT		//次のシーンへ
+	
+};
+
+//ロードが必要シーン
 //存在するシーン
 enum tag_SCENENO {
 	//タイトル画面
@@ -296,4 +316,13 @@ enum tag_SCENENO {
 
 	//ギャラリー画面
 	SCENENO_GALLERY,
+
+	//エフェクト
+	RESOURCE_EFFECT,
+
+	//ミュージック
+	RESOURCE_MUSIC,
+
+	//総数
+	SCENE_COUNT
 };

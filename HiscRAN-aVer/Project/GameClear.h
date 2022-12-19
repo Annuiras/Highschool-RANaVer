@@ -44,10 +44,8 @@ private:
 	bool isStop = false;
 
 	//フェードイン用アルファ値
-	int m_WhiteAlpha;
-	//フラグ
-	//false:推移中
-	bool m_FadeOut;
+	int m_BlackBakAlph;
+	int m_WhiteBakAlph;
 
 	// ステータスを収納する配列
 	int Status[DP_COUNT];
@@ -76,13 +74,13 @@ private:
 public:
 	CGameClear();
 	~CGameClear();
-	void Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec);
+	void Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec, CLoad* loma);
 	void buildChart(int* Status, Vector2* PointsStatus);
 	void drawChart(Vector2* PointsStatus, MofU32 cl);
 	void Update(void);
 	void Render(void);
 	void RenderDebug(void);
-	bool Load(void);
+	void Load(void);
 	void Release(void);
 };
 

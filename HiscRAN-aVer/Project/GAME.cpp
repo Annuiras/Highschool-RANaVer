@@ -51,8 +51,6 @@ CGAME::CGAME():
 	m_Menu(),
 	m_MenuItemCount(),
 	m_StartCount(),
-	m_BlackAlpha(),
-	m_WhiteAlpha(),
 	_GameOver(),
 	_GameClear(),
 	m_StartTime(),
@@ -67,8 +65,15 @@ CGAME::~CGAME()
 //素材読み込み
 void CGAME::Load(void)
 {
-	g_Player.Load();
-	g_Stage.Load();
+
+	if (!g_Player.Load()) {
+		b_LoadSitu = LOAD_ERROR;
+		return;
+	}
+	if (!g_Stage.Load()) {
+		b_LoadSitu = LOAD_ERROR;
+		return;
+	}
 
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("Game");
@@ -82,21 +87,28 @@ void CGAME::Load(void)
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("../");
 
+	//ロード完了
+	b_LoadSitu = LOAD_COMP;
+
 }
 
 //初期化
 //引数：ゲーム進捗管理クラス
-void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec)
+void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec, CLoad* loma)
 {
-	//素材読み込み
-	Load();
 
 	m_GameProgMamt = mamt;
 	g_MusicManager = musi;
 	g_EffectManeger = effec;
+	m_LoadMamt = loma;
+
+	//素材ロード
+	Load();
+	//初期化完了
+	b_LoadSitu = LOAD_DONE;
 
 	//メニュー
-	m_Menu.Create(m_MenuItemCount);
+	//m_Menu.Create(m_MenuItemCount);
 
 	//プレイヤー初期化
 	g_Player.Initialize();
@@ -111,9 +123,11 @@ void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec
 	//カウントダウン用カウンタ初期化
 	m_StartCount = 0;
 
-	//ゲームオーバ時のフェードインフェードアウト用
-	m_BlackAlpha = 0;
-	m_WhiteAlpha = 0;
+
+	//状態を設定
+	b_Fadein = FADE_IN;
+	m_BlackBakAlph = 255;
+	m_WhiteBakAlph = 0;
 
 	//デバッグ用
 	_GameClear = false;
@@ -131,12 +145,47 @@ void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec
 
 	m_NowScene = SCENENO_GAME;
 
-
 }
 
 //更新
 void CGAME::Update(void)
 {
+
+	//フェードイン処理
+	if (b_Fadein == FADE_IN) {
+		m_BlackBakAlph = FadeIn(m_BlackBakAlph);
+		return;
+	}
+
+	//フェードアウト完了時
+	if (b_Fadein == FADE_NEXT) {
+
+		if (g_Stage.GetClear() || _GameClear) {
+			m_GameProgMamt->SetGame_DPNum(m_DPNum);
+		}
+		else
+		{
+			g_MusicManager->SEStart(SE_T_GAMEOVER);
+		}
+		m_bEnd = true;
+	}
+
+	//フェードアウト処理
+	if (b_Fadein == FADE_OUT) {
+
+		//クリア時
+		if (g_Stage.GetClear() || _GameClear) {
+			//白
+			m_WhiteBakAlph = FadeOut(m_WhiteBakAlph);
+		}
+		else
+		{
+			//黒
+			m_BlackBakAlph = FadeOut(m_BlackBakAlph);
+		}
+		return;
+	}
+
 
 	//ゲーム開始切り替え
 	//開始時にカウントダウン開始
@@ -178,7 +227,7 @@ void CGAME::Update(void)
 
 	}
 
-	//Cでゲームクリア画面へ
+	//Cでゲームクリア画面
 	if (g_pInput->IsKeyPush(MOFKEY_C))
 	{
 		_GameClear = true;
@@ -195,31 +244,28 @@ void CGAME::Update(void)
 	if (g_pInput->IsKeyPush(MOFKEY_F1)) {
 
 		//初期化
-		g_Player.Initialize();
-
-		g_Stage.Initialize();
-
-		Initialize(m_GameProgMamt, g_MusicManager, g_EffectManeger);
+		Initialize(m_GameProgMamt, g_MusicManager, g_EffectManeger, m_LoadMamt);
 	}
 
+	//デバッグ用
 	if (g_pInput->IsKeyPush(MOFKEY_1)) {
-		//DPと接触した場合
+		//DP
 		UPdeteCollisionDP(DP_SCHOLASTIC);
 	}
 	if (g_pInput->IsKeyPush(MOFKEY_2)) {
-		//DPと接触した場合
+		//DP
 		UPdeteCollisionDP(DP_ACTION);
 	}
 	if (g_pInput->IsKeyPush(MOFKEY_3)) {
-		//DPと接触した場合
+		//DP
 		UPdeteCollisionDP(DP_IMAGINATION);
 	}
 	if (g_pInput->IsKeyPush(MOFKEY_4)) {
-		//DPと接触した場合
+		//DP
 		UPdeteCollisionDP(DP_COMMUNICATION);
 	}
 	if (g_pInput->IsKeyPush(MOFKEY_5)) {
-		//DPと接触した場合
+		//DP
 		UPdeteCollisionDP(DP_CHARM);
 	}
 
@@ -258,20 +304,9 @@ void CGAME::Update(void)
 	//ゲームオーバー時の場合フェードアウト
 	if (g_Player.GetOver()||_GameOver) {
 
-		//フェードアウト
-		m_BlackAlpha += FADE_OUT_SPEED;
-
-		if (m_BlackAlpha >= 255) {
-			//SEをすべて停止
-			g_MusicManager->SEALLStop();
-
-			//SE再生
-			g_MusicManager->SEStart(SE_T_GAMEOVER);
-
-			//ゲームオーバー画面へ
-			m_bEnd = true;
-			m_NextScene = SCENENO_GAMEOVER;
-		}
+		b_Fadein = FADE_OUT;
+		m_NextScene = SCENENO_GAMEOVER;
+		g_MusicManager->SEALLStop();
 	}
 
 	//ストップ中,ゲームオーバー中は以下の処理を実行しない
@@ -282,33 +317,16 @@ void CGAME::Update(void)
 	//クリア時の処理
 	if (g_Stage.GetClear()|| _GameClear)
 	{
-		m_WhiteAlpha += 1;//明転
+		b_Fadein = FADE_OUT;
+		m_NextScene = SCENENO_GAMECLEAR;
 
-		//クリア時のキャラクター処理
-		g_Player.UpdateClear();
-
-		if (m_WhiteAlpha >= 255)
-		{
-			//SEをすべて停止
-			g_MusicManager->SEALLStop();
-
-			//DPの取得数を保存
-			m_GameProgMamt->SetGame_DPNum(m_DPNum);
-
-			//画面切り替え
-			m_bEnd = true;
-			m_NextScene = SCENENO_GAMECLEAR;
-		}
-	}
-
-	if (g_Stage.GetClear()||_GameClear) {
 		//エフェクトの更新
 		g_EffectManeger->Update(g_Player.GetRect());
+		g_Player.UpdateClear();
 
 		//クリア時は以下の処理をしない
 		return;
 	}
-
 	//プレイヤー更新
 	g_Player.Update();
 
@@ -432,10 +450,13 @@ void CGAME::Render(void)
 	g_EffectManeger->Render();
 
 	//フェードアウト明転用
-	CGraphicsUtilities::RenderFillRect(0, 0, g_pGraphics->GetTargetWidth(), g_pGraphics->GetTargetHeight(), MOF_ARGB(m_WhiteAlpha, 255, 255, 255));
+	//CGraphicsUtilities::RenderFillRect(0, 0, g_pGraphics->GetTargetWidth(), g_pGraphics->GetTargetHeight(), MOF_ARGB(m_BlackBakAlph, 255, 255, 255));
 
 	//フェードアウト暗転用
-	CGraphicsUtilities::RenderFillRect(0, 0, g_pGraphics->GetTargetWidth(), g_pGraphics->GetTargetHeight(),MOF_ARGB(m_BlackAlpha,0,0,0));
+	CGraphicsUtilities::RenderFillRect(0, 0, g_pGraphics->GetTargetWidth(), g_pGraphics->GetTargetHeight(),MOF_ARGB(m_BlackBakAlph,0,0,0));
+
+	//フェードアウト明転用
+	CGraphicsUtilities::RenderFillRect(0, 0, g_pGraphics->GetTargetWidth(), g_pGraphics->GetTargetHeight(), MOF_ARGB(m_WhiteBakAlph, 255, 255, 255));
 
 }
 

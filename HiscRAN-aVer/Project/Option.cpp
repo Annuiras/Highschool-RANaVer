@@ -40,7 +40,7 @@ COption::~COption()
 }
 
 //素材読み込み
-bool COption::Load(void)
+void COption::Load(void)
 {
 
 	//リソース配置ディレクトリの設定
@@ -49,64 +49,75 @@ bool COption::Load(void)
 	//背景
 	if (!m_BG.Load("Option_BG.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 	//土台
 	if (!m_mount.Load("Option_mount.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 	//BGM調整ボタン
 	if (!m_Button1_1.Load("Option_slide.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 	//SE調整ボタン
 	if (!m_Button1_2.Load("Option_slide.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 	//SE再生ボタン
 	if (!m_Button2.Load("Option_Button_SE.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 	//Screenサイズ調整ボタン
 	if (!m_Button3_Win.Load("Option_Button_Win.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 	if (!m_Button3_Full.Load("Option_Button_Full.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 	//選択枠
 	if (!m_Select_BGM.Load("Option_Sbgm.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 	if (!m_Select_SE.Load("Option_Sse.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 	if (!m_Select_Screen.Load("Option_Sscreen.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 	//説明
 	if (!m_ExTexture.Load("Option_Ex.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 
@@ -116,27 +127,34 @@ bool COption::Load(void)
 	//小さい選択枠
 	if (!m_Select_s.Load("Select_s.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 	//戻るボタン
 	if (!m_BackButton.Load("BackButton.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
-	return true;
+	//ロード完了
+	b_LoadSitu = LOAD_COMP;
 }
 
 
 //初期化
-void COption::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec)
+void COption::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec, CLoad* loma)
 {
-	Load();
 
 	m_GameProgMamt = mamt;
 	g_MusicManager = musi;
 	g_EffectManeger = effec;
+
+	//素材ロード
+	Load();
+	//初期化完了
+	b_LoadSitu = LOAD_DONE;
 
 	//フォント
 	m_Font1.Create(35, "UD デジタル 教科書体 N-B");
@@ -152,7 +170,7 @@ void COption::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* eff
 	g_MusicManager->BGMLoop(BGMT_MOOP, true);
 	g_MusicManager->BGMStart(BGMT_MOOP);
 
-	//todo:オプションのシークバーの位置が音量によって変わらない
+	//:オプションのシークバーの位置が音量によって変わらない
 	double BGM = VolumeBGM - 0.01;
 	double SE = VolumeSE - 0.01;
 
@@ -190,11 +208,33 @@ void COption::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* eff
 
 	m_NowScene = SCENENO_OPTION;
 
+	//状態を設定
+	b_Fadein = FADE_IN;
+	m_BakAlph = 255;
+
 }
 
 //更新
 void COption::Update(void)
 {
+	//フェードイン処理
+	if (b_Fadein == FADE_IN) {
+		m_BakAlph = FadeIn(m_BakAlph);
+	}
+
+	//フェードアウト完了時
+	if (b_Fadein == FADE_NEXT) {
+
+		m_bEnd = true;
+		m_NextScene = SCENENO_SELECTMODE;
+	}
+
+	//フェードアウト処理
+	if (b_Fadein == FADE_OUT) {
+		m_BakAlph = FadeOut(m_BakAlph);
+		return;
+	}
+
 	//F1キーでタイトル画面へ
 	if (g_pInput->IsKeyPush(MOFKEY_F1))
 	{
@@ -219,8 +259,7 @@ void COption::Update(void)
 	//Enterで戻るかは検討中
 	if (OptionCnt == 3 && g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
-		m_bEnd = true;
-		m_NextScene = SCENENO_SELECTMODE;
+		b_Fadein = FADE_OUT;
 	}
 
 	//矢印キー右で選択が右に行くようにする
@@ -403,7 +442,7 @@ void COption::Render(void)
 		m_Select_BGM.Render(375, 181, yellowBGM);
 		/*if (flagBGM == true)
 		{
-			m_Select_BGM.Render(375, 181,redBGM);
+			m_Select_BGM.RenderLoad(375, 181,redBGM);
 		}*/
 		break;
 
@@ -412,7 +451,7 @@ void COption::Render(void)
 		m_Select_SE.Render(543, 183, yellowSE);
 		/*if (OptionCnt==1)
 		{
-			m_Select_SE.Render(543, 183, redSE);
+			m_Select_SE.RenderLoad(543, 183, redSE);
 		}*/
 
 		if (OptionCnt == 1 && g_pInput->IsKeyHold(MOFKEY_RETURN))
@@ -426,7 +465,7 @@ void COption::Render(void)
 		m_Select_Screen.Render(815, 340, yellowScreen);
 		/*if (flagSC == true)
 		{
-			m_Select_Screen.Render(815, 340,redScreen);
+			m_Select_Screen.RenderLoad(815, 340,redScreen);
 		}*/
 		break;
 
@@ -441,6 +480,10 @@ void COption::Render(void)
 	{
 		m_ExTexture.Render(0, 0);
 	}
+
+	//フェード用黒背景
+	CGraphicsUtilities::RenderFillRect(0, 0, WINDOWSIZE_WIDTH, WINDOWSIZE_HEIGHT,
+		MOF_ARGB(m_BakAlph, 0, 0, 0));
 
 }
 

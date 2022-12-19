@@ -8,6 +8,7 @@
 class CTitle :public CSceneBase
 {
 private:
+
 	//背景のテクスチャタイプ1
 	CTexture	m_BackTexture1;
 
@@ -29,17 +30,22 @@ private:
 
 	//スクロール値
 	float		m_Scroll;
-
 	//ランダム用
 	int			Rondom;
+
+	//背景α値
+	int m_BakAlph;
+
 public:
 	CTitle();
 	~CTitle();
-	void Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec);
+	void Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec, CLoad* loma);
+
+	void Load(void);
+
 	void Update(void);
 	void Render(void);
 	void RenderDebug(void);
-	bool Load(void);
 	void Release(void);
 
 };

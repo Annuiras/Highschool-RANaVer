@@ -39,14 +39,18 @@ private:
 	//戻るボタンにカーソルがあるかないか
 	int TMenuCnt;
 
+	//背景α値
+	int m_BakAlph;
+
+
 public:
 	CTutorial();
 	~CTutorial();
-	void Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec);
+	void Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec, CLoad* loma);
 	void Update(void);
 	void Render(void);
 	void RenderDebug(void);
-	bool Load(void);
+	void Load(void);
 	void Release(void);
 };
 

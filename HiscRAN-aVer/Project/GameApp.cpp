@@ -24,7 +24,6 @@
 //デバッグ
 bool		gDebagflag = false;
 
-
 //シーンベースクラスポインタ
 CSceneBase* gpScene = NULL;
 
@@ -37,9 +36,31 @@ CEffectMgmt g_EffectManeger;
 //SE・BGMマネージャー
 CMusicMgmt g_MusicManager;
 
+//メニュークラス
 CMenu		geMenu;
 int			gMenuItemCount = 2;
 
+//ロード画面クラス
+CLoad gLoad;
+
+
+//フェードアウト、イン用アルファ値
+int ga_BlackAlpha;
+
+//エフェクト、ミュージック,ロードフラグ
+tag_LoadSituation Eff_Loadflg = LOAD_YET, Mu_Loadflg = LOAD_YET;
+
+//最初のシーンに必要なエフェクト、ミュージックをロード出来ているか
+//true::ロード出来ている
+bool LoadCheckInitial(void) {
+
+	bool flg = true;
+	if (Eff_Loadflg != tag_LoadSituation::LOAD_DONE|| Mu_Loadflg != tag_LoadSituation::LOAD_DONE) {
+		flg = false;
+	}
+
+	return flg;
+}
 
 /*************************************************************************//*!
 		@brief			アプリケーションの初期化
@@ -53,17 +74,10 @@ MofBool CGameApp::Initialize(void){
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("Resource");
 
-	//最初に実行されるシーン,マネージャーの初期化 
-	gpScene = new CTitle();
+	//最初に実行される,マネージャーの初期化 
 	g_GameProgMamt.Initialize();
-	g_EffectManeger.Initialize();
-	g_MusicManager.Initialize(0.2,0.2);
-	geMenu.Create(gMenuItemCount);
-
-
-	//最初のシーンにマネージャーのポインタを渡す
-	gpScene->Initialize(&g_GameProgMamt,&g_MusicManager,&g_EffectManeger);
-
+	gLoad.Load();
+	//geMenu.Create(gMenuItemCount);
 
 	return TRUE;
 }
@@ -82,8 +96,78 @@ MofBool CGameApp::Update(void){
 	//デバッグ切り替え
 	if(g_pInput->IsKeyPush(MOFKEY_BACKSPACE))
 	gDebagflag = gDebagflag ? !gDebagflag : !gDebagflag;
+
+	//エフェクトがロード前の場合
+	//
+	if (Eff_Loadflg == LOAD_YET && !gLoad.Thread_Load.joinable()) {
+		//ロード処理をスレッドに渡す
+		//戻り値を記録する
+		gLoad.Thread_Load = thread{ [] {Eff_Loadflg = g_EffectManeger.Load(); } };
+	}
+	//音声がロード前の場合
+	else 
+	if (Mu_Loadflg == LOAD_YET && !gLoad.Thread_Load.joinable())
+	{
+		//ロード処理をスレッドに渡す
+		//戻り値を記録する
+		gLoad.Thread_Load = thread{ [] {Mu_Loadflg=g_MusicManager.Load(); } };
+	}
+
+	//エフェクト、ミュージックがロード完了状態の場合
+	if (Eff_Loadflg == LOAD_COMP) {
+		//スレッド解放
+		gLoad.Thread_Load.join();
+		//初期化
+		g_EffectManeger.Initialize();
+		//フラグ更新
+		Eff_Loadflg = LOAD_DONE;
+	}
+	else if (Mu_Loadflg == LOAD_COMP) {
+		//スレッド解放
+		gLoad.Thread_Load.join();
+		//初期化
+		g_MusicManager.Initialize(0.2,0.2);
+		//フラグ更新
+		Mu_Loadflg = LOAD_DONE;
+	}
+
+	//エフェクト、ミュージックをロード出来ていない場合は更新終了
+	if (!LoadCheckInitial()) {
+		return TRUE;
+	}
+
+	//シーンをまだ生成していない場合
+	if (gpScene == nullptr) {
+
+		//最初のシーン
+		gpScene = new CTitle();
+		gLoad.Thread_Load = thread{ [=] {gpScene->Load(); } };
+		gLoad.Initialize();
+	}
+
+	//ロード画面更新
+	gLoad.Update();
+
+	//ロード前かエラー時は更新なし
+	if ((gpScene->GetLoadSitu() == LOAD_YET || gpScene->GetLoadSitu() == LOAD_ERROR)||
+		!gLoad.IsLoadEnd()){
+		return TRUE;
+	}
+	else if (gpScene->GetLoadSitu() == LOAD_COMP)
+	{
+		//シーンのロード完了時
+		//スレッド解放
+		gLoad.Thread_Load.join();
+
+		//シーンの初期化
+		gpScene->Initialize(&g_GameProgMamt, &g_MusicManager, &g_EffectManeger, &gLoad);
+
+		//フラグ更新
+		gpScene->SetLoadSitu(LOAD_DONE);
+	}
+
 	
-	//todo:メニュー表示中
+	//:メニュー表示中
 	//メニュークラスをシーンベースにインスタンス？
 	//ポインタ渡すかすると思う
 	if (geMenu.IsShow())
@@ -124,7 +208,7 @@ MofBool CGameApp::Update(void){
 		gpScene->Update();
 	}
 
-	//画面遷移した場合
+	//画面遷移完了した場合
 	if (gpScene->IsEnd()) {
 
 		//解放
@@ -167,7 +251,7 @@ MofBool CGameApp::Update(void){
 		}
 		//初期化
 		g_EffectManeger.InitializeIn_middle();
-		gpScene->Initialize(&g_GameProgMamt,&g_MusicManager,&g_EffectManeger);
+		gpScene->Initialize(&g_GameProgMamt, &g_MusicManager, &g_EffectManeger, &gLoad);
 
 	}
 
@@ -184,25 +268,39 @@ MofBool CGameApp::Render(void){
 	//描画開始
 	g_pGraphics->RenderStart();
 	//画面のクリア
-	g_pGraphics->ClearTarget(0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0);
+	g_pGraphics->ClearTarget(0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0);
 
 	//描画
-	gpScene->Render();
+	//シーン生成前か
+	//シーンのロード前の場合
+	if(gpScene == nullptr||gpScene->GetLoadSitu()== LOAD_YET||!gLoad.IsLoadEnd())
+	{
+		//ロード画面
+		gLoad.RenderLoad();
+	}
+	else 
+	{
+		//シーン画面
+		gpScene->Render();
+	}
 
 	if (gDebagflag)
 	{
 		//デバッグ描画
 		gpScene->RenderDebug();
 	}
-	if (gpScene->IsNow() == SCENENO_GAME) 
-	{
-		geMenu.Render(2);
-	}
-	else 
-	{
-		//メニューの描画
-		geMenu.Render(1);
-	}
+
+	//if (gpScene->IsNow() == SCENENO_GAME) 
+	//{
+	//	geMenu.Render(2);
+	//}
+	//else 
+	//{
+	//	//メニューの描画
+	//	geMenu.Render(1);
+	//}
+
+	CGraphicsUtilities::RenderString(0, 500,MOF_COLOR_BLACK, CUtilities::GetCurrentDirectoryA());
 
 	//描画の終了
 	g_pGraphics->RenderEnd();
@@ -223,6 +321,7 @@ MofBool CGameApp::Release(void){
 		g_EffectManeger.Release();
 		g_MusicManager.Release();
 		geMenu.Release();
+		gLoad.Release();
 	}
 
 	return TRUE;

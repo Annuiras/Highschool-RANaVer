@@ -20,7 +20,7 @@ CEffectMgmt::~CEffectMgmt() {
  * 読み込み
  * 利用するテクスチャを読み込む。
  */
-bool CEffectMgmt::Load(void) {
+tag_LoadSituation CEffectMgmt::Load(void) {
 
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("Effect");
@@ -38,14 +38,14 @@ bool CEffectMgmt::Load(void) {
 	{
 		if (!m_Texture[i].Load(name[i]))
 		{
-			return false;
+			return tag_LoadSituation::LOAD_ERROR;
 		}
 	}
 
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("../");
 
-	return true;
+	return tag_LoadSituation::LOAD_COMP;
 }
 
 /**
@@ -54,7 +54,6 @@ bool CEffectMgmt::Load(void) {
  */
 void CEffectMgmt::Initialize(void) {
 
-	Load();
 	//エフェクトの基礎設定
 	for (int type = 0; type < EFC_TYPE_COUNT; type++)
 	{

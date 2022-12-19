@@ -2,6 +2,9 @@
 
 #include "Define.h"
 #include "SceneBase.h"
+#include <thread>
+
+using namespace std;
 
 class CGallery :public CSceneBase
 {
@@ -22,6 +25,11 @@ private:
 
 	////最終容姿の台紙テクスチャ（バラ）
 	//CTexture	m_LastApp[15];
+
+
+	//素材ロードスレッド
+	thread Thread_Load;
+
 
 	//フォント読み込み
 	CFont		gFont1;
@@ -54,6 +62,8 @@ private:
 	CTexture	m_Text;
 	CTexture	m_BackButton;
 
+	int m_BakAlph;
+
 	bool LastAddFlag[15] =
 	{
 		true,
@@ -76,11 +86,11 @@ private:
 public:
 	CGallery();
 	~CGallery();
-	void Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec);
+	void Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec, CLoad* loma);
 	void Update(void);
 	void Render(void);
 	void RenderDebug(void);
-	bool Load(void);
+	void Load(void);
 	void Release(void);
 };
 
