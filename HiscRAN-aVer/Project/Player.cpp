@@ -280,6 +280,34 @@ void CPlayer::UpdateClear(void)
 //描画
 void CPlayer::Render()
 {
+
+	//画面端0　余白15　[4分の1-画像幅/2]　[4分の2-画像幅/2]　[4分の3-画像幅/2]　余白15　進行度画像280　（上の段）
+	//画面端0　余白15　　　　　　　[3分の1-画像幅/2]　[3分の2-画像幅/2]　　　　 余白15　進行度画像280　（下の段）
+	//HPのフレーム描画
+	m_HPFrame.Render(15 + 265 / 4 - m_HPFrame.GetWidth() / 2, 20);
+	m_HPFrame.Render(15 + 265 / 2 - m_HPFrame.GetWidth() / 2, 20);
+	m_HPFrame.Render(15 + 265 / 4 * 3 - m_HPFrame.GetWidth() / 2, 20);
+	m_HPFrame.Render(15 + 265 / 3 - m_HPFrame.GetWidth() / 2 + 10, 70);
+	m_HPFrame.Render(15 + 265 / 3 * 2 - m_HPFrame.GetWidth() / 2 - 10, 70);
+
+	//HPの描画
+	// m_DamageWait（ダメージ）が発生中は m_HP を +1 したときの画像を点滅　m_DamageWait の値が 0 になれば点滅、表示の終了
+	if (m_HP >= 1 || m_DamageWait % 5 == 1 && m_HP == 0) {
+		m_HPTexture.Render(15 + 265 / 4 - m_HPTexture.GetWidth() / 2, 20);			//左上
+	}
+	if (m_HP >= 2 || m_DamageWait % 5 == 1 && m_HP == 1) {
+		m_HPTexture.Render(15 + 265 / 3 - m_HPTexture.GetWidth() / 2 + 10, 70);		//左下
+	}
+	if (m_HP >= 3 || m_DamageWait % 5 == 1 && m_HP == 2) {
+		m_HPTexture.Render(15 + 265 / 2 - m_HPTexture.GetWidth() / 2, 20);			//中上
+	}
+	if (m_HP >= 4 || m_DamageWait % 5 == 1 && m_HP == 3) {
+		m_HPTexture.Render(15 + 265 / 3 * 2 - m_HPTexture.GetWidth() / 2 - 10, 70);	//右下
+	}
+	if (m_HP >= 5 || m_DamageWait % 5 == 1 && m_HP == 4) {
+		m_HPTexture.Render(15 + 265 / 4 * 3 - m_HPTexture.GetWidth() / 2, 20);		//右上
+	}
+
 	//無敵時間2フレーム描画しない
 	if (m_DamageWait % 4 >= 2)
 	{
@@ -294,17 +322,7 @@ void CPlayer::Render()
 	float py = m_PosY;
 
 	//キャラクター描画
-	m_Texture.Render(px, py, br);
-
-	//HPの描画
-	//HPのフレーム描画
-	m_HPFrame.Render(17, 42);
-	if (m_HP > 0) {
-		CRectangle rec(0, 0, 224 * (m_HP * 0.20f), 45);
-
-		//HP描画
-		m_HPTexture.Render(17, 42, rec);
-	}
+	m_Texture.Render(px, py, br);	
 }
 
 //デバック表示
