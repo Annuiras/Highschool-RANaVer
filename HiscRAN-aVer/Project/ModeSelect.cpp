@@ -62,7 +62,7 @@ bool CModeSelect::Load()
 		return false;
 	}
 
-	if (!m_TutorialTextTexture.Load("ModeSelectTexture.png"))
+	if (!m_TutorialTextTexture.Load("ModeSelect_Text.png"))
 		return false;
 		
 	if (!m_TutorialBG[0].Load("ModeSelect_AddmissionEx_BG.png")) 
@@ -173,10 +173,10 @@ void CModeSelect::Render(void)
 {
 	//画像を切り取るための矩形
 	//下に出す説明文の画像矩形
-	CRectangle recTutorialTex(0, 0, 1780, 45);
-	CRectangle recGameTex(0, 45, 1780, 90);
-	CRectangle recGalleryTex(0, 90, 1780, 135);
-	CRectangle recOptionTex(0, 135, 1780, 180);
+	CRectangle recTutorialTex(0, 0, 1845, 41);
+	CRectangle recGameTex(0, 45, 1845, 85);
+	CRectangle recGalleryTex(0, 90, 1845, 130);
+	CRectangle recOptionTex(0, 135, 1845, 175);
 	
 
 	//メニュー表示用画像の矩形(大)
@@ -313,34 +313,6 @@ void CModeSelect::RenderDebug(void)
 {
 	CGraphicsUtilities::RenderString(10, 10, "モードセレクト画面");
 	CGraphicsUtilities::RenderString(10, 40, "Enterキーで画面遷移");
-	CGraphicsUtilities::RenderString(10, 70, "F1キーでタイトル画面へ遷移");
-	CGraphicsUtilities::RenderString(10, 100, "F2キーでチュートリアル画面へ遷移");
-	CGraphicsUtilities::RenderString(10, 130, "F3キーでゲーム画面へ遷移");
-	CGraphicsUtilities::RenderString(10, 160, "F4キーでギャラリー画面へ遷移");
-	CGraphicsUtilities::RenderString(10, 190, "F5キーでオプション画面へ遷移");
-
-	const char* MenuString[MenuCnt] =
-	{
-		"チュートリアル(入学説明)",
-		"ゲーム開始（入学）",
-		"ギャラリー（図書室）",
-		"オプション（ホームルーム）",
-	};
-
-	MofU32 color[MenuCnt];
-
-	for (int i = 0; i < MenuCnt; i++)
-	{
-		color[i] = MOF_COLOR_BLACK;
-	}
-
-	color[MenuNow_Mode] = MOF_COLOR_HRED;
-
-	//文字描画
-	for (int i = 0; i < MenuCnt; ++i)
-	{
-		CGraphicsUtilities::RenderString(400, 300 + 40 * i, color[i], MenuString[i]);
-	}
 }
 
 void CModeSelect::Release(void)
