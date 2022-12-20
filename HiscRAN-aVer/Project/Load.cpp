@@ -12,16 +12,17 @@ CLoad::~CLoad()
 }
 
 //初期化
-void CLoad::Initialize(void)
+//todo:ロード画面を呼び出すときに待機時間アルファ値を再設定したい
+void CLoad::Initialize(int A, int time)
 {
 	//ロード中
 	m_LoadTimeEnd = false;
 
 	//最初は背景α値0
-	m_WhiteAlpha = 0;
+	m_WhiteAlpha = A;
 
 	//最低待機時間
-	m_WaitingTime = 100;
+	m_WaitingTime = time;
 
 	//フェードフラグ
 	m_Fadein = false;

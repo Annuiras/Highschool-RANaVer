@@ -43,14 +43,10 @@ int			gMenuItemCount = 2;
 //ロード画面クラス
 CLoad gLoad;
 
-
-//フェードアウト、イン用アルファ値
-int ga_BlackAlpha;
-
 //エフェクト、ミュージック,ロードフラグ
 tag_LoadSituation Eff_Loadflg = LOAD_YET, Mu_Loadflg = LOAD_YET;
 
-//最初のシーンに必要なエフェクト、ミュージックをロード出来ているか
+//最初のシーンに必要なエフェクト、ミュージックをロード：初期化出来ているか
 //true::ロード出来ている
 bool LoadCheckInitial(void) {
 
@@ -77,7 +73,7 @@ MofBool CGameApp::Initialize(void){
 	//最初に実行される,マネージャーの初期化 
 	g_GameProgMamt.Initialize();
 	gLoad.Load();
-	//geMenu.Create(gMenuItemCount);
+	geMenu.Create(gMenuItemCount);
 
 	return TRUE;
 }
@@ -91,7 +87,6 @@ MofBool CGameApp::Initialize(void){
 MofBool CGameApp::Update(void){
 	//キーの更新
 	g_pInput->RefreshKey();
-
 
 	//デバッグ切り替え
 	if(g_pInput->IsKeyPush(MOFKEY_BACKSPACE))
@@ -131,7 +126,7 @@ MofBool CGameApp::Update(void){
 		Mu_Loadflg = LOAD_DONE;
 	}
 
-	//エフェクト、ミュージックをロード出来ていない場合は更新終了
+	//エフェクト、ミュージックをロード：初期化出来ていない場合は更新終了
 	if (!LoadCheckInitial()) {
 		return TRUE;
 	}
@@ -142,7 +137,7 @@ MofBool CGameApp::Update(void){
 		//最初のシーン
 		gpScene = new CTitle();
 		gLoad.Thread_Load = thread{ [=] {gpScene->Load(); } };
-		gLoad.Initialize();
+		gLoad.Initialize(0,100);
 	}
 
 	//ロード画面更新
@@ -204,7 +199,7 @@ MofBool CGameApp::Update(void){
 	}
 	else
 	{
-		//更新
+		//シーンの更新
 		gpScene->Update();
 	}
 
@@ -234,6 +229,9 @@ MofBool CGameApp::Update(void){
 			break;
 		case SCENENO_GAME:
 			gpScene = new CGAME();
+			//ロードをスレッド渡す
+			gLoad.Thread_Load = thread{ [=] {gpScene->Load(); } };
+			gLoad.Initialize(255,100);
 			break;
 		case SCENENO_GAMEOVER:
 			gpScene = new CGameOver();
@@ -290,15 +288,15 @@ MofBool CGameApp::Render(void){
 		gpScene->RenderDebug();
 	}
 
-	//if (gpScene->IsNow() == SCENENO_GAME) 
-	//{
-	//	geMenu.Render(2);
-	//}
-	//else 
-	//{
-	//	//メニューの描画
-	//	geMenu.Render(1);
-	//}
+	if (gpScene == nullptr || gpScene->IsNow() == SCENENO_GAME)
+	{
+		geMenu.Render(2);
+	}
+	else 
+	{
+		//メニューの描画
+		geMenu.Render(1);
+	}
 
 	CGraphicsUtilities::RenderString(0, 500,MOF_COLOR_BLACK, CUtilities::GetCurrentDirectoryA());
 

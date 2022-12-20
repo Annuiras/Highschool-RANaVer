@@ -35,7 +35,9 @@ public:
 	
 
 	//初期化
-	void Initialize(void);
+	//A		:背景α値
+	//time	:最低待機時間
+	void Initialize(int A,int time);
 
 	//素材ロード
 	bool Load(void);

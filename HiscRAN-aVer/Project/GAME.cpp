@@ -102,10 +102,10 @@ void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec
 	g_EffectManeger = effec;
 	m_LoadMamt = loma;
 
-	//素材ロード
-	Load();
-	//初期化完了
-	b_LoadSitu = LOAD_DONE;
+	////素材ロード
+	//Load();
+	////初期化完了
+	//b_LoadSitu = LOAD_DONE;
 
 	//メニュー
 	//m_Menu.Create(m_MenuItemCount);
@@ -140,8 +140,6 @@ void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec
 	}
 	m_StartScale = 0.0f;
 
-	//BGM開始
-	g_MusicManager->BGMStart(BGMT_STAGE);
 
 	m_NowScene = SCENENO_GAME;
 
@@ -156,6 +154,9 @@ void CGAME::Update(void)
 		m_BlackBakAlph = FadeIn(m_BlackBakAlph);
 		return;
 	}
+
+	//BGM開始
+	g_MusicManager->BGMStart(BGMT_STAGE);
 
 	//フェードアウト完了時
 	if (b_Fadein == FADE_NEXT) {
@@ -448,9 +449,6 @@ void CGAME::Render(void)
 
 	//エフェクトの描画
 	g_EffectManeger->Render();
-
-	//フェードアウト明転用
-	//CGraphicsUtilities::RenderFillRect(0, 0, g_pGraphics->GetTargetWidth(), g_pGraphics->GetTargetHeight(), MOF_ARGB(m_BlackBakAlph, 255, 255, 255));
 
 	//フェードアウト暗転用
 	CGraphicsUtilities::RenderFillRect(0, 0, g_pGraphics->GetTargetWidth(), g_pGraphics->GetTargetHeight(),MOF_ARGB(m_BlackBakAlph,0,0,0));
