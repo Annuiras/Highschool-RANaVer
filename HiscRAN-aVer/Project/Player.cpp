@@ -14,7 +14,8 @@ CPlayer::CPlayer() :
 	m_JumpCount(0.0f),
 	m_BSflg(true),
 	m_MusicMgmt(),
-	m_pEffectMgmt()
+	m_pEffectMgmt(),
+	_unrivaled()
 {
 }
 
@@ -89,6 +90,10 @@ void CPlayer::Initialize(void) {
 	m_DamageWait = 0;
 	m_deathflg = false;
 
+	//無敵フラグ
+	_unrivaled = false;
+	_chare_A = 255;
+
 	//モーション初期化
 	m_Motion.ChangeMotion(MOTION_MOVE);
 	m_SrcRect = m_Motion.GetSrcRect();
@@ -97,6 +102,16 @@ void CPlayer::Initialize(void) {
 
 //更新
 void CPlayer::Update(void) {
+
+	//デバッグ用
+	if (g_pInput->IsKeyPull(MOFKEY_M)) {
+		//無敵化
+		_unrivaled = _unrivaled ? !_unrivaled : !_unrivaled;
+
+		//無敵中半透明に
+		_chare_A = _unrivaled ? 125 : 255;
+	}
+
 
 	//ジャンプ処理
 	if (g_pInput->IsKeyHold(MOFKEY_SPACE) && m_BSflg) {
@@ -231,7 +246,7 @@ void CPlayer::UPdateCollisionGround(float y) {
 void CPlayer::UPdateCollisionOB() {
 
 	//無敵時間中は判定しない
-	if (m_DamageWait > 0)
+	if (m_DamageWait > 0|| _unrivaled)
 	{
 		return;
 	}
@@ -294,7 +309,7 @@ void CPlayer::Render()
 	float py = m_PosY;
 
 	//キャラクター描画
-	m_Texture.Render(px, py, br);
+	m_Texture.Render(px, py, br,MOF_ARGB(_chare_A,255,255,255));
 
 	//HPの描画
 	//HPのフレーム描画

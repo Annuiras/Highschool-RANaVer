@@ -53,7 +53,7 @@ CGAME::CGAME():
 	m_StartCount(),
 	m_BlackAlpha(),
 	m_WhiteAlpha(),
-	_GameOver(),
+	m_GameOverflg(),
 	_GameClear(),
 	m_StartTime(),
 	m_DPNum()
@@ -117,7 +117,7 @@ void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec
 
 	//デバッグ用
 	_GameClear = false;
-	_GameOver = false;
+	m_GameOverflg = false;
 
 	//ステージ内で取得したDPの数初期化
 	for (int i = 0; i < DP_COUNT; i++)
@@ -187,7 +187,7 @@ void CGAME::Update(void)
 	//Vでゲームオーバー画面
 	else if (g_pInput->IsKeyPush(MOFKEY_V))
 	{
-		_GameOver = true;
+		m_GameOverflg = true;
 	}
 
 	//一時的な追加です
@@ -202,6 +202,7 @@ void CGAME::Update(void)
 		Initialize(m_GameProgMamt, g_MusicManager, g_EffectManeger);
 	}
 
+	//デバッグ用
 	if (g_pInput->IsKeyPush(MOFKEY_1)) {
 		//DPと接触した場合
 		UPdeteCollisionDP(DP_SCHOLASTIC);
@@ -256,7 +257,7 @@ void CGAME::Update(void)
 
 
 	//ゲームオーバー時の場合フェードアウト
-	if (g_Player.GetOver()||_GameOver) {
+	if (g_Player.GetOver()||m_GameOverflg) {
 
 		//フェードアウト
 		m_BlackAlpha += FADE_OUT_SPEED;
@@ -268,6 +269,11 @@ void CGAME::Update(void)
 			//SE再生
 			g_MusicManager->SEStart(SE_T_GAMEOVER);
 
+			//ゲームオーバー原因を保存(HP)
+			if (g_Player.GetOver()) {
+				m_GameProgMamt->SetGame_Over_HP(true);
+			}
+
 			//ゲームオーバー画面へ
 			m_bEnd = true;
 			m_NextScene = SCENENO_GAMEOVER;
@@ -275,13 +281,19 @@ void CGAME::Update(void)
 	}
 
 	//ストップ中,ゲームオーバー中は以下の処理を実行しない
-	if (!g_Stage.GetGameStopPlay()||g_Player.GetOver()||_GameOver) {
+	if (!g_Stage.GetGameStopPlay()||g_Player.GetOver()||m_GameOverflg) {
 		return;
 	}
 
 	//クリア時の処理
 	if (g_Stage.GetClear()|| _GameClear)
 	{
+		//クリア時にDPが一定数足りていない場合
+		//todo:0仮置きDPピック画面で選んだDPと比較する
+		if (m_DPNum[0] <= 10) {
+			//ゲームオーバーフラグをセット
+			m_GameOverflg = true;
+		}
 		m_WhiteAlpha += 1;//明転
 
 		//クリア時のキャラクター処理
