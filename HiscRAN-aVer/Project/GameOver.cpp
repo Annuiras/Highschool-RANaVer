@@ -67,7 +67,7 @@ void CGameOver::Load(void)
 }
 
 //èâä˙âª
-void CGameOver::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec, CLoad* loma)
+void CGameOver::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec)
 {
 	m_GameProgMamt = mamt;
 	g_MusicManager = musi;
@@ -113,10 +113,10 @@ void CGameOver::Update(void)
 		switch (m_NextScene)
 		{
 		case SCENENO_SELECTMODE:
-			m_BlackBakAlph = FadeOut(m_BlackBakAlph);
+			m_WhiteBakAlph = FadeOut(m_WhiteBakAlph);
 			break;
 		case SCENENO_GAME:
-			m_BlackBakAlph = FadeOut(m_BlackBakAlph);
+			m_WhiteBakAlph = FadeOut(m_WhiteBakAlph);
 			break;
 		default:
 			break;

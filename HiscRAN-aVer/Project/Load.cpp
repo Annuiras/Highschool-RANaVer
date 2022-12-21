@@ -2,8 +2,14 @@
 
 //ロード画面処理
 CLoad::CLoad():
+	m_Bak(),
+	m_String(),
+	m_ErBak(),
 	m_WaitingTime(),
-	m_LoadTimeEnd(false)
+	m_Time(),
+	m_LoadTimeEnd(false),
+	m_WhiteAlpha(),
+	m_Fadein()
 {
 }
 
@@ -24,6 +30,12 @@ void CLoad::Initialize(int A, int time)
 	//最低待機時間
 	m_WaitingTime = time;
 
+	//経過時間
+	m_Time = 0;
+
+	//表示矩形
+	m_StringRec.Right = m_String.GetWidth() - 75;
+
 	//フェードフラグ
 	m_Fadein = false;
 }
@@ -31,6 +43,9 @@ void CLoad::Initialize(int A, int time)
 //素材ロード
 bool CLoad::Load(void)
 {
+	//リソース配置ディレクトリの設定
+	CUtilities::SetCurrentDirectoryA("Load");
+
 	if (!m_Bak.Load("ro-do-0001.png")) {
 		return false;
 	}
@@ -38,6 +53,16 @@ bool CLoad::Load(void)
 	if (!m_ErBak.Load("era--0003.png")) {
 		return false;
 	}
+
+	if (!m_String.Load("ro-dostring.png")) {
+		return false;
+	}
+
+	//表示矩形設定
+	m_StringRec.SetValue(0, 0, m_String.GetWidth()-75, m_String.GetHeight());
+
+	//リソース配置ディレクトリの設定
+	CUtilities::SetCurrentDirectoryA("../");
 
 	return true;
 }
@@ -60,6 +85,20 @@ void CLoad::Update()
 		m_WaitingTime--;
 	}
 
+	//経過時間追加
+	m_Time++;
+
+	//点をすべて表示したら点をすべて消す
+	if (m_Time% 120==0) {
+		m_StringRec.Right -= 60;
+	}
+
+	//経過時間によって表示矩形を大きくして
+	//点が増えるように見せる
+	if (m_Time % 30 == 0) {
+		m_StringRec.Right += 15;
+	}
+
 	//透明かつ待機時間終了
 	if (m_WhiteAlpha == 0 && m_WaitingTime < 0) {
 		m_Fadein = true;
@@ -80,26 +119,30 @@ void CLoad::Update()
 
 void CLoad::RenderLoad()
 {
+	//背景
 	m_Bak.Render(0,0);
-	CGraphicsUtilities::RenderString(0, 150, "最低待機時間:%d", m_WaitingTime);
+
+	//右下文字
+	m_String.Render(0, 0, m_StringRec);
+
+	//CGraphicsUtilities::RenderString(0, 150, MOF_XRGB(80, 80, 80), "最低待機時間:%d", m_WaitingTime);
+	//CGraphicsUtilities::RenderRect(m_StringRec, MOF_XRGB(80, 80, 80));
 
 	CGraphicsUtilities::RenderFillRect(0, 0, WINDOWSIZE_WIDTH, WINDOWSIZE_HEIGHT,
-		MOF_ARGB(m_WhiteAlpha,0,0,0));
+		MOF_ARGB(m_WhiteAlpha,255,255,255));
 }
 
 void CLoad::RenderError(void)
 {
+	//エラー背景
 	m_ErBak.Render(0, 0);
 }
 
-void CLoad::RenderDebug()
-{
-
-}
 
 void CLoad::Release()
 {
 	m_Bak.Release();
+	m_String.Release();
 	m_ErBak.Release();
 }
 

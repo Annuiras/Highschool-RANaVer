@@ -46,7 +46,7 @@ private:
 public:
 	CTutorial();
 	~CTutorial();
-	void Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec, CLoad* loma);
+	void Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec);
 	void Update(void);
 	void Render(void);
 	void RenderDebug(void);

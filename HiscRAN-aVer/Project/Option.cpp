@@ -144,7 +144,7 @@ void COption::Load(void)
 
 
 //初期化
-void COption::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec, CLoad* loma)
+void COption::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec)
 {
 
 	m_GameProgMamt = mamt;
@@ -483,7 +483,7 @@ void COption::Render(void)
 
 	//フェード用黒背景
 	CGraphicsUtilities::RenderFillRect(0, 0, WINDOWSIZE_WIDTH, WINDOWSIZE_HEIGHT,
-		MOF_ARGB(m_BakAlph, 0, 0, 0));
+		MOF_ARGB(m_BakAlph, 255, 255, 255));
 
 }
 

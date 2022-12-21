@@ -145,12 +145,11 @@ void CGallery::Load(void)
 }
 
 //初期化
-void CGallery::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec, CLoad* loma)
+void CGallery::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec)
 {
 	m_GameProgMamt = mamt;
 	g_MusicManager = musi;
 	g_EffectManeger = effec;
-	m_LoadMamt = loma;
 
 	//素材ロード
 	Load();
@@ -169,8 +168,11 @@ void CGallery::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* ef
 //更新
 void CGallery::Update(void)
 {
+	g_MusicManager->BGMStart(BGMT_GALLERY);
+
 	if (b_Fadein == FADE_IN) {
 		m_BakAlph = FadeIn(m_BakAlph);
+		return;
 	}
 
 
@@ -184,7 +186,6 @@ void CGallery::Update(void)
 		m_NextScene = SCENENO_SELECTMODE;
 	}
 
-	g_MusicManager->BGMStart(BGMT_GALLERY);
 
 	//Enterで戻るかは検討
 	if (galleryCnt == 15 && g_pInput->IsKeyPush(MOFKEY_RETURN))
@@ -851,7 +852,7 @@ void CGallery::Render(void)
 
 
 	CGraphicsUtilities::RenderFillRect(0, 0, WINDOWSIZE_WIDTH, WINDOWSIZE_HEIGHT,
-		MOF_ARGB(m_BakAlph, 0, 0, 0));
+		MOF_ARGB(m_BakAlph, 255, 255, 255));
 
 }
 

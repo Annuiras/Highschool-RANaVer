@@ -66,13 +66,12 @@ void CTitle::Load(void)
 }
 
 //初期化
-void CTitle::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec, CLoad* loma)
+void CTitle::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec)
 {
 
 	m_GameProgMamt = mamt;
 	g_MusicManager = musi;
 	g_EffectManeger = effec;
-	m_LoadMamt = loma;
 
 
 	//初期化
@@ -96,12 +95,14 @@ void CTitle::Update(void)
 	//BGM再生
 	g_MusicManager->BGMStart(BGMT_TITLE);
 
-	if (b_Fadein == FADE_IN) {
-		m_BakAlph = FadeIn(m_BakAlph);
-	}
-
 	//左にスクロールしていく
 	m_Scroll -= SCROLL_SPEED;
+
+	if (b_Fadein == FADE_IN) {
+		m_BakAlph = FadeIn(m_BakAlph);
+		return;
+	}
+
 
 	//エンターキーでセレクト画面へ
 	if (g_pInput->IsKeyPush(MOFKEY_RETURN))
@@ -168,7 +169,7 @@ void CTitle::Render(void)
 
 	//フェード用黒背景
 	CGraphicsUtilities::RenderFillRect(0, 0, WINDOWSIZE_WIDTH, WINDOWSIZE_HEIGHT,
-		MOF_ARGB(m_BakAlph, 0, 0, 0));
+		MOF_ARGB(m_BakAlph, 255, 255, 255));
 }
 
 void CTitle::RenderDebug(void)

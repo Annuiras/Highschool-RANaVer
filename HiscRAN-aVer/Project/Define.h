@@ -30,7 +30,7 @@
 #define GROUND_Y 700
 
 //フェードアウト速度
-#define FADE_OUT_SPEED 3
+#define FADE_OUT_SPEED 4
 
 #pragma region DP定数群
 

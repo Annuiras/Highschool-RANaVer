@@ -24,9 +24,6 @@ protected:
 	CMusicMgmt* g_MusicManager;
 	CEffectMgmt* g_EffectManeger;
 
-	//ロード画面クラス
-	CLoad* m_LoadMamt;
-
 	//推移フラグ
 	tag_SceneSituation b_Fadein;
 
@@ -40,7 +37,6 @@ public:
 		m_GameProgMamt(),
 		g_MusicManager(),
 		g_EffectManeger(),
-		m_LoadMamt(),
 		b_Fadein(),
 		b_LoadSitu(LOAD_YET),
 		m_bEnd(false),
@@ -50,7 +46,7 @@ public:
 	}
 	virtual ~CSceneBase() {};
 	virtual void Initialize(CGameProgMgmt* mamt,CMusicMgmt* musi, 
-							CEffectMgmt* effec,CLoad* loma) = 0;
+							CEffectMgmt* effec) = 0;
 	virtual void Load() = 0;
 	virtual void Update() = 0;
 	virtual void Render() = 0;

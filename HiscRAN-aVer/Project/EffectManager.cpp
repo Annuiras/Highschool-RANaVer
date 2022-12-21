@@ -38,14 +38,14 @@ tag_LoadSituation CEffectMgmt::Load(void) {
 	{
 		if (!m_Texture[i].Load(name[i]))
 		{
-			return tag_LoadSituation::LOAD_ERROR;
+			return LOAD_ERROR;
 		}
 	}
 
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("../");
 
-	return tag_LoadSituation::LOAD_COMP;
+	return LOAD_COMP;
 }
 
 /**

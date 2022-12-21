@@ -94,13 +94,12 @@ void CGAME::Load(void)
 
 //初期化
 //引数：ゲーム進捗管理クラス
-void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec, CLoad* loma)
+void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec)
 {
 
 	m_GameProgMamt = mamt;
 	g_MusicManager = musi;
 	g_EffectManeger = effec;
-	m_LoadMamt = loma;
 
 	////素材ロード
 	//Load();
@@ -126,8 +125,8 @@ void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec
 
 	//状態を設定
 	b_Fadein = FADE_IN;
-	m_BlackBakAlph = 255;
-	m_WhiteBakAlph = 0;
+	m_BlackBakAlph = 0;
+	m_WhiteBakAlph = 255;
 
 	//デバッグ用
 	_GameClear = false;
@@ -151,7 +150,7 @@ void CGAME::Update(void)
 
 	//フェードイン処理
 	if (b_Fadein == FADE_IN) {
-		m_BlackBakAlph = FadeIn(m_BlackBakAlph);
+		m_WhiteBakAlph = FadeIn(m_WhiteBakAlph);
 		return;
 	}
 
@@ -245,7 +244,7 @@ void CGAME::Update(void)
 	if (g_pInput->IsKeyPush(MOFKEY_F1)) {
 
 		//初期化
-		Initialize(m_GameProgMamt, g_MusicManager, g_EffectManeger, m_LoadMamt);
+		Initialize(m_GameProgMamt, g_MusicManager, g_EffectManeger);
 	}
 
 	//デバッグ用

@@ -12,11 +12,19 @@ private:
 	//ロード背景
 	CTexture m_Bak;
 
+	//ローディング文字
+	CTexture m_String;
+	//表示矩形
+	CRectangle m_StringRec;
+
 	//エラー背景
 	CTexture m_ErBak;
 
 	//ロード画面最低待機時間
 	int m_WaitingTime;
+
+	//経過時間
+	int m_Time;
 
 	//ロード画面待機時間終了フラグ
 	bool m_LoadTimeEnd;
@@ -46,7 +54,6 @@ public:
 	void Update();
 	void RenderLoad(void);
 	void RenderError(void);
-	void RenderDebug(); 
 	void Release();
 
 	//素材ロードスレッド

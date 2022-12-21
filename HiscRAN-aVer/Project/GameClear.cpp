@@ -266,7 +266,7 @@ void CGameClear::Load(void)
 }
 
 //初期化
-void CGameClear::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec, CLoad* loma)
+void CGameClear::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec)
 {
 
 	//各マネージャーセット

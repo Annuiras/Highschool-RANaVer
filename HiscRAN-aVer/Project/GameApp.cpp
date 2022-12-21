@@ -132,9 +132,9 @@ MofBool CGameApp::Update(void){
 	}
 
 	//シーンをまだ生成していない場合
+	//最初のシーンを生成
 	if (gpScene == nullptr) {
 
-		//最初のシーン
 		gpScene = new CTitle();
 		gLoad.Thread_Load = thread{ [=] {gpScene->Load(); } };
 		gLoad.Initialize(0,100);
@@ -148,14 +148,15 @@ MofBool CGameApp::Update(void){
 		!gLoad.IsLoadEnd()){
 		return TRUE;
 	}
+
+	//シーンのロード完了時
 	else if (gpScene->GetLoadSitu() == LOAD_COMP)
 	{
-		//シーンのロード完了時
 		//スレッド解放
 		gLoad.Thread_Load.join();
 
 		//シーンの初期化
-		gpScene->Initialize(&g_GameProgMamt, &g_MusicManager, &g_EffectManeger, &gLoad);
+		gpScene->Initialize(&g_GameProgMamt, &g_MusicManager, &g_EffectManeger);
 
 		//フラグ更新
 		gpScene->SetLoadSitu(LOAD_DONE);
@@ -231,6 +232,7 @@ MofBool CGameApp::Update(void){
 			gpScene = new CGAME();
 			//ロードをスレッド渡す
 			gLoad.Thread_Load = thread{ [=] {gpScene->Load(); } };
+			//ロード画面の初期化
 			gLoad.Initialize(255,100);
 			break;
 		case SCENENO_GAMEOVER:
@@ -249,7 +251,7 @@ MofBool CGameApp::Update(void){
 		}
 		//初期化
 		g_EffectManeger.InitializeIn_middle();
-		gpScene->Initialize(&g_GameProgMamt, &g_MusicManager, &g_EffectManeger, &gLoad);
+		gpScene->Initialize(&g_GameProgMamt, &g_MusicManager, &g_EffectManeger);
 
 	}
 
@@ -269,20 +271,31 @@ MofBool CGameApp::Render(void){
 	g_pGraphics->ClearTarget(0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0);
 
 	//描画
-	//シーン生成前か
-	//シーンのロード前の場合
+	//初期ロードでエラーが起きた場合
+	if (Eff_Loadflg == LOAD_ERROR || Mu_Loadflg == LOAD_ERROR) {
+		gLoad.RenderError();
+	}
+	else
+	//シーン生成前
+	//シーンのロード前
+	//ロード画面終了前の場合
 	if(gpScene == nullptr||gpScene->GetLoadSitu()== LOAD_YET||!gLoad.IsLoadEnd())
 	{
 		//ロード画面
 		gLoad.RenderLoad();
 	}
-	else 
+	else
+	//シーンのロードでエラーが出た場合
+	if (gpScene->GetLoadSitu() == LOAD_ERROR) {
+		gLoad.RenderError();
+	}
+	else
 	{
 		//シーン画面
 		gpScene->Render();
 	}
 
-	if (gDebagflag)
+	if (gDebagflag&&gpScene!=nullptr)
 	{
 		//デバッグ描画
 		gpScene->RenderDebug();
@@ -297,8 +310,6 @@ MofBool CGameApp::Render(void){
 		//メニューの描画
 		geMenu.Render(1);
 	}
-
-	CGraphicsUtilities::RenderString(0, 500,MOF_COLOR_BLACK, CUtilities::GetCurrentDirectoryA());
 
 	//描画の終了
 	g_pGraphics->RenderEnd();
@@ -316,10 +327,14 @@ MofBool CGameApp::Release(void){
 
 	if (gpScene != nullptr) {
 		gpScene->Release();
-		g_EffectManeger.Release();
-		g_MusicManager.Release();
-		geMenu.Release();
-		gLoad.Release();
+	}
+	g_EffectManeger.Release();
+	g_MusicManager.Release();
+	geMenu.Release();
+	gLoad.Release();
+
+	if (gLoad.Thread_Load.joinable()) {
+		gLoad.Thread_Load.detach();
 	}
 
 	return TRUE;

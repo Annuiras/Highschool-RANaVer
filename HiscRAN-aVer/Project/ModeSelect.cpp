@@ -88,13 +88,12 @@ void CModeSelect::Load()
 }
 
 //初期化
-void  CModeSelect::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec, CLoad* loma)
+void  CModeSelect::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec)
 {
 	m_Scroll = 0;
 	m_GameProgMamt = mamt;
 	g_MusicManager = musi;
 	g_EffectManeger = effec;
-	m_LoadMamt = loma;
 
 	//素材ロード
 	Load();
@@ -113,14 +112,17 @@ void  CModeSelect::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt
 //更新
 void CModeSelect::Update()
 {
-	//フェードイン処理
-	if (b_Fadein == FADE_IN) {
-		m_BakAlph = FadeIn(m_BakAlph);
-	}
 
 	g_MusicManager->BGMStart(BGMT_MOOP);
 
 	m_Scroll -= SCROLL_SPEED;
+
+	//フェードイン処理
+	if (b_Fadein == FADE_IN) {
+		m_BakAlph = FadeIn(m_BakAlph);
+		return;
+	}
+
 
 	//フェードアウト完了時
 	if (b_Fadein == FADE_NEXT) {
@@ -346,7 +348,7 @@ void CModeSelect::Render(void)
 	}
 
 	//フェードアウト
-	CGraphicsUtilities::RenderFillRect(0, 0, g_pGraphics->GetTargetWidth(), g_pGraphics->GetTargetHeight(), MOF_ARGB(m_BakAlph, 0, 0, 0));
+	CGraphicsUtilities::RenderFillRect(0, 0, g_pGraphics->GetTargetWidth(), g_pGraphics->GetTargetHeight(), MOF_ARGB(m_BakAlph, 255, 255, 255));
 
 
 }

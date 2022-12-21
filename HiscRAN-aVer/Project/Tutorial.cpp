@@ -69,7 +69,7 @@ void CTutorial::Load(void)
 }
 
 //初期化
-void CTutorial::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec, CLoad* loma)
+void CTutorial::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec)
 {
 	//初期化
 	m_Scroll = 0;
@@ -287,7 +287,7 @@ void CTutorial::Render(void)
 
 	//フェード用黒背景
 	CGraphicsUtilities::RenderFillRect(0, 0, WINDOWSIZE_WIDTH, WINDOWSIZE_HEIGHT,
-		MOF_ARGB(m_BakAlph, 0, 0, 0));
+		MOF_ARGB(m_BakAlph, 255, 255, 255));
 
 }
 
