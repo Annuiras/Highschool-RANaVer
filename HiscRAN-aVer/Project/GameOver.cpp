@@ -78,7 +78,7 @@ void CGameOver::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* e
 	m_NowScene = SCENENO_GAMEOVER;
 
 	//ゲームオーバー原因をセット
-	DPEND = true;
+	DPEND = m_GameProgMamt->GetGame_Over_HP();
 
 }
 
@@ -139,11 +139,11 @@ void CGameOver::Render(void)
 {
 	m_BackTexture.Render(0, 0);
 
-	if (HPEND == true)
+	if (HPEND)
 	{
 		m_ENDText.Render(PosXHPEND[Rondom], 140, recHPENDTex[Rondom]);
 	}
-	else if (DPEND == true)
+	else 
 	{
 		m_ENDText.Render(PosXDPEND[Rondom], 140, recDPENDTex[Rondom]);
 	}

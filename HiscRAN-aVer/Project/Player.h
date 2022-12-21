@@ -54,6 +54,11 @@ private:
 	//大小ジャンプカウント
 	float					m_JumpCount;
 
+	//デバッグ用
+	//無敵フラグ
+	bool _unrivaled;
+	int _chare_A;
+
 	//モーション種類定義
 	enum tag_MOTION {
 		MOTION_MOVE,		//移動

@@ -47,9 +47,8 @@ private:
 	//（明転）
 	int m_WhiteAlpha;
 
-	//デバッグ用
 	//ゲームオーバーフラグ
-	bool _GameOver;
+	bool m_GameOverflg;
 	//クリアフラグ
 	bool _GameClear;
 
