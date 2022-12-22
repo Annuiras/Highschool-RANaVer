@@ -18,12 +18,25 @@ private:
 	//ゲームオーバー原因フラグ
 	bool Game_Over_HP;
 
+	//DP目標設定画面：選択DP番号
+	int DPdec_type;
+
+	//オプション画面：ボタン位置保存
+	//0:BGM
+	//1:SE
+	float Option_Button_Pos[2];
+
 public:
 	CGameProgMgmt(); 
 	~CGameProgMgmt();
 
 	//初期化
 	void Initialize(void);
+
+	//DP目標設定画面：選択DPをセット
+	void SetDPdec_type(int type);
+	//DP目標設定画面：選択DPをゲット
+	int GetDPdec_type(void);
 
 	//ゲーム画面：ゲームオーバー原因フラグセット
 	void SetGame_Over_HP(bool b);
@@ -34,5 +47,14 @@ public:
 	void SetGame_DPNum(int DP[]);
 	//ゲーム画面：DP取得数をゲット
 	int* GetGame_DPNum(void);
+
+	//オプション画面：ボタン位置をセット
+	void SetOption_Button_Pos(float BGM,float SE);
+
+	//オプション画面：ボタン位置をゲット
+	//0:BGM
+	//1:SE
+	float GetOption_Button_Pos(int i);
+
 };
 

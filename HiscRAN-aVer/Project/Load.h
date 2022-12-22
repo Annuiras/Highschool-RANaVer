@@ -54,6 +54,8 @@ public:
 	void Update();
 	void RenderLoad(void);
 	void RenderError(void);
+	void RenderDebug(void);
+
 	void Release();
 
 	//素材ロードスレッド

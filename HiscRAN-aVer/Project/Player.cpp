@@ -356,7 +356,7 @@ void CPlayer::RenderDebugging() {
 			break;
 	}
 
-	CGraphicsUtilities::RenderString(0, 150, MOF_XRGB(80, 80, 80), "m_MoveY=%f", m_MoveY);
+	//CGraphicsUtilities::RenderString(0, 150, MOF_XRGB(80, 80, 80), "m_MoveY=%f", m_MoveY);
 
 
 	//キャラクターの判定矩形

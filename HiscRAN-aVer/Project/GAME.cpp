@@ -52,8 +52,9 @@ CGAME::CGAME():
 	m_MenuItemCount(),
 	m_StartCount(),
 	m_GameOverflg(),
-	_GameClear(),
+	m_GameClearflg(),
 	m_StartTime(),
+	m_DPDeci(),
 	m_DPNum()
 {}
 
@@ -97,17 +98,11 @@ void CGAME::Load(void)
 void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec)
 {
 
+	//各マネージャーセット
 	m_GameProgMamt = mamt;
 	g_MusicManager = musi;
 	g_EffectManeger = effec;
 
-	////素材ロード
-	//Load();
-	////初期化完了
-	//b_LoadSitu = LOAD_DONE;
-
-	//メニュー
-	//m_Menu.Create(m_MenuItemCount);
 
 	//プレイヤー初期化
 	g_Player.Initialize();
@@ -125,11 +120,16 @@ void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec
 
 	//状態を設定
 	b_Fadein = FADE_IN;
+
+	//DP目標をセット
+	m_DPDeci = m_GameProgMamt->GetDPdec_type();
+
+	//フェードイン用
 	m_BlackBakAlph = 0;
 	m_WhiteBakAlph = 255;
 
 	//デバッグ用
-	_GameClear = false;
+	m_GameClearflg = false;
 	m_GameOverflg = false;
 
 	//ステージ内で取得したDPの数初期化
@@ -139,7 +139,7 @@ void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec
 	}
 	m_StartScale = 0.0f;
 
-
+	//現在のシーン
 	m_NowScene = SCENENO_GAME;
 
 }
@@ -150,7 +150,7 @@ void CGAME::Update(void)
 
 	//フェードイン処理
 	if (b_Fadein == FADE_IN) {
-		m_WhiteBakAlph = FadeIn(m_WhiteBakAlph);
+		m_WhiteBakAlph = FadeIn(m_WhiteBakAlph, true);
 		return;
 	}
 
@@ -160,28 +160,40 @@ void CGAME::Update(void)
 	//フェードアウト完了時
 	if (b_Fadein == FADE_NEXT) {
 
-		if (g_Stage.GetClear() || _GameClear) {
+		//SEをすべて停止
+		g_MusicManager->SEALLStop();
+
+		if (m_GameClearflg) {
+			//DPの取得数を保存
 			m_GameProgMamt->SetGame_DPNum(m_DPNum);
+			m_bEnd = true;
+			m_NextScene = SCENENO_GAMECLEAR;
+
 		}
 		else
 		{
 			g_MusicManager->SEStart(SE_T_GAMEOVER);
+			m_bEnd = true;
+			m_NextScene = SCENENO_GAMEOVER;
+
 		}
-		m_bEnd = true;
 	}
 
 	//フェードアウト処理
 	if (b_Fadein == FADE_OUT) {
 
 		//クリア時
-		if (g_Stage.GetClear() || _GameClear) {
+		if (m_GameClearflg) {
 			//白
-			m_WhiteBakAlph = FadeOut(m_WhiteBakAlph);
+			m_WhiteBakAlph = FadeOut(m_WhiteBakAlph, true);
+			//クリア時のキャラクター処理
+			g_Player.UpdateClear();
+
 		}
 		else
 		{
 			//黒
-			m_BlackBakAlph = FadeOut(m_BlackBakAlph);
+			m_BlackBakAlph = FadeOut(m_BlackBakAlph, true);
 		}
 		return;
 	}
@@ -230,7 +242,7 @@ void CGAME::Update(void)
 	//Cでゲームクリア画面
 	if (g_pInput->IsKeyPush(MOFKEY_C))
 	{
-		_GameClear = true;
+		m_GameClearflg = true;
 	}
 
 	//Vでゲームオーバー画面
@@ -302,59 +314,46 @@ void CGAME::Update(void)
 
 
 	//ゲームオーバー時の場合フェードアウト
-	if (g_Player.GetOver()||m_GameOverflg) {
-		//ゲームオーバー原因を保存(HP)
+	if (m_GameOverflg) {
+
+		//ゲームオーバー原因フラグを保存(HP)
 		if (g_Player.GetOver()) {
 			m_GameProgMamt->SetGame_Over_HP(true);
 		}
+
 		b_Fadein = FADE_OUT;
-		m_NextScene = SCENENO_GAMEOVER;
-		g_MusicManager->SEALLStop();
 	}
 
-	//ストップ中,ゲームオーバー中は以下の処理を実行しない
-	if (!g_Stage.GetGameStopPlay()||g_Player.GetOver()||m_GameOverflg) {
+	//ゲームストップ中,ゲームオーバー中は以下の処理を実行しない
+	if (!g_Stage.GetGameStopPlay()||m_GameOverflg) {
 		return;
 	}
 
 	//クリア時の処理
-	if (g_Stage.GetClear()|| _GameClear)
+	if (m_GameClearflg)
 	{
+		b_Fadein = FADE_OUT;
+
 		//クリア時にDPが一定数足りていない場合
 		//todo:0仮置きDPピック画面で選んだDPと比較する
-		if (m_DPNum[0] <= 10) {
+		if (m_DPNum[m_DPDeci] < 10) {
 			//ゲームオーバーフラグをセット
 			m_GameOverflg = true;
+			m_GameClearflg = false;
 		}
-		m_WhiteAlpha += 1;//明転
-
-		//クリア時のキャラクター処理
-		g_Player.UpdateClear();
-
-		if (m_WhiteAlpha >= 255)
-		{
-			//SEをすべて停止
-			g_MusicManager->SEALLStop();
-
-			//DPの取得数を保存
-			m_GameProgMamt->SetGame_DPNum(m_DPNum);
-
-			//画面切り替え
-			m_bEnd = true;
-			m_NextScene = SCENENO_GAMECLEAR;
-			b_Fadein = FADE_OUT;
-			m_NextScene = SCENENO_GAMECLEAR;
-
-		}
-	}
-
-		//エフェクトの更新
-		g_EffectManeger->Update(g_Player.GetRect());
-		g_Player.UpdateClear();
-
-		//クリア時は以下の処理をしない
 		return;
 	}
+
+	//クリアフラグを受け取る
+	if (g_Stage.GetClear()) {
+		m_GameClearflg = true;
+	}
+
+	//ゲームオーバーフラグを受け取る
+	if (g_Player.GetOver()) {
+		m_GameOverflg = true;
+	}
+	
 	//プレイヤー更新
 	g_Player.Update();
 
@@ -437,10 +436,10 @@ void CGAME::Update(void)
 
 	}
 
-
 	//エフェクトの更新
 	g_EffectManeger->Update(g_Player.GetRect());
 }
+
 
 void CGAME::Render(void)
 {
@@ -450,6 +449,33 @@ void CGAME::Render(void)
 
 	//プレイヤー描画
 	g_Player.Render();
+
+	//DP目標表示（仮）
+	switch (m_DPDeci)
+	{
+
+	case 0:
+		CGraphicsUtilities::RenderString(0, 210, MOF_XRGB(80, 80, 80), "DP目標:学力");
+		break;
+	case 1:
+		CGraphicsUtilities::RenderString(0, 210, MOF_XRGB(80, 80, 80), "DP目標:行動力");
+		break;
+
+	case 2:
+		CGraphicsUtilities::RenderString(0, 210, MOF_XRGB(80, 80, 80), "DP目標:想像力");
+		break;
+
+	case 3:
+		CGraphicsUtilities::RenderString(0, 210, MOF_XRGB(80, 80, 80), "DP目標:コミュ力");
+		break;
+
+	case 4:
+		CGraphicsUtilities::RenderString(0, 210, MOF_XRGB(80, 80, 80), "DP目標:魅力");
+		break;
+
+	default:
+		break;
+	}
 
 	//メニューの描画
 	m_Menu.Render(2);

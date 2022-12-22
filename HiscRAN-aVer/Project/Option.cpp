@@ -1,11 +1,7 @@
 #include "Option.h"
 
-//変更するシーン（外部参照、実態はGameApp.cpp）
-extern int			gChangeScene;
-
 #define MenuCnt (4)
 
-int OptionCnt = 0;
 
 COption::COption() :
 	m_Font1(),
@@ -24,8 +20,8 @@ COption::COption() :
 	m_BackButton(),
 	VolumeBGM(0.0),
 	VolumeSE(0.0),
-	y_1(0.0),
-	y_2(0.0),
+	Botton_BGMPosy(0.0),
+	Botton_SEPosy(0.0),
 	flagBGM(false),
 	flagSE(false),
 	flagSC(false),
@@ -153,8 +149,11 @@ void COption::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* eff
 
 	//素材ロード
 	Load();
-	//初期化完了
-	b_LoadSitu = LOAD_DONE;
+	//エラー状態でない場合
+	if (b_LoadSitu != LOAD_ERROR) {
+		//初期化完了
+		b_LoadSitu = LOAD_DONE;
+	}
 
 	//フォント
 	m_Font1.Create(35, "UD デジタル 教科書体 N-B");
@@ -170,45 +169,24 @@ void COption::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* eff
 	g_MusicManager->BGMLoop(BGMT_MOOP, true);
 	g_MusicManager->BGMStart(BGMT_MOOP);
 
-	//:オプションのシークバーの位置が音量によって変わらない
-	double BGM = VolumeBGM - 0.01;
-	double SE = VolumeSE - 0.01;
-
-	y_1 = 200.0 / BGM;
-	y_2 = 200.0 / SE;
+	//一番上にセット
+	Botton_BGMPosy = 485.0;
+	Botton_SEPosy = 485.0;
 
 	//ボタン座標初期化
-	if (y_1 < 242)
+	if (m_GameProgMamt->GetOption_Button_Pos(0) > 0)
 	{
-		y_1 = 242;
+		Botton_BGMPosy = m_GameProgMamt->GetOption_Button_Pos(0);
 	}
-	else if (y_1 > 542)
+	if (m_GameProgMamt->GetOption_Button_Pos(1) > 0)
 	{
-		y_1 = 542;
+		Botton_SEPosy = m_GameProgMamt->GetOption_Button_Pos(1);
 	}
-
-	if (y_2 < 242)
-	{
-		y_2 = 242;
-	}
-	else if (y_2 > 542)
-	{
-		y_2 = 542;
-	}
-
-	if (VolumeBGM == 0.0)
-	{
-		y_1 = 542;
-	}
-
-	if (VolumeSE == 0.0)
-	{
-		y_2 = 542;
-	}
-
+	
+	//現在のシーンセット
 	m_NowScene = SCENENO_OPTION;
 
-	//状態を設定
+	//フェード状態を設定
 	b_Fadein = FADE_IN;
 	m_BakAlph = 255;
 
@@ -219,19 +197,20 @@ void COption::Update(void)
 {
 	//フェードイン処理
 	if (b_Fadein == FADE_IN) {
-		m_BakAlph = FadeIn(m_BakAlph);
+		m_BakAlph = FadeIn(m_BakAlph, true);
 	}
 
 	//フェードアウト完了時
 	if (b_Fadein == FADE_NEXT) {
 
+		m_GameProgMamt->SetOption_Button_Pos(Botton_BGMPosy, Botton_SEPosy);
 		m_bEnd = true;
 		m_NextScene = SCENENO_SELECTMODE;
 	}
 
 	//フェードアウト処理
 	if (b_Fadein == FADE_OUT) {
-		m_BakAlph = FadeOut(m_BakAlph);
+		m_BakAlph = FadeOut(m_BakAlph, true);
 		return;
 	}
 
@@ -316,13 +295,13 @@ void COption::Update(void)
 	}
 
 	//BGM調節ボタンの上げ下げ
-	if (g_MusicManager->GetBGMVolume() < 1 && OptionCnt == 0 && g_pInput->IsKeyHold(MOFKEY_UP) && y_1 >= 242)
+	if (OptionCnt == 0 && g_pInput->IsKeyHold(MOFKEY_UP) && Botton_BGMPosy >= 242)
 	{
-		y_1 -= 3.0;
+		Botton_BGMPosy -= 3.0;
 	}
-	else if (g_MusicManager->GetBGMVolume() > 0 && OptionCnt == 0 && g_pInput->IsKeyHold(MOFKEY_DOWN) && y_1 <= 542)
+	else if (OptionCnt == 0 && g_pInput->IsKeyHold(MOFKEY_DOWN) && Botton_BGMPosy <= 542)
 	{
-		y_1 += 3.0;
+		Botton_BGMPosy += 3.0;
 	}
 
 
@@ -340,13 +319,13 @@ void COption::Update(void)
 	}
 
 	//SE調整ボタンの上げ下げ
-	if (g_MusicManager->GetSEVolume() < 1 && OptionCnt == 1 && g_pInput->IsKeyHold(MOFKEY_UP) && y_2 >= 242)
+	if (OptionCnt == 1 && g_pInput->IsKeyHold(MOFKEY_UP) && Botton_SEPosy >= 242)
 	{
-		y_2 -= 3.0;
+		Botton_SEPosy -= 3.0;
 	}
-	else if (g_MusicManager->GetSEVolume() > 0 && OptionCnt == 1 && g_pInput->IsKeyHold(MOFKEY_DOWN) && y_2 <= 542)
+	else if (OptionCnt == 1 && g_pInput->IsKeyHold(MOFKEY_DOWN) && Botton_SEPosy <= 542)
 	{
-		y_2 += 3.0;
+		Botton_SEPosy += 3.0;
 	}
 
 	//SE再生
@@ -383,8 +362,8 @@ void COption::Render(void)
 	m_mount.Render(241, 116);
 
 	//音量ボタン描画
-	m_Button1_1.Render(365, y_1);
-	m_Button1_2.Render(520, y_2);
+	m_Button1_1.Render(365, Botton_BGMPosy);
+	m_Button1_2.Render(520, Botton_SEPosy);
 
 	//SE再生ボタン描画
 	m_Button2.Render(622, 414);
@@ -540,29 +519,13 @@ void COption::RenderDebug(void)
 	CGraphicsUtilities::RenderString(10, 70, MOF_COLOR_BLACK, "0キーでモードセレクト画面へ遷移");
 	CGraphicsUtilities::RenderString(10, 100, MOF_COLOR_BLACK, "BGM音量：%.2f", VolumeBGM);
 	CGraphicsUtilities::RenderString(10, 130, MOF_COLOR_BLACK, "SE音量：%.2f", VolumeSE);
-	CGraphicsUtilities::RenderString(100, 100, MOF_COLOR_BLACK, "SE音量：%f", y_1);
 
-	CGraphicsUtilities::RenderString(10, 160, MOF_COLOR_BLACK, "BGM音量");
-	CGraphicsUtilities::RenderString(100, 160, MOF_COLOR_BLACK, "SE音量");
+	CGraphicsUtilities::RenderString(10, 160, MOF_COLOR_BLACK, "BGM音量 : %f", Botton_BGMPosy);
+	CGraphicsUtilities::RenderString(10, 220, MOF_COLOR_BLACK, "SE音量：%f", Botton_SEPosy);
 	CGraphicsUtilities::RenderString(500, 160, MOF_COLOR_BLACK, "スクリーンサイズ");
 
 	switch (OptionCnt)
 	{
-	case 0:
-		CGraphicsUtilities::RenderString(10, 160, MOF_COLOR_GREEN, "BGM音量");
-		if (flagBGM == true)
-		{
-			CGraphicsUtilities::RenderString(10, 160, MOF_COLOR_RED, "BGM音量");
-		}
-		break;
-
-	case 1:
-		CGraphicsUtilities::RenderString(100, 160, MOF_COLOR_GREEN, "SE音量");
-		if (flagSE == true)
-		{
-			CGraphicsUtilities::RenderString(100, 160, MOF_COLOR_RED, "SE音量");
-		}
-		break;
 
 	case 2:
 		CGraphicsUtilities::RenderString(500, 160, MOF_COLOR_GREEN, "スクリーンサイズ");

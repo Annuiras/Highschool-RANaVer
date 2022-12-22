@@ -46,10 +46,12 @@ private:
 	double VolumeBGM;
 	double VolumeSE;
 
+	int OptionCnt = 0;
+
 	//double
 	//ボタン座標（y軸）
-	double y_1 = 0;
-	double y_2 = 0;
+	double Botton_BGMPosy = 0;
+	double Botton_SEPosy = 0;
 
 	//BGM調整してるかしてないかフラグ
 	bool flagBGM = false;

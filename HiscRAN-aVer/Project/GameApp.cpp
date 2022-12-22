@@ -74,6 +74,8 @@ MofBool CGameApp::Initialize(void){
 	//最初に実行される,マネージャーの初期化 
 	g_GameProgMamt.Initialize();
 	gLoad.Load();
+	gLoad.Initialize(0, 100);
+
 	geMenu.Create(gMenuItemCount);
 
 	return TRUE;
@@ -93,8 +95,10 @@ MofBool CGameApp::Update(void){
 	if(g_pInput->IsKeyPush(MOFKEY_BACKSPACE))
 	gDebagflag = gDebagflag ? !gDebagflag : !gDebagflag;
 
+	//ロード画面更新
+	gLoad.Update();
+
 	//エフェクトがロード前の場合
-	//
 	if (Eff_Loadflg == LOAD_YET && !gLoad.Thread_Load.joinable()) {
 		//ロード処理をスレッドに渡す
 		//戻り値を記録する
@@ -141,17 +145,9 @@ MofBool CGameApp::Update(void){
 		gLoad.Initialize(0,100);
 	}
 
-	//ロード画面更新
-	gLoad.Update();
-
-	//ロード前かエラー時は更新なし
-	if ((gpScene->GetLoadSitu() == LOAD_YET || gpScene->GetLoadSitu() == LOAD_ERROR)||
-		!gLoad.IsLoadEnd()){
-		return TRUE;
-	}
 
 	//シーンのロード完了時
-	else if (gpScene->GetLoadSitu() == LOAD_COMP)
+	 if (gpScene->GetLoadSitu() == LOAD_COMP)
 	{
 		//スレッド解放
 		gLoad.Thread_Load.join();
@@ -161,6 +157,12 @@ MofBool CGameApp::Update(void){
 
 		//フラグ更新
 		gpScene->SetLoadSitu(LOAD_DONE);
+	}
+	 else
+	//ロード前かエラー時は更新なし
+	if ((gpScene->GetLoadSitu() == LOAD_YET || gpScene->GetLoadSitu() == LOAD_ERROR)||
+		!gLoad.IsLoadEnd()){
+		return TRUE;
 	}
 
 	
@@ -220,18 +222,27 @@ MofBool CGameApp::Update(void){
 		//次のシーン番号に応じてシーンを作って初期化する 
 		switch (change)
 		{
+			//タイトル画面
 		case SCENENO_TITLE:
 			gpScene = new CTitle();
 			break;
+
+			//モードセレクト画面
 		case SCENENO_SELECTMODE:
 			gpScene = new CModeSelect();
 			break;
+
+			//チュートリアル画面
 		case SCENENO_TUTORIAL:
 			gpScene = new CTutorial();
 			break;
+
+			//DP目標設定画面
 		case SCENENO_DPDECISION:
 			gpScene = new CDPDecision();
 			break;
+
+			//ゲーム画面
 		case SCENENO_GAME:
 			gpScene = new CGAME();
 			//ロードをスレッド渡す
@@ -239,15 +250,23 @@ MofBool CGameApp::Update(void){
 			//ロード画面の初期化
 			gLoad.Initialize(255,100);
 			break;
+
+			//ゲームオーバー画面
 		case SCENENO_GAMEOVER:
 			gpScene = new CGameOver();
 			break;
+
+			//ゲームクリア画面
 		case SCENENO_GAMECLEAR:
 			gpScene = new CGameClear();
 			break;
+
+			//ギャラリー画面
 		case SCENENO_GALLERY:
 			gpScene = new CGallery();
 			break;
+
+			//オプション画面
 		case SCENENO_OPTION:
 			gpScene = new COption();
 			break;
@@ -299,10 +318,16 @@ MofBool CGameApp::Render(void){
 		gpScene->Render();
 	}
 
-	if (gDebagflag&&gpScene!=nullptr)
+	if (gDebagflag)
 	{
-		//デバッグ描画
-		gpScene->RenderDebug();
+		if (gpScene != nullptr) {
+			//デバッグ描画
+			gpScene->RenderDebug();
+		}
+		else
+		{
+			gLoad.RenderDebug();
+		}
 	}
 
 	if (gpScene == nullptr || gpScene->IsNow() == SCENENO_GAME)

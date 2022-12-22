@@ -6,7 +6,7 @@ CLoad::CLoad():
 	m_String(),
 	m_ErBak(),
 	m_WaitingTime(),
-	m_Time(),
+	m_Time(0),
 	m_LoadTimeEnd(false),
 	m_WhiteAlpha(),
 	m_Fadein()
@@ -18,7 +18,6 @@ CLoad::~CLoad()
 }
 
 //初期化
-//todo:ロード画面を呼び出すときに待機時間アルファ値を再設定したい
 void CLoad::Initialize(int A, int time)
 {
 	//ロード中
@@ -30,11 +29,6 @@ void CLoad::Initialize(int A, int time)
 	//最低待機時間
 	m_WaitingTime = time;
 
-	//経過時間
-	m_Time = 0;
-
-	//表示矩形
-	m_StringRec.Right = m_String.GetWidth() - 75;
 
 	//フェードフラグ
 	m_Fadein = false;
@@ -100,7 +94,7 @@ void CLoad::Update()
 	}
 
 	//透明かつ待機時間終了
-	if (m_WhiteAlpha == 0 && m_WaitingTime < 0) {
+	if (m_WhiteAlpha == 0 &&!Thread_Load.joinable()&& m_WaitingTime < 0) {
 		m_Fadein = true;
 	}
 
@@ -125,9 +119,6 @@ void CLoad::RenderLoad()
 	//右下文字
 	m_String.Render(0, 0, m_StringRec);
 
-	//CGraphicsUtilities::RenderString(0, 150, MOF_XRGB(80, 80, 80), "最低待機時間:%d", m_WaitingTime);
-	//CGraphicsUtilities::RenderRect(m_StringRec, MOF_XRGB(80, 80, 80));
-
 	CGraphicsUtilities::RenderFillRect(0, 0, WINDOWSIZE_WIDTH, WINDOWSIZE_HEIGHT,
 		MOF_ARGB(m_WhiteAlpha,255,255,255));
 }
@@ -136,6 +127,13 @@ void CLoad::RenderError(void)
 {
 	//エラー背景
 	m_ErBak.Render(0, 0);
+}
+
+void CLoad::RenderDebug(void)
+{
+	CGraphicsUtilities::RenderString(0, 150, MOF_XRGB(80, 80, 80), "最低待機時間:%d", m_WaitingTime);
+	CGraphicsUtilities::RenderRect(m_StringRec, MOF_XRGB(80, 80, 80));
+
 }
 
 

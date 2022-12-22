@@ -69,14 +69,18 @@ void CGameOver::Load(void)
 //初期化
 void CGameOver::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec)
 {
+	//各マネージャーセット
 	m_GameProgMamt = mamt;
 	g_MusicManager = musi;
 	g_EffectManeger = effec;
 
 	//素材ロード
 	Load();
-	//初期化完了
-	b_LoadSitu = LOAD_DONE;
+	//エラー状態でない場合
+	if (b_LoadSitu != LOAD_ERROR) {
+		//初期化完了
+		b_LoadSitu = LOAD_DONE;
+	}
 
 	//黒画面表示
 	m_BlackBakAlph = 255;
@@ -85,6 +89,7 @@ void CGameOver::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* e
 
 	Rondom = CUtilities::Random(0, 3);
 
+	//現在のシーンセット
 	m_NowScene = SCENENO_GAMEOVER;
 
 	//ゲームオーバー原因をセット
@@ -98,7 +103,7 @@ void CGameOver::Update(void)
 
 	//フェードイン処理
 	if (b_Fadein == FADE_IN) {
-		m_BlackBakAlph = FadeIn(m_BlackBakAlph);
+		m_BlackBakAlph = FadeIn(m_BlackBakAlph, true);
 		return;
 	}
 
@@ -113,10 +118,10 @@ void CGameOver::Update(void)
 		switch (m_NextScene)
 		{
 		case SCENENO_SELECTMODE:
-			m_WhiteBakAlph = FadeOut(m_WhiteBakAlph);
+			m_WhiteBakAlph = FadeOut(m_WhiteBakAlph, true);
 			break;
 		case SCENENO_GAME:
-			m_WhiteBakAlph = FadeOut(m_WhiteBakAlph);
+			m_WhiteBakAlph = FadeOut(m_WhiteBakAlph, true);
 			break;
 		default:
 			break;

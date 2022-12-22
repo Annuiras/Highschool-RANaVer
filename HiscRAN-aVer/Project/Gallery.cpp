@@ -49,7 +49,8 @@ void CGallery::Load(void)
 	//説明文
 	if (!m_PickUpText.Load("Collection_Text.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 	//未解放最終容姿選択画像読み込み
@@ -81,62 +82,74 @@ void CGallery::Load(void)
 
 	if (!m_NotLastApp[3].Load("collection_NotFound_03.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 	if (!m_NotLastApp[4].Load("collection_NotFound_04.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 	if (!m_NotLastApp[5].Load("collection_NotFound_05.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 	if (!m_NotLastApp[6].Load("collection_NotFound_06.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 	if (!m_NotLastApp[7].Load("collection_NotFound_07.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 	if (!m_NotLastApp[8].Load("collection_NotFound_08.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 	if (!m_NotLastApp[9].Load("collection_NotFound_09.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 	if (!m_NotLastApp[10].Load("collection_NotFound_10.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 	if (!m_NotLastApp[11].Load("collection_NotFound_11.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 	if (!m_NotLastApp[12].Load("collection_NotFound_12.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 	if (!m_NotLastApp[13].Load("collection_NotFound_13.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 	if (!m_NotLastApp[14].Load("collection_NotFound_14.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 
@@ -183,7 +196,8 @@ void CGallery::Load(void)
 	//選択時の四角形
 	if (!m_SelectTexture.Load("Select.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 	//リソース配置ディレクトリの設定
@@ -209,18 +223,23 @@ void CGallery::Load(void)
 //初期化
 void CGallery::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec)
 {
+	//各マネージャーセット
 	m_GameProgMamt = mamt;
 	g_MusicManager = musi;
 	g_EffectManeger = effec;
 
 	//素材ロード
 	Load();
-	//初期化完了
-	b_LoadSitu = LOAD_DONE;
+	//エラー状態でない場合
+	if (b_LoadSitu != LOAD_ERROR) {
+		//初期化完了
+		b_LoadSitu = LOAD_DONE;
+	}
 
-
-
+	//現在のシーンセット
 	m_NowScene = SCENENO_GALLERY;
+
+	//フェードイン用
 	b_Fadein = FADE_IN;
 	m_BakAlph = 255;
 
@@ -231,18 +250,22 @@ void CGallery::Update(void)
 {
 	g_MusicManager->BGMStart(BGMT_GALLERY);
 
+	//フェードイン処理
 	if (b_Fadein == FADE_IN) {
-		m_BakAlph = FadeIn(m_BakAlph);
+		m_BakAlph = FadeIn(m_BakAlph, true);
 		return;
 	}
 
-
+	//フェードアウト処理
 	if (b_Fadein == FADE_OUT) {
-		m_BakAlph = FadeOut(m_BakAlph);
+		m_BakAlph = FadeOut(m_BakAlph, true);
+		return;
 	}
 
+	//フェードアウト終了->次のシーンへ
 	if (b_Fadein == FADE_NEXT) {
 
+		//モードセレクトへ
 		m_bEnd = true;
 		m_NextScene = SCENENO_SELECTMODE;
 	}
@@ -366,6 +389,8 @@ void CGallery::Render(void)
 		m_PickUpText.Render(766, 461, RecTextBox[galleryCnt]);
 	}
 
+	//フェードアウト明転用
+	CGraphicsUtilities::RenderFillRect(0, 0, g_pGraphics->GetTargetWidth(), g_pGraphics->GetTargetHeight(), MOF_ARGB(m_BakAlph, 255, 255, 255));
 
 
 }

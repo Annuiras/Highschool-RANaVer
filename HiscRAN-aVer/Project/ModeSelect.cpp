@@ -50,12 +50,6 @@ void CModeSelect::Load()
 		return;
 	}
 
-	if (!m_TutorialTextTexture.Load("ModeSelectTexture.png")) {
-		b_LoadSitu = LOAD_ERROR;
-		return;
-
-	}
-
 	if (!m_TutorialBG[0].Load("ModeSelect_AddmissionEx_BG.png")) 
 	{
 		b_LoadSitu = LOAD_ERROR;
@@ -90,20 +84,30 @@ void CModeSelect::Load()
 //初期化
 void  CModeSelect::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec)
 {
+	//画面下文字スクロール値初期化
 	m_Scroll = 0;
+	
+	//各マネージャーセット
 	m_GameProgMamt = mamt;
 	g_MusicManager = musi;
 	g_EffectManeger = effec;
 
 	//素材ロード
 	Load();
-	//初期化完了
-	b_LoadSitu = LOAD_DONE;
 
+	//エラー状態でない場合
+	if (b_LoadSitu != LOAD_ERROR) {
+		//初期化完了
+		b_LoadSitu = LOAD_DONE;
+	}
+
+	//現在のシーン
 	m_NowScene = SCENENO_SELECTMODE;
 
+	//フェードイン用初期化
 	m_BakAlph = 255;
 
+	//フェード状態
 	b_Fadein = FADE_IN;
 
 }
@@ -112,14 +116,15 @@ void  CModeSelect::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt
 //更新
 void CModeSelect::Update()
 {
-
+	//BGM再生
 	g_MusicManager->BGMStart(BGMT_MOOP);
 
+	//画面下文字スクロール
 	m_Scroll -= SCROLL_SPEED;
 
 	//フェードイン処理
 	if (b_Fadein == FADE_IN) {
-		m_BakAlph = FadeIn(m_BakAlph);
+		m_BakAlph = FadeIn(m_BakAlph, true);
 		return;
 	}
 
@@ -152,7 +157,7 @@ void CModeSelect::Update()
 
 	//フェードアウト処理
 	if (b_Fadein == FADE_OUT) {
-		m_BakAlph = FadeOut(m_BakAlph);
+		m_BakAlph = FadeOut(m_BakAlph, true);
 		return;
 	}
 

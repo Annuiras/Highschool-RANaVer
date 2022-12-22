@@ -29,6 +29,9 @@ private:
 	//[3]→コミュ力
 	//[4]→学力
 	bool m_SelectDP[5];
+	
+	//フェードイン背景アルファ値
+	int m_WhiteBakAlph;
 
 
 public:
@@ -38,7 +41,7 @@ public:
 	void Update(void);
 	void Render(void);
 	void RenderDebug(void);
-	bool Load(void);
+	void Load(void);
 	void Release(void);
 };
 

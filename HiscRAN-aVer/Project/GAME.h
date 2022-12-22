@@ -27,6 +27,11 @@ private:
 	CStage g_Stage;
 
 	//ステージ内で取得したDPの数
+	//0:学力
+	//1:行動力
+	//2:想像力
+	//3:コミュ力
+	//4:魅力
 	int m_DPNum[DP_COUNT];
 
 	//ゲーム開始時のカウントダウンテクスチャ　仮素材
@@ -41,13 +46,18 @@ private:
 	//カウントダウン時のズーム倍率
 	float m_StartScale;
 
+	//DP目標設定画面で選んだDP番号
+	int m_DPDeci;
+
+
+	//フェード用アルファ値
 	int m_BlackBakAlph;
 	int m_WhiteBakAlph;
 
 	//ゲームオーバーフラグ
 	bool m_GameOverflg;
 	//クリアフラグ
-	bool _GameClear;
+	bool m_GameClearflg;
 
 
 

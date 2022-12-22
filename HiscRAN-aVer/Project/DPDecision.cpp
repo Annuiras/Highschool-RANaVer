@@ -30,7 +30,7 @@ CDPDecision::~CDPDecision()
 }
 
 //素材ロード
-bool CDPDecision::Load(void)
+void CDPDecision::Load(void)
 {
 
 	//リソース配置ディレクトリの設定
@@ -38,40 +38,45 @@ bool CDPDecision::Load(void)
 
 	if (!m_BackTextureA.Load("DPDecision_BGA.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 	if (!m_SelectTexture.Load("DPDecision_Select.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 	if (!m_BackTextureC.Load("DPDecision_BGC.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 	if (!m_TextTexture.Load("DPDecision_Text.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 	if (!m_ExTexture.Load("DPDecision_ExText.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("../");
 
-	return true;
+	b_LoadSitu = LOAD_COMP;
 
 }
 
 //初期化
 void CDPDecision::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec)
 {
-
+	//各マネージャーセット
 	m_GameProgMamt = mamt;
 	g_MusicManager = musi;
 	g_EffectManeger = effec;
@@ -80,7 +85,14 @@ void CDPDecision::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt*
 	{
 		m_SelectDP[i] = false;
 	}
+
+	//素材ロード
 	Load();
+	//エラー状態でない場合
+	if (b_LoadSitu != LOAD_ERROR) {
+		//初期化完了
+		b_LoadSitu = LOAD_DONE;
+	}
 
 	DPDecCnt = 0;
 
@@ -88,16 +100,49 @@ void CDPDecision::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt*
 
 	flagD = true;
 
+	//フェードイン
+	m_WhiteBakAlph = 255;
+	b_Fadein = FADE_IN;
 }
 
 //更新
 void CDPDecision::Update(void)
 {
+
+	//フェードイン処理
+	if (b_Fadein == FADE_IN) {
+		m_WhiteBakAlph = FadeIn(m_WhiteBakAlph,true);
+		return;
+	}
+
+
+	//フェードアウト完了時
+	if (b_Fadein == FADE_NEXT) {
+
+		//戻るボタン
+		if (DPDecCnt == 5) {
+			m_bEnd = true;
+			m_NextScene = SCENENO_SELECTMODE;
+		}
+		else
+		{
+			//項目を選んでいる
+			m_bEnd = true;
+			m_NextScene = SCENENO_GAME;
+		}
+
+	}
+
+	//フェードアウト処理
+	if (b_Fadein == FADE_OUT) {
+		m_WhiteBakAlph = FadeOut(m_WhiteBakAlph, true);
+		return;
+	}
+
 	//戻るボタンにカーソルがあって、エンターでモードセレクト画面へ
-	if (DPDecCnt == 5 && g_pInput->IsKeyPush(MOFKEY_RETURN))
+	if (DPDecCnt==5&&g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
-		m_bEnd = true;
-		m_NextScene = SCENENO_SELECTMODE;
+		b_Fadein = FADE_OUT;
 	}
 
 	if (flagD == true && g_pInput->IsKeyPush(MOFKEY_RETURN))
@@ -112,11 +157,8 @@ void CDPDecision::Update(void)
 			if (m_Menu.GetSelect() == 0)
 			{
 				//ここでフラグをゲームに受け渡し？
-
-				//ゲーム画面へ
-				m_bEnd = true;
-				m_NextScene = SCENENO_GAME;
-
+				b_Fadein = FADE_OUT;
+				m_GameProgMamt->SetDPdec_type(DPDecCnt);
 				//消す
 				m_Menu.Hide();
 			}
@@ -244,6 +286,10 @@ void CDPDecision::Render(void)
 
 
 	m_Menu.RenderB(m_SelectDP[0], m_SelectDP[1], m_SelectDP[2], m_SelectDP[3], m_SelectDP[4]);
+
+	//フェードアウト
+	CGraphicsUtilities::RenderFillRect(0, 0, g_pGraphics->GetTargetWidth(), g_pGraphics->GetTargetHeight(), MOF_ARGB(m_WhiteBakAlph, 255, 255, 255));
+
 }
 
 //デバック描画

@@ -68,7 +68,7 @@ void CTitle::Load(void)
 //初期化
 void CTitle::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec)
 {
-
+	//各マネージャーセット
 	m_GameProgMamt = mamt;
 	g_MusicManager = musi;
 	g_EffectManeger = effec;
@@ -92,17 +92,18 @@ void CTitle::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effe
 void CTitle::Update(void)
 {
 
-	//BGM再生
-	g_MusicManager->BGMStart(BGMT_TITLE);
 
 	//左にスクロールしていく
 	m_Scroll -= SCROLL_SPEED;
 
+	//フェードイン処理
 	if (b_Fadein == FADE_IN) {
-		m_BakAlph = FadeIn(m_BakAlph);
+		m_BakAlph = FadeIn(m_BakAlph, true);
 		return;
 	}
 
+	//BGM再生
+	g_MusicManager->BGMStart(BGMT_TITLE);
 
 	//エンターキーでセレクト画面へ
 	if (g_pInput->IsKeyPush(MOFKEY_RETURN))
@@ -110,12 +111,15 @@ void CTitle::Update(void)
 		b_Fadein = FADE_OUT;
 	}
 
+	//フェードアウト処理
 	if (b_Fadein == FADE_OUT) {
-		m_BakAlph = FadeOut(m_BakAlph);
+		m_BakAlph = FadeOut(m_BakAlph, true);
 	}
 
+	//フェードアウト完了時
 	if (b_Fadein == FADE_NEXT) {
 
+		//モードセレクトへ移動
 		m_bEnd = true;
 		m_NextScene = SCENENO_SELECTMODE;
 	}

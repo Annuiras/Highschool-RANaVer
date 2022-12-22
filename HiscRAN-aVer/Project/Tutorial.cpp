@@ -29,7 +29,8 @@ void CTutorial::Load(void)
 	//説明テクスチャ
 	if (!ExTextTexture.Load("tutorialBG.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 	//背景テクスチャ
@@ -56,19 +57,22 @@ void CTutorial::Load(void)
 	//カーテン部分テクスチャ左
 	if (!CurtainBGTextureLeft.Load("Tutorial_MakLef.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 	//カーテン部分テクスチャ右
 	if (!CurtainBGTextureRight.Load("Tutorial_MakRig.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 	//カーテン部分テクスチャ上
 	if (!CurtainBGTextureTop.Load("Tutorial_MakTop.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("../");
@@ -101,6 +105,8 @@ void CTutorial::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* e
 	MoveX = 0;
 	gPosX = 0;
 	bShow = false;
+
+	//各マネージャーセット
 	m_GameProgMamt = mamt;
 	g_MusicManager = musi;
 	g_EffectManeger = effec;
@@ -112,7 +118,7 @@ void CTutorial::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* e
 	//素材ロード
 	Load();
 
-
+	//現在のシーンセット
 	m_NowScene = SCENENO_TUTORIAL;
 
 }
@@ -123,7 +129,8 @@ void CTutorial::Update(void)
 
 	//フェードイン処理
 	if (b_Fadein == FADE_IN) {
-		m_BakAlph = FadeIn(m_BakAlph);
+		m_BakAlph = FadeIn(m_BakAlph, true);
+		return;
 	}
 
 	//フェードアウト完了時
@@ -135,7 +142,7 @@ void CTutorial::Update(void)
 
 	//フェードアウト処理
 	if (b_Fadein == FADE_OUT) {
-		m_BakAlph = FadeOut(m_BakAlph);
+		m_BakAlph = FadeOut(m_BakAlph, true);
 		return;
 	}
 	//戻るボタンにカーソル合わせる必要あんまりないかもね～

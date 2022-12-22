@@ -276,8 +276,11 @@ void CGameClear::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* 
 
 	//素材ロード
 	Load();
-	//初期化完了
-	b_LoadSitu = LOAD_DONE;
+	//エラー状態でない場合
+	if (b_LoadSitu != LOAD_ERROR) {
+		//初期化完了
+		b_LoadSitu = LOAD_DONE;
+	}
 
 	//最大値メモリ用
 	for (int i = 0; i < ITEM_NUM; i++)
@@ -315,6 +318,7 @@ void CGameClear::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* 
 
 	isStop = false;
 
+	//最終容姿番号
 	LastDetailNo = 0;
 
 	//ステータスから最終容姿を判定する
@@ -333,7 +337,7 @@ void CGameClear::Update(void)
 
 	//フェードイン処理
 	if (b_Fadein == FADE_IN) {
-		m_WhiteBakAlph = FadeIn(m_WhiteBakAlph);
+		m_WhiteBakAlph = FadeIn(m_WhiteBakAlph, true);
 		return;
 	}
 
@@ -345,7 +349,7 @@ void CGameClear::Update(void)
 
 	//フェードアウト処理
 	if (b_Fadein == FADE_OUT) {
-		m_BlackBakAlph = FadeOut(m_BlackBakAlph);
+		m_WhiteBakAlph = FadeOut(m_WhiteBakAlph, true);
 		return;
 	}
 

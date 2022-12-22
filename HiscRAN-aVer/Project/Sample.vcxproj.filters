@@ -1,246 +1,240 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="ソース ファイル">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="ヘッダー ファイル">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="リソース ファイル">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="ソース ファイル\Music">
-      <UniqueIdentifier>{fc801ab2-1b25-453a-aaeb-9d502026645e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\ModeSelect">
-      <UniqueIdentifier>{9da57ffe-1fbe-4aa8-9e15-cda01195339e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Menu">
-      <UniqueIdentifier>{ae4c2084-3f87-44bc-902b-6dc29ecb50f0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Tutorial">
-      <UniqueIdentifier>{0fd1a02e-6bde-41c7-8df7-0d103c651f4b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Title">
-      <UniqueIdentifier>{bccfdc55-a5e8-455c-a3e2-6a8da2fcd58d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Game">
-      <UniqueIdentifier>{2a5c3ca5-6170-42b2-a1f1-d931247046ba}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Game\Player">
-      <UniqueIdentifier>{1dfa68e7-bf0c-4a30-833e-d801880541c7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Game\Stage">
-      <UniqueIdentifier>{ef229a34-04cb-417f-84ad-9dc30c584332}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Game\Stage\Composition">
-      <UniqueIdentifier>{23d6de7e-4e20-47f3-95ac-6d126110cd25}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Game\Stage\Bar">
-      <UniqueIdentifier>{820efdcb-8351-4444-bbfa-04527d11f3a4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Game\Stage\Obstacle">
-      <UniqueIdentifier>{71794a3a-a883-4d91-980b-b6bd7613def4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Game\Stage\DetailPoint">
-      <UniqueIdentifier>{2adc6144-a808-47fb-9213-0111860a7e7e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Game\GameClear">
-      <UniqueIdentifier>{88fa0f99-ce7e-41b4-a02f-6d1994783606}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Game\GameOver">
-      <UniqueIdentifier>{9fce5976-6937-4033-90f1-2b6706872260}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Gallery">
-      <UniqueIdentifier>{8e31f703-f00c-425d-8472-31c3895052d8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Option">
-      <UniqueIdentifier>{f769b785-5949-419e-833e-3d84daf1fa97}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Effect">
-      <UniqueIdentifier>{d3bfae9b-6bb9-4b22-b81b-d4d53dbf3e39}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\GameProgMgmt">
-      <UniqueIdentifier>{631dce95-0cc3-425d-8b99-53c8babd9cab}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Game\Stage\Enemy">
-      <UniqueIdentifier>{d6115f8f-efe2-46ef-9c35-a732668e3bd7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Load">
-      <UniqueIdentifier>{c5a86243-3a47-4e8d-a942-0b7ea2460981}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\DPDecision">
-      <UniqueIdentifier>{e6c1d49b-d9ee-4a4b-89f0-a918ce88bdfc}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="WinMain.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソースファイル</Filter>
     </ClCompile>
     <ClCompile Include="GameApp.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Gallery.cpp">
-      <Filter>ソース ファイル\Gallery</Filter>
-    </ClCompile>
-    <ClCompile Include="GAME.cpp">
-      <Filter>ソース ファイル\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Title.cpp">
-      <Filter>ソース ファイル\Title</Filter>
-    </ClCompile>
-    <ClCompile Include="ModeSelect.cpp">
-      <Filter>ソース ファイル\ModeSelect</Filter>
-    </ClCompile>
-    <ClCompile Include="Option.cpp">
-      <Filter>ソース ファイル\Option</Filter>
-    </ClCompile>
-    <ClCompile Include="Tutorial.cpp">
-      <Filter>ソース ファイル\Tutorial</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>ソース ファイル\Game\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="DetailPoint.cpp">
-      <Filter>ソース ファイル\Game\Stage\DetailPoint</Filter>
-    </ClCompile>
-    <ClCompile Include="Stage.cpp">
-      <Filter>ソース ファイル\Game\Stage</Filter>
-    </ClCompile>
-    <ClCompile Include="Obstacle.cpp">
-      <Filter>ソース ファイル\Game\Stage\Obstacle</Filter>
-    </ClCompile>
-    <ClCompile Include="Bar.cpp">
-      <Filter>ソース ファイル\Game\Stage\Bar</Filter>
+      <Filter>ソースファイル</Filter>
     </ClCompile>
     <ClCompile Include="RandomValue.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="EffectManager.cpp">
-      <Filter>ソース ファイル\Effect</Filter>
-    </ClCompile>
-    <ClCompile Include="Effect.cpp">
-      <Filter>ソース ファイル\Effect</Filter>
-    </ClCompile>
-    <ClCompile Include="Menu.cpp">
-      <Filter>ソース ファイル\Menu</Filter>
-    </ClCompile>
-    <ClCompile Include="GameOver.cpp">
-      <Filter>ソース ファイル\Game\GameOver</Filter>
-    </ClCompile>
-    <ClCompile Include="GameClear.cpp">
-      <Filter>ソース ファイル\Game\GameClear</Filter>
-    </ClCompile>
-    <ClCompile Include="MusicManager.cpp">
-      <Filter>ソース ファイル\Music</Filter>
-    </ClCompile>
-    <ClCompile Include="GameProgMgmt.cpp">
-      <Filter>ソース ファイル\GameProgMgmt</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>ソース ファイル\Game\Stage\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Load.cpp">
-      <Filter>ソース ファイル\Load</Filter>
+      <Filter>ソースファイル</Filter>
     </ClCompile>
     <ClCompile Include="SceneBase.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectManager.cpp">
+      <Filter>ソースファイル\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Effect.cpp">
+      <Filter>ソースファイル\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Gallery.cpp">
+      <Filter>ソースファイル\Gallery</Filter>
+    </ClCompile>
+    <ClCompile Include="GameProgMgmt.cpp">
+      <Filter>ソースファイル\GameProgMgmt</Filter>
+    </ClCompile>
+    <ClCompile Include="Load.cpp">
+      <Filter>ソースファイル\Load</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>ソースファイル\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="ModeSelect.cpp">
+      <Filter>ソースファイル\ModeSelect</Filter>
+    </ClCompile>
+    <ClCompile Include="MusicManager.cpp">
+      <Filter>ソースファイル\Music</Filter>
+    </ClCompile>
+    <ClCompile Include="Option.cpp">
+      <Filter>ソースファイル\Option</Filter>
+    </ClCompile>
+    <ClCompile Include="Title.cpp">
+      <Filter>ソースファイル\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="Tutorial.cpp">
+      <Filter>ソースファイル\Tutorial</Filter>
+    </ClCompile>
+    <ClCompile Include="GameClear.cpp">
+      <Filter>ソースファイル\GameClear</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOver.cpp">
+      <Filter>ソースファイル\GameOver</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>ソースファイル\Game\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="GAME.cpp">
+      <Filter>ソースファイル\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage.cpp">
+      <Filter>ソースファイル\Game\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Bar.cpp">
+      <Filter>ソースファイル\Game\Stage\Bar</Filter>
+    </ClCompile>
+    <ClCompile Include="DetailPoint.cpp">
+      <Filter>ソースファイル\Game\Stage\DetailPoint</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>ソースファイル\Game\Stage\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Obstacle.cpp">
+      <Filter>ソースファイル\Game\Stage\Obstacle</Filter>
     </ClCompile>
     <ClCompile Include="DPDecision.cpp">
-      <Filter>ソース ファイル\DPDecision</Filter>
+      <Filter>ソースファイル\DPDecision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Define.h">
+      <Filter>ヘッダーファイル</Filter>
+    </ClInclude>
     <ClInclude Include="GameApp.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Gallery.h">
-      <Filter>ソース ファイル\Gallery</Filter>
-    </ClInclude>
-    <ClInclude Include="GAME.h">
-      <Filter>ソース ファイル\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Title.h">
-      <Filter>ソース ファイル\Title</Filter>
-    </ClInclude>
-    <ClInclude Include="ModeSelect.h">
-      <Filter>ソース ファイル\ModeSelect</Filter>
-    </ClInclude>
-    <ClInclude Include="Option.h">
-      <Filter>ソース ファイル\Option</Filter>
-    </ClInclude>
-    <ClInclude Include="Tutorial.h">
-      <Filter>ソース ファイル\Tutorial</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>ソース ファイル\Game\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Stage.h">
-      <Filter>ソース ファイル\Game\Stage</Filter>
-    </ClInclude>
-    <ClInclude Include="DetailPoint.h">
-      <Filter>ソース ファイル\Game\Stage\DetailPoint</Filter>
-    </ClInclude>
-    <ClInclude Include="Obstacle.h">
-      <Filter>ソース ファイル\Game\Stage\Obstacle</Filter>
-    </ClInclude>
-    <ClInclude Include="Bar.h">
-      <Filter>ソース ファイル\Game\Stage\Bar</Filter>
+      <Filter>ヘッダーファイル</Filter>
     </ClInclude>
     <ClInclude Include="RandomValue.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Define.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="MusicManager.h">
-      <Filter>ソース ファイル\Music</Filter>
-    </ClInclude>
-    <ClInclude Include="EffectManager.h">
-      <Filter>ソース ファイル\Effect</Filter>
-    </ClInclude>
-    <ClInclude Include="Effect.h">
-      <Filter>ソース ファイル\Effect</Filter>
-    </ClInclude>
-    <ClInclude Include="Menu.h">
-      <Filter>ソース ファイル\Menu</Filter>
-    </ClInclude>
-    <ClInclude Include="GameOver.h">
-      <Filter>ソース ファイル\Game\GameOver</Filter>
-    </ClInclude>
-    <ClInclude Include="GameClear.h">
-      <Filter>ソース ファイル\Game\GameClear</Filter>
+      <Filter>ヘッダーファイル</Filter>
     </ClInclude>
     <ClInclude Include="SceneBase.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダーファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Stage_DP.h">
-      <Filter>ソース ファイル\Game\Stage\Composition</Filter>
+    <ClInclude Include="Effect.h">
+      <Filter>ソースファイル\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="Stage_Obstacle.h">
-      <Filter>ソース ファイル\Game\Stage\Composition</Filter>
+    <ClInclude Include="EffectManager.h">
+      <Filter>ソースファイル\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="Stage_Bar.h">
-      <Filter>ソース ファイル\Game\Stage\Composition</Filter>
+    <ClInclude Include="Gallery.h">
+      <Filter>ソースファイル\Gallery</Filter>
     </ClInclude>
     <ClInclude Include="GameProgMgmt.h">
-      <Filter>ソース ファイル\GameProgMgmt</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>ソース ファイル\Game\Stage\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Stage_Enemy.h">
-      <Filter>ソース ファイル\Game\Stage\Composition</Filter>
+      <Filter>ソースファイル\GameProgMgmt</Filter>
     </ClInclude>
     <ClInclude Include="Load.h">
-      <Filter>ソース ファイル\Load</Filter>
+      <Filter>ソースファイル\Load</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>ソースファイル\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="ModeSelect.h">
+      <Filter>ソースファイル\ModeSelect</Filter>
+    </ClInclude>
+    <ClInclude Include="MusicManager.h">
+      <Filter>ソースファイル\Music</Filter>
+    </ClInclude>
+    <ClInclude Include="Option.h">
+      <Filter>ソースファイル\Option</Filter>
+    </ClInclude>
+    <ClInclude Include="Title.h">
+      <Filter>ソースファイル\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="Tutorial.h">
+      <Filter>ソースファイル\Tutorial</Filter>
+    </ClInclude>
+    <ClInclude Include="GameClear.h">
+      <Filter>ソースファイル\GameClear</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOver.h">
+      <Filter>ソースファイル\GameOver</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>ソースファイル\Game\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="GAME.h">
+      <Filter>ソースファイル\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage.h">
+      <Filter>ソースファイル\Game\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Bar.h">
+      <Filter>ソースファイル\Game\Stage\Bar</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage_Obstacle.h">
+      <Filter>ソースファイル\Game\Stage\Composition</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage_Enemy.h">
+      <Filter>ソースファイル\Game\Stage\Composition</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage_DP.h">
+      <Filter>ソースファイル\Game\Stage\Composition</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage_Bar.h">
+      <Filter>ソースファイル\Game\Stage\Composition</Filter>
+    </ClInclude>
+    <ClInclude Include="DetailPoint.h">
+      <Filter>ソースファイル\Game\Stage\DetailPoint</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>ソースファイル\Game\Stage\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Obstacle.h">
+      <Filter>ソースファイル\Game\Stage\Obstacle</Filter>
     </ClInclude>
     <ClInclude Include="DPDecision.h">
-      <Filter>ソース ファイル\DPDecision</Filter>
+      <Filter>ソースファイル\DPDecision</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="ソースファイル">
+      <UniqueIdentifier>{9253cc56-4f36-4b9f-94bd-011256121015}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダーファイル">
+      <UniqueIdentifier>{cb360503-afe9-44a7-a295-c9c0df7664a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル\Effect">
+      <UniqueIdentifier>{b84d52ba-67c5-4a9c-9f40-4f5dc84a7e5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル\Gallery">
+      <UniqueIdentifier>{39ed3beb-363e-4dbd-b08f-a92f9d196e11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル\GameProgMgmt">
+      <UniqueIdentifier>{65a1a252-e2f3-4bff-a264-013692f472fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル\Load">
+      <UniqueIdentifier>{b96505a2-7e60-4255-828e-2ffcc7b1f998}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル\Menu">
+      <UniqueIdentifier>{e3894a78-dc2d-4bf1-b8a1-2b744e1602a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル\ModeSelect">
+      <UniqueIdentifier>{2971eca7-131b-4e15-b163-6d8ada66eb68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル\Music">
+      <UniqueIdentifier>{8b8a8eaf-09f0-490a-ab7f-8f0f92d79568}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル\Option">
+      <UniqueIdentifier>{ca0b1f1e-d503-4f53-84fb-3c712e65162e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル\Title">
+      <UniqueIdentifier>{8e3cab7a-b569-4db4-8664-089e2e9b8b59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル\Tutorial">
+      <UniqueIdentifier>{0ac58070-f34b-4c0d-bc33-7823180cb57d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル\Game">
+      <UniqueIdentifier>{f3b39e68-8fa4-49e8-b1f5-160489b3bbb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル\Game\Player">
+      <UniqueIdentifier>{58f74fb3-840d-4e16-897e-6caceadbfa30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル\Game\Stage">
+      <UniqueIdentifier>{bcbacf7e-eec1-4fdd-9a74-04f2182b1a27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル\Game\Stage\Bar">
+      <UniqueIdentifier>{251b58d6-f2fd-4477-a7b0-d96c3976320f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル\Game\Stage\Composition">
+      <UniqueIdentifier>{7c0ab294-a1ac-4705-94af-1f62ca38d56a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル\Game\Stage\DetailPoint">
+      <UniqueIdentifier>{98c4fe10-375a-4e97-b83b-036340d38a13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル\Game\Stage\Enemy">
+      <UniqueIdentifier>{f7032051-9e6c-4574-b0a6-62eaa541f59c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル\Game\Stage\Obstacle">
+      <UniqueIdentifier>{62451fa8-d360-4199-b7c7-5db48e48524a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル\DPDecision">
+      <UniqueIdentifier>{85721a57-3d55-44ae-9075-21d91a185217}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル\GameOver">
+      <UniqueIdentifier>{3617de31-33ae-4b56-b2ed-df902f9d9f4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル\GameClear">
+      <UniqueIdentifier>{33de38a5-aac9-4988-8a77-1413b1f5f9aa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

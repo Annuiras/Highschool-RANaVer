@@ -73,9 +73,17 @@ public:
 	tag_LoadSituation GetLoadSitu(void) { return b_LoadSitu; }
 
 	//フェードイン処理
-	float FadeIn(float A);
+	//A:減少させる変数
+	//b:falseの場合フェード状態を変更しない
+	//値が255になるとフェード状態をFADE_NOTに移行させる
+	//return:減少させた値
+	float FadeIn(float A, bool b);
 
 	//フェードアウト処理
-	float FadeOut(float A);
+	//A:増加させる変数
+	//b:falseの場合フェード状態を変更しない
+	//値が255になるとフェード状態をFADE_NEXTに移行させる
+	//return:増加させた値
+	float FadeOut(float A, bool b);
 
 };
