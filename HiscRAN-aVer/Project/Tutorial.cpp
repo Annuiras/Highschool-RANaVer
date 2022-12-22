@@ -2,7 +2,6 @@
 
 CTutorial::CTutorial() :
 	BGTexture(),
-	ScreenBGTexture(),
 	CurtainBGTexture(),
 	BackButton(),
 	ButtonSelect(),
@@ -27,32 +26,57 @@ bool CTutorial::Load(void)
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("Tutorial");
 
+	//説明テクスチャ
+	if (!ExTextTexture.Load("tutorialBG.png"))
+	{
+		return false;
+	}
+
 	//背景テクスチャ
-	if (!BGTexture.Load("tutorialBG.png"))
+	if (!BGTexture.Load("Tutorial_BG.png"))
 	{
 		return false;
 	}
 
-	//背景幕（後日削除）
-	if (!CurtainBGTexture.Load("TutorialMak.png"))
+	//スクリーンテクスチャ
+	if (!ScreenTexture.Load("Tutorial_Screen.png"))
 	{
 		return false;
 	}
 
-	//チュートリアル画像
-	if (!ScreenBGTexture.Load("tutorialScreen.png"))
+	//カーテン部分テクスチャ
+	if (!CurtainBGTexture.Load("Tutorial_Mak.png"))
 	{
 		return false;
 	}
 
+	//カーテン部分テクスチャ左
+	if (!CurtainBGTextureLeft.Load("Tutorial_MakLef.png"))
+	{
+		return false;
+	}
+
+	//カーテン部分テクスチャ右
+	if (!CurtainBGTextureRight.Load("Tutorial_MakRig.png"))
+	{
+		return false;
+	}
+
+	//カーテン部分テクスチャ上
+	if (!CurtainBGTextureTop.Load("Tutorial_MakTop.png"))
+	{
+		return false;
+	}
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("../");
 
+	//戻るボタン
 	if (!BackButton.Load("BackButton.png"))
 	{
 		return false;
 	}
 
+	//選択枠
 	if (!ButtonSelect.Load("Select_s.png"))
 	{
 		return false;
@@ -100,39 +124,46 @@ void CTutorial::Update(void)
 			count = count + 1;
 			MoveX = -20;
 			bShow = true;
+			TMenuCnt = 0;
 			break;
 
 		case 0:
 			count = count + 1;
 			MoveX = -20;
 			bShow = true;
+			TMenuCnt = 0;
 			break;
 
 		case 1:
 			count = count + 1;
 			MoveX = -20;
 			bShow = true;
+			TMenuCnt = 0;
 			break;
 
 		case 2:
 			count = count + 1;
 			MoveX = -20;
 			bShow = true;
+			TMenuCnt = 0;
 			break;
 
 		case 3:
 			count = count + 1;
 			MoveX = -20;
 			bShow = true;
+			TMenuCnt = 0;
 			break;
 
 		case 4:
 			count = count + 1;
 			MoveX = -20;
 			bShow = true;
+			TMenuCnt = 0;
 			break;
 
 		case 5:
+			count = 5;
 			TMenuCnt = 1;
 			break;
 		}
@@ -142,6 +173,7 @@ void CTutorial::Update(void)
 		switch (count)
 		{
 		case -1:
+			count = -1;
 			TMenuCnt = 1;
 			break;
 
@@ -149,36 +181,42 @@ void CTutorial::Update(void)
 			count = count - 1;
 			MoveX = 20;
 			bShow = true;
+			TMenuCnt = 0;
 			break;
 
 		case 1:
 			count = count - 1;
 			MoveX = 20;
 			bShow = true;
+			TMenuCnt = 0;
 			break;
 
 		case 2:
 			count = count - 1;
 			MoveX = 20;
 			bShow = true;
+			TMenuCnt = 0;
 			break;
 
 		case 3:
 			count = count - 1;
 			MoveX = 20;
 			bShow = true;
+			TMenuCnt = 0;
 			break;
 
 		case 4:
 			count = count - 1;
 			MoveX = 20;
 			bShow = true;
+			TMenuCnt = 0;
 			break;
 
 		case 5:
 			count = count - 1;
 			MoveX = 20;
 			bShow = true;
+			TMenuCnt = 0;
 			break;
 		}
 	}
@@ -239,14 +277,27 @@ void CTutorial::Render(void)
 	CGraphicsUtilities::RenderString(10, 40, "F1キーでタイトル画面へ遷移");
 	CGraphicsUtilities::RenderString(10, 70, "Enterキーでモードセレクト画面へ遷移");
 
+	CGraphicsUtilities::RenderFillRect(0, 0, g_pGraphics->GetTargetWidth(), g_pGraphics->GetTargetHeight(), MOF_COLOR_WHITE);
+
+	ExTextTexture.Render(gPosX, 18);
+
 	//背景画像描画
-	BGTexture.Render(gPosX, 0);
+	BGTexture.Render(0, 0);
 
 	//Screen画像描画
-	ScreenBGTexture.Render(0, 0);
+	ScreenTexture.Render(0, 0);
 
-	//幕描画（後日削除）
+	//幕描画
 	CurtainBGTexture.Render(0, 0);
+
+	//幕左
+	CurtainBGTextureLeft.Render(-646, 0);
+
+	//幕右
+	CurtainBGTextureRight.Render(646, 0);
+
+	//幕上
+	CurtainBGTextureTop.Render(0, 0);
 
 	//戻るボタン
 	BackButton.Render(60, 650);
@@ -281,9 +332,13 @@ void CTutorial::RenderDebug(void)
 //素材解放
 void CTutorial::Release(void)
 {
-	ScreenBGTexture.Release();
+	ExTextTexture.Release();
 	BGTexture.Release();
+	ScreenTexture.Release();
 	CurtainBGTexture.Release();
+	CurtainBGTextureLeft.Release();
+	CurtainBGTextureRight.Release();
+	CurtainBGTextureTop.Release();
 	BackButton.Release();
 	ButtonSelect.Release();
 }

@@ -129,7 +129,7 @@ void CModeSelect::Update()
 
 		case 1:
 			m_bEnd = true;
-			m_NextScene = SCENENO_GAME;
+			m_NextScene = SCENENO_DPDECISION;
 			break;
 
 		case 2:

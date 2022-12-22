@@ -20,6 +20,7 @@
 #include	"Option.h"
 #include	"GameProgMgmt.h"
 #include	"Menu.h"
+#include	"DPDecision.h"
 
 //デバッグ
 bool		gDebagflag = false;
@@ -147,6 +148,9 @@ MofBool CGameApp::Update(void){
 			break;
 		case SCENENO_TUTORIAL:
 			gpScene = new CTutorial();
+			break;
+		case SCENENO_DPDECISION:
+			gpScene = new CDPDecision();
 			break;
 		case SCENENO_GAME:
 			gpScene = new CGAME();

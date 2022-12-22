@@ -279,6 +279,9 @@ enum tag_SCENENO {
 	//モードセレクト画面
 	SCENENO_SELECTMODE,
 
+	//DP目標設定画面
+	SCENENO_DPDECISION,
+
 	//ゲーム本編
 	SCENENO_GAME,
 

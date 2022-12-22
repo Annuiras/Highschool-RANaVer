@@ -70,6 +70,9 @@
     <Filter Include="ソース ファイル\Game\Stage\Enemy">
       <UniqueIdentifier>{d6115f8f-efe2-46ef-9c35-a732668e3bd7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\DPDecision">
+      <UniqueIdentifier>{e6c1d49b-d9ee-4a4b-89f0-a918ce88bdfc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -137,6 +140,9 @@
     </ClCompile>
     <ClCompile Include="Enemy.cpp">
       <Filter>ソース ファイル\Game\Stage\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="DPDecision.cpp">
+      <Filter>ソース ファイル\DPDecision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -220,6 +226,9 @@
     </ClInclude>
     <ClInclude Include="Stage_Enemy.h">
       <Filter>ソース ファイル\Game\Stage\Composition</Filter>
+    </ClInclude>
+    <ClInclude Include="DPDecision.h">
+      <Filter>ソース ファイル\DPDecision</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

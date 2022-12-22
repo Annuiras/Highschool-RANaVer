@@ -6,14 +6,26 @@ class CTutorial:public CSceneBase
 {
 private:
 
+	//説明テクスチャ
+	CTexture ExTextTexture;
+
 	//背景テクスチャ
 	CTexture BGTexture;
 
-	//説明背景テクスチャ
-	CTexture ScreenBGTexture;
+	//スクリーンテクスチャ
+	CTexture ScreenTexture;
 
-	//カーテン部分テクスチャ（後日削除）
+	//カーテン部分テクスチャ
 	CTexture CurtainBGTexture;
+
+	//カーテン部分テクスチャ左
+	CTexture CurtainBGTextureLeft;
+
+	//カーテン部分テクスチャ右
+	CTexture CurtainBGTextureRight;
+
+	//カーテン上
+	CTexture CurtainBGTextureTop;
 
 	//戻るボタンテクスチャ
 	CTexture BackButton;
