@@ -6,7 +6,7 @@ CMusicMgmt::CMusicMgmt()
 CMusicMgmt::~CMusicMgmt()
 {}
 
-bool CMusicMgmt::Load(void) {
+tag_LoadSituation CMusicMgmt::Load(void) {
 
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("SE");
@@ -73,7 +73,7 @@ bool CMusicMgmt::Load(void) {
 
 		if (!m_Music_SE[type].Load(sename[type]))
 		{
-			return false;
+			return tag_LoadSituation::LOAD_ERROR;
 		}
 	}
 
@@ -128,21 +128,19 @@ bool CMusicMgmt::Load(void) {
 	{
 		if (!m_Music_BGM[type].Load(bgmname[type]))
 		{
-			return false;
+			return tag_LoadSituation::LOAD_ERROR;
 		}
 	}
 
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("../");
 
-	return true;
+	return tag_LoadSituation::LOAD_COMP;
 }
 
 //初期化
-void CMusicMgmt::Initialize(float bgmv, float sev) {
+void CMusicMgmt::Initialize(float bgmv, float sev) {	
 
-	Load();
-	
 	//ボリュームセット
 	BGMSetVolume(bgmv);
 	SESetVolume(sev);

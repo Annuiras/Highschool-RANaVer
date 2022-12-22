@@ -1,12 +1,33 @@
 #include "GameClear.h"
 
+
+//コンストラクタ
+CGameClear::CGameClear() :
+	m_BackTexture(),
+	m_UITexture(),
+	gAlpha(0.0f),
+	m_WhiteBakAlph(0),
+	Memory1(),
+	Memory2(),
+	Status(),
+	StatusRender(),
+	LastDetailNo(),
+	isStop(false)
+{}
+
+//デストラクタ
+CGameClear::~CGameClear()
+{
+
+}
+
 //ステータスから最終容姿を判定する
 void CGameClear::StatusJudgement(void)
 {
 	//ステータス上位２つの添え字
 	int m_Status_1=0, m_Status_2=0;
 
-	//todo:同数の処理聞く
+	//:同数の処理聞く
 	//ステータスの大きさ一番目の添え字保存
 	for (int i = 0; i < DP_COUNT; i++)
 	{
@@ -148,27 +169,6 @@ void CGameClear::StatusJudgement(void)
 
 }
 
-//コンストラクタ
-CGameClear::CGameClear() :
-	m_BackTexture(),
-	m_UITexture(),
-	gAlpha(0.0f),
-	m_WhiteAlpha(0),
-	m_FadeOut(),
-	Memory1(),
-	Memory2(),
-	Status(),
-	StatusRender(),
-	LastDetailNo(),
-	isStop(false)
-{}
-
-//デストラクタ
-CGameClear::~CGameClear()
-{
-
-}
-
 //チャート土台作成
 void CGameClear::buildChart(int* Status, Vector2* PointsStatus)
 {
@@ -220,7 +220,7 @@ void CGameClear::drawChart(Vector2* PointsStatus, MofU32 cl)
 }
 
 //素材ロード
-bool CGameClear::Load(void)
+void CGameClear::Load(void)
 {
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("Game/GameClear");
@@ -247,31 +247,37 @@ bool CGameClear::Load(void)
 	for (int i = 0; i < 15; i++)
 	{
 		if (!m_BackTexture[i].Load(name[i])) {
-			return false;
+			b_LoadSitu = LOAD_ERROR;
+			return;
 		}
 	}
 
 	if (!m_UITexture.Load("GameClearUI.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("../../");
 
-	return true;
+	//ロード完了
+	b_LoadSitu = LOAD_COMP;
 }
 
 //初期化
 void CGameClear::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec)
 {
-	//素材ロード
-	Load();
 
 	//各マネージャーセット
 	m_GameProgMamt = mamt;
 	g_MusicManager = musi;
 	g_EffectManeger = effec;
+
+	//素材ロード
+	Load();
+	//初期化完了
+	b_LoadSitu = LOAD_DONE;
 
 	//最大値メモリ用
 	for (int i = 0; i < ITEM_NUM; i++)
@@ -303,10 +309,10 @@ void CGameClear::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* 
 	gAlpha = 0;
 
 	//フェードイン用アルファ値
-	m_WhiteAlpha = 255;
+	m_WhiteBakAlph = 255;
+	m_BlackBakAlph = 0;
+	b_Fadein = FADE_IN;
 
-	//フェードインフラグ
-	m_FadeOut = false;
 	isStop = false;
 
 	LastDetailNo = 0;
@@ -324,21 +330,29 @@ void CGameClear::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* 
 //更新
 void CGameClear::Update(void)
 {
-	//エンターキーでモードセレクト画面へ
-	if (g_pInput->IsKeyPush(MOFKEY_RETURN))
-	{
+
+	//フェードイン処理
+	if (b_Fadein == FADE_IN) {
+		m_WhiteBakAlph = FadeIn(m_WhiteBakAlph);
+		return;
+	}
+
+	//フェードアウト完了時
+	if (b_Fadein == FADE_NEXT) {
 		m_bEnd = true;
 		m_NextScene = SCENENO_SELECTMODE;
 	}
 
-	//明転処理
-	if (m_WhiteAlpha >= 0 && !m_FadeOut)
+	//フェードアウト処理
+	if (b_Fadein == FADE_OUT) {
+		m_BlackBakAlph = FadeOut(m_BlackBakAlph);
+		return;
+	}
+
+	//エンターキーでモードセレクト画面へ
+	if (g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
-		m_WhiteAlpha -= FADE_OUT_SPEED;
-		if (m_WhiteAlpha == 0)
-		{
-			m_FadeOut = true;
-		}
+		b_Fadein = FADE_OUT;
 	}
 
 
@@ -362,9 +376,6 @@ void CGameClear::Update(void)
 		}
 	}
 
-	if (!m_FadeOut) {
-		return;
-	}
 
 	//グラフがじわじわ動く
 	for (int i = 0; i < ITEM_NUM; i++)
@@ -425,7 +436,10 @@ void CGameClear::Render(void)
 	m_UITexture.Render(370, 2, MOF_ARGB(gAlpha, 255, 255, 255));
 
 	//フェードアウト明転用
-	CGraphicsUtilities::RenderFillRect(0, 0, g_pGraphics->GetTargetWidth(), g_pGraphics->GetTargetHeight(), MOF_ARGB(m_WhiteAlpha, 255, 255, 255));
+	CGraphicsUtilities::RenderFillRect(0, 0, g_pGraphics->GetTargetWidth(), g_pGraphics->GetTargetHeight(), MOF_ARGB(m_WhiteBakAlph, 255, 255, 255));
+
+	//フェードアウト暗転用
+	CGraphicsUtilities::RenderFillRect(0, 0, g_pGraphics->GetTargetWidth(), g_pGraphics->GetTargetHeight(), MOF_ARGB(m_BlackBakAlph, 0, 0, 0));
 
 }
 
@@ -464,6 +478,11 @@ void CGameClear::RenderDebug(void)
 void CGameClear::Release(void)
 {
 	m_UITexture.Release();
+
+	for (int i = 0; i < 15; i++)
+	{
+		m_BackTexture[i].Release();
+	}
 	
 	//BGM停止
 	g_MusicManager->BGMStop(BGMT_CLEAR);

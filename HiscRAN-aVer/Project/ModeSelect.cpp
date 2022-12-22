@@ -19,6 +19,74 @@ CModeSelect::~CModeSelect()
 
 }
 
+//ロード
+void CModeSelect::Load()
+{
+
+	//リソース配置ディレクトリの設定
+	CUtilities::SetCurrentDirectoryA("ModeSelect");
+
+	if (!m_TutorialTextureSmall.Load("ModeSelect_Min.png"))
+	{
+		b_LoadSitu = LOAD_ERROR;
+		return;
+	}
+	
+	if (!m_TutorialTextureBig.Load("ModeSelect_Big.png")) 
+	{
+		b_LoadSitu = LOAD_ERROR;
+		return;
+	}
+
+	if (!m_TutorialTextTexture.Load("ModeSelect_Text.png"))
+	{
+		b_LoadSitu = LOAD_ERROR;
+		return;
+	}
+
+	if (!m_TutorialTextBox.Load("ModeSelect_TextBox.png")) 
+	{
+		b_LoadSitu = LOAD_ERROR;
+		return;
+	}
+
+	if (!m_TutorialTextTexture.Load("ModeSelectTexture.png")) {
+		b_LoadSitu = LOAD_ERROR;
+		return;
+
+	}
+
+	if (!m_TutorialBG[0].Load("ModeSelect_AddmissionEx_BG.png")) 
+	{
+		b_LoadSitu = LOAD_ERROR;
+		return;
+	}
+
+	if (!m_TutorialBG[1].Load("ModeSelect_Addmission_BG.png"))
+	{
+		b_LoadSitu = LOAD_ERROR;
+		return;
+	}
+	
+	if (!m_TutorialBG[2].Load("ModeSelect_Library_BG.png"))
+	{
+		b_LoadSitu = LOAD_ERROR;
+		return;
+	}
+
+	if (!m_TutorialBG[3].Load("ModeSelect_Broadcasting_BG.png"))
+	{
+		b_LoadSitu = LOAD_ERROR;
+		return;
+	}
+
+	//リソース配置ディレクトリの設定
+	CUtilities::SetCurrentDirectoryA("../");
+
+	//ロード完了
+	b_LoadSitu = LOAD_COMP;
+}
+
 //初期化
 void  CModeSelect::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec)
 {
@@ -26,75 +94,68 @@ void  CModeSelect::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt
 	m_GameProgMamt = mamt;
 	g_MusicManager = musi;
 	g_EffectManeger = effec;
-	//メニューの生成
-	gMenu.Create(gMenuItemCount);
 
-	g_MusicManager->BGMStart(BGMT_MOOP);
+	//素材ロード
+	Load();
+	//初期化完了
+	b_LoadSitu = LOAD_DONE;
 
 	m_NowScene = SCENENO_SELECTMODE;
 
-	Load();
+	m_BakAlph = 255;
+
+	b_Fadein = FADE_IN;
+
 }
 
-//ロード
-bool CModeSelect::Load()
-{
-	//リソース配置ディレクトリの設定
-	CUtilities::SetCurrentDirectoryA("ModeSelect");
-
-	if (!m_TutorialTextureSmall.Load("ModeSelect_Min.png"))
-	{
-		return false;
-	}
-	
-	if (!m_TutorialTextureBig.Load("ModeSelect_Big.png")) 
-	{
-		return false;
-	}
-
-	if (!m_TutorialTextTexture.Load("ModeSelect_Text.png"))
-	{
-		return false;
-	}
-
-	if (!m_TutorialTextBox.Load("ModeSelect_TextBox.png")) 
-	{
-		return false;
-	}
-
-	if (!m_TutorialTextTexture.Load("ModeSelect_Text.png"))
-		return false;
-		
-	if (!m_TutorialBG[0].Load("ModeSelect_AddmissionEx_BG.png")) 
-	{
-		return false;
-	}
-
-	if (!m_TutorialBG[1].Load("ModeSelect_Addmission_BG.png"))
-	{
-		return false;
-	}
-	
-	if (!m_TutorialBG[2].Load("ModeSelect_Library_BG.png"))
-	{
-		return false;
-	}
-
-	if (!m_TutorialBG[3].Load("ModeSelect_Broadcasting_BG.png"))
-	{
-		return false;
-	}
-
-	//リソース配置ディレクトリの設定
-	CUtilities::SetCurrentDirectoryA("../");
-
-	return true;
-}
 
 //更新
 void CModeSelect::Update()
 {
+
+	g_MusicManager->BGMStart(BGMT_MOOP);
+
 	m_Scroll -= SCROLL_SPEED;
+
+	//フェードイン処理
+	if (b_Fadein == FADE_IN) {
+		m_BakAlph = FadeIn(m_BakAlph);
+		return;
+	}
+
+
+	//フェードアウト完了時
+	if (b_Fadein == FADE_NEXT) {
+		switch (MenuNow_Mode)
+		{
+		case 0:
+			m_bEnd = true;
+			m_NextScene = SCENENO_TUTORIAL;
+			break;
+
+		case 1:
+			m_bEnd = true;
+			m_NextScene = SCENENO_DPDECISION;
+			break;
+
+		case 2:
+			m_bEnd = true;
+			m_NextScene = SCENENO_GALLERY;
+			break;
+
+		case 3:
+			m_bEnd = true;
+			m_NextScene = SCENENO_OPTION;
+			break;
+		}
+	}
+
+	//フェードアウト処理
+	if (b_Fadein == FADE_OUT) {
+		m_BakAlph = FadeOut(m_BakAlph);
+		return;
+	}
+
 
 	//矢印キー下で選択が下がるようにする
 	if (g_pInput->IsKeyPush(MOFKEY_DOWN))
@@ -119,29 +180,7 @@ void CModeSelect::Update()
 	if (g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
 		g_MusicManager->SEStart(SE_T_DECISION);
-
-		switch (MenuNow_Mode)
-		{
-		case 0:
-			m_bEnd = true;
-			m_NextScene = SCENENO_TUTORIAL;
-			break;
-
-		case 1:
-			m_bEnd = true;
-			m_NextScene = SCENENO_DPDECISION;
-			break;
-
-		case 2:
-			m_bEnd = true;
-			m_NextScene = SCENENO_GALLERY;
-			break;
-
-		case 3:
-			m_bEnd = true;
-			m_NextScene = SCENENO_OPTION;
-			break;
-		}
+		b_Fadein = FADE_OUT;
 	}
 
 	//メニューの更新
@@ -307,6 +346,11 @@ void CModeSelect::Render(void)
 		
 		break;
 	}
+
+	//フェードアウト
+	CGraphicsUtilities::RenderFillRect(0, 0, g_pGraphics->GetTargetWidth(), g_pGraphics->GetTargetHeight(), MOF_ARGB(m_BakAlph, 255, 255, 255));
+
+
 }
 
 void CModeSelect::RenderDebug(void)

@@ -32,9 +32,7 @@ public:
 
 	//ゲーム画面：DP取得数をセット
 	void SetGame_DPNum(int DP[]);
-
 	//ゲーム画面：DP取得数をゲット
 	int* GetGame_DPNum(void);
-
 };
 

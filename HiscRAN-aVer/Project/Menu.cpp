@@ -26,8 +26,7 @@ void CMenu::Create(int cnt)
 	Release();
 
 	//リソース配置ディレクトリの設定
-	if (!CUtilities::SetCurrentDirectoryA("Menu"))
-		 false;
+	CUtilities::SetCurrentDirectoryA("Menu");
 
 	m_MenuEndTexture.Load("Menu_BGEND.png");
 	m_MenuPauseTexture.Load("Menu_BGPause.png");

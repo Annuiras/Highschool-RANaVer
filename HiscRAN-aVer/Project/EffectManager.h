@@ -17,7 +17,7 @@ public:
 	CEffectMgmt();
 	~CEffectMgmt();
 	//‘fŞƒ[ƒh
-	bool Load(void);
+	tag_LoadSituation Load(void);
 
 	//‰Šú‰»–½—ß
 	void Initialize(void);

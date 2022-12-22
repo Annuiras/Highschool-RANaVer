@@ -21,7 +21,7 @@ CTutorial::~CTutorial()
 }
 
 //素材読み込み
-bool CTutorial::Load(void)
+void CTutorial::Load(void)
 {
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("Tutorial");
@@ -35,19 +35,22 @@ bool CTutorial::Load(void)
 	//背景テクスチャ
 	if (!BGTexture.Load("Tutorial_BG.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 	//スクリーンテクスチャ
 	if (!ScreenTexture.Load("Tutorial_Screen.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 	//カーテン部分テクスチャ
 	if (!CurtainBGTexture.Load("Tutorial_Mak.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 	//カーテン部分テクスチャ左
@@ -73,16 +76,19 @@ bool CTutorial::Load(void)
 	//戻るボタン
 	if (!BackButton.Load("BackButton.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 	//選択枠
 	if (!ButtonSelect.Load("Select_s.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
-	return true;
+	//ロード完了
+	b_LoadSitu = LOAD_DONE;
 
 }
 
@@ -99,8 +105,13 @@ void CTutorial::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* e
 	g_MusicManager = musi;
 	g_EffectManeger = effec;
 
+	//状態を設定
+	b_Fadein = FADE_IN;
+	m_BakAlph = 255;
+
 	//素材ロード
 	Load();
+
 
 	m_NowScene = SCENENO_TUTORIAL;
 
@@ -109,6 +120,24 @@ void CTutorial::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* e
 //更新
 void CTutorial::Update(void)
 {
+
+	//フェードイン処理
+	if (b_Fadein == FADE_IN) {
+		m_BakAlph = FadeIn(m_BakAlph);
+	}
+
+	//フェードアウト完了時
+	if (b_Fadein == FADE_NEXT) {
+
+		m_bEnd = true;
+		m_NextScene = SCENENO_SELECTMODE;
+	}
+
+	//フェードアウト処理
+	if (b_Fadein == FADE_OUT) {
+		m_BakAlph = FadeOut(m_BakAlph);
+		return;
+	}
 	//戻るボタンにカーソル合わせる必要あんまりないかもね～
 	//Enterで戻るでええかも
 
@@ -263,9 +292,7 @@ void CTutorial::Update(void)
 	//エンターキーでモードセレクト画面へ
 	if (TMenuCnt == 1 && g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
-		//モードセレクト画面へ
-		m_bEnd = true;
-		m_NextScene = SCENENO_SELECTMODE;
+		b_Fadein = FADE_OUT;
 	}
 
 }
@@ -308,6 +335,11 @@ void CTutorial::Render(void)
 		//戻るボタンにカーソルを合わせる
 		ButtonSelect.Render(60, 650);
 	}
+
+	//フェード用黒背景
+	CGraphicsUtilities::RenderFillRect(0, 0, WINDOWSIZE_WIDTH, WINDOWSIZE_HEIGHT,
+		MOF_ARGB(m_BakAlph, 255, 255, 255));
+
 }
 
 void CTutorial::RenderDebug(void)

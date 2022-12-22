@@ -2,6 +2,9 @@
 
 #include "Define.h"
 #include "SceneBase.h"
+#include <thread>
+
+using namespace std;
 
 class CGallery :public CSceneBase
 {
@@ -81,6 +84,8 @@ private:
 	//–ß‚éƒ{ƒ^ƒ“
 	CTexture	m_BackButton;
 
+	int m_BakAlph;
+
 	bool LastAddFlag[15] =
 	{
 		true,
@@ -107,7 +112,7 @@ public:
 	void Update(void);
 	void Render(void);
 	void RenderDebug(void);
-	bool Load(void);
+	void Load(void);
 	void Release(void);
 };
 

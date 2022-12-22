@@ -23,40 +23,47 @@ CGameOver::~CGameOver()
 }
 
 //素材ロード
-bool CGameOver::Load(void)
+void CGameOver::Load(void)
 {
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("Game/GameOver");
 
 	if (!m_BackTexture.Load("GameOver_BG.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 	if (!m_BackButton.Load("GameOver_Button_End.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 	if (!m_StartButton.Load("GameOver_Button_Beginning.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 	if (!m_TextBack.Load("GameOver_Text_End.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 	if (!m_TextStart.Load("GameOver_Text_Beginning.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 	if (!m_ENDText.Load("GameOver_Text_flavor.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("../../");
 
-	return true;
+	//ロード完了
+	b_LoadSitu = LOAD_COMP;
 }
 
 //初期化
@@ -66,14 +73,17 @@ void CGameOver::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* e
 	g_MusicManager = musi;
 	g_EffectManeger = effec;
 
-	//黒画面表示
-	m_Alpha = 255;
+	//素材ロード
+	Load();
+	//初期化完了
+	b_LoadSitu = LOAD_DONE;
 
-	//推移状態
-	m_FadeOutflg = false;
+	//黒画面表示
+	m_BlackBakAlph = 255;
+	m_WhiteBakAlph = 0;
+	b_Fadein = FADE_IN;
 
 	Rondom = CUtilities::Random(0, 3);
-	Load();
 
 	m_NowScene = SCENENO_GAMEOVER;
 
@@ -86,15 +96,34 @@ void CGameOver::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* e
 void CGameOver::Update(void)
 {
 
-	//画面開始時フェードイン
-	if (!m_FadeOutflg) {
-		//値調整
-		m_Alpha -= FADE_OUT_SPEED+2;
-		if (m_Alpha <= 0) {
-			m_Alpha = 0;
-			m_FadeOutflg = true;
-		}
+	//フェードイン処理
+	if (b_Fadein == FADE_IN) {
+		m_BlackBakAlph = FadeIn(m_BlackBakAlph);
+		return;
 	}
+
+	//フェードアウト完了時
+	if (b_Fadein == FADE_NEXT) {
+		m_bEnd = true;
+	}
+
+	//フェードアウト処理
+	if (b_Fadein == FADE_OUT) {
+
+		switch (m_NextScene)
+		{
+		case SCENENO_SELECTMODE:
+			m_WhiteBakAlph = FadeOut(m_WhiteBakAlph);
+			break;
+		case SCENENO_GAME:
+			m_WhiteBakAlph = FadeOut(m_WhiteBakAlph);
+			break;
+		default:
+			break;
+		}
+		return;
+	}
+
 
 	if (g_pInput->IsKeyPush(MOFKEY_RIGHT))
 	{
@@ -115,14 +144,14 @@ void CGameOver::Update(void)
 	//やめるのボタン上でエンターキーでモードセレクト画面へ
 	if (GameOverCount == 1 && g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
-		m_bEnd = true;
+		b_Fadein = FADE_OUT;
 		m_NextScene = SCENENO_SELECTMODE;
 	}
 
 	//はじめからのボタン上でエンターキーでゲーム画面へ
 	if (GameOverCount == 0 && g_pInput->IsKeyHold(MOFKEY_RETURN))
 	{
-		m_bEnd = true;
+		b_Fadein = FADE_OUT;
 		m_NextScene = SCENENO_GAME;
 	}
 
@@ -159,8 +188,11 @@ void CGameOver::Render(void)
 		m_TextBack.Render(168, 618);
 	}
 
-	//画面遷移用の黒画面
-	CGraphicsUtilities::RenderFillRect(0, 0, g_pGraphics->GetTargetWidth(), g_pGraphics->GetTargetHeight(), MOF_ARGB(m_Alpha, 0, 0, 0));
+	//フェードアウト暗転用
+	CGraphicsUtilities::RenderFillRect(0, 0, g_pGraphics->GetTargetWidth(), g_pGraphics->GetTargetHeight(), MOF_ARGB(m_BlackBakAlph, 0, 0, 0));
+
+	//フェードアウト明転用
+	CGraphicsUtilities::RenderFillRect(0, 0, g_pGraphics->GetTargetWidth(), g_pGraphics->GetTargetHeight(), MOF_ARGB(m_WhiteBakAlph, 255, 255, 255));
 
 }
 

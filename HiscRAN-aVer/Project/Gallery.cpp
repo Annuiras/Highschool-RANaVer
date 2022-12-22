@@ -26,7 +26,7 @@ CGallery::~CGallery()
 }
 
 //ロード
-bool CGallery::Load(void)
+void CGallery::Load(void)
 {
 
 	//リソース配置ディレクトリの設定
@@ -35,13 +35,15 @@ bool CGallery::Load(void)
 	//背景テクスチャの読み込み
 	if (!m_BackTexture.Load("CollectionBG.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 	//最終容姿選択画像読み込み
 	if (!m_LastApp.Load("collection.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 	//説明文
@@ -51,19 +53,30 @@ bool CGallery::Load(void)
 	}
 
 	//未解放最終容姿選択画像読み込み
-	if (!m_NotLastApp[0].Load("collection_NotFound_00.png"))
-	{
-		return false;
-	}
+	char* NotFound_name[] = {
+		"collection_NotFound_00.png",
+		"collection_NotFound_01.png",
+		"collection_NotFound_02.png",
+		"collection_NotFound_03.png",
+		"collection_NotFound_04.png",
+		"collection_NotFound_05.png",
+		"collection_NotFound_06.png",
+		"collection_NotFound_07.png",
+		"collection_NotFound_08.png",
+		"collection_NotFound_09.png",
+		"collection_NotFound_10.png",
+		"collection_NotFound_11.png",
+		"collection_NotFound_12.png",
+		"collection_NotFound_13.png",
+		"collection_NotFound_14.png"
+	};
 
-	if (!m_NotLastApp[1].Load("collection_NotFound_01.png"))
+	for (int i = 0; i < 15; i++)
 	{
-		return false;
-	}
-
-	if (!m_NotLastApp[2].Load("collection_NotFound_02.png"))
-	{
-		return false;
+		if (!m_NotLastApp[i].Load(NotFound_name[i])) {
+			b_LoadSitu = LOAD_ERROR;
+			return;
+		}
 	}
 
 	if (!m_NotLastApp[3].Load("collection_NotFound_03.png"))
@@ -128,90 +141,43 @@ bool CGallery::Load(void)
 
 
 	//最終容姿の台紙テクスチャ(バラ&ピックアップ用)
-	if (!m_LastAppPic[0].Load("Picup1.png"))
-	{
-		return false;
-	}
+	char* Picup_name[] = {
+		"Picup1.png",
+		"Picup2.png",
+		"Picup3.png",
+		"Picup4.png",
+		"Picup5.png",
+		"Picup6.png",
+		"Picup7.png",
+		"Picup8.png",
+		"Picup9.png",
+		"Picup10.png",
+		"Picup11.png",
+		"Picup12.png",
+		"Picup13.png",
+		"Picup14.png",
+		"Picup15.png"
+	};
 
-	if (!m_LastAppPic[1].Load("Picup2.png"))
+	for (int i = 0; i < 15; i++)
 	{
-		return false;
-	}
-
-	if (!m_LastAppPic[2].Load("Picup3.png"))
-	{
-		return false;
-	}
-
-	if (!m_LastAppPic[3].Load("Picup4.png"))
-	{
-		return false;
-	}
-
-	if (!m_LastAppPic[4].Load("Picup5.png"))
-	{
-		return false;
-	}
-
-	if (!m_LastAppPic[5].Load("Picup6.png"))
-	{
-		return false;
-	}
-
-	if (!m_LastAppPic[6].Load("Picup7.png"))
-	{
-		return false;
-	}
-
-	if (!m_LastAppPic[7].Load("Picup8.png"))
-	{
-		return false;
-	}
-
-	if (!m_LastAppPic[8].Load("Picup9.png"))
-	{
-		return false;
-	}
-
-	if (!m_LastAppPic[9].Load("Picup10.png"))
-	{
-		return false;
-	}
-
-	if (!m_LastAppPic[10].Load("Picup11.png"))
-	{
-		return false;
-	}
-
-	if (!m_LastAppPic[11].Load("Picup12.png"))
-	{
-		return false;
-	}
-
-	if (!m_LastAppPic[12].Load("Picup13.png"))
-	{
-		return false;
-	}
-
-	if (!m_LastAppPic[13].Load("Picup14.png"))
-	{
-		return false;
-	}
-
-	if (!m_LastAppPic[14].Load("Picup15.png"))
-	{
-		return false;
+		if (!m_LastAppPic[i].Load(Picup_name[i])) {
+			b_LoadSitu = LOAD_ERROR;
+			return;
+		}
 	}
 
 
 	if (!m_PickUp.Load("Picup.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 	if (!m_Text.Load("Text.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 	//選択時の四角形
@@ -225,18 +191,19 @@ bool CGallery::Load(void)
 
 	if (!m_SelectTexture_s.Load("Select_s.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 	//戻るボタン
 	if (!m_BackButton.Load("BackButton.png"))
 	{
-		return false;
+		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
+	b_LoadSitu = LOAD_COMP;
 
-
-	return true;
 }
 
 //初期化
@@ -246,23 +213,45 @@ void CGallery::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* ef
 	g_MusicManager = musi;
 	g_EffectManeger = effec;
 
+	//素材ロード
 	Load();
+	//初期化完了
+	b_LoadSitu = LOAD_DONE;
 
-	g_MusicManager->BGMStart(BGMT_GALLERY);
+
 
 	m_NowScene = SCENENO_GALLERY;
+	b_Fadein = FADE_IN;
+	m_BakAlph = 255;
 
 }
 
 //更新
 void CGallery::Update(void)
 {
+	g_MusicManager->BGMStart(BGMT_GALLERY);
+
+	if (b_Fadein == FADE_IN) {
+		m_BakAlph = FadeIn(m_BakAlph);
+		return;
+	}
+
+
+	if (b_Fadein == FADE_OUT) {
+		m_BakAlph = FadeOut(m_BakAlph);
+	}
+
+	if (b_Fadein == FADE_NEXT) {
+
+		m_bEnd = true;
+		m_NextScene = SCENENO_SELECTMODE;
+	}
+
 
 	//Enterで戻るかは検討
 	if (galleryCnt == 15 && g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
-		m_bEnd = true;
-		m_NextScene = SCENENO_SELECTMODE;
+		b_Fadein = FADE_OUT;
 	}
 	//F1キーでタイトル画面へ
 	if (g_pInput->IsKeyPush(MOFKEY_F1))

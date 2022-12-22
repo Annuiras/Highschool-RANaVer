@@ -97,6 +97,7 @@
     <ClCompile Include="GameClear.cpp" />
     <ClCompile Include="GameOver.cpp" />
     <ClCompile Include="GameProgMgmt.cpp" />
+    <ClCompile Include="Load.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="MusicManager.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -108,6 +109,7 @@
     <ClCompile Include="Obstacle.cpp" />
     <ClCompile Include="Option.cpp" />
     <ClCompile Include="RandomValue.cpp" />
+    <ClCompile Include="SceneBase.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="Title.cpp" />
     <ClCompile Include="Tutorial.cpp" />
@@ -123,6 +125,7 @@
     <ClInclude Include="GameClear.h" />
     <ClInclude Include="GameOver.h" />
     <ClInclude Include="GameProgMgmt.h" />
+    <ClInclude Include="Load.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="MusicManager.h" />
     <ClInclude Include="Player.h" />
