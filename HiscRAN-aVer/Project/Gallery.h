@@ -9,14 +9,12 @@ using namespace std;
 class CGallery :public CSceneBase
 {
 private:
+
 	//コレクション画面背景テクスチャ
 	CTexture	m_BackTexture;
 
-	//解放済み最終容姿表示
+	//解放済み最終容姿選択:本棚テクスチャ
 	CTexture	m_LastApp;
-
-	//未解放最終容姿
-	CTexture    m_NotLastApp[15];
 
 	//選択時の四角形（最終容姿）
 	CTexture	m_SelectTexture;
@@ -24,50 +22,28 @@ private:
 	//選択時の四角形（戻るボタン）
 	CTexture	m_SelectTexture_s;
 
-
-	//最終容姿の台紙テクスチャ（バラ）座標格納
-	Vector2		pos[15] =
+	//最終容姿パラメータ構造体
+	typedef struct LastTexture
 	{
-		{60, 40},
-		{180,40},
-		{300,40},
-		{420,40},
-		{540,40},
-		{60,240},
-		{180,240},
-		{300,240},
-		{420,240},
-		{540,240},
-		{60,440},
-		{180,440},
-		{300,440},
-		{420,440},
-		{540,440}
+		//最終容姿テクスチャ（ピックアップ用）
+		CTexture s_LastAppPic;
+
+		//最終容姿の台紙テクスチャ（バラ）座標格納
+		Vector2 s_Mount_Pos;
+
+		//テキストボックスの表示矩形
+		CRectangle s_TextBoxRect;
+
+		//未開放フラグ
+		bool s_LastAddFlag;
+
+		//未解放本テクスチャ
+		CTexture s_NotLastApp;
 	};
 
-	//テキストボックスの矩形
-	CRectangle RecTextBox[15] =
-	{
-		{0,0,400,189},
-		{400,0,800,189},
-		{800,0,1200,189},
-		{0,189,400,378},
-		{400,189,800,378},
-		{800,189,1200,378},
-		{0,378,400,567},
-		{400,378,800,567},
-		{800,378,1200,567},
-		{0,567,400,756},
-		{400,567,800,756},
-		{800,567,1200,756},
-		{0,756,400,945},
-		{400,756,800,945},
-		{800,756,1200,945}
-	};
+	//宣言
+	LastTexture S_LastParameter[16];
 
-
-	//最終容姿の台紙テクスチャ（ピックアップ用）
-	CTexture	m_LastAppPic[15];
 
 	//最終容姿台紙
 	CTexture	m_PickUp;
@@ -78,7 +54,7 @@ private:
 	//未解放最終容姿テキスト
 	CTexture	m_NotPickUpText;
 
-	//テキストボックス
+	//テキストボックス背景
 	CTexture	m_Text;
 
 	//戻るボタン
@@ -86,24 +62,17 @@ private:
 
 	int m_BakAlph;
 
-	bool LastAddFlag[15] =
+	//構造体に値をセット
+	struct LastTexture SetLastParameter(Vector2 Pos, CRectangle textrec, bool b)
 	{
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-	};
+		LastTexture ps;
+
+		ps.s_Mount_Pos = Pos;
+		ps.s_LastAddFlag = b;
+		ps.s_TextBoxRect = textrec;
+
+		return ps;
+	}
 
 public:
 	CGallery();
