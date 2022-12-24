@@ -32,6 +32,13 @@ tag_LoadSituation CEffectMgmt::Load(void) {
 		"エフェクト想像力.png",
 		"エフェクトコミュ力.png",
 		"エフェクト魅力.png",
+
+		"エフェクト学力_Arrow.png",
+		"エフェクト行動力_Arrow.png",
+		"エフェクト想像力_Arrow.png",
+		"エフェクトコミュ力_Arrow.png",
+		"エフェクト魅力_Arrow.png",
+
 	};
 
 	for (int i = 0; i < EFC_TYPE_COUNT; i++)
@@ -121,6 +128,12 @@ void CEffectMgmt::Update(CRectangle plrec) {
 				case EFC_GET_IMAGINATION:
 				case EFC_GET_COMMUNICATION:
 				case EFC_GET_CHARM:
+
+				case EFC_GET_SCHOLASTIC_AROOW:
+				case EFC_GET_ACTION_AROOW:
+				case EFC_GET_IMAGINATION_AROOW:
+				case EFC_GET_COMMUNICATION_AROOW:
+				case EFC_GET_CHARM_AROOW:
 				m_Effect[type][mgmt].UpdateDP(plrec);
 
 				break;

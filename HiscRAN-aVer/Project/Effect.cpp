@@ -31,6 +31,9 @@ void CEffect::Initialize(int type) {
 	m_PosX = 0.0f;
 	m_PosY = 0.0f;
 	m_bShow = false;
+
+	float DP_coma = 1.5;
+
 	switch (type)
 	{
 		//各DP
@@ -39,15 +42,22 @@ void CEffect::Initialize(int type) {
 		case EFC_GET_IMAGINATION:
 		case EFC_GET_COMMUNICATION:
 		case EFC_GET_CHARM:
+
+		case EFC_GET_SCHOLASTIC_AROOW:
+		case EFC_GET_ACTION_AROOW:
+		case EFC_GET_IMAGINATION_AROOW:
+		case EFC_GET_COMMUNICATION_AROOW:
+		case EFC_GET_CHARM_AROOW:
 		{
 			//アニメーションを作成
 			SpriteAnimationCreate anim[] = {
-				//ダメージ
+
+				//DP取得エフェクト
 				{
 					"エフェクト",
 					0,0,
 					200,200,
-					FALSE,{{2,0,0},{2,1,0},{2,2,0},{2,3,0},{2,4,0},{2,0,1},{2,1,1},{2,2,1},{2,3,1},{2,4,1},{2,0,2},{2,1,2},}
+					FALSE,{{DP_coma,0,0},{DP_coma,1,0},{DP_coma,2,0},{DP_coma,3,0},{DP_coma,4,0},{DP_coma,0,1},{DP_coma,1,1},{DP_coma,2,1},{DP_coma,3,1},{DP_coma,4,1},{DP_coma,0,2},{DP_coma,1,2},}
 				},
 			};
 			m_Motion.Create(anim, 1);
