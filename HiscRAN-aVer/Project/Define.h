@@ -14,11 +14,17 @@
 //SPアイテムあるマップパターンの出現位置(何マップ目)
 #define MAP_SP_ITEM_PATTERN_NUM 100
 
-//ステージ変化する背景枚数
-#define SATGE_CHANGE_BAK 200
+//1年ステージ終了背景枚数
+#define SATGE_SCHOOL_YEAR_1 10
+
+//2年ステージ終了背景枚数
+#define SATGE_SCHOOL_YEAR_2 20
+
+//DP不足ゲームオーバー数（未満）
+#define DP_SHOR_NUM 10
 
 //ステージクリアの背景枚数
-#define STAGE_CLEAR_BAK 31
+#define STAGE_CLEAR_BAK 33
 
 //ステージスクロールスピード
 #define STAGE_SPEED 7

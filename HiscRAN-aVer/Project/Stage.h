@@ -248,8 +248,15 @@ private:
 	//スクロールスピード
 	float m_Scroll_Speed;
 
-	//ステージ変化
-	bool				v_StageChangeflg;//変化フラグ true:変化済
+	//中間報告フラグ
+	//true:中間報告表示中
+	bool ResultShow;
+
+	//中間報告終了フラグ
+	bool ResultEndflg;
+
+	//中間報告終了までのインターバル
+	int ResultEndflgCount;
 
 	//背景α値
 	int m_BakAVal;
@@ -331,8 +338,15 @@ public:
 	//ステージが動いているか取得
 	bool GetGameStopPlay();
 
-	//SPの状態をセット
-	void SetSPSitua(tag_StageSituation i) { m_SPSitua = i; }
+	//中間報告中？
+	//true:報告中
+	bool GetResultShow(void) { return ResultShow; }
 
+	//中間報告終了フラグをセット
+	//true:報告中
+	void SetResultEndflg(bool b) { ResultEndflg = b; }
 
-};
+	//中間報告フラグを渡す
+	//true:報告中
+	bool GetResultEndflg(void) { return ResultEndflg; }
+};	

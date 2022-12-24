@@ -76,6 +76,9 @@
     <ClCompile Include="DPDecision.cpp">
       <Filter>ソースファイル\DPDecision</Filter>
     </ClCompile>
+    <ClCompile Include="Result.cpp">
+      <Filter>ソースファイル\Game\Result</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Define.h">
@@ -165,6 +168,9 @@
     <ClInclude Include="DPDecision.h">
       <Filter>ソースファイル\DPDecision</Filter>
     </ClInclude>
+    <ClInclude Include="Result.h">
+      <Filter>ソースファイル\Game\Result</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ソースファイル">
@@ -235,6 +241,9 @@
     </Filter>
     <Filter Include="ソースファイル\GameClear">
       <UniqueIdentifier>{33de38a5-aac9-4988-8a77-1413b1f5f9aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル\Game\Result">
+      <UniqueIdentifier>{33630793-3019-48a7-bbec-99ce69213fed}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

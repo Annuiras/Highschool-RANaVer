@@ -7,7 +7,7 @@ class CGameProgMgmt
 
 private:
 
-	//ゲームクリア時のDPの取得数保存用
+	//ゲームクリア時のDPの合計取得数保存用
 	//0:学力
 	//1:行動力
 	//2:想像力
@@ -43,9 +43,9 @@ public:
 	//ゲーム画面：ゲームオーバー原因フラグゲット
 	bool GetGame_Over_HP(void);
 
-	//ゲーム画面：DP取得数をセット
+	//ゲーム画面：DP合計取得数をセット
 	void SetGame_DPNum(int DP[]);
-	//ゲーム画面：DP取得数をゲット
+	//ゲーム画面：DP合計取得数をゲット
 	int* GetGame_DPNum(void);
 
 	//オプション画面：ボタン位置をセット

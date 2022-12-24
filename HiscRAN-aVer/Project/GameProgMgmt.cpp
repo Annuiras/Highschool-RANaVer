@@ -75,7 +75,7 @@ bool CGameProgMgmt::GetGame_Over_HP(void)
 	return Game_Over_HP;
 }
 
-//ゲーム画面：DP取得数をセット
+//ゲーム画面：DP合計取得数をセット
 void CGameProgMgmt::SetGame_DPNum(int DP[])
 {
 	for (int i = 0; i < DP_COUNT; i++)
@@ -84,7 +84,7 @@ void CGameProgMgmt::SetGame_DPNum(int DP[])
 	}
 }
 
-//ゲーム画面：DP取得数をゲット
+//ゲーム画面：DP合計取得数をゲット
 int* CGameProgMgmt::GetGame_DPNum(void)
 {
 	return Game_DPNum;

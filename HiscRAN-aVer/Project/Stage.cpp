@@ -22,7 +22,8 @@ CStage::CStage() :
 	m_AdoptCount(0),
 	m_AlreadyUsedArray(),
 	m_bClear(false),
-	m_Scroll_Speed(0.0f)
+	m_Scroll_Speed(0.0f),
+	ResultShow(false)
 {}
 
 CStage::~CStage() {
@@ -34,7 +35,7 @@ bool CStage::Load() {
 #pragma region ステージ背景ロード
 
 	//リソース配置ディレクトリの設定
-	CUtilities::SetCurrentDirectoryA("Game/StageBak");
+	CUtilities::SetCurrentDirectoryA("StageBak");
 
 	if (!m_BakStart.Load("廊下始まり.png")) {
 		return false;
@@ -73,14 +74,14 @@ bool CStage::Load() {
 	}
 
 	//リソース配置ディレクトリの設定
-	CUtilities::SetCurrentDirectoryA("../../");
+	CUtilities::SetCurrentDirectoryA("../");
 
 #pragma endregion
 
 #pragma region DPテクスチャロード
 
 	//リソース配置ディレクトリの設定
-	CUtilities::SetCurrentDirectoryA("Game/DetailPoint");
+	CUtilities::SetCurrentDirectoryA("DetailPoint");
 
 	//仮テクスチャ：学力
 	if (!dp_Textuer_Scholastic.Load("ハイスク　DP_0000_DP　学力.png")) {
@@ -108,14 +109,14 @@ bool CStage::Load() {
 	}
 
 	//リソース配置ディレクトリの設定
-	CUtilities::SetCurrentDirectoryA("../../");
+	CUtilities::SetCurrentDirectoryA("../");
 
 #pragma endregion
 
 #pragma region 障害物テクスチャロード
 
 	//リソース配置ディレクトリの設定
-	CUtilities::SetCurrentDirectoryA("Game/Obstacle");
+	CUtilities::SetCurrentDirectoryA("Obstacle");
 
 	//テクスチャ：机
 	if (!ob_Textuer_Desk.Load("ハイスク素材２　障害物 机.png")) {
@@ -194,14 +195,14 @@ bool CStage::Load() {
 
 
 	//リソース配置ディレクトリの設定
-	CUtilities::SetCurrentDirectoryA("../../");
+	CUtilities::SetCurrentDirectoryA("../");
 
 #pragma endregion
 
 #pragma region 足場テクスチャロード
 
 	//リソース配置ディレクトリの設定
-	CUtilities::SetCurrentDirectoryA("Game/Bar");
+	CUtilities::SetCurrentDirectoryA("Bar");
 
 	//仮テクスチャ：足場大
 	if (!bar_Textuer_Big.Load("ハイスク_障害物_鉛筆大.png")) {
@@ -214,12 +215,9 @@ bool CStage::Load() {
 	}
 
 	//リソース配置ディレクトリの設定
-	CUtilities::SetCurrentDirectoryA("../../");
+	CUtilities::SetCurrentDirectoryA("../");
 
 #pragma endregion
-
-	//リソース配置ディレクトリの設定
-	CUtilities::SetCurrentDirectoryA("Game");
 
 	//進行度バー、進行度中アイコン、アイコンの表示
 	if (!m_BarTextuer.Load("Game_Bar.png")) {
@@ -243,13 +241,10 @@ bool CStage::Load() {
 		return false;
 	}
 
-	//リソース配置ディレクトリの設定
-	CUtilities::SetCurrentDirectoryA("../");
-
 #pragma region 敵
 
 	//リソース配置ディレクトリの設定
-	CUtilities::SetCurrentDirectoryA("Game/Enemy");
+	CUtilities::SetCurrentDirectoryA("Enemy");
 
 	//敵1
 	if (!ene_Texture_1.Load("モーション.png"))
@@ -257,7 +252,7 @@ bool CStage::Load() {
 		return false;
 	}
 	//リソース配置ディレクトリの設定
-	CUtilities::SetCurrentDirectoryA("../../");
+	CUtilities::SetCurrentDirectoryA("../");
 
 	//敵アニメーションを用意
 	//仮置き
@@ -309,8 +304,10 @@ void CStage::Initialize(void) {
 	//α値初期化
 	m_BakAVal = 255;
 
-	//ステージ変化フラグ
-	v_StageChangeflg = false;		
+	//中間報告フラグ
+	ResultShow = false;
+	ResultEndflg = false;
+	ResultEndflgCount = 0;
 
 	//SPステージ状態用
 	m_SPSitua = tag_StageSituation::STAGE_SP_YET;
@@ -492,8 +489,28 @@ void CStage::Update(CRectangle plrect) {
 		m_BakScroll = m_BakStart.GetWidth();
 
 		//背景カウント
-		m_countbak += 1;
+		//中間報告中は背景を増加しない
+		if (!ResultShow) {
+			m_countbak += 1;
+		}
 
+		//終了フラグ時に
+		if (ResultEndflg) {
+
+			//終了インターバル増加
+			ResultEndflgCount++;
+
+			//終了インターバル背景画像2枚分遅らせる
+			if (ResultEndflgCount >= 2) {
+
+				//背景を進ませて各パラメータ初期化
+				m_countbak++;
+				ResultShow = false;
+				ResultEndflg = false; 
+				ResultEndflgCount = 0;
+			}
+
+		}
 	}
 
 	//一時的な追加です
@@ -536,33 +553,6 @@ void CStage::Update(CRectangle plrect) {
 	//後ろに下げる
 	m_BakScroll -= m_Scroll_Speed;
 
-	//ステージ生成用スクロール値
-	m_StageScroll += m_Scroll_Speed;
-
-	//ステージスクロール値
-	if (m_StageScroll >=g_pGraphics->GetTargetWidth()*2)
-	{
-		//スクロール値リセット
-
-		m_StageScroll = 0;
-
-	}
-
-	//マップパターンの切り替え
-	MapChange();
-
-	//足場生成
-	OccurrenceBar();
-
-	//ディテールポイント生成
-	OccurrenceDP();
-
-	//障害物OB生成
-	OccurrenceOB();
-
-	//敵生成
-	OccurrenceENE();
-
 	//足場更新
 	for (int i = 0; i < BAR_VOLUME; i++)
 	{
@@ -580,32 +570,56 @@ void CStage::Update(CRectangle plrect) {
 	{
 		ob_array[i].Update(m_Scroll_Speed);
 	}
-	
+
 	//敵更新
 	for (int i = 0; i < ENEMY_VOLUME; i++)
 	{
 		ene_array[i].Update(m_Scroll_Speed);
 	}
 
-	//ステージ変化
-	if (m_countbak == SATGE_CHANGE_BAK) {
 
-		//フェードアウト済フラグ
-		if (!v_StageChangeflg) {
-			//フェードアウト
-			m_BakAVal -= 5;
-			if (m_BakAVal <= 0) {
-				//変化済
-				v_StageChangeflg = true;
-			}
+	//中間報告中は以下の処理をしない
+	if (ResultShow) {
+		return;
+	}
 
-		}
-		else if (m_BakAVal < 255)
-		{
-			//フェードイン
-			m_BakAVal += 5;
+	//ステージ生成用スクロール値
+	m_StageScroll += m_Scroll_Speed;
 
-		}
+	//ステージスクロール値
+	if (m_StageScroll >=g_pGraphics->GetTargetWidth()*2)
+	{
+		//スクロール値リセット
+		m_StageScroll = 0;
+	}
+
+	//マップパターンの切り替え
+	MapChange();
+
+	//足場生成
+	OccurrenceBar();
+
+	//ディテールポイント生成
+	OccurrenceDP();
+
+	//障害物OB生成
+	OccurrenceOB();
+
+	//敵生成
+	OccurrenceENE();
+
+	//中間報告開始
+	if (m_countbak == SATGE_SCHOOL_YEAR_1) {
+
+		//中間報告フラグ
+		ResultShow = true;
+	}
+
+	//中間報告開始
+	if (m_countbak == SATGE_SCHOOL_YEAR_2) {
+
+		//中間報告フラグ
+ 		ResultShow = true;
 	}
 
 	//SP開始直後の処理 
@@ -679,7 +693,7 @@ void CStage::Update(CRectangle plrect) {
 
 
 	//クリアフラグ変更
-	if (m_countbak  == 31) {
+	if (m_countbak  == STAGE_CLEAR_BAK) {
 		m_bClear = true;
 	}
 
@@ -967,7 +981,14 @@ void CStage::RenderDebugging() {
 		ene_array[i].RenderDebug();
 	}
 
+	if (ResultShow) {
+		CGraphicsUtilities::RenderString(0, 240, MOF_XRGB(80, 80, 80), "ResultShow:true", ResultShow);
 
+	}
+	else
+	{
+		CGraphicsUtilities::RenderString(0, 240, MOF_XRGB(80, 80, 80), "ResultShow:flase", ResultShow);
+	}
 	CGraphicsUtilities::RenderLine(m_BakScroll,0, m_BakScroll,g_pGraphics->GetTargetHeight(), MOF_COLOR_BLUE);
 
 #pragma region パターンデバッグ用

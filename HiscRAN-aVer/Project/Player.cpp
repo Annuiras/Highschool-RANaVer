@@ -344,17 +344,17 @@ void CPlayer::Render()
 //デバック表示
 void CPlayer::RenderDebugging() {
 
-	switch (m_Motion.GetMotionNo())
-	{
+	//switch (m_Motion.GetMotionNo())
+	//{
 
-		case MOTION_MOVE:
-			CGraphicsUtilities::RenderString(0, 90, MOF_XRGB(80, 80, 80), "現在モーション：MOTION_MOVE");
-			break;
+	//	case MOTION_MOVE:
+	//		CGraphicsUtilities::RenderString(0, 90, MOF_XRGB(80, 80, 80), "現在モーション：MOTION_MOVE");
+	//		break;
 
-		case MOTION_JUMPSTART:
-			CGraphicsUtilities::RenderString(0, 90, MOF_XRGB(80, 80, 80), "現在モーション：MOTION_JUMPSTART");
-			break;
-	}
+	//	case MOTION_JUMPSTART:
+	//		CGraphicsUtilities::RenderString(0, 90, MOF_XRGB(80, 80, 80), "現在モーション：MOTION_JUMPSTART");
+	//		break;
+	//}
 
 	//CGraphicsUtilities::RenderString(0, 150, MOF_XRGB(80, 80, 80), "m_MoveY=%f", m_MoveY);
 

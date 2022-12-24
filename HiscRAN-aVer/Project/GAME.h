@@ -4,13 +4,14 @@
 #include "Define.h"
 #include "Player.h"
 #include "Stage.h"
-#include <thread>
+#include "Result.h"
 
+#include <thread>
 using namespace std;
 
+//ゲーム画面クラス
 class CGAME :public CSceneBase
 {
-
 private:
 
 	//DPと接触処理
@@ -26,13 +27,19 @@ private:
 	//ステージクラス
 	CStage g_Stage;
 
+	CResult g_Result;
+
 	//ステージ内で取得したDPの数
-	//0:学力
-	//1:行動力
-	//2:想像力
-	//3:コミュ力
-	//4:魅力
-	int m_DPNum[DP_COUNT];
+	//[0]：1年
+	//[1]：2年
+	//[2]：3年
+	//[3]：合計
+	//[][0]:学力
+	//[][1]:行動力
+	//[][2]:想像力
+	//[][3]:コミュ力
+	//[][4]:魅力
+	int m_DPNum[4][DP_COUNT];
 
 	//ゲーム開始時のカウントダウンテクスチャ　仮素材
 	CTexture	m_StartThreeTexture;
@@ -49,6 +56,8 @@ private:
 	//DP目標設定画面で選んだDP番号
 	int m_DPDeci;
 
+	//現在の学年数
+	int m_SchoolYear;
 
 	//フェード用アルファ値
 	int m_BlackBakAlph;

@@ -109,6 +109,7 @@
     <ClCompile Include="Obstacle.cpp" />
     <ClCompile Include="Option.cpp" />
     <ClCompile Include="RandomValue.cpp" />
+    <ClCompile Include="Result.cpp" />
     <ClCompile Include="SceneBase.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="Title.cpp" />
@@ -137,6 +138,7 @@
     <ClInclude Include="Obstacle.h" />
     <ClInclude Include="Option.h" />
     <ClInclude Include="RandomValue.h" />
+    <ClInclude Include="Result.h" />
     <ClInclude Include="SceneBase.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="Stage_Bar.h" />

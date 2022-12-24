@@ -197,7 +197,7 @@ void COption::Update(void)
 {
 	//フェードイン処理
 	if (b_Fadein == FADE_IN) {
-		m_BakAlph = FadeIn(m_BakAlph, true);
+		m_BakAlph = FadeIn(m_BakAlph, FADE_OUT_SPEED);
 	}
 
 	//フェードアウト完了時
@@ -210,7 +210,7 @@ void COption::Update(void)
 
 	//フェードアウト処理
 	if (b_Fadein == FADE_OUT) {
-		m_BakAlph = FadeOut(m_BakAlph, true);
+		m_BakAlph = FadeOut(m_BakAlph, FADE_OUT_SPEED);
 		return;
 	}
 

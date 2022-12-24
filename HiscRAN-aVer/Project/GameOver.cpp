@@ -103,7 +103,7 @@ void CGameOver::Update(void)
 
 	//フェードイン処理
 	if (b_Fadein == FADE_IN) {
-		m_BlackBakAlph = FadeIn(m_BlackBakAlph, true);
+		m_BlackBakAlph = FadeIn(m_BlackBakAlph, FADE_OUT_SPEED);
 		return;
 	}
 
@@ -118,10 +118,10 @@ void CGameOver::Update(void)
 		switch (m_NextScene)
 		{
 		case SCENENO_SELECTMODE:
-			m_WhiteBakAlph = FadeOut(m_WhiteBakAlph, true);
+			m_WhiteBakAlph = FadeOut(m_WhiteBakAlph, FADE_OUT_SPEED);
 			break;
 		case SCENENO_GAME:
-			m_WhiteBakAlph = FadeOut(m_WhiteBakAlph, true);
+			m_WhiteBakAlph = FadeOut(m_WhiteBakAlph, FADE_OUT_SPEED);
 			break;
 		default:
 			break;

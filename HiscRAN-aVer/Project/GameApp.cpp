@@ -140,7 +140,7 @@ MofBool CGameApp::Update(void){
 	//最初のシーンを生成
 	if (gpScene == nullptr) {
 
-		gpScene = new CTitle();
+		gpScene = new CGAME();
 		gLoad.Thread_Load = thread{ [=] {gpScene->Load(); } };
 		gLoad.Initialize(0,100);
 	}
@@ -328,6 +328,9 @@ MofBool CGameApp::Render(void){
 		{
 			gLoad.RenderDebug();
 		}
+		//FPS表示
+		CGraphicsUtilities::RenderString(0, 150, MOF_XRGB(80, 80, 80), "FPS：%d", CUtilities::GetFPS());
+
 	}
 
 	if (gpScene == nullptr || gpScene->IsNow() == SCENENO_GAME)

@@ -111,7 +111,7 @@ void CDPDecision::Update(void)
 
 	//フェードイン処理
 	if (b_Fadein == FADE_IN) {
-		m_WhiteBakAlph = FadeIn(m_WhiteBakAlph,true);
+		m_WhiteBakAlph = FadeIn(m_WhiteBakAlph, FADE_OUT_SPEED);
 		return;
 	}
 
@@ -135,7 +135,7 @@ void CDPDecision::Update(void)
 
 	//フェードアウト処理
 	if (b_Fadein == FADE_OUT) {
-		m_WhiteBakAlph = FadeOut(m_WhiteBakAlph, true);
+		m_WhiteBakAlph = FadeOut(m_WhiteBakAlph, FADE_OUT_SPEED);
 		return;
 	}
 

@@ -129,7 +129,7 @@ void CTutorial::Update(void)
 
 	//フェードイン処理
 	if (b_Fadein == FADE_IN) {
-		m_BakAlph = FadeIn(m_BakAlph, true);
+		m_BakAlph = FadeIn(m_BakAlph, FADE_OUT_SPEED);
 		return;
 	}
 
@@ -142,7 +142,7 @@ void CTutorial::Update(void)
 
 	//フェードアウト処理
 	if (b_Fadein == FADE_OUT) {
-		m_BakAlph = FadeOut(m_BakAlph, true);
+		m_BakAlph = FadeOut(m_BakAlph, FADE_OUT_SPEED);
 		return;
 	}
 	//戻るボタンにカーソル合わせる必要あんまりないかもね～

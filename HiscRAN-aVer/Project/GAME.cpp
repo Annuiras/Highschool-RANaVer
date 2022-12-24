@@ -3,13 +3,32 @@
 
 
 
+
+CGAME::CGAME():
+	m_Menu(),
+	m_MenuItemCount(),
+	m_StartCount(),
+	m_GameOverflg(),
+	m_GameClearflg(),
+	m_StartTime(),
+	m_DPDeci(),
+	m_DPNum(),
+	m_SchoolYear()
+{}
+
+CGAME::~CGAME()
+{
+
+}
+
 //DPと当たった場合
 //dpt->DPの種類
 void CGAME::UPdeteCollisionDP(int dpt) {
 
 	g_MusicManager->SEStart(SE_T_DP_HIT);
 
-	m_DPNum[dpt]++;
+	m_DPNum[m_SchoolYear][dpt]++;
+	m_DPNum[3][dpt]++;
 
 	switch (dpt)
 	{
@@ -47,37 +66,28 @@ void CGAME::UPdeteCollisionDP(int dpt) {
 	}
 }
 
-CGAME::CGAME():
-	m_Menu(),
-	m_MenuItemCount(),
-	m_StartCount(),
-	m_GameOverflg(),
-	m_GameClearflg(),
-	m_StartTime(),
-	m_DPDeci(),
-	m_DPNum()
-{}
-
-CGAME::~CGAME()
-{
-
-}
-
 //素材読み込み
 void CGAME::Load(void)
 {
+	//リソース配置ディレクトリの設定
+	CUtilities::SetCurrentDirectoryA("Game");
 
+	//プレイヤー素材ロード
 	if (!g_Player.Load()) {
 		b_LoadSitu = LOAD_ERROR;
 		return;
 	}
+	//ステージ素材ロード
 	if (!g_Stage.Load()) {
 		b_LoadSitu = LOAD_ERROR;
 		return;
 	}
+	//リザルト素材ロード
+	if (!g_Result.Load()) {
+		b_LoadSitu = LOAD_ERROR;
+		return;
+	}
 
-	//リソース配置ディレクトリの設定
-	CUtilities::SetCurrentDirectoryA("Game");
 
 	//カウントダウン画像の読み込み
 	m_StartThreeTexture.Load("ハイスク　カウントダウンロゴ無し　３.png");
@@ -114,9 +124,17 @@ void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec
 	g_Stage.SetMusicManager(musi);
 	g_Stage.SetEffectManager(effec);
 
+	//中間リザルト初期化
+	g_Result.Initialize();
+	g_Result.SetMusicManager(musi);
+	g_Result.SetEffectManager(effec);
+
 	//カウントダウン用カウンタ初期化
 	m_StartCount = 0;
 
+	//現在の学年数
+	//一年から
+	m_SchoolYear = 0;
 
 	//状態を設定
 	b_Fadein = FADE_IN;
@@ -133,9 +151,12 @@ void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec
 	m_GameOverflg = false;
 
 	//ステージ内で取得したDPの数初期化
-	for (int i = 0; i < DP_COUNT; i++)
+	for (int year = 0; year < 4; year++)
 	{
-		m_DPNum[i] = 0;
+		for (int i = 0; i < DP_COUNT; i++)
+		{
+			m_DPNum[year][i] = 0;
+		}
 	}
 	m_StartScale = 0.0f;
 
@@ -150,7 +171,7 @@ void CGAME::Update(void)
 
 	//フェードイン処理
 	if (b_Fadein == FADE_IN) {
-		m_WhiteBakAlph = FadeIn(m_WhiteBakAlph, true);
+		m_WhiteBakAlph = FadeIn(m_WhiteBakAlph, FADE_OUT_SPEED);
 		return;
 	}
 
@@ -164,14 +185,17 @@ void CGAME::Update(void)
 		g_MusicManager->SEALLStop();
 
 		if (m_GameClearflg) {
-			//DPの取得数を保存
-			m_GameProgMamt->SetGame_DPNum(m_DPNum);
+
+			//クリア
+			//DPの取得数を保存：DP合計取得数の合計を渡す
+			m_GameProgMamt->SetGame_DPNum(m_DPNum[3]);
 			m_bEnd = true;
 			m_NextScene = SCENENO_GAMECLEAR;
 
 		}
 		else
 		{
+			//ゲームオーバー
 			g_MusicManager->SEStart(SE_T_GAMEOVER);
 			m_bEnd = true;
 			m_NextScene = SCENENO_GAMEOVER;
@@ -185,16 +209,38 @@ void CGAME::Update(void)
 		//クリア時
 		if (m_GameClearflg) {
 			//白
-			m_WhiteBakAlph = FadeOut(m_WhiteBakAlph, true);
+			m_WhiteBakAlph = FadeOut(m_WhiteBakAlph,false, FADE_OUT_SPEED-2.8f);
 			//クリア時のキャラクター処理
 			g_Player.UpdateClear();
 
+			//クリア時のリザルト
+			g_Result.Update();
+
+			//表示していたら更新
+			if (g_Result.GetShow())
+			{
+				//中間報告更新
+				g_Result.Update();
+			}
+			else
+			{
+				//表示
+				g_Result.Start();
+			}
+
+			//中間報告終了フラグ
+			if (g_Result.GetEndflg()) {
+
+				b_Fadein = FADE_NEXT;
+			}
 		}
 		else
 		{
+			//ゲームオーバー時
 			//黒
-			m_BlackBakAlph = FadeOut(m_BlackBakAlph, true);
+			m_BlackBakAlph = FadeOut(m_BlackBakAlph, FADE_OUT_SPEED);
 		}
+
 		return;
 	}
 
@@ -313,7 +359,7 @@ void CGAME::Update(void)
 	}
 
 
-	//ゲームオーバー時の場合フェードアウト
+	//ゲームオーバー時の場合フェードアウトフラグ更新
 	if (m_GameOverflg) {
 
 		//ゲームオーバー原因フラグを保存(HP)
@@ -335,8 +381,8 @@ void CGAME::Update(void)
 		b_Fadein = FADE_OUT;
 
 		//クリア時にDPが一定数足りていない場合
-		//todo:0仮置きDPピック画面で選んだDPと比較する
-		if (m_DPNum[m_DPDeci] < 10) {
+		//全学年での合計と比較
+		if (m_DPNum[3][m_DPDeci] < DP_SHOR_NUM) {
 			//ゲームオーバーフラグをセット
 			m_GameOverflg = true;
 			m_GameClearflg = false;
@@ -346,11 +392,15 @@ void CGAME::Update(void)
 
 	//クリアフラグを受け取る
 	if (g_Stage.GetClear()) {
+
+		//セット
 		m_GameClearflg = true;
 	}
 
 	//ゲームオーバーフラグを受け取る
 	if (g_Player.GetOver()) {
+
+		//セット
 		m_GameOverflg = true;
 	}
 	
@@ -359,6 +409,37 @@ void CGAME::Update(void)
 
 	//ステージ更新
 	g_Stage.Update(g_Player.GetRect());	
+
+	//中間報告中
+	if (g_Stage.GetResultShow()) {
+
+		//中間報告が終了している場合
+		if (g_Stage.GetResultEndflg()) {
+
+			//初期化
+			g_Result.Initialize();
+		}
+		//表示していたら更新
+		else if (g_Result.GetShow())
+		{
+			//中間報告更新
+			g_Result.Update();
+		}
+		else
+		{
+			//表示
+			g_Result.Start();
+		}
+
+		//中間報告終了フラグ
+		if (g_Result.GetEndflg()) {
+
+			//終了を更新
+			g_Stage.SetResultEndflg(true);
+			m_SchoolYear++;
+		}
+
+	}
 
 	//足場との当たり判定
 	for (int i = 0; i < BAR_VOLUME; i++)
@@ -477,6 +558,12 @@ void CGAME::Render(void)
 		break;
 	}
 
+	//中間報告描画
+	if (!m_GameClearflg)
+	{
+		g_Result.RenderMiddleResult();
+	}
+
 	//メニューの描画
 	m_Menu.Render(2);
 
@@ -509,6 +596,9 @@ void CGAME::Render(void)
 	//フェードアウト明転用
 	CGraphicsUtilities::RenderFillRect(0, 0, g_pGraphics->GetTargetWidth(), g_pGraphics->GetTargetHeight(), MOF_ARGB(m_WhiteBakAlph, 255, 255, 255));
 
+	if (m_GameClearflg) {
+		g_Result.RenderLastResult();
+	}
 }
 
 
@@ -517,6 +607,8 @@ void CGAME::Release(void)
 	g_Player.Release();
 
 	g_Stage.Release();
+
+	g_Result.Release();
 
 	m_Menu.Release();
 
@@ -533,15 +625,17 @@ void CGAME::Release(void)
 
 void CGAME::RenderDebug(void)
 {
-	for (int i = 0; i < DP_COUNT; i++)
-	{
-		CGraphicsUtilities::RenderString(200 + i * 30, 0, MOF_COLOR_BLACK,"%d", m_DPNum[i]);
+	for (int year = 0; year < 4; year++)
+	{		
+		for (int x = 0; x < DP_COUNT; x++)
+		{
+			CGraphicsUtilities::RenderString(200 + x * 30, 0 + year * 30 , 
+				MOF_COLOR_BLACK, "%d", m_DPNum[year][x]);
+		}
 	}
-
-	//FPS表示
-	CGraphicsUtilities::RenderString(0, 150, MOF_XRGB(80, 80, 80), "FPS：%d", CUtilities::GetFPS());
 
 	g_Stage.RenderDebugging();
 	g_Player.RenderDebugging();
+	g_Result.RenderDebugging();
 }
 	
