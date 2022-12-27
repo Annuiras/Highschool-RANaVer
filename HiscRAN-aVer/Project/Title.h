@@ -39,7 +39,7 @@ private:
 public:
 	CTitle();
 	~CTitle();
-	void Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec);
+	void Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec, CMenu* menu);
 
 	void Load(void);
 

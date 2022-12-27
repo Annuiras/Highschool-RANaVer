@@ -283,7 +283,10 @@ public:
 
 
 	void Update(CRectangle plrect);
+
+	//ëfçﬁÉçÅ[Éh
 	bool Load(void);
+
 	void Render(void);
 	void Release(void);
 	void RenderDebugging(void);

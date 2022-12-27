@@ -3,7 +3,7 @@
 #include	"GameProgMgmt.h"
 #include "MusicManager.h"
 #include "EffectManager.h"
-#include	"Load.h"
+#include "Menu.h"
 
 
 class CSceneBase {
@@ -20,9 +20,10 @@ protected:
 	tag_SCENENO		m_NextScene;
 
 	//マネージャーポインタ
-	CGameProgMgmt* m_GameProgMamt;
-	CMusicMgmt* g_MusicManager;
-	CEffectMgmt* g_EffectManeger;
+	CGameProgMgmt* b_GameProgMamt;
+	CMusicMgmt* b_MusicManager;
+	CEffectMgmt* b_EffectManeger;
+	CMenu* b_MenuMamt;
 
 	//推移フラグ
 	tag_SceneSituation b_Fadein;
@@ -34,9 +35,9 @@ protected:
 public:
 	CSceneBase() :
 
-		m_GameProgMamt(),
-		g_MusicManager(),
-		g_EffectManeger(),
+		b_GameProgMamt(),
+		b_MusicManager(),
+		b_EffectManeger(),
 		b_Fadein(),
 		b_LoadSitu(LOAD_YET),
 		m_bEnd(false),
@@ -46,7 +47,7 @@ public:
 	}
 	virtual ~CSceneBase() {};
 	virtual void Initialize(CGameProgMgmt* mamt,CMusicMgmt* musi, 
-							CEffectMgmt* effec) = 0;
+							CEffectMgmt* effec,CMenu* menu) = 0;
 	virtual void Load() = 0;
 	virtual void Update() = 0;
 	virtual void Render() = 0;

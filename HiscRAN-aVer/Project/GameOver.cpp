@@ -67,12 +67,12 @@ void CGameOver::Load(void)
 }
 
 //初期化
-void CGameOver::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec)
+void CGameOver::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec, CMenu* menu)
 {
 	//各マネージャーセット
-	m_GameProgMamt = mamt;
-	g_MusicManager = musi;
-	g_EffectManeger = effec;
+	b_GameProgMamt = mamt;
+	b_MusicManager = musi;
+	b_EffectManeger = effec;
 
 	//素材ロード
 	Load();
@@ -93,7 +93,7 @@ void CGameOver::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* e
 	m_NowScene = SCENENO_GAMEOVER;
 
 	//ゲームオーバー原因をセット
-	DPEND = m_GameProgMamt->GetGame_Over_HP();
+	DPEND = b_GameProgMamt->GetGame_Over_HP();
 
 }
 

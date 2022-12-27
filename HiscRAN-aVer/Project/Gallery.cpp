@@ -221,12 +221,12 @@ void CGallery::Load(void)
 }
 
 //初期化
-void CGallery::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec)
+void CGallery::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec, CMenu* menu)
 {
 	//各マネージャーセット
-	m_GameProgMamt = mamt;
-	g_MusicManager = musi;
-	g_EffectManeger = effec;
+	b_GameProgMamt = mamt;
+	b_MusicManager = musi;
+	b_EffectManeger = effec;
 
 	//素材ロード
 	Load();
@@ -248,7 +248,7 @@ void CGallery::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* ef
 //更新
 void CGallery::Update(void)
 {
-	g_MusicManager->BGMStart(BGMT_GALLERY);
+	b_MusicManager->BGMStart(BGMT_GALLERY);
 
 	//フェードイン処理
 	if (b_Fadein == FADE_IN) {
@@ -287,7 +287,7 @@ void CGallery::Update(void)
 	if (g_pInput->IsKeyPush(MOFKEY_RIGHT))
 	{
 		//SE再生被りなし調整可
-		g_MusicManager->SEStart(SE_T_GALL_CURSORMOVE);
+		b_MusicManager->SEStart(SE_T_GALL_CURSORMOVE);
 		if (galleryCnt < MenuCnt - 1)
 		{
 			galleryCnt++;
@@ -297,7 +297,7 @@ void CGallery::Update(void)
 	//矢印キー左で選択が左に行くようにする
 	if (g_pInput->IsKeyPush(MOFKEY_LEFT))
 	{
-		g_MusicManager->SEStart(SE_T_GALL_CURSORMOVE);
+		b_MusicManager->SEStart(SE_T_GALL_CURSORMOVE);
 		if (galleryCnt > 0)
 		{
 			galleryCnt--;
@@ -308,7 +308,7 @@ void CGallery::Update(void)
 	//下に下がる＝5つ先のものになる
 	if (g_pInput->IsKeyPush(MOFKEY_DOWN))
 	{
-		g_MusicManager->SEStart(SE_T_GALL_CURSORMOVE);
+		b_MusicManager->SEStart(SE_T_GALL_CURSORMOVE);
 		if (galleryCnt < MenuCnt - 1 && galleryCnt <= 10)
 		{
 			galleryCnt += 5;
@@ -322,7 +322,7 @@ void CGallery::Update(void)
 	//上に上がる＝5つ前のものになる
 	if (g_pInput->IsKeyPush(MOFKEY_UP))
 	{
-		g_MusicManager->SEStart(SE_T_GALL_CURSORMOVE);
+		b_MusicManager->SEStart(SE_T_GALL_CURSORMOVE);
 		if (galleryCnt > 0 && galleryCnt - 5 >= 0)
 		{
 			galleryCnt -= 5;
@@ -611,7 +611,7 @@ void CGallery::Release(void)
 	m_PickUp.Release();
 	m_Text.Release();
 
-	g_MusicManager->BGMStop(BGMT_GALLERY);
+	b_MusicManager->BGMStop(BGMT_GALLERY);
 
 }
 
