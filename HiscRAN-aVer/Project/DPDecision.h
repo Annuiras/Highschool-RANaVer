@@ -1,13 +1,10 @@
 #pragma once
 #include "Define.h"
 #include "SceneBase.h"
-#include "Menu.h"
 
 class CDPDecision :public CSceneBase
 {
 private:
-
-	CMenu		m_Menu;
 
 	CTexture	m_ExTexture;
 
@@ -28,7 +25,7 @@ private:
 	//[2]→魅力
 	//[3]→コミュ力
 	//[4]→学力
-	bool m_SelectDP[5];
+	//bool m_SelectDP[5];
 	
 	//フェードイン背景アルファ値
 	int m_WhiteBakAlph;
@@ -37,7 +34,7 @@ private:
 public:
 	CDPDecision();
 	~CDPDecision();
-	void Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec);
+	void Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec, CMenu* menu);
 	void Update(void);
 	void Render(void);
 	void RenderDebug(void);

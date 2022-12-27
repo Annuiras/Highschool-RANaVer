@@ -71,7 +71,7 @@ private:
 public:
 	COption();
 	~COption();
-	void Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec);
+	void Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec, CMenu* menu);
 	void Update(void);
 	void Render(void);
 	void RenderDebug(void);
