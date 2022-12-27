@@ -267,7 +267,7 @@ MofBool CGameApp::Update(void){
 
 		//ƒXƒŒƒbƒh‚ª“®‚¢‚Ä‚È‚¢ê‡‰Šú‰»
 		if (!gLoad.Thread_Load.joinable()) {
-			gpScene->Initialize(&g_GameProgMamt, &g_MusicManager, &g_EffectManeger);
+			gpScene->Initialize(&g_GameProgMamt, &g_MusicManager, &g_EffectManeger, &g_Menu);
 		}
 
 	}

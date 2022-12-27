@@ -380,7 +380,6 @@ void CModeSelect::Release(void)
 	}
 	m_TutorialTextTexture.Release();
 	m_TutorialTextBox.Release();
-	b_MenuMamt->Release();
 
 	b_MusicManager->BGMStop(BGMT_MOOP);
 
