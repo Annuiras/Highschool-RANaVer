@@ -266,13 +266,13 @@ void CGameClear::Load(void)
 }
 
 //初期化
-void CGameClear::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec, CMenu* menu)
+void CGameClear::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec)
 {
 
 	//各マネージャーセット
-	b_GameProgMamt = mamt;
-	b_MusicManager = musi;
-	b_EffectManeger = effec;
+	m_GameProgMamt = mamt;
+	g_MusicManager = musi;
+	g_EffectManeger = effec;
 
 	//素材ロード
 	Load();
@@ -305,7 +305,7 @@ void CGameClear::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* 
 	//ゲーム画面からDP取得数受けとる
 	for (int i = 0; i < DP_COUNT; i++)
 	{
-		Status[i] = *(b_GameProgMamt->GetGame_DPNum()+i);
+		Status[i] = *(m_GameProgMamt->GetGame_DPNum()+i);
 	}
 
 	//文字用アルファ値
@@ -326,7 +326,7 @@ void CGameClear::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* 
 
 
 	//BGM再生
-	b_MusicManager->BGMStart(BGMT_CLEAR);
+	g_MusicManager->BGMStart(BGMT_CLEAR);
 }
 
 
@@ -489,6 +489,6 @@ void CGameClear::Release(void)
 	}
 	
 	//BGM停止
-	b_MusicManager->BGMStop(BGMT_CLEAR);
+	g_MusicManager->BGMStop(BGMT_CLEAR);
 
 }

@@ -17,7 +17,8 @@ CDPDecision::CDPDecision() :
 	m_BackTextureA(),
 	m_BackTextureC(),
 	m_TextTexture(),
-	m_SelectTexture()
+	m_SelectTexture(),
+	m_SelectDP()
 {
 
 }
@@ -73,17 +74,16 @@ void CDPDecision::Load(void)
 }
 
 //初期化
-void CDPDecision::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec, CMenu* menu)
+void CDPDecision::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec)
 {
 	//各マネージャーセット
-	b_GameProgMamt = mamt;
-	b_MusicManager = musi;
-	b_EffectManeger = effec;
-	b_MenuMamt = menu;
+	m_GameProgMamt = mamt;
+	g_MusicManager = musi;
+	g_EffectManeger = effec;
 
 	for (int i = 0; i < 5; i++)
 	{
-		//m_SelectDP[i] = false;
+		m_SelectDP[i] = false;
 	}
 
 	//素材ロード
@@ -95,6 +95,9 @@ void CDPDecision::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt*
 	}
 
 	DPDecCnt = 0;
+
+	m_Menu.Create(DPDecMenuItemCnt);
+
 	flagD = true;
 
 	//フェードイン
@@ -137,7 +140,7 @@ void CDPDecision::Update(void)
 	}
 
 	//戻るボタンにカーソルがあって、エンターでモードセレクト画面へ
-	if (DPDecCnt == 5 && g_pInput->IsKeyPush(MOFKEY_RETURN))
+	if (DPDecCnt==5&&g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
 		b_Fadein = FADE_OUT;
 	}
@@ -146,55 +149,55 @@ void CDPDecision::Update(void)
 	{
 		flagD = false;
 	}
-	else if (b_MenuMamt->IsShow())
+	else if (m_Menu.IsShow())
 	{
-		b_MenuMamt->Update();
-		if (b_MenuMamt->IsEnter())
+		m_Menu.Update();
+		if (m_Menu.IsEnter())
 		{
-			if (b_MenuMamt->GetSelect() == 0)
+			if (m_Menu.GetSelect() == 0)
 			{
 				//ここでフラグをゲームに受け渡し？
 				b_Fadein = FADE_OUT;
-				b_GameProgMamt->SetDPdec_type(DPDecCnt);
+				m_GameProgMamt->SetDPdec_type(DPDecCnt);
 				//消す
-				b_MenuMamt->Hide();
+				m_Menu.Hide();
 			}
-			else if (b_MenuMamt->GetSelect() == 1)
+			else if (m_Menu.GetSelect() == 1)
 			{
 				//初期化
 				for (int i = 0; i < 5; i++)
 				{
-					//m_SelectDP[i] = false;
+					m_SelectDP[i] = false;
 				}
-				b_MenuMamt->Hide();
+				m_Menu.Hide();
 			}
 
 		}
 	}
 	else if (DPDecCnt == 0 && g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
-		//m_SelectDP[0] = true;
-		b_MenuMamt->Show(MENUT_DPCONFIRM);
+		m_SelectDP[0] = true;
+		m_Menu.Show(g_pGraphics->GetTargetWidth() * 0.5f, g_pGraphics->GetTargetHeight() * 0.5f);
 	}
 	else if (DPDecCnt == 1 && g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
-		//m_SelectDP[1] = true;
-		b_MenuMamt->Show(MENUT_DPCONFIRM);
+		m_SelectDP[1] = true;
+		m_Menu.Show(g_pGraphics->GetTargetWidth() * 0.5f, g_pGraphics->GetTargetHeight() * 0.5f);
 	}
 	else if (DPDecCnt == 2 && g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
-		//m_SelectDP[2] = true;
-		b_MenuMamt->Show(MENUT_DPCONFIRM);
+		m_SelectDP[2] = true;
+		m_Menu.Show(g_pGraphics->GetTargetWidth() * 0.5f, g_pGraphics->GetTargetHeight() * 0.5f);
 	}
 	else if (DPDecCnt == 3 && g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
-		//m_SelectDP[3] = true;
-		b_MenuMamt->Show(MENUT_DPCONFIRM);
+		m_SelectDP[3] = true;
+		m_Menu.Show(g_pGraphics->GetTargetWidth() * 0.5f, g_pGraphics->GetTargetHeight() * 0.5f);
 	}
 	else if (DPDecCnt == 4 && g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
-		//m_SelectDP[4] = true;
-		b_MenuMamt->Show(MENUT_DPCONFIRM);
+		m_SelectDP[4] = true;
+		m_Menu.Show(g_pGraphics->GetTargetWidth() * 0.5f, g_pGraphics->GetTargetHeight() * 0.5f);
 	}
 	else
 	{
@@ -281,8 +284,8 @@ void CDPDecision::Render(void)
 		m_ExTexture.Render(0, 200);
 	}
 
-	//メニューの描画
-	b_MenuMamt->Render(DPDecCnt);
+
+	m_Menu.RenderB(m_SelectDP[0], m_SelectDP[1], m_SelectDP[2], m_SelectDP[3], m_SelectDP[4]);
 
 	//フェードアウト
 	CGraphicsUtilities::RenderFillRect(0, 0, g_pGraphics->GetTargetWidth(), g_pGraphics->GetTargetHeight(), MOF_ARGB(m_WhiteBakAlph, 255, 255, 255));
@@ -292,6 +295,18 @@ void CDPDecision::Render(void)
 //デバック描画
 void CDPDecision::RenderDebug(void)
 {
+	for (int i = 0; i < 5; i++)
+	{
+		if (m_SelectDP[i] == true)
+		{
+			CGraphicsUtilities::RenderString(10, 50 * i, "m_SelectDP[%d]:True", i);
+		}
+		else if (m_SelectDP[i] == false)
+		{
+			CGraphicsUtilities::RenderString(10, 50 * i, "m_SelectDP[%d]:False", i);
+		}
+	}
+
 	CGraphicsUtilities::RenderString(10, 300, "DPDecCnt:%d", DPDecCnt);
 }
 

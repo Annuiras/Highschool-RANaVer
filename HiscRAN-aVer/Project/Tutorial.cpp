@@ -97,7 +97,7 @@ void CTutorial::Load(void)
 }
 
 //初期化
-void CTutorial::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec, CMenu* menu)
+void CTutorial::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec)
 {
 	//初期化
 	m_Scroll = 0;
@@ -107,9 +107,9 @@ void CTutorial::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* e
 	bShow = false;
 
 	//各マネージャーセット
-	b_GameProgMamt = mamt;
-	b_MusicManager = musi;
-	b_EffectManeger = effec;
+	m_GameProgMamt = mamt;
+	g_MusicManager = musi;
+	g_EffectManeger = effec;
 
 	//状態を設定
 	b_Fadein = FADE_IN;

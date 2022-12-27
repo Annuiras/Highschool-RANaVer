@@ -17,8 +17,8 @@ private:
 	void UPdeteCollisionDP(int dpt);
 
 	//メニュークラス
-	//CMenu			m_Menu;
-	//int				m_MenuItemCount = 2;
+	CMenu			m_Menu;
+	int				m_MenuItemCount = 2;
 
 	//プレイヤークラス
 	CPlayer g_Player;
@@ -64,7 +64,7 @@ private:
 public:
 	CGAME();
 	~CGAME();
-	void Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec, CMenu* menu);
+	void Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec);
 	void Update(void);
 	void Render(void);
 	void Load(void);

@@ -23,13 +23,16 @@ private:
 	CTexture		m_TutorialTextBox;
 	CTexture		m_TutorialTextTexture;
 	float			m_Scroll;
+	CMenu			gMenu;
+	bool			Menuflag = false;
+	int				gMenuItemCount = 2;
 
 	int m_BakAlph;
 
 public:
 	CModeSelect();
 	~CModeSelect();
-	void Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effecs, CMenu* menu);
+	void Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effecs);
 	void Update(void);
 	void Render(void);
 	void RenderDebug(void);

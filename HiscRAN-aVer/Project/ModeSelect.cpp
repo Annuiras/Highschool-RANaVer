@@ -82,16 +82,15 @@ void CModeSelect::Load()
 }
 
 //初期化
-void  CModeSelect::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec, CMenu* menu)
+void  CModeSelect::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec)
 {
 	//画面下文字スクロール値初期化
 	m_Scroll = 0;
 	
 	//各マネージャーセット
-	b_GameProgMamt = mamt;
-	b_MusicManager = musi;
-	b_EffectManeger = effec;
-	b_MenuMamt = menu;
+	m_GameProgMamt = mamt;
+	g_MusicManager = musi;
+	g_EffectManeger = effec;
 
 	//素材ロード
 	Load();
@@ -118,7 +117,7 @@ void  CModeSelect::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt
 void CModeSelect::Update()
 {
 	//BGM再生
-	b_MusicManager->BGMStart(BGMT_MOOP);
+	g_MusicManager->BGMStart(BGMT_MOOP);
 
 	//画面下文字スクロール
 	m_Scroll -= SCROLL_SPEED;
@@ -163,37 +162,10 @@ void CModeSelect::Update()
 	}
 
 
-	//メニューの更新
-	if (b_MenuMamt->IsShow())
-	{
-		//更新
-		b_MenuMamt->Update();
-
-		//項目選択時
-		if (b_MenuMamt->IsEnter())
-		{
-			if (b_MenuMamt->GetSelect() == 0)
-			{
-				PostQuitMessage(0);
-			}
-
-			//メニュー非表示
-			b_MenuMamt->Hide();
-		}
-
-		return;
-	}
-	//エスケープキーで終了メニューを表示
-	else if (g_pInput->IsKeyPush(MOFKEY_ESCAPE))
-	{
-		b_MenuMamt->Show(MENUT_END);
-	}
-
-
 	//矢印キー下で選択が下がるようにする
 	if (g_pInput->IsKeyPush(MOFKEY_DOWN))
 	{
-		b_MusicManager->SEStart(SE_T_MOOP_CURSORMOVE);
+		g_MusicManager->SEStart(SE_T_MOOP_CURSORMOVE);
 		if (MenuNow_Mode < MenuCnt - 1)
 		{
 			++MenuNow_Mode;
@@ -202,7 +174,7 @@ void CModeSelect::Update()
 	//矢印キー上で選択が上がるようにする
 	if (g_pInput->IsKeyPush(MOFKEY_UP))
 	{
-		b_MusicManager->SEStart(SE_T_MOOP_CURSORMOVE);
+		g_MusicManager->SEStart(SE_T_MOOP_CURSORMOVE);
 		if (MenuNow_Mode > 0)
 		{
 			--MenuNow_Mode;
@@ -212,8 +184,32 @@ void CModeSelect::Update()
 	//エンターを押したら各画面へ移動
 	if (g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
-		b_MusicManager->SEStart(SE_T_DECISION);
+		g_MusicManager->SEStart(SE_T_DECISION);
 		b_Fadein = FADE_OUT;
+	}
+
+	//メニューの更新
+	if (gMenu.IsShow())
+	{
+		gMenu.Update();
+		if (gMenu.IsEnter())
+		{
+			if (gMenu.GetSelect() == 0)
+			{
+				PostQuitMessage(0);
+			}
+			gMenu.Hide();
+		}
+	}
+	//エスケープキーで終了メニューを表示
+	else if (g_pInput->IsKeyPush(MOFKEY_ESCAPE))
+	{
+		Menuflag = true;
+		gMenu.Show(g_pGraphics->GetTargetWidth() * 0.5f, g_pGraphics->GetTargetHeight() * 0.5f);
+	}
+	else
+	{
+		Menuflag = false;
 	}
 }
 
@@ -356,8 +352,6 @@ void CModeSelect::Render(void)
 		break;
 	}
 
-	b_MenuMamt->Render();
-
 	//フェードアウト
 	CGraphicsUtilities::RenderFillRect(0, 0, g_pGraphics->GetTargetWidth(), g_pGraphics->GetTargetHeight(), MOF_ARGB(m_BakAlph, 255, 255, 255));
 
@@ -380,8 +374,8 @@ void CModeSelect::Release(void)
 	}
 	m_TutorialTextTexture.Release();
 	m_TutorialTextBox.Release();
-	b_MenuMamt->Release();
+	gMenu.Release();
 
-	b_MusicManager->BGMStop(BGMT_MOOP);
+	g_MusicManager->BGMStop(BGMT_MOOP);
 
 }

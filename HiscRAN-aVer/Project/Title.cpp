@@ -66,12 +66,12 @@ void CTitle::Load(void)
 }
 
 //初期化
-void CTitle::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec, CMenu* menu)
+void CTitle::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec)
 {
 	//各マネージャーセット
-	b_GameProgMamt = mamt;
-	b_MusicManager = musi;
-	b_EffectManeger = effec;
+	m_GameProgMamt = mamt;
+	g_MusicManager = musi;
+	g_EffectManeger = effec;
 
 
 	//初期化
@@ -103,7 +103,7 @@ void CTitle::Update(void)
 	}
 
 	//BGM再生
-	b_MusicManager->BGMStart(BGMT_TITLE);
+	g_MusicManager->BGMStart(BGMT_TITLE);
 
 	//エンターキーでセレクト画面へ
 	if (g_pInput->IsKeyPush(MOFKEY_RETURN))
@@ -192,5 +192,5 @@ void CTitle::Release(void)
 	gFont.Release();
 	gFont2.Release();
 
-	b_MusicManager->BGMStop(BGMT_TITLE);
+	g_MusicManager->BGMStop(BGMT_TITLE);
 }
