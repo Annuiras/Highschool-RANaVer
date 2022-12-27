@@ -140,12 +140,12 @@ void COption::Load(void)
 
 
 //初期化
-void COption::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec)
+void COption::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec, CMenu* menu)
 {
 
-	m_GameProgMamt = mamt;
-	g_MusicManager = musi;
-	g_EffectManeger = effec;
+	b_GameProgMamt = mamt;
+	b_MusicManager = musi;
+	b_EffectManeger = effec;
 
 	//素材ロード
 	Load();
@@ -159,28 +159,28 @@ void COption::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* eff
 	m_Font1.Create(35, "UD デジタル 教科書体 N-B");
 
 	//ボリューム取得
-	VolumeBGM = g_MusicManager->GetBGMVolume();
-	VolumeSE = g_MusicManager->GetSEVolume();
+	VolumeBGM = b_MusicManager->GetBGMVolume();
+	VolumeSE = b_MusicManager->GetSEVolume();
 
 	//BGMに選択枠を合わせておく
 	OptionCnt = 0;
 
 	//BGM再生
-	g_MusicManager->BGMLoop(BGMT_MOOP, true);
-	g_MusicManager->BGMStart(BGMT_MOOP);
+	b_MusicManager->BGMLoop(BGMT_MOOP, true);
+	b_MusicManager->BGMStart(BGMT_MOOP);
 
 	//一番上にセット
 	Botton_BGMPosy = 485.0;
 	Botton_SEPosy = 485.0;
 
 	//ボタン座標初期化
-	if (m_GameProgMamt->GetOption_Button_Pos(0) > 0)
+	if (b_GameProgMamt->GetOption_Button_Pos(0) > 0)
 	{
-		Botton_BGMPosy = m_GameProgMamt->GetOption_Button_Pos(0);
+		Botton_BGMPosy = b_GameProgMamt->GetOption_Button_Pos(0);
 	}
-	if (m_GameProgMamt->GetOption_Button_Pos(1) > 0)
+	if (b_GameProgMamt->GetOption_Button_Pos(1) > 0)
 	{
-		Botton_SEPosy = m_GameProgMamt->GetOption_Button_Pos(1);
+		Botton_SEPosy = b_GameProgMamt->GetOption_Button_Pos(1);
 	}
 	
 	//現在のシーンセット
@@ -203,7 +203,7 @@ void COption::Update(void)
 	//フェードアウト完了時
 	if (b_Fadein == FADE_NEXT) {
 
-		m_GameProgMamt->SetOption_Button_Pos(Botton_BGMPosy, Botton_SEPosy);
+		b_GameProgMamt->SetOption_Button_Pos(Botton_BGMPosy, Botton_SEPosy);
 		m_bEnd = true;
 		m_NextScene = SCENENO_SELECTMODE;
 	}
@@ -284,14 +284,14 @@ void COption::Update(void)
 	//BGM音量を上げる
 	if (OptionCnt == 0 && g_pInput->IsKeyHold(MOFKEY_UP))
 	{
-		g_MusicManager->BGMSetVolume(g_MusicManager->GetBGMVolume() + 0.01f);
-		VolumeBGM = g_MusicManager->GetBGMVolume();
+		b_MusicManager->BGMSetVolume(b_MusicManager->GetBGMVolume() + 0.01f);
+		VolumeBGM = b_MusicManager->GetBGMVolume();
 	}
 	//音量を下げる
 	else if (OptionCnt == 0 && g_pInput->IsKeyHold(MOFKEY_DOWN))
 	{
-		g_MusicManager->BGMSetVolume(g_MusicManager->GetBGMVolume() - 0.01f);
-		VolumeBGM = g_MusicManager->GetBGMVolume();
+		b_MusicManager->BGMSetVolume(b_MusicManager->GetBGMVolume() - 0.01f);
+		VolumeBGM = b_MusicManager->GetBGMVolume();
 	}
 
 	//BGM調節ボタンの上げ下げ
@@ -306,16 +306,16 @@ void COption::Update(void)
 
 
 	//SEの音量を上げる
-	if (g_MusicManager->GetSEVolume() < 1 && OptionCnt == 1 && g_pInput->IsKeyHold(MOFKEY_UP))
+	if (b_MusicManager->GetSEVolume() < 1 && OptionCnt == 1 && g_pInput->IsKeyHold(MOFKEY_UP))
 	{
-		g_MusicManager->SESetVolume(g_MusicManager->GetSEVolume() + 0.01f);
-		VolumeSE = g_MusicManager->GetSEVolume();
+		b_MusicManager->SESetVolume(b_MusicManager->GetSEVolume() + 0.01f);
+		VolumeSE = b_MusicManager->GetSEVolume();
 	}
 	//SEの音量を下げる
-	else if (g_MusicManager->GetSEVolume() > 0 && OptionCnt == 1 && g_pInput->IsKeyHold(MOFKEY_DOWN))
+	else if (b_MusicManager->GetSEVolume() > 0 && OptionCnt == 1 && g_pInput->IsKeyHold(MOFKEY_DOWN))
 	{
-		g_MusicManager->SESetVolume(g_MusicManager->GetSEVolume() - 0.01f);
-		VolumeSE = g_MusicManager->GetSEVolume();
+		b_MusicManager->SESetVolume(b_MusicManager->GetSEVolume() - 0.01f);
+		VolumeSE = b_MusicManager->GetSEVolume();
 	}
 
 	//SE調整ボタンの上げ下げ
@@ -331,7 +331,7 @@ void COption::Update(void)
 	//SE再生
 	if (OptionCnt == 1 && g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
-		g_MusicManager->SEStart(SE_T_OPTION_CHIME);
+		b_MusicManager->SEStart(SE_T_OPTION_CHIME);
 	}
 
 
@@ -541,8 +541,8 @@ void COption::RenderDebug(void)
 //素材解放
 void COption::Release(void)
 {
-	g_MusicManager->BGMSetVolume(VolumeBGM);
-	g_MusicManager->SESetVolume(VolumeSE);
+	b_MusicManager->BGMSetVolume(VolumeBGM);
+	b_MusicManager->SESetVolume(VolumeSE);
 
 	m_Button1_1.Release();
 	m_Button1_2.Release();
@@ -558,7 +558,7 @@ void COption::Release(void)
 	m_Font1.Release();
 	m_BG.Release();
 	m_ExTexture.Release();
-	g_MusicManager->SEALLStop();
-	g_MusicManager->BGMStop(BGMT_MOOP);
+	b_MusicManager->SEALLStop();
+	b_MusicManager->BGMStop(BGMT_MOOP);
 
 }

@@ -21,6 +21,7 @@
 #include	"GameProgMgmt.h"
 #include	"Menu.h"
 #include	"DPDecision.h"
+#include	"Load.h"
 
 //デバッグ
 bool		gDebagflag = false;
@@ -38,21 +39,21 @@ CEffectMgmt g_EffectManeger;
 CMusicMgmt g_MusicManager;
 
 //メニュークラス
-CMenu		geMenu;
+CMenu		g_Menu;
 int			gMenuItemCount = 2;
 
 //ロード画面クラス
 CLoad gLoad;
 
-//エフェクト、ミュージック,ロードフラグ
-tag_LoadSituation Eff_Loadflg = LOAD_YET, Mu_Loadflg = LOAD_YET;
+//エフェクト,ミュージック,メニュー,ロードフラグ
+tag_LoadSituation Eff_Loadflg = LOAD_YET, Mu_Loadflg = LOAD_YET, Me_Loadflg = LOAD_YET;
 
-//最初のシーンに必要なエフェクト、ミュージックをロード：初期化出来ているか
+//最初のシーンに必要なエフェクト、ミュージック,メニューをロード：初期化出来ているか
 //true::ロード出来ている
 bool LoadCheckInitial(void) {
 
 	bool flg = true;
-	if (Eff_Loadflg != tag_LoadSituation::LOAD_DONE|| Mu_Loadflg != tag_LoadSituation::LOAD_DONE) {
+	if (Eff_Loadflg != LOAD_DONE|| Mu_Loadflg != LOAD_DONE|| Me_Loadflg != LOAD_DONE) {
 		flg = false;
 	}
 
@@ -73,10 +74,12 @@ MofBool CGameApp::Initialize(void){
 
 	//最初に実行される,マネージャーの初期化 
 	g_GameProgMamt.Initialize();
-	gLoad.Load();
-	gLoad.Initialize(0, 100);
 
-	geMenu.Create(gMenuItemCount);
+	//ロード画面素材
+	gLoad.Load();
+
+	//ロード画面初期化
+	gLoad.Initialize(0, 100);
 
 	return TRUE;
 }
@@ -112,8 +115,17 @@ MofBool CGameApp::Update(void){
 		//戻り値を記録する
 		gLoad.Thread_Load = thread{ [] {Mu_Loadflg=g_MusicManager.Load(); } };
 	}
+	else
+	//メニューがロード前の場合
+	if (Me_Loadflg == LOAD_YET && !gLoad.Thread_Load.joinable())
+	{
+		//ロード処理をスレッドに渡す
+		//戻り値を記録する
+		gLoad.Thread_Load = thread{ [] {Me_Loadflg = g_Menu.Load(); } };
 
-	//エフェクト、ミュージックがロード完了状態の場合
+	}
+
+	//エフェクトがロード完了状態の場合
 	if (Eff_Loadflg == LOAD_COMP) {
 		//スレッド解放
 		gLoad.Thread_Load.join();
@@ -122,7 +134,9 @@ MofBool CGameApp::Update(void){
 		//フラグ更新
 		Eff_Loadflg = LOAD_DONE;
 	}
-	else if (Mu_Loadflg == LOAD_COMP) {
+
+	//ミュージックがロード完了状態の場合
+	if (Mu_Loadflg == LOAD_COMP) {
 		//スレッド解放
 		gLoad.Thread_Load.join();
 		//初期化
@@ -131,7 +145,21 @@ MofBool CGameApp::Update(void){
 		Mu_Loadflg = LOAD_DONE;
 	}
 
-	//エフェクト、ミュージックをロード：初期化出来ていない場合は更新終了
+	//メニューがロード完了状態の場合
+	if (Me_Loadflg == LOAD_COMP) {
+		//スレッド解放
+		gLoad.Thread_Load.join();
+
+		//メニューにマネージャーをセット
+		g_Menu.SetEffectManager(&g_EffectManeger);
+		g_Menu.SetMusicManager(&g_MusicManager);
+
+		//フラグ更新
+		Me_Loadflg = LOAD_DONE;
+	}
+
+
+	//エフェクト、ミュージック,メニューをロード：初期化出来ていない場合は更新終了
 	if (!LoadCheckInitial()) {
 		return TRUE;
 	}
@@ -140,7 +168,7 @@ MofBool CGameApp::Update(void){
 	//最初のシーンを生成
 	if (gpScene == nullptr) {
 
-		gpScene = new CTitle();
+		gpScene = new CModeSelect();
 		gLoad.Thread_Load = thread{ [=] {gpScene->Load(); } };
 		gLoad.Initialize(0,100);
 	}
@@ -153,7 +181,7 @@ MofBool CGameApp::Update(void){
 		gLoad.Thread_Load.join();
 
 		//シーンの初期化
-		gpScene->Initialize(&g_GameProgMamt, &g_MusicManager, &g_EffectManeger);
+		gpScene->Initialize(&g_GameProgMamt, &g_MusicManager, &g_EffectManeger,&g_Menu);
 
 		//フラグ更新
 		gpScene->SetLoadSitu(LOAD_DONE);
@@ -164,48 +192,10 @@ MofBool CGameApp::Update(void){
 		!gLoad.IsLoadEnd()){
 		return TRUE;
 	}
-
 	
-	//:メニュー表示中
-	//メニュークラスをシーンベースにインスタンス？
-	//ポインタ渡すかすると思う
-	if (geMenu.IsShow())
-	{
-		//メニュー更新
-		geMenu.Update();
-
-		//選択した場合
-		if (geMenu.IsEnter() && gpScene->IsNow() != SCENENO_GAME)
-		{
-			if (geMenu.GetSelect() == 0)
-			{
-				//アプリケーション終了
-				PostQuitMessage(0);
-			}
-			geMenu.Hide();
-		}
-		else if (geMenu.IsEnter() && gpScene->IsNow() == SCENENO_GAME)
-		{
-			if (geMenu.GetSelect() == 0)
-			{
-				//モードセレクト画面へ
-				gpScene->SetEnd(true);
-				gpScene->SetNextScene(SCENENO_SELECTMODE);
-			}
-			geMenu.Hide();
-		}
-	}
-
-	//エスケープキーで終了メニューを表示
-	else if (g_pInput->IsKeyPush(MOFKEY_ESCAPE))
-	{
-		geMenu.Show(g_pGraphics->GetTargetWidth() * 0.5f, g_pGraphics->GetTargetHeight() * 0.5f);
-	}
-	else
-	{
-		//シーンの更新
-		gpScene->Update();
-	}
+	//シーンの更新
+	gpScene->Update();
+	
 
 	//画面遷移完了した場合
 	if (gpScene->IsEnd()) {
@@ -274,7 +264,11 @@ MofBool CGameApp::Update(void){
 		}
 		//初期化
 		g_EffectManeger.InitializeIn_middle();
-		gpScene->Initialize(&g_GameProgMamt, &g_MusicManager, &g_EffectManeger);
+
+		//スレッドが動いてない場合初期化
+		if (!gLoad.Thread_Load.joinable()) {
+			gpScene->Initialize(&g_GameProgMamt, &g_MusicManager, &g_EffectManeger);
+		}
 
 	}
 
@@ -330,16 +324,6 @@ MofBool CGameApp::Render(void){
 		}
 	}
 
-	if (gpScene == nullptr || gpScene->IsNow() == SCENENO_GAME)
-	{
-		geMenu.Render(2);
-	}
-	else 
-	{
-		//メニューの描画
-		geMenu.Render(1);
-	}
-
 	//描画の終了
 	g_pGraphics->RenderEnd();
 	return TRUE;
@@ -359,7 +343,7 @@ MofBool CGameApp::Release(void){
 	}
 	g_EffectManeger.Release();
 	g_MusicManager.Release();
-	geMenu.Release();
+	g_Menu.Release();
 	gLoad.Release();
 
 	if (gLoad.Thread_Load.joinable()) {

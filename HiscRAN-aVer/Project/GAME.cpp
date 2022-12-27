@@ -7,7 +7,7 @@
 //dpt->DPの種類
 void CGAME::UPdeteCollisionDP(int dpt) {
 
-	g_MusicManager->SEStart(SE_T_DP_HIT);
+	b_MusicManager->SEStart(SE_T_DP_HIT);
 
 	m_DPNum[dpt]++;
 
@@ -16,31 +16,31 @@ void CGAME::UPdeteCollisionDP(int dpt) {
 		//学力
 	case DP_SCHOLASTIC:
 		//エフェクト再生
-		g_EffectManeger->Start(0, 0, EFC_GET_SCHOLASTIC);
+		b_EffectManeger->Start(0, 0, EFC_GET_SCHOLASTIC);
 		break;
 
 		//行動力
 	case DP_ACTION:
 		//エフェクト再生
-		g_EffectManeger->Start(0, 0, EFC_GET_ACTION);
+		b_EffectManeger->Start(0, 0, EFC_GET_ACTION);
 		break;
 
 		//想像力
 	case DP_IMAGINATION:
 		//エフェクト再生
-		g_EffectManeger->Start(0, 0, EFC_GET_IMAGINATION);
+		b_EffectManeger->Start(0, 0, EFC_GET_IMAGINATION);
 		break;
 
 		//コミュ力
 	case DP_COMMUNICATION:
 		//エフェクト再生
-		g_EffectManeger->Start(0, 0, EFC_GET_COMMUNICATION);
+		b_EffectManeger->Start(0, 0, EFC_GET_COMMUNICATION);
 		break;
 
 		//魅力
 	case DP_CHARM:
 		//エフェクト再生
-		g_EffectManeger->Start(0, 0, EFC_GET_CHARM);
+		b_EffectManeger->Start(0, 0, EFC_GET_CHARM);
 		break;
 	default:
 		break;
@@ -48,8 +48,6 @@ void CGAME::UPdeteCollisionDP(int dpt) {
 }
 
 CGAME::CGAME():
-	m_Menu(),
-	m_MenuItemCount(),
 	m_StartCount(),
 	m_GameOverflg(),
 	m_GameClearflg(),
@@ -80,10 +78,21 @@ void CGAME::Load(void)
 	CUtilities::SetCurrentDirectoryA("Game");
 
 	//カウントダウン画像の読み込み
-	m_StartThreeTexture.Load("ハイスク　カウントダウンロゴ無し　３.png");
-	m_StartTwoTexture.Load("ハイスク　カウントダウンロゴ無し　２.png");
-	m_StartOneTexture.Load("ハイスク　カウントダウンロゴ無し　１.png");
-	m_StartGoTexture.Load("ハイスク_開始カウントダウン_GO.png");
+	if (!m_StartThreeTexture.Load("ハイスク　カウントダウンロゴ無し　３.png")) {
+		b_LoadSitu = LOAD_ERROR;
+	}
+
+	if (!m_StartTwoTexture.Load("ハイスク　カウントダウンロゴ無し　２.png")) {
+		b_LoadSitu = LOAD_ERROR;
+	}
+
+	if (!m_StartOneTexture.Load("ハイスク　カウントダウンロゴ無し　１.png")) {
+		b_LoadSitu = LOAD_ERROR;
+	}
+
+	if (!m_StartGoTexture.Load("ハイスク_開始カウントダウン_GO.png")) {
+		b_LoadSitu = LOAD_ERROR;
+	}
 
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("../");
@@ -95,14 +104,14 @@ void CGAME::Load(void)
 
 //初期化
 //引数：ゲーム進捗管理クラス
-void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec)
+void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec, CMenu* menu)
 {
 
 	//各マネージャーセット
-	m_GameProgMamt = mamt;
-	g_MusicManager = musi;
-	g_EffectManeger = effec;
-
+	b_GameProgMamt = mamt;
+	b_MusicManager = musi;
+	b_EffectManeger = effec;
+	b_MenuMamt = menu;
 
 	//プレイヤー初期化
 	g_Player.Initialize();
@@ -122,7 +131,7 @@ void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec
 	b_Fadein = FADE_IN;
 
 	//DP目標をセット
-	m_DPDeci = m_GameProgMamt->GetDPdec_type();
+	m_DPDeci = b_GameProgMamt->GetDPdec_type();
 
 	//フェードイン用
 	m_BlackBakAlph = 0;
@@ -155,27 +164,36 @@ void CGAME::Update(void)
 	}
 
 	//BGM開始
-	g_MusicManager->BGMStart(BGMT_STAGE);
+	b_MusicManager->BGMStart(BGMT_STAGE);
 
 	//フェードアウト完了時
 	if (b_Fadein == FADE_NEXT) {
 
 		//SEをすべて停止
-		g_MusicManager->SEALLStop();
+		b_MusicManager->SEALLStop();
 
+		//クリア画面
 		if (m_GameClearflg) {
 			//DPの取得数を保存
-			m_GameProgMamt->SetGame_DPNum(m_DPNum);
+			b_GameProgMamt->SetGame_DPNum(m_DPNum);
 			m_bEnd = true;
 			m_NextScene = SCENENO_GAMECLEAR;
 
 		}
-		else
+		//ゲームオーバー画面
+		else if(m_GameOverflg)
 		{
-			g_MusicManager->SEStart(SE_T_GAMEOVER);
+			b_MusicManager->SEStart(SE_T_GAMEOVER);
 			m_bEnd = true;
 			m_NextScene = SCENENO_GAMEOVER;
-
+		}
+		//メニューからモードセレクトへ
+		else
+		{
+			//メニューを非表示
+			b_MenuMamt->Hide();
+			m_bEnd = true;
+			m_NextScene = SCENENO_SELECTMODE;
 		}
 	}
 
@@ -190,10 +208,17 @@ void CGAME::Update(void)
 			g_Player.UpdateClear();
 
 		}
-		else
+		//ゲームオーバー時
+		else if(m_GameOverflg)
 		{
 			//黒
 			m_BlackBakAlph = FadeOut(m_BlackBakAlph, true);
+		}
+		//メニューで戻る場合
+		else
+		{
+			
+			m_WhiteBakAlph = FadeOut(m_WhiteBakAlph, true);
 		}
 		return;
 	}
@@ -205,6 +230,34 @@ void CGAME::Update(void)
 	{
 		//開始時刻
 		m_StartTime = timeGetTime();
+	}
+
+	//メニュー表示中
+	if (b_MenuMamt->IsShow()) {
+
+		//更新
+		b_MenuMamt->Update();
+
+		//選択肢
+		if (b_MenuMamt->IsEnter())
+		{
+			//選択肢の番号によって処理
+			if (b_MenuMamt->GetSelect() == 0)
+			{
+				//モードセレクト画面へ
+				b_Fadein = FADE_OUT;
+			}
+			else
+			{
+				//メニューを非表示
+				b_MenuMamt->Hide();
+			}
+		}
+		return;
+	}
+	else if(g_pInput->IsKeyPush(MOFKEY_ESCAPE))
+	{
+		b_MenuMamt->Show(MENUT_GAME_END);
 	}
 
 	//カウントダウン判定
@@ -256,7 +309,7 @@ void CGAME::Update(void)
 	if (g_pInput->IsKeyPush(MOFKEY_F1)) {
 
 		//初期化
-		Initialize(m_GameProgMamt, g_MusicManager, g_EffectManeger);
+		Initialize(b_GameProgMamt, b_MusicManager, b_EffectManeger,b_MenuMamt);
 	}
 
 	//デバッグ用
@@ -282,43 +335,12 @@ void CGAME::Update(void)
 	}
 
 
-	//メニューの更新
-	if (m_Menu.IsShow())
-	{
-		//カウントダウンを停止するため
-		m_StartTime = timeGetTime();
-
-		m_Menu.Update();
-		if (m_Menu.IsEnter())
-		{
-			//やめる
-			if (m_Menu.GetSelect() == 0)
-			{
-				//モードセレクトへ
-				m_bEnd = true;
-				m_NextScene = SCENENO_SELECTMODE;
-			}
-			//メニューを非表示
-			m_Menu.Hide();
-		}
-	}
-	//エスケープキーで終了メニューを表示
-	else if (g_pInput->IsKeyPush(MOFKEY_ESCAPE))
-	{
-		//プレイ中であれば停止
-		if (g_Stage.GetGameStopPlay())
-			g_Stage.GameStopPlayChange();
-
-		m_Menu.Show(g_pGraphics->GetTargetWidth() * 0.5f, g_pGraphics->GetTargetHeight() * 0.5f);
-	}
-
-
 	//ゲームオーバー時の場合フェードアウト
 	if (m_GameOverflg) {
 
 		//ゲームオーバー原因フラグを保存(HP)
 		if (g_Player.GetOver()) {
-			m_GameProgMamt->SetGame_Over_HP(true);
+			b_GameProgMamt->SetGame_Over_HP(true);
 		}
 
 		b_Fadein = FADE_OUT;
@@ -437,7 +459,7 @@ void CGAME::Update(void)
 	}
 
 	//エフェクトの更新
-	g_EffectManeger->Update(g_Player.GetRect());
+	b_EffectManeger->Update(g_Player.GetRect());
 }
 
 
@@ -477,8 +499,6 @@ void CGAME::Render(void)
 		break;
 	}
 
-	//メニューの描画
-	m_Menu.Render(2);
 
 	//ゲーム開始時のカウントダウンの表示
 	//画面中央に配置
@@ -499,9 +519,11 @@ void CGAME::Render(void)
 			g_pGraphics->GetTargetHeight() / 2 - m_StartGoTexture.GetHeight() / 2 * m_StartScale, m_StartScale);
 	}
 
-
 	//エフェクトの描画
-	g_EffectManeger->Render();
+	b_EffectManeger->Render();
+
+	//メニューの描画
+	b_MenuMamt->Render();
 
 	//フェードアウト暗転用
 	CGraphicsUtilities::RenderFillRect(0, 0, g_pGraphics->GetTargetWidth(), g_pGraphics->GetTargetHeight(),MOF_ARGB(m_BlackBakAlph,0,0,0));
@@ -518,8 +540,6 @@ void CGAME::Release(void)
 
 	g_Stage.Release();
 
-	m_Menu.Release();
-
 	//カウントダウン画像の開放
 	m_StartThreeTexture.Release();
 	m_StartTwoTexture.Release();
@@ -527,7 +547,7 @@ void CGAME::Release(void)
 	m_StartGoTexture.Release();
 
 	//BGM停止
-	g_MusicManager->BGMStop(BGMT_STAGE);
+	b_MusicManager->BGMStop(BGMT_STAGE);
 
 }
 
