@@ -310,19 +310,21 @@ MofBool CGameApp::Render(void){
 	{
 		//シーン画面
 		gpScene->Render();
+
+		if (gDebagflag)
+		{
+			if (gpScene != nullptr) {
+				//デバッグ描画
+				gpScene->RenderDebug();
+			}
+			else
+			{
+				gLoad.RenderDebug();
+			}
+		}
+
 	}
 
-	if (gDebagflag)
-	{
-		if (gpScene != nullptr) {
-			//デバッグ描画
-			gpScene->RenderDebug();
-		}
-		else
-		{
-			gLoad.RenderDebug();
-		}
-	}
 
 	//描画の終了
 	g_pGraphics->RenderEnd();
