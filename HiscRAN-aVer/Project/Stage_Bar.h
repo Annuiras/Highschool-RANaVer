@@ -20,7 +20,7 @@ BAR_info s_stageBAR[][BAR_INFO_STRUCT] =
 		{10000,0,BAR_COUNT}
 	},
 	//マップパターン2 S3
-	{		
+	{
 		{10000,0,BAR_COUNT}
 	},
 	//マップパターン3 S4
@@ -79,7 +79,8 @@ BAR_info s_stageBAR[][BAR_INFO_STRUCT] =
 	},
 	//マップパターン14
 	{
-		{796,345,BAR_BIG},
+		{590.0f,345.0f,BAR_BIG},
+		{2045.0f,575.0f,BAR_MEDIUM},
 		{10000,0,BAR_COUNT}
 	},
 	//マップパターン15

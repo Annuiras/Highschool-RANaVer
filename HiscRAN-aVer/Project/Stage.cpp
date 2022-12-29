@@ -377,7 +377,7 @@ void CStage::Initialize(void) {
 
 
 	//デバッグ用の指定コマンド、必要に応じていじってください
-	//m_StageComposition[0] = 14;
+	m_StageComposition[0] = 6;
 	//m_StageComposition[1] = 1;
 	//m_StageComposition[2] = 2;
 	//m_StageComposition[3] = 3;
@@ -388,10 +388,10 @@ void CStage::Initialize(void) {
 	//m_StageComposition[8] = 8;
 	//m_StageComposition[9] = 9;
 	//m_StageComposition[10] = 10;
-	//m_StageComposition[11] = 0;
-	//m_StageComposition[12] = 0;
-	//m_StageComposition[13] = 2;
-	//m_StageComposition[14] = 2;
+	//m_StageComposition[11] = 11;
+	//m_StageComposition[12] = 12;
+	//m_StageComposition[13] = 13;
+	//m_StageComposition[14] = 10;
 
 
 	//表示済みカウント初期化

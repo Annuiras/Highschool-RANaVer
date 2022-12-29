@@ -394,6 +394,17 @@ void CGAME::Update(void)
 			g_Player.UPdateCollisionBra(g_Stage.b_bar[i].GetY());
 		}
 
+		//“G
+		for (int e = 0; e < ENEMY_VOLUME; e++)
+		{
+			if (!g_Stage.ene_array[e].Getshow())
+				continue;
+
+			if (g_Stage.ene_array[e].GetRect().CollisionRect(g_Stage.b_bar[i].GetRect())) {
+				g_Stage.ene_array[e].SetPosY(g_Stage.b_bar[i].GetY());
+			}
+		}
+
 	}
 
 	//áŠQ•¨‚Æ‚Ì“–‚½‚è”»’è
