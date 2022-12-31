@@ -6,12 +6,9 @@
 int galleryCnt = 0;
 
 
-
 CGallery::CGallery() :
 	m_BackTexture(),
 	m_LastApp(),
-	m_NotLastApp(),
-	m_SelectTexture(),
 	m_SelectTexture_s(),
 	m_BackButton(),
 	m_PickUp(),
@@ -55,126 +52,52 @@ void CGallery::Load(void)
 
 	//未解放最終容姿選択画像読み込み
 	char* NotFound_name[] = {
-		"collection_NotFound_00.png",
-		"collection_NotFound_01.png",
-		"collection_NotFound_02.png",
-		"collection_NotFound_03.png",
-		"collection_NotFound_04.png",
-		"collection_NotFound_05.png",
-		"collection_NotFound_06.png",
-		"collection_NotFound_07.png",
-		"collection_NotFound_08.png",
-		"collection_NotFound_09.png",
-		"collection_NotFound_10.png",
-		"collection_NotFound_11.png",
-		"collection_NotFound_12.png",
-		"collection_NotFound_13.png",
-		"collection_NotFound_14.png"
+	"collection_NotFound_00.png",
+	"collection_NotFound_01.png",
+	"collection_NotFound_02.png",
+	"collection_NotFound_03.png",
+	"collection_NotFound_04.png",
+	"collection_NotFound_05.png",
+	"collection_NotFound_06.png",
+	"collection_NotFound_07.png",
+	"collection_NotFound_08.png",
+	"collection_NotFound_09.png",
+	"collection_NotFound_10.png",
+	"collection_NotFound_11.png",
+	"collection_NotFound_12.png",
+	"collection_NotFound_13.png",
+	"collection_NotFound_14.png"
 	};
-
 	for (int i = 0; i < 15; i++)
 	{
-		if (!m_NotLastApp[i].Load(NotFound_name[i])) {
+		if (!S_LastParameter[i].s_NotLastApp.Load(NotFound_name[i])) {
 			b_LoadSitu = LOAD_ERROR;
 			return;
 		}
 	}
 
-	if (!m_NotLastApp[3].Load("collection_NotFound_03.png"))
-	{
-		b_LoadSitu = LOAD_ERROR;
-		return;
-	}
 
-	if (!m_NotLastApp[4].Load("collection_NotFound_04.png"))
-	{
-		b_LoadSitu = LOAD_ERROR;
-		return;
-	}
-
-	if (!m_NotLastApp[5].Load("collection_NotFound_05.png"))
-	{
-		b_LoadSitu = LOAD_ERROR;
-		return;
-	}
-
-	if (!m_NotLastApp[6].Load("collection_NotFound_06.png"))
-	{
-		b_LoadSitu = LOAD_ERROR;
-		return;
-	}
-
-	if (!m_NotLastApp[7].Load("collection_NotFound_07.png"))
-	{
-		b_LoadSitu = LOAD_ERROR;
-		return;
-	}
-
-	if (!m_NotLastApp[8].Load("collection_NotFound_08.png"))
-	{
-		b_LoadSitu = LOAD_ERROR;
-		return;
-	}
-
-	if (!m_NotLastApp[9].Load("collection_NotFound_09.png"))
-	{
-		b_LoadSitu = LOAD_ERROR;
-		return;
-	}
-
-	if (!m_NotLastApp[10].Load("collection_NotFound_10.png"))
-	{
-		b_LoadSitu = LOAD_ERROR;
-		return;
-	}
-
-	if (!m_NotLastApp[11].Load("collection_NotFound_11.png"))
-	{
-		b_LoadSitu = LOAD_ERROR;
-		return;
-	}
-
-	if (!m_NotLastApp[12].Load("collection_NotFound_12.png"))
-	{
-		b_LoadSitu = LOAD_ERROR;
-		return;
-	}
-
-	if (!m_NotLastApp[13].Load("collection_NotFound_13.png"))
-	{
-		b_LoadSitu = LOAD_ERROR;
-		return;
-	}
-
-	if (!m_NotLastApp[14].Load("collection_NotFound_14.png"))
-	{
-		b_LoadSitu = LOAD_ERROR;
-		return;
-	}
-
-
-	//最終容姿の台紙テクスチャ(バラ&ピックアップ用)
+	//最終容姿のテクスチャ(バラ&ピックアップ用)
 	char* Picup_name[] = {
-		"Picup1.png",
-		"Picup2.png",
-		"Picup3.png",
-		"Picup4.png",
-		"Picup5.png",
-		"Picup6.png",
-		"Picup7.png",
-		"Picup8.png",
-		"Picup9.png",
-		"Picup10.png",
-		"Picup11.png",
-		"Picup12.png",
-		"Picup13.png",
-		"Picup14.png",
-		"Picup15.png"
+	"Picup1.png",
+	"Picup2.png",
+	"Picup3.png",
+	"Picup4.png",
+	"Picup5.png",
+	"Picup6.png",
+	"Picup7.png",
+	"Picup8.png",
+	"Picup9.png",
+	"Picup10.png",
+	"Picup11.png",
+	"Picup12.png",
+	"Picup13.png",
+	"Picup14.png",
+	"Picup15.png"
 	};
-
 	for (int i = 0; i < 15; i++)
 	{
-		if (!m_LastAppPic[i].Load(Picup_name[i])) {
+		if (!S_LastParameter[i].s_LastAppPic.Load(Picup_name[i])) {
 			b_LoadSitu = LOAD_ERROR;
 			return;
 		}
@@ -227,6 +150,56 @@ void CGallery::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* ef
 	b_GameProgMamt = mamt;
 	b_MusicManager = musi;
 	b_EffectManeger = effec;
+
+	//Vector2{}		：本座標
+	//CRectangle{}	：説明文表示矩形
+	//解放フラグ	：true,解放済
+
+	//姉御
+	S_LastParameter[0] = SetLastParameter({ 60, 40 }, { 0,0,400,189 },true);
+
+	//クラスの人気者
+	S_LastParameter[1] = SetLastParameter({ 180,40 }, { 400,0,800,189 },true);
+
+	//ギャル
+	S_LastParameter[2] = SetLastParameter({ 300,40 }, { 800,0,1200,189 },true);
+
+	//応援団長
+	S_LastParameter[3] = SetLastParameter({ 420,40 }, { 0,189,400,378 },true);
+
+	//図書室の長
+	S_LastParameter[4] = SetLastParameter({ 540,40 }, { 400,189,800,378 },true);
+
+	//オタク
+	S_LastParameter[5] = SetLastParameter({ 60,240 }, { 800,189,1200,378 },true);
+
+	//インフルエンサー
+	S_LastParameter[6] = SetLastParameter({ 180,240 }, { 0,378,400,567 },true);
+
+	//委員長
+	S_LastParameter[7] = SetLastParameter({ 300,240 }, { 400,378,800,567 },true);
+
+	//高嶺の花
+	S_LastParameter[8] = SetLastParameter({ 420,240 }, { 800,378,1200,567 },true);
+
+	//ヤンキー
+	S_LastParameter[9] = SetLastParameter({ 540,240 }, { 0,567,400,756 },true);
+
+	//スーパーレディ
+	S_LastParameter[10] = SetLastParameter({ 60,440 }, { 400,567,800,756 },true);
+
+	//お調子者
+	S_LastParameter[11] = SetLastParameter({ 180,440 }, { 800,567,1200,756 },true);
+
+	//文学少女
+	S_LastParameter[12] = SetLastParameter({ 300,440 }, { 0,756,400,945 },true);
+
+	//中二病
+	S_LastParameter[13] = SetLastParameter({ 420,440 }, { 400,756,800,945 },true);
+
+	//神対応
+	S_LastParameter[14] = SetLastParameter({ 540,440 }, { 800,756,1200,945 },true);
+
 
 	//素材ロード
 	Load();
@@ -355,43 +328,46 @@ void CGallery::Render(void)
 	//画像に差し替える
 	for (int i = 0; i < 15; i++)
 	{
-		if (LastAddFlag[i] == false)
+		if (S_LastParameter[i].s_LastAddFlag == false)
 		{
-			m_NotLastApp[i].Render(pos[i].x, pos[i].y);
+			//未開放本テクスチャ
+			S_LastParameter[i].s_NotLastApp.Render(S_LastParameter[i].s_Mount_Pos.x, S_LastParameter[i].s_Mount_Pos.y);
 		}
 
 	}
+
 	//選択時囲み枠の表示
 	if (galleryCnt == 15)
 	{
 		m_SelectTexture_s.Render(60, 650);
 		m_PickUp.Render(766, 50);
 	}
-	else if (galleryCnt != 15)
+	else
 	{
-		m_SelectTexture.Render(pos[galleryCnt].x, pos[galleryCnt].y);
+		//選択矩形
+		m_SelectTexture.Render(S_LastParameter[galleryCnt].s_Mount_Pos.x, S_LastParameter[galleryCnt].s_Mount_Pos.y);
 	}
 
 	//もし最終容姿解放フラグがFalseだった場合
-	if (LastAddFlag[galleryCnt] == false)
+	if (S_LastParameter[galleryCnt].s_LastAddFlag == false)
 	{
 		//最終容姿を表示せず別画像を表示
 		m_PickUp.Render(766, 50);
 
 		//未解放時の表記にする
-		m_NotPickUpText.Render(766, 461, RecTextBox[galleryCnt]);
+		m_NotPickUpText.Render(766, 461,S_LastParameter[galleryCnt].s_TextBoxRect);
 	}
 	else
 	{
 		//最終容姿を表示
-		m_LastAppPic[galleryCnt].Render(766, 50);
+		S_LastParameter[galleryCnt].s_LastAppPic.Render(766, 50);
 
-		m_PickUpText.Render(766, 461, RecTextBox[galleryCnt]);
+		//説明文
+		m_PickUpText.Render(766, 461, S_LastParameter[galleryCnt].s_TextBoxRect);
 	}
 
 	//フェードアウト明転用
 	CGraphicsUtilities::RenderFillRect(0, 0, g_pGraphics->GetTargetWidth(), g_pGraphics->GetTargetHeight(), MOF_ARGB(m_BakAlph, 255, 255, 255));
-
 
 }
 
@@ -406,183 +382,15 @@ void CGallery::RenderDebug(void)
 
 	//フラグ切り換え
 	//後日デバックに書き写し
-	if (g_pInput->IsKeyPush(MOFKEY_1))
+	if (g_pInput->IsKeyPush(MOFKEY_O))
 	{
-		if (LastAddFlag[0] == false)
+		if (S_LastParameter[galleryCnt].s_LastAddFlag == false)
 		{
-			LastAddFlag[0] = true;
+			S_LastParameter[galleryCnt].s_LastAddFlag = true;
 		}
 		else
 		{
-			LastAddFlag[0] = false;
-		}
-	}
-
-	if (g_pInput->IsKeyPush(MOFKEY_2))
-	{
-		if (LastAddFlag[1] == false)
-		{
-			LastAddFlag[1] = true;
-		}
-		else
-		{
-			LastAddFlag[1] = false;
-		}
-	}
-
-	if (g_pInput->IsKeyPush(MOFKEY_3))
-	{
-		if (LastAddFlag[2] == false)
-		{
-			LastAddFlag[2] = true;
-		}
-		else
-		{
-			LastAddFlag[2] = false;
-		}
-	}
-
-	if (g_pInput->IsKeyPush(MOFKEY_4))
-	{
-		if (LastAddFlag[3] == false)
-		{
-			LastAddFlag[3] = true;
-		}
-		else
-		{
-			LastAddFlag[3] = false;
-		}
-	}
-
-	if (g_pInput->IsKeyPush(MOFKEY_5))
-	{
-		if (LastAddFlag[4] == false)
-		{
-			LastAddFlag[4] = true;
-		}
-		else
-		{
-			LastAddFlag[4] = false;
-		}
-	}
-
-	if (g_pInput->IsKeyPush(MOFKEY_6))
-	{
-		if (LastAddFlag[5] == false)
-		{
-			LastAddFlag[5] = true;
-		}
-		else
-		{
-			LastAddFlag[5] = false;
-		}
-	}
-
-	if (g_pInput->IsKeyPush(MOFKEY_7))
-	{
-		if (LastAddFlag[6] == false)
-		{
-			LastAddFlag[6] = true;
-		}
-		else
-		{
-			LastAddFlag[6] = false;
-		}
-	}
-
-	if (g_pInput->IsKeyPush(MOFKEY_8))
-	{
-		if (LastAddFlag[7] == false)
-		{
-			LastAddFlag[7] = true;
-		}
-		else
-		{
-			LastAddFlag[7] = false;
-		}
-	}
-
-	if (g_pInput->IsKeyPush(MOFKEY_9))
-	{
-		if (LastAddFlag[8] == false)
-		{
-			LastAddFlag[8] = true;
-		}
-		else
-		{
-			LastAddFlag[8] = false;
-		}
-	}
-
-	if (g_pInput->IsKeyPush(MOFKEY_0))
-	{
-		if (LastAddFlag[9] == false)
-		{
-			LastAddFlag[9] = true;
-		}
-		else
-		{
-			LastAddFlag[9] = false;
-		}
-	}
-
-	if (g_pInput->IsKeyPush(MOFKEY_Q))
-	{
-		if (LastAddFlag[10] == false)
-		{
-			LastAddFlag[10] = true;
-		}
-		else
-		{
-			LastAddFlag[10] = false;
-		}
-	}
-
-	if (g_pInput->IsKeyPush(MOFKEY_W))
-	{
-		if (LastAddFlag[11] == false)
-		{
-			LastAddFlag[11] = true;
-		}
-		else
-		{
-			LastAddFlag[11] = false;
-		}
-	}
-
-	if (g_pInput->IsKeyPush(MOFKEY_E))
-	{
-		if (LastAddFlag[12] == false)
-		{
-			LastAddFlag[12] = true;
-		}
-		else
-		{
-			LastAddFlag[12] = false;
-		}
-	}
-
-	if (g_pInput->IsKeyPush(MOFKEY_R))
-	{
-		if (LastAddFlag[13] == false)
-		{
-			LastAddFlag[13] = true;
-		}
-		else
-		{
-			LastAddFlag[13] = false;
-		}
-	}
-
-	if (g_pInput->IsKeyPush(MOFKEY_T))
-	{
-		if (LastAddFlag[14] == false)
-		{
-			LastAddFlag[14] = true;
-		}
-		else
-		{
-			LastAddFlag[14] = false;
+			S_LastParameter[galleryCnt].s_LastAddFlag = false;
 		}
 	}
 }
@@ -598,14 +406,16 @@ void CGallery::Release(void)
 
 	m_LastApp.Release();
 
+	m_PickUpText.Release();
+
 	for (int i = 0; i < 15; i++)
 	{
-		m_NotLastApp[i].Release();
+		S_LastParameter[i].s_LastAppPic.Release();
 	}
 
 	for (int i = 0; i < 15; i++)
 	{
-		m_LastAppPic[i].Release();
+		S_LastParameter[i].s_NotLastApp.Release();
 	}
 
 	m_PickUp.Release();
@@ -614,5 +424,4 @@ void CGallery::Release(void)
 	b_MusicManager->BGMStop(BGMT_GALLERY);
 
 }
-
 
