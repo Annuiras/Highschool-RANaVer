@@ -26,7 +26,7 @@ CGameOver::~CGameOver()
 void CGameOver::Load(void)
 {
 	//リソース配置ディレクトリの設定
-	CUtilities::SetCurrentDirectoryA("Game/GameOver");
+	CUtilities::SetCurrentDirectoryA("GameOver");
 
 	if (!m_BackTexture.Load("GameOver_BG.png"))
 	{
@@ -60,7 +60,7 @@ void CGameOver::Load(void)
 	}
 
 	//リソース配置ディレクトリの設定
-	CUtilities::SetCurrentDirectoryA("../../");
+	CUtilities::SetCurrentDirectoryA("../");
 
 	//ロード完了
 	b_LoadSitu = LOAD_COMP;

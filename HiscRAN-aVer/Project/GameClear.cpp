@@ -223,7 +223,7 @@ void CGameClear::drawChart(Vector2* PointsStatus, MofU32 cl)
 void CGameClear::Load(void)
 {
 	//リソース配置ディレクトリの設定
-	CUtilities::SetCurrentDirectoryA("Game/GameClear");
+	CUtilities::SetCurrentDirectoryA("GameClear");
 
 	char* name[15] =
 	{
@@ -259,7 +259,7 @@ void CGameClear::Load(void)
 	}
 
 	//リソース配置ディレクトリの設定
-	CUtilities::SetCurrentDirectoryA("../../");
+	CUtilities::SetCurrentDirectoryA("../");
 
 	//ロード完了
 	b_LoadSitu = LOAD_COMP;

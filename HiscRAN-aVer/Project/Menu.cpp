@@ -148,7 +148,9 @@ void CMenu::Render(void)
 	{
 		//終了メニュー
 		case MENUT_END:
-			m_MenuPauseTexture.Render(m_cx, m_cy);
+
+			m_MenuEndTexture.Render(m_cx, m_cy);
+
 			if (m_Select == 0)
 			{
 				m_MenuCheck.Render(526, 422);
@@ -162,7 +164,8 @@ void CMenu::Render(void)
 		//ゲーム画面終了メニュー
 		case MENUT_GAME_END:
 			CGraphicsUtilities::RenderFillRect(0, 0, g_pGraphics->GetTargetWidth(), g_pGraphics->GetTargetHeight(), MOF_ARGB(100, 0, 0, 0));
-			m_MenuEndTexture.Render(m_cx, m_cy);
+
+			m_MenuPauseTexture.Render(m_cx, m_cy);
 
 			if (m_Select == 0)
 			{
