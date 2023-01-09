@@ -358,11 +358,11 @@ void CGAME::Update(void)
 
 		//クリア時にDPが一定数足りていない場合
 		//todo:0仮置きDPピック画面で選んだDPと比較する
-		if (m_DPNum[m_DPDeci] < 10) {
-			//ゲームオーバーフラグをセット
-			m_GameOverflg = true;
-			m_GameClearflg = false;
-		}
+		//if (m_DPNum[m_DPDeci] < 10) {
+		//	//ゲームオーバーフラグをセット
+		//	m_GameOverflg = true;
+		//	m_GameClearflg = false;
+		//}
 		return;
 	}
 

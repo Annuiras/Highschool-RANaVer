@@ -64,6 +64,11 @@ bool CLoad::Load(void)
 //更新
 void CLoad::Update()
 {
+
+	if (m_LoadTimeEnd) {
+		return;
+	}
+
 	//フェードイン
 	if (!m_Fadein && m_WhiteAlpha > 0) {
 		m_WhiteAlpha -= FADE_OUT_SPEED;
@@ -72,7 +77,6 @@ void CLoad::Update()
 		}
 		return;
 	}
-
 
 	//待機時間減少
 	if (m_WaitingTime >= 0) {
@@ -108,7 +112,6 @@ void CLoad::Update()
 			m_LoadTimeEnd = true;
 		}
 	}
-
 }
 
 void CLoad::RenderLoad()
