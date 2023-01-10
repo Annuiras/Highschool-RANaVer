@@ -16,31 +16,36 @@ void CGAME::UPdeteCollisionDP(int dpt) {
 		//学力
 	case DP_SCHOLASTIC:
 		//エフェクト再生
-		b_EffectManeger->Start(0, 0, EFC_GET_SCHOLASTIC);
+		g_EffectManeger->Start(0, 0, EFC_GET_SCHOLASTIC);
+		g_EffectManeger->Start(0, 0, EFC_GET_SCHOLASTIC_AROOW);
 		break;
 
 		//行動力
 	case DP_ACTION:
 		//エフェクト再生
-		b_EffectManeger->Start(0, 0, EFC_GET_ACTION);
+		g_EffectManeger->Start(0, 0, EFC_GET_ACTION);
+		g_EffectManeger->Start(0, 0, EFC_GET_ACTION_AROOW);
 		break;
 
 		//想像力
 	case DP_IMAGINATION:
 		//エフェクト再生
-		b_EffectManeger->Start(0, 0, EFC_GET_IMAGINATION);
+		g_EffectManeger->Start(0, 0, EFC_GET_IMAGINATION);
+		g_EffectManeger->Start(0, 0, EFC_GET_IMAGINATION_AROOW);
 		break;
 
 		//コミュ力
 	case DP_COMMUNICATION:
 		//エフェクト再生
-		b_EffectManeger->Start(0, 0, EFC_GET_COMMUNICATION);
+		g_EffectManeger->Start(0, 0, EFC_GET_COMMUNICATION);
+		g_EffectManeger->Start(0, 0, EFC_GET_COMMUNICATION_AROOW);
 		break;
 
 		//魅力
 	case DP_CHARM:
 		//エフェクト再生
-		b_EffectManeger->Start(0, 0, EFC_GET_CHARM);
+		g_EffectManeger->Start(0, 0, EFC_GET_CHARM);
+		g_EffectManeger->Start(0, 0, EFC_GET_CHARM_AROOW);
 		break;
 	default:
 		break;
