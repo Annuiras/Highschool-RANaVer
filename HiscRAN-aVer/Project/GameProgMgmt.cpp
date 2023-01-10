@@ -3,7 +3,8 @@
 CGameProgMgmt::CGameProgMgmt():
 Game_DPNum (),
 Game_Over_HP(),
-DPdec_type()
+DPdec_type(),
+Gallery_flg()
 {
 }
 
@@ -21,6 +22,11 @@ void CGameProgMgmt::Initialize(void)
 	}
 	Game_Over_HP = false;
 	DPdec_type = 0;
+
+	for (int i = 0; i < 15; i++)
+	{
+		Gallery_flg[i] = false;
+	}
 }
 
 //DP目標設定画面：選択DPをセット
@@ -103,5 +109,20 @@ void CGameProgMgmt::SetOption_Button_Pos(float BGM, float SE)
 float CGameProgMgmt::GetOption_Button_Pos(int i)
 {
 	return Option_Button_Pos[i];
+}
+
+//ギャラリー画面：解放状況をセット
+//i:容姿番号
+//b:セットするフラグ
+void CGameProgMgmt::SetGallery_flg(int i, bool b)
+{
+	Gallery_flg[i] = b;
+}
+
+//ギャラリー画面：解放状況をゲット
+//i:容姿番号
+bool CGameProgMgmt::GetGallery_flg(int i)
+{
+	return Gallery_flg[i];
 }
 

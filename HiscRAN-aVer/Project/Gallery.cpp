@@ -1,9 +1,8 @@
 #include "Gallery.h"
 
 
-#define MenuCnt (16)
+#define MenuCnt (15)
 
-int galleryCnt = 0;
 
 
 CGallery::CGallery() :
@@ -12,7 +11,8 @@ CGallery::CGallery() :
 	m_SelectTexture_s(),
 	m_BackButton(),
 	m_PickUp(),
-	m_Text()
+	m_Text(),
+	m_BakAlph()
 {
 
 }
@@ -50,7 +50,7 @@ void CGallery::Load(void)
 		return;
 	}
 
-	//未解放最終容姿選択画像読み込み
+	//未解放本棚画像読み込み
 	char* NotFound_name[] = {
 	"collection_NotFound_00.png",
 	"collection_NotFound_01.png",
@@ -77,7 +77,7 @@ void CGallery::Load(void)
 	}
 
 
-	//最終容姿のテクスチャ(バラ&ピックアップ用)
+	//最終容姿のテクスチャ
 	char* Picup_name[] = {
 	"Picup1.png",
 	"Picup2.png",
@@ -103,14 +103,27 @@ void CGallery::Load(void)
 		}
 	}
 
+	//最終容姿背景
+	if (!m_BakLastAp.Load("collection_Picup_Rare.png")) {
+		b_LoadSitu = LOAD_ERROR;
+		return;
+	}
 
+	//未解放時のヒントアイコン
+	if (!m_NotPickUpText.Load("Collection_NotFoundText.png")) {
+		b_LoadSitu = LOAD_ERROR;
+		return;
+	}
+
+	//緑背景
 	if (!m_PickUp.Load("Picup.png"))
 	{
 		b_LoadSitu = LOAD_ERROR;
 		return;
 	}
 
-	if (!m_Text.Load("Text.png"))
+	//テキストボックス背景
+	if (!m_Text.Load("Collection_TextBox.png"))
 	{
 		b_LoadSitu = LOAD_ERROR;
 		return;
@@ -151,58 +164,34 @@ void CGallery::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* ef
 	b_MusicManager = musi;
 	b_EffectManeger = effec;
 
-	//Vector2{}		：本座標
-	//CRectangle{}	：説明文表示矩形
-	//解放フラグ	：true,解放済
-
-	//姉御
-	S_LastParameter[0] = SetLastParameter({ 60, 40 }, { 0,0,400,189 },true);
-
-	//クラスの人気者
-	S_LastParameter[1] = SetLastParameter({ 180,40 }, { 400,0,800,189 },true);
-
-	//ギャル
-	S_LastParameter[2] = SetLastParameter({ 300,40 }, { 800,0,1200,189 },true);
-
-	//応援団長
-	S_LastParameter[3] = SetLastParameter({ 420,40 }, { 0,189,400,378 },true);
-
-	//図書室の長
-	S_LastParameter[4] = SetLastParameter({ 540,40 }, { 400,189,800,378 },true);
-
-	//オタク
-	S_LastParameter[5] = SetLastParameter({ 60,240 }, { 800,189,1200,378 },true);
-
-	//インフルエンサー
-	S_LastParameter[6] = SetLastParameter({ 180,240 }, { 0,378,400,567 },true);
-
-	//委員長
-	S_LastParameter[7] = SetLastParameter({ 300,240 }, { 400,378,800,567 },true);
-
-	//高嶺の花
-	S_LastParameter[8] = SetLastParameter({ 420,240 }, { 800,378,1200,567 },true);
-
-	//ヤンキー
-	S_LastParameter[9] = SetLastParameter({ 540,240 }, { 0,567,400,756 },true);
+	//最終容姿背景の表示矩形を設定
+	//ノーマル
+	m_BakLastRect[BL_NORMAL].SetValue(800,400,1200,800);
 
 	//スーパーレディ
-	S_LastParameter[10] = SetLastParameter({ 60,440 }, { 400,567,800,756 },true);
+	m_BakLastRect[BL_SUPERLADY].SetValue(0, 0, 400, 400);
 
 	//お調子者
-	S_LastParameter[11] = SetLastParameter({ 180,440 }, { 800,567,1200,756 },true);
+	m_BakLastRect[BL_OTYOUSI].SetValue(400, 0, 800, 400);
 
 	//文学少女
-	S_LastParameter[12] = SetLastParameter({ 300,440 }, { 0,756,400,945 },true);
+	m_BakLastRect[BL_BUNGAKU].SetValue(800, 0, 1200, 400);
 
 	//中二病
-	S_LastParameter[13] = SetLastParameter({ 420,440 }, { 400,756,800,945 },true);
+	m_BakLastRect[BL_TYUNI].SetValue(0, 400, 400, 800);
 
 	//神対応
-	S_LastParameter[14] = SetLastParameter({ 540,440 }, { 800,756,1200,945 },true);
+	m_BakLastRect[BL_KAMITAIOU].SetValue(400, 400, 800, 800);
 
+	//解放状況を取得
+	for (int i = 0; i < 15; i++)
+	{
+		S_LastParameter[i].s_LastAddFlag = b_GameProgMamt->GetGallery_flg(i);
+	}
 
 	//素材ロード
 	Load();
+
 	//エラー状態でない場合
 	if (b_LoadSitu != LOAD_ERROR) {
 		//初期化完了
@@ -216,22 +205,19 @@ void CGallery::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* ef
 	b_Fadein = FADE_IN;
 	m_BakAlph = 255;
 
+	//カーソル初期化
+	galleryCnt = 0;
 }
 
 //更新
 void CGallery::Update(void)
 {
+	//BGM再生
 	b_MusicManager->BGMStart(BGMT_GALLERY);
 
 	//フェードイン処理
 	if (b_Fadein == FADE_IN) {
 		m_BakAlph = FadeIn(m_BakAlph, true);
-		return;
-	}
-
-	//フェードアウト処理
-	if (b_Fadein == FADE_OUT) {
-		m_BakAlph = FadeOut(m_BakAlph, true);
 		return;
 	}
 
@@ -241,6 +227,20 @@ void CGallery::Update(void)
 		//モードセレクトへ
 		m_bEnd = true;
 		m_NextScene = SCENENO_SELECTMODE;
+	}
+
+	//フェードアウト処理
+	if (b_Fadein == FADE_OUT) {
+		m_BakAlph = FadeOut(m_BakAlph, true);
+		return;
+	}
+
+
+	//フラグ切り換え
+	//後日デバックに書き写し
+	if (g_pInput->IsKeyPush(MOFKEY_0))
+	{
+		S_LastParameter[galleryCnt].s_LastAddFlag = S_LastParameter[galleryCnt].s_LastAddFlag ? !S_LastParameter[galleryCnt].s_LastAddFlag : !S_LastParameter[galleryCnt].s_LastAddFlag;
 	}
 
 
@@ -261,7 +261,7 @@ void CGallery::Update(void)
 	{
 		//SE再生被りなし調整可
 		b_MusicManager->SEStart(SE_T_GALL_CURSORMOVE);
-		if (galleryCnt < MenuCnt - 1)
+		if (galleryCnt < MenuCnt)
 		{
 			galleryCnt++;
 		}
@@ -282,7 +282,7 @@ void CGallery::Update(void)
 	if (g_pInput->IsKeyPush(MOFKEY_DOWN))
 	{
 		b_MusicManager->SEStart(SE_T_GALL_CURSORMOVE);
-		if (galleryCnt < MenuCnt - 1 && galleryCnt <= 10)
+		if (galleryCnt < MenuCnt&& galleryCnt <= 10)
 		{
 			galleryCnt += 5;
 		}
@@ -309,14 +309,11 @@ void CGallery::Update(void)
 void CGallery::Render(void)
 {
 
-	//最終容姿台紙
+	//ギャラリー画面背景
 	m_BackTexture.Render(0, 0);
 
-	//最終容姿解放済み画像
+	//左側本棚表示
 	m_LastApp.Render(60, 40);
-
-	//最終容姿表示位置
-	m_PickUp.Render(766, 40);
 
 	//テキストボックス
 	m_Text.Render(766, 461);
@@ -331,39 +328,84 @@ void CGallery::Render(void)
 		if (S_LastParameter[i].s_LastAddFlag == false)
 		{
 			//未開放本テクスチャ
-			S_LastParameter[i].s_NotLastApp.Render(S_LastParameter[i].s_Mount_Pos.x, S_LastParameter[i].s_Mount_Pos.y);
+			S_LastParameter[i].s_NotLastApp.Render(60 + (120 * (i % 5)), 40 + ((i / 5) * 200));
 		}
 
 	}
 
 	//選択時囲み枠の表示
+	//戻るボタン
 	if (galleryCnt == 15)
 	{
 		m_SelectTexture_s.Render(60, 650);
 		m_PickUp.Render(766, 50);
 	}
+	//本棚に選択囲み枠
 	else
 	{
 		//選択矩形
-		m_SelectTexture.Render(S_LastParameter[galleryCnt].s_Mount_Pos.x, S_LastParameter[galleryCnt].s_Mount_Pos.y);
+		m_SelectTexture.Render(60 + (120 * (galleryCnt % 5)), 40 + ((galleryCnt / 5) * 200));
 	}
 
-	//もし最終容姿解放フラグがFalseだった場合
-	if (S_LastParameter[galleryCnt].s_LastAddFlag == false)
+	//最終容姿解放フラグ
+	if (S_LastParameter[galleryCnt].s_LastAddFlag)
+	{		
+
+		//最終容姿背景
+		if (galleryCnt== LT_SUPERLADY) {
+
+			//スーパーレディ
+			m_BakLastAp.Render(766, 50, m_BakLastRect[BL_SUPERLADY]);
+		}
+		else if(galleryCnt == LT_OTYOUSI)
+		{
+			//お調子者
+			m_BakLastAp.Render(766, 50, m_BakLastRect[BL_OTYOUSI]);
+		}
+		else if (galleryCnt == LT_BUNGAKU)
+		{
+			//文学少女
+			m_BakLastAp.Render(766, 50, m_BakLastRect[BL_BUNGAKU]);
+		}
+		else if (galleryCnt == LT_TYUNI)
+		{
+			//中二病
+			m_BakLastAp.Render(766, 50, m_BakLastRect[BL_TYUNI]);
+		}
+		else if (galleryCnt == LT_KAMITAIOU)
+		{
+			//神対応
+			m_BakLastAp.Render(766, 50, m_BakLastRect[BL_KAMITAIOU]);
+		}
+		else
+		{
+			//その他ノーマル
+			m_BakLastAp.Render(766, 50, m_BakLastRect[BL_NORMAL]);
+		}
+
+		//最終容姿を表示
+		S_LastParameter[galleryCnt].s_LastAppPic.Render(766, 50);
+
+		//説明テキスト表示矩形
+		CRectangle r_Text = {(400.f * (galleryCnt % 3)),(galleryCnt / 3) * 189.f,
+							400.f+ (400 * (galleryCnt % 3)),189.f + (189 * (galleryCnt / 3)) 
+		};
+
+		//説明文
+		m_PickUpText.Render(766, 461, r_Text);
+
+	}
+	else
 	{
 		//最終容姿を表示せず別画像を表示
 		m_PickUp.Render(766, 50);
 
-		//未解放時の表記にする
-		m_NotPickUpText.Render(766, 461,S_LastParameter[galleryCnt].s_TextBoxRect);
-	}
-	else
-	{
-		//最終容姿を表示
-		S_LastParameter[galleryCnt].s_LastAppPic.Render(766, 50);
+		//説明テキスト表示矩形
+		CRectangle r_Text = { (400.f * (galleryCnt % 3)),(galleryCnt / 3) * 189.f,
+							400.f + (400 * (galleryCnt % 3)),189.f + (189 * (galleryCnt / 3)) };
 
-		//説明文
-		m_PickUpText.Render(766, 461, S_LastParameter[galleryCnt].s_TextBoxRect);
+		//未解放時の表記にする
+		m_NotPickUpText.Render(766, 461, r_Text);
 	}
 
 	//フェードアウト明転用
@@ -380,19 +422,7 @@ void CGallery::RenderDebug(void)
 	CGraphicsUtilities::RenderString(10, 40, "F1キーでタイトル画面へ遷移");
 	CGraphicsUtilities::RenderString(10, 70, "Enterキーでモードセレクト画面へ遷移");
 
-	//フラグ切り換え
-	//後日デバックに書き写し
-	if (g_pInput->IsKeyPush(MOFKEY_O))
-	{
-		if (S_LastParameter[galleryCnt].s_LastAddFlag == false)
-		{
-			S_LastParameter[galleryCnt].s_LastAddFlag = true;
-		}
-		else
-		{
-			S_LastParameter[galleryCnt].s_LastAddFlag = false;
-		}
-	}
+
 }
 
 
@@ -405,6 +435,7 @@ void CGallery::Release(void)
 	m_BackButton.Release();
 
 	m_LastApp.Release();
+	m_BakLastAp.Release();
 
 	m_PickUpText.Release();
 
@@ -420,6 +451,8 @@ void CGallery::Release(void)
 
 	m_PickUp.Release();
 	m_Text.Release();
+	m_NotPickUpText.Release();
+
 
 	b_MusicManager->BGMStop(BGMT_GALLERY);
 

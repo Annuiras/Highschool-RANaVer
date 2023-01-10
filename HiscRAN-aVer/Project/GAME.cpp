@@ -3,54 +3,6 @@
 
 
 
-//DPと当たった場合
-//dpt->DPの種類
-void CGAME::UPdeteCollisionDP(int dpt) {
-
-	b_MusicManager->SEStart(SE_T_DP_HIT);
-
-	m_DPNum[dpt]++;
-
-	switch (dpt)
-	{
-		//学力
-	case DP_SCHOLASTIC:
-		//エフェクト再生
-		g_EffectManeger->Start(0, 0, EFC_GET_SCHOLASTIC);
-		g_EffectManeger->Start(0, 0, EFC_GET_SCHOLASTIC_AROOW);
-		break;
-
-		//行動力
-	case DP_ACTION:
-		//エフェクト再生
-		g_EffectManeger->Start(0, 0, EFC_GET_ACTION);
-		g_EffectManeger->Start(0, 0, EFC_GET_ACTION_AROOW);
-		break;
-
-		//想像力
-	case DP_IMAGINATION:
-		//エフェクト再生
-		g_EffectManeger->Start(0, 0, EFC_GET_IMAGINATION);
-		g_EffectManeger->Start(0, 0, EFC_GET_IMAGINATION_AROOW);
-		break;
-
-		//コミュ力
-	case DP_COMMUNICATION:
-		//エフェクト再生
-		g_EffectManeger->Start(0, 0, EFC_GET_COMMUNICATION);
-		g_EffectManeger->Start(0, 0, EFC_GET_COMMUNICATION_AROOW);
-		break;
-
-		//魅力
-	case DP_CHARM:
-		//エフェクト再生
-		g_EffectManeger->Start(0, 0, EFC_GET_CHARM);
-		g_EffectManeger->Start(0, 0, EFC_GET_CHARM_AROOW);
-		break;
-	default:
-		break;
-	}
-}
 
 CGAME::CGAME():
 	m_StartCount(),
@@ -467,6 +419,54 @@ void CGAME::Update(void)
 	b_EffectManeger->Update(g_Player.GetRect());
 }
 
+//DPと当たった場合
+//dpt->DPの種類
+void CGAME::UPdeteCollisionDP(int dpt) {
+
+	b_MusicManager->SEStart(SE_T_DP_HIT);
+
+	m_DPNum[dpt]++;
+
+	switch (dpt)
+	{
+		//学力
+	case DP_SCHOLASTIC:
+		//エフェクト再生
+		b_EffectManeger->Start(0, 0, EFC_GET_SCHOLASTIC);
+		b_EffectManeger->Start(0, 0, EFC_GET_SCHOLASTIC_AROOW);
+		break;
+
+		//行動力
+	case DP_ACTION:
+		//エフェクト再生
+		b_EffectManeger->Start(0, 0, EFC_GET_ACTION);
+		b_EffectManeger->Start(0, 0, EFC_GET_ACTION_AROOW);
+		break;
+
+		//想像力
+	case DP_IMAGINATION:
+		//エフェクト再生
+		b_EffectManeger->Start(0, 0, EFC_GET_IMAGINATION);
+		b_EffectManeger->Start(0, 0, EFC_GET_IMAGINATION_AROOW);
+		break;
+
+		//コミュ力
+	case DP_COMMUNICATION:
+		//エフェクト再生
+		b_EffectManeger->Start(0, 0, EFC_GET_COMMUNICATION);
+		b_EffectManeger->Start(0, 0, EFC_GET_COMMUNICATION_AROOW);
+		break;
+
+		//魅力
+	case DP_CHARM:
+		//エフェクト再生
+		b_EffectManeger->Start(0, 0, EFC_GET_CHARM);
+		b_EffectManeger->Start(0, 0, EFC_GET_CHARM_AROOW);
+		break;
+	default:
+		break;
+	}
+}
 
 void CGAME::Render(void)
 {

@@ -6,6 +6,7 @@ CGameClear::CGameClear() :
 	m_BackTexture(),
 	m_UITexture(),
 	gAlpha(0.0f),
+	m_BlackBakAlph(0),
 	m_WhiteBakAlph(0),
 	Memory1(),
 	Memory2(),
@@ -58,31 +59,36 @@ void CGameClear::StatusJudgement(void)
 	//学力一点突破
 	if (m_Status_1 == DP_SCHOLASTIC && Status[m_Status_1]>= 100) {
 		//文学少女
-		LastDetailNo = 0;
+		LastDetailNo = LT_BUNGAKU;
+		b_GameProgMamt->SetGallery_flg(LastDetailNo, true);
 		return;
 	}
 	//行動力一点突破
 	if (m_Status_1 == DP_ACTION&& Status[m_Status_1] >= 100) {
 		//お調子者
-		LastDetailNo = 1;
+		LastDetailNo = LT_OTYOUSI;
+		b_GameProgMamt->SetGallery_flg(LastDetailNo, true);
 		return;
 	}
 	//想像力一点突破
 	if (m_Status_1 == DP_IMAGINATION && Status[m_Status_1] >= 100) {
-		//中二病
-		LastDetailNo = 2;
+		//厨二病
+		LastDetailNo = LT_TYUNI;
+		b_GameProgMamt->SetGallery_flg(LastDetailNo, true);
 		return;
 	}
 	//コミュ力一点突破
 	if (m_Status_1 == DP_COMMUNICATION && Status[m_Status_1] >= 100) {
 		//神対応
-		LastDetailNo = 3;
+		LastDetailNo = LT_KAMITAIOU;
+		b_GameProgMamt->SetGallery_flg(LastDetailNo, true);
 		return;
 	}
 	//魅力一点突破
 	if (m_Status_1 == DP_CHARM && Status[m_Status_1] >= 100) {
 		//スーパーレディ
-		LastDetailNo = 4;
+		LastDetailNo = LT_SUPERLADY;
+		b_GameProgMamt->SetGallery_flg(LastDetailNo, true);
 		return;
 	}
 
@@ -93,25 +99,29 @@ void CGameClear::StatusJudgement(void)
 		//と行動力
 		if (m_Status_1 == DP_ACTION || m_Status_2 == DP_ACTION) {
 			//委員長
-			LastDetailNo = 5;
+			LastDetailNo = LT_IINTYOU;
+			b_GameProgMamt->SetGallery_flg(LastDetailNo, true);
 			return;
 		}
 		//と想像力
 		if (m_Status_1 == DP_IMAGINATION || m_Status_2 == DP_IMAGINATION) {
 			//図書室の長
-			LastDetailNo = 6;
+			LastDetailNo = LT_TOSYO;
+			b_GameProgMamt->SetGallery_flg(LastDetailNo, true);
 			return;
 		}
 		//とコミュ力
 		if (m_Status_1 == DP_COMMUNICATION || m_Status_2 == DP_COMMUNICATION) {
 			//人気者
-			LastDetailNo = 7;
+			LastDetailNo = LT_NINKIMONO;
+			b_GameProgMamt->SetGallery_flg(LastDetailNo, true);
 			return;
 		}
 		//と魅力
 		if (m_Status_1 == DP_CHARM || m_Status_2 == DP_CHARM) {
 			//高嶺の花
-			LastDetailNo = 8;
+			LastDetailNo = LT_TAKANE;
+			b_GameProgMamt->SetGallery_flg(LastDetailNo, true);
 			return;
 		}
 	}
@@ -122,19 +132,22 @@ void CGameClear::StatusJudgement(void)
 		//と想像力
 		if (m_Status_1 == DP_IMAGINATION || m_Status_2 == DP_IMAGINATION) {
 			//オタク
-			LastDetailNo = 9;
+			LastDetailNo = LT_OTAKU;
+			b_GameProgMamt->SetGallery_flg(LastDetailNo, true);
 			return;
 		}
 		//とコミュ力
 		if (m_Status_1 == DP_COMMUNICATION || m_Status_2 == DP_COMMUNICATION) {
 			//応援団長
-			LastDetailNo = 10;
+			LastDetailNo = LT_OUEN;
+			b_GameProgMamt->SetGallery_flg(LastDetailNo, true);
 			return;
 		}
 		//と魅力
 		if (m_Status_1 == DP_CHARM || m_Status_2 == DP_CHARM) {
 			//ヤンキー
-			LastDetailNo = 11;
+			LastDetailNo = LT_YABKI;
+			b_GameProgMamt->SetGallery_flg(LastDetailNo, true);
 			return;
 		}
 	}
@@ -145,13 +158,15 @@ void CGameClear::StatusJudgement(void)
 		//とコミュ力
 		if (m_Status_1 == DP_COMMUNICATION || m_Status_2 == DP_COMMUNICATION) {
 			//姉御
-			LastDetailNo = 12;
+			LastDetailNo = LT_ANEGO;
+			b_GameProgMamt->SetGallery_flg(LastDetailNo, true);
 			return;
 		}
 		//と魅力
 		if (m_Status_1 == DP_CHARM || m_Status_2 == DP_CHARM) {
 			//インフルエンサー
-			LastDetailNo = 13;
+			LastDetailNo = LT_INFLUENCER;
+			b_GameProgMamt->SetGallery_flg(LastDetailNo, true);
 			return;
 		}
 	}
@@ -162,7 +177,8 @@ void CGameClear::StatusJudgement(void)
 		//と魅力
 		if (m_Status_1 == DP_CHARM || m_Status_2 == DP_CHARM) {
 			//ギャル
-			LastDetailNo = 14;
+			LastDetailNo = LT_GYARU;
+			b_GameProgMamt->SetGallery_flg(LastDetailNo, true);
 			return;
 		}
 	}
@@ -227,21 +243,22 @@ void CGameClear::Load(void)
 
 	char* name[15] =
 	{
-		"GameClearBG_LiteratureGirl.png",//0 文学少女
-		"GameClearBG_FussyPerson.png",	 //1 お調子者
-		"GameClearBG_Chu-nibyou.png",	 //2 中二病
-		"GameClearBG_GodSupport.png",	 //3 神対応
-		"GameClearBG_SuperLady.png",	 //4 スーパーレディ
-		"GameClearBG_Chairman.png",		 //5 委員長
-		"GameClearBG_LibraryManager.png",//6 図書室の長
-		"GameClearBG_ClassFavorite.png", //7 人気者
-		"GameClearBG_LoftyDream.png",	 //8 高嶺の花
-		"GameClearBG_Otaku.png",		 //9 オタク
-		"GameClearBG_CheerLeader.png",	 //10応援団長
-		"GameClearBG_Yankee.png",		 //11ヤンキー
-		"GameClearBG_OlderSister.png",	 //12姉御
-		"GameClearBG_Infulencer.png",	 //13インフルエンサー
-		"GameClearBG_Gal.png",			 //14ギャル
+		"GameClearBG_OlderSister.png",	 //姉御
+		"GameClearBG_ClassFavorite.png", //人気者
+		"GameClearBG_Gal.png",			 //ギャル
+		"GameClearBG_CheerLeader.png",	 //応援団長
+		"GameClearBG_LibraryManager.png",//図書室の長
+		"GameClearBG_Otaku.png",		 //オタク
+		"GameClearBG_Infulencer.png",	 //インフルエンサー
+		"GameClearBG_Chairman.png",		 //委員長
+		"GameClearBG_LoftyDream.png",	 //高嶺の花
+		"GameClearBG_Yankee.png",		 //ヤンキー
+		"GameClearBG_SuperLady.png",	 //スーパーレディ
+		"GameClearBG_FussyPerson.png",	 //お調子者
+		"GameClearBG_LiteratureGirl.png",//文学少女
+		"GameClearBG_Chu-nibyou.png",	 //厨二病
+		"GameClearBG_GodSupport.png",	 //神対応
+		
 	};
 
 	for (int i = 0; i < 15; i++)

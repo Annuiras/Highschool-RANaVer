@@ -2,7 +2,7 @@
 #include "Define.h"
 #include "SceneBase.h"
 
-
+//ƒQ[ƒ€ƒNƒŠƒA‰æ–Ê
 class CGameClear:public CSceneBase
 {
 private:

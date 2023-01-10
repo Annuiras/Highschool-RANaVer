@@ -26,6 +26,9 @@ private:
 	//1:SE
 	float Option_Button_Pos[2];
 
+	//ギャラリー解放状況を保存
+	bool Gallery_flg[15];
+
 public:
 	CGameProgMgmt(); 
 	~CGameProgMgmt();
@@ -55,6 +58,15 @@ public:
 	//0:BGM
 	//1:SE
 	float GetOption_Button_Pos(int i);
+
+	//ギャラリー画面：解放状況をセット
+	//i:容姿番号
+	//b:セットするフラグ
+	void SetGallery_flg(int i, bool b);
+
+	//ギャラリー画面：解放状況をゲット
+	//i:容姿番号
+	bool GetGallery_flg(int i);
 
 };
 

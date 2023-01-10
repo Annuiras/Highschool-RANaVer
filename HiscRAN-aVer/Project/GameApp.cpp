@@ -168,14 +168,14 @@ MofBool CGameApp::Update(void){
 	//最初のシーンを生成
 	if (gpScene == nullptr) {
 
-		gpScene = new CGAME();
+		gpScene = new CGallery();
 		gLoad.Thread_Load = thread{ [=] {gpScene->Load(); } };
 		gLoad.Initialize(0,100);
 	}
 
 
 	//シーンのロード完了時
-	 if (gpScene->GetLoadSitu() == LOAD_COMP)
+	if (gpScene->GetLoadSitu() == LOAD_COMP)
 	{
 		//スレッド解放
 		gLoad.Thread_Load.join();
@@ -186,7 +186,7 @@ MofBool CGameApp::Update(void){
 		//フラグ更新
 		gpScene->SetLoadSitu(LOAD_DONE);
 	}
-	 else
+	else
 	//ロード前かエラー時は更新なし
 	if ((gpScene->GetLoadSitu() == LOAD_YET || gpScene->GetLoadSitu() == LOAD_ERROR)||
 		!gLoad.IsLoadEnd()){

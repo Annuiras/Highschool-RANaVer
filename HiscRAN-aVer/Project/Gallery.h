@@ -2,13 +2,36 @@
 
 #include "Define.h"
 #include "SceneBase.h"
-#include <thread>
 
-using namespace std;
-
+//ギャラリー画面クラス
 class CGallery :public CSceneBase
 {
 private:
+
+	//最終容姿背景種類
+	enum tag_BAKLAST_TYPE {
+
+		//ノーマル
+		BL_NORMAL,
+
+		//スーパーレディ
+		BL_SUPERLADY,
+
+		//お調子者
+		BL_OTYOUSI,
+
+		//文学少女
+		BL_BUNGAKU,
+
+		//中二病
+		BL_TYUNI,
+
+		//神対応
+		BL_KAMITAIOU,
+
+		//総数
+		BL_COUNT
+	}; 
 
 	//コレクション画面背景テクスチャ
 	CTexture	m_BackTexture;
@@ -22,17 +45,15 @@ private:
 	//選択時の四角形（戻るボタン）
 	CTexture	m_SelectTexture_s;
 
+	//最終容姿背景
+	CTexture m_BakLastAp;
+
 	//最終容姿パラメータ構造体
+	//構造体定義
 	typedef struct LastTexture
 	{
 		//最終容姿テクスチャ（ピックアップ用）
 		CTexture s_LastAppPic;
-
-		//最終容姿の台紙テクスチャ（バラ）座標格納
-		Vector2 s_Mount_Pos;
-
-		//テキストボックスの表示矩形
-		CRectangle s_TextBoxRect;
 
 		//未開放フラグ
 		bool s_LastAddFlag;
@@ -41,9 +62,11 @@ private:
 		CTexture s_NotLastApp;
 	};
 
-	//宣言
-	LastTexture S_LastParameter[16];
+	//最終容姿背景表示矩形
+	CRectangle m_BakLastRect[BL_COUNT];
 
+	//最終容姿パラメータ構造体
+	LastTexture S_LastParameter[16];
 
 	//最終容姿台紙
 	CTexture	m_PickUp;
@@ -60,19 +83,11 @@ private:
 	//戻るボタン
 	CTexture	m_BackButton;
 
+	//フェードアウト用アルファ値
 	int m_BakAlph;
 
-	//構造体に値をセット
-	struct LastTexture SetLastParameter(Vector2 Pos, CRectangle textrec, bool b)
-	{
-		LastTexture ps;
-
-		ps.s_Mount_Pos = Pos;
-		ps.s_LastAddFlag = b;
-		ps.s_TextBoxRect = textrec;
-
-		return ps;
-	}
+	//カーソル番号
+	int galleryCnt = 0;
 
 public:
 	CGallery();
