@@ -32,7 +32,7 @@ void CEffect::Initialize(int type) {
 	m_PosY = 0.0f;
 	m_bShow = false;
 
-	float DP_coma = 1.5;
+	float DP_coma = 2.8;
 
 	switch (type)
 	{
