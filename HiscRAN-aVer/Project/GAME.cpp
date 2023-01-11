@@ -478,31 +478,31 @@ void CGAME::Render(void)
 	g_Player.Render();
 
 	//DP目標表示（仮）
-	switch (m_DPDeci)
-	{
+	//switch (m_DPDeci)
+	//{
 
-	case 0:
-		CGraphicsUtilities::RenderString(0, 210, MOF_XRGB(80, 80, 80), "DP目標:学力");
-		break;
-	case 1:
-		CGraphicsUtilities::RenderString(0, 210, MOF_XRGB(80, 80, 80), "DP目標:行動力");
-		break;
+	//case 0:
+	//	CGraphicsUtilities::RenderString(0, 210, MOF_XRGB(80, 80, 80), "DP目標:学力");
+	//	break;
+	//case 1:
+	//	CGraphicsUtilities::RenderString(0, 210, MOF_XRGB(80, 80, 80), "DP目標:行動力");
+	//	break;
 
-	case 2:
-		CGraphicsUtilities::RenderString(0, 210, MOF_XRGB(80, 80, 80), "DP目標:想像力");
-		break;
+	//case 2:
+	//	CGraphicsUtilities::RenderString(0, 210, MOF_XRGB(80, 80, 80), "DP目標:想像力");
+	//	break;
 
-	case 3:
-		CGraphicsUtilities::RenderString(0, 210, MOF_XRGB(80, 80, 80), "DP目標:コミュ力");
-		break;
+	//case 3:
+	//	CGraphicsUtilities::RenderString(0, 210, MOF_XRGB(80, 80, 80), "DP目標:コミュ力");
+	//	break;
 
-	case 4:
-		CGraphicsUtilities::RenderString(0, 210, MOF_XRGB(80, 80, 80), "DP目標:魅力");
-		break;
+	//case 4:
+	//	CGraphicsUtilities::RenderString(0, 210, MOF_XRGB(80, 80, 80), "DP目標:魅力");
+	//	break;
 
-	default:
-		break;
-	}
+	//default:
+	//	break;
+	//}
 
 
 	//ゲーム開始時のカウントダウンの表示

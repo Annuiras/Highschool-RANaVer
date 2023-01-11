@@ -6,10 +6,13 @@ class CDPDecision :public CSceneBase
 {
 private:
 
+	//画面説明
 	CTexture	m_ExTexture;
 
-	//背景テクスチャ
+	//背景黒板
 	CTexture	m_BackTextureA;
+
+	//黒塗りキャラ
 	CTexture	m_BackTextureC;
 
 	//説明文字
@@ -29,6 +32,13 @@ private:
 	
 	//フェードイン背景アルファ値
 	int m_WhiteBakAlph;
+
+	//選択肢番号
+	int DPDecCnt;
+
+	//DP選択説明表示フラグ
+	//true:表示中
+	bool flagD;
 
 
 public:

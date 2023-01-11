@@ -24,23 +24,28 @@ tag_LoadSituation CMenu::Load(void)
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("Menu");
 
+	//アプリケーション終了メニュー
 	if (!m_MenuEndTexture.Load("Menu_BGEND.png")) {
 
 		return LOAD_ERROR;
 	}
 
+	//ゲームポーズメニュー
 	if (!m_MenuPauseTexture.Load("Menu_BGPause.png")) {
 		return LOAD_ERROR;
 	}
 
+	//DP選択決定メニュー
 	if (!m_MenuDPTexture.Load("Menu_DPDecision.png")) {
 		return LOAD_ERROR;
 	}
 
+	//DP選択決定時のDP種類まとめ
 	if (!m_MenuDPTexTexture.Load("Menu_DPDecision_Text.png")) {
 		return LOAD_ERROR;
 	}
 
+	//メニュー選択チェックマーク
 	if (!m_MenuCheck.Load("Menu_Check.png")) {
 		return LOAD_ERROR;
 	}
@@ -189,6 +194,7 @@ void CMenu::Render(void)
 				m_MenuCheck.Render(770, 424);
 			}
 			break;
+
 		default:
 			break;
 	}

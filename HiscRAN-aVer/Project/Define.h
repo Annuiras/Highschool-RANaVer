@@ -216,6 +216,8 @@ enum tag_LAST_TEXTURE_TYPE
 //ŠÇ—SE‚Ì”
 #define		SE_MGMT_COUNT 5
 
+//DP‘I‘ğ‰æ–Ê:‘I‘ğˆ”
+#define DPDECISION_MENUCNT 5
 
 //SEí—Ş—ñ‹“
 enum tag_SE_TYPE {
