@@ -12,12 +12,19 @@ private:
 	CMusicMgmt* m_MusicMamt;
 	CEffectMgmt* m_EffectMamt;
 
+	//アプリケーション終了メニュー
 	CTexture	m_MenuEndTexture;
+
+	//ゲームポーズメニュー
 	CTexture	m_MenuPauseTexture;
 
+	//DP選択決定メニュー
 	CTexture	m_MenuDPTexture;
+
+	//DP選択決定時のDP種類まとめ
 	CTexture	m_MenuDPTexTexture;
 
+	//メニュー選択チェックマーク
 	CTexture	m_MenuCheck;
 
 	float		m_cx;
@@ -84,6 +91,10 @@ public:
 	//エフェクトマネージャーセット
 	void SetEffectManager(CEffectMgmt* mgmt) { m_EffectMamt = mgmt; }
 
-	int  GetCount(void) { return m_Count; }
+	//メニューの種類を取得
+	tag_MenuType GetMenuType(void) {return m_Type;}
+
+	//選択肢の数を取得
+	//int  GetCount(void) { return m_Count; }
 
 };

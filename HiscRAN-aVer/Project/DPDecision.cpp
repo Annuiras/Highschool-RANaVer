@@ -1,23 +1,15 @@
 #include "DPDecision.h"
 #include "Define.h"
 
-
-
-#define DPDecisionMenuCnt (6)
-
-int DPDecCnt = 0;
-
-int	DPDecMenuItemCnt = 2;
-
-bool flagD = true;
-
-
 //コンストラクタ
 CDPDecision::CDPDecision() :
 	m_BackTextureA(),
 	m_BackTextureC(),
 	m_TextTexture(),
-	m_SelectTexture()
+	m_SelectTexture(),
+	m_WhiteBakAlph(),
+	DPDecCnt(),
+	flagD(true)
 {
 
 }
@@ -35,30 +27,35 @@ void CDPDecision::Load(void)
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("DPDecision");
 
+	//背景黒板
 	if (!m_BackTextureA.Load("DPDecision_BGA.png"))
 	{
 		b_LoadSitu = LOAD_ERROR;
 		return;
 	}
 
+	//選択枠
 	if (!m_SelectTexture.Load("DPDecision_Select.png"))
 	{
 		b_LoadSitu = LOAD_ERROR;
 		return;
 	}
 
+	//黒塗りキャラ
 	if (!m_BackTextureC.Load("DPDecision_BGC.png"))
 	{
 		b_LoadSitu = LOAD_ERROR;
 		return;
 	}
 
+	//説明文字
 	if (!m_TextTexture.Load("DPDecision_Text.png"))
 	{
 		b_LoadSitu = LOAD_ERROR;
 		return;
 	}
 
+	//画面説明
 	if (!m_ExTexture.Load("DPDecision_ExText.png"))
 	{
 		b_LoadSitu = LOAD_ERROR;
@@ -68,6 +65,7 @@ void CDPDecision::Load(void)
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("../");
 
+	//ロード状況更新
 	b_LoadSitu = LOAD_COMP;
 
 }
@@ -81,20 +79,19 @@ void CDPDecision::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt*
 	b_EffectManeger = effec;
 	b_MenuMamt = menu;
 
-	for (int i = 0; i < 5; i++)
-	{
-		//m_SelectDP[i] = false;
-	}
-
 	//素材ロード
 	Load();
+
 	//エラー状態でない場合
-	if (b_LoadSitu != LOAD_ERROR) {
+	if (b_LoadSitu == LOAD_COMP) {
 		//初期化完了
 		b_LoadSitu = LOAD_DONE;
 	}
 
+	//選択肢初期化
 	DPDecCnt = 0;
+
+	//説明表示
 	flagD = true;
 
 	//フェードイン
@@ -112,12 +109,11 @@ void CDPDecision::Update(void)
 		return;
 	}
 
-
 	//フェードアウト完了時
 	if (b_Fadein == FADE_NEXT) {
 
-		//戻るボタン
-		if (DPDecCnt == 5) {
+		//メニューのタイプ処理
+		if (b_MenuMamt->GetMenuType()== MENUT_GAME_END) {
 			m_bEnd = true;
 			m_NextScene = SCENENO_SELECTMODE;
 		}
@@ -136,72 +132,79 @@ void CDPDecision::Update(void)
 		return;
 	}
 
-	//戻るボタンにカーソルがあって、エンターでモードセレクト画面へ
-	if (DPDecCnt == 5 && g_pInput->IsKeyPush(MOFKEY_RETURN))
+	//説明表示中
+	if (flagD == true)
 	{
-		b_Fadein = FADE_OUT;
+		//エンターで非表示
+		if (g_pInput->IsKeyPush(MOFKEY_RETURN)) {
+			flagD = false;
+		}		
+		return;
 	}
 
-	if (flagD == true && g_pInput->IsKeyPush(MOFKEY_RETURN))
+	if (b_MenuMamt->IsShow())
 	{
-		flagD = false;
-	}
-	else if (b_MenuMamt->IsShow())
-	{
+		//メニューの更新
 		b_MenuMamt->Update();
+
+		//メニュー決定時
 		if (b_MenuMamt->IsEnter())
 		{
-			if (b_MenuMamt->GetSelect() == 0)
+			//メニューのタイプ処理
+			switch (b_MenuMamt->GetMenuType())
 			{
-				//ここでフラグをゲームに受け渡し？
-				b_Fadein = FADE_OUT;
-				b_GameProgMamt->SetDPdec_type(DPDecCnt);
-				//消す
-				b_MenuMamt->Hide();
-			}
-			else if (b_MenuMamt->GetSelect() == 1)
-			{
-				//初期化
-				for (int i = 0; i < 5; i++)
+			case MENUT_DPCONFIRM:
+				if (b_MenuMamt->GetSelect() == 0)
 				{
-					//m_SelectDP[i] = false;
+					//DPの選択を記録
+					b_Fadein = FADE_OUT;
+					b_GameProgMamt->SetDPdec_type(DPDecCnt);
+					//メニュー非表示
+					b_MenuMamt->Hide();
 				}
-				b_MenuMamt->Hide();
+				else if (b_MenuMamt->GetSelect() == 1)
+				{
+					//メニュー非表示
+					b_MenuMamt->Hide();
+				}
+
+				break;
+
+			case MENUT_GAME_END:
+				if (b_MenuMamt->GetSelect() == 0)
+				{
+					b_Fadein = FADE_OUT;
+					//メニュー非表示
+					b_MenuMamt->Hide();
+				}
+				else if (b_MenuMamt->GetSelect() == 1)
+				{
+					//メニュー非表示
+					b_MenuMamt->Hide();
+				}
+				break;
+			default:
+				break;
 			}
 
 		}
 	}
-	else if (DPDecCnt == 0 && g_pInput->IsKeyPush(MOFKEY_RETURN))
+	else if (g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
-		//m_SelectDP[0] = true;
+		//DP選択確定メニュー表示
 		b_MenuMamt->Show(MENUT_DPCONFIRM);
 	}
-	else if (DPDecCnt == 1 && g_pInput->IsKeyPush(MOFKEY_RETURN))
+	else if(g_pInput->IsKeyPush(MOFKEY_ESCAPE))
 	{
-		//m_SelectDP[1] = true;
-		b_MenuMamt->Show(MENUT_DPCONFIRM);
+		//終了メニュー表示
+		b_MenuMamt->Show(MENUT_GAME_END);
 	}
-	else if (DPDecCnt == 2 && g_pInput->IsKeyPush(MOFKEY_RETURN))
-	{
-		//m_SelectDP[2] = true;
-		b_MenuMamt->Show(MENUT_DPCONFIRM);
-	}
-	else if (DPDecCnt == 3 && g_pInput->IsKeyPush(MOFKEY_RETURN))
-	{
-		//m_SelectDP[3] = true;
-		b_MenuMamt->Show(MENUT_DPCONFIRM);
-	}
-	else if (DPDecCnt == 4 && g_pInput->IsKeyPush(MOFKEY_RETURN))
-	{
-		//m_SelectDP[4] = true;
-		b_MenuMamt->Show(MENUT_DPCONFIRM);
-	}
-	else
+	else 
 	{
 		//矢印キー右で選択が右に行くようにする
 		if (g_pInput->IsKeyPush(MOFKEY_RIGHT))
 		{
-			if (DPDecCnt < DPDecisionMenuCnt - 1)
+			if (DPDecCnt < DPDECISION_MENUCNT - 1)
 			{
 				DPDecCnt++;
 			}
@@ -218,7 +221,7 @@ void CDPDecision::Update(void)
 		//下に下がる＝３つ先のものになる
 		if (g_pInput->IsKeyPush(MOFKEY_DOWN))
 		{
-			if (DPDecCnt < DPDecisionMenuCnt - 1 && DPDecCnt < 3)
+			if (DPDecCnt < DPDECISION_MENUCNT - 1 && DPDecCnt < 2)
 			{
 				DPDecCnt += 3;
 			}
@@ -267,22 +270,37 @@ void CDPDecision::Render(void)
 	//説明文字表示位置Y
 	int PosTextY = 397;
 
+	//背景黒板
 	m_BackTextureA.Render(0, 0);
 
+	//選択枠
 	m_SelectTexture.Render(PosSelectX[DPDecCnt], PosSelectY[DPDecCnt], recSelect[DPDecCnt]);
 
+	//黒塗りキャラ
 	m_BackTextureC.Render(0, 0);
 
+	//説明文字
 	m_TextTexture.Render(PosTextX[DPDecCnt], PosTextY, recExText[DPDecCnt]);
 
+	//初回表示時説明表示
 	if (flagD == true)
 	{
 		CGraphicsUtilities::RenderFillRect(0, 0, g_pGraphics->GetTargetWidth(), g_pGraphics->GetTargetHeight(), MOF_ARGB(100, 0, 0, 0));
-		m_ExTexture.Render(0, 200);
+		m_ExTexture.Render(0, 124);
 	}
 
 	//メニューの描画
-	b_MenuMamt->Render(DPDecCnt);
+	if (b_MenuMamt->GetMenuType() == MENUT_DPCONFIRM){
+
+		//DP選択決定メニュー画面
+		b_MenuMamt->Render(DPDecCnt);
+
+	}
+	else
+	{
+		//ゲーム画面終了画面
+		b_MenuMamt->Render();
+	}
 
 	//フェードアウト
 	CGraphicsUtilities::RenderFillRect(0, 0, g_pGraphics->GetTargetWidth(), g_pGraphics->GetTargetHeight(), MOF_ARGB(m_WhiteBakAlph, 255, 255, 255));
