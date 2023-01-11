@@ -3,6 +3,7 @@
 
 //コンストラクタ
 CGameClear::CGameClear() :
+	RandmuBak(),
 	m_BackTexture(),
 	m_UITexture(),
 	gAlpha(0.0f),
@@ -11,6 +12,7 @@ CGameClear::CGameClear() :
 	Memory1(),
 	Memory2(),
 	Status(),
+	StatusSame(),
 	StatusRender(),
 	LastDetailNo(),
 	isStop(false)
@@ -25,10 +27,9 @@ CGameClear::~CGameClear()
 //ステータスから最終容姿を判定する
 void CGameClear::StatusJudgement(void)
 {
-	//ステータス上位２つの添え字
-	int m_Status_1=0, m_Status_2=0;
+	//ステータス上位２つの添え字,同数カウント
+	int m_Status_1 = 0, m_Status_2 = 0, m_Samecont = 0;
 
-	//:同数の処理聞く
 	//ステータスの大きさ一番目の添え字保存
 	for (int i = 0; i < DP_COUNT; i++)
 	{
@@ -36,6 +37,29 @@ void CGameClear::StatusJudgement(void)
 		{
 			m_Status_1 = i;
 		}
+	}
+
+	//大きさ一番目と同数の数字があるか
+	for (int i = 0; i < DP_COUNT; i++)
+	{
+		if (Status[m_Status_1] == Status[i])
+		{
+			//添え字を保存
+			StatusSame[m_Samecont] = i;
+
+			//カウント
+			m_Samecont++;
+		}
+	}
+
+	//同数のステータスが存在する場合
+	if (m_Samecont > 0) {
+
+		//ランダムで一番大きいステータスを決める
+		m_Status_1 = StatusSame[RandmuBak.GetRandomNumbe(0, m_Samecont - 1)];
+
+		//リセット
+		m_Samecont = 0;
 	}
 
 	//二番目の初期値
@@ -46,6 +70,7 @@ void CGameClear::StatusJudgement(void)
 	//ステータスの大きさ二番目の添え字保存
 	for (int i = 0; i < DP_COUNT; i++)
 	{
+		//一番に採用されているものはスルー
 		if (m_Status_1 == i) {
 			continue;
 		}
@@ -56,36 +81,68 @@ void CGameClear::StatusJudgement(void)
 		}
 	}
 
+	//大きさ二番目と同数の数字があるか
+	for (int i = 0; i < DP_COUNT; i++)
+	{
+		//一番に採用されているものはスルー
+		if (m_Status_1 == i) {
+			continue;
+		}
+
+		if (Status[m_Status_2] == Status[i])
+		{
+			//添え字を保存
+			StatusSame[m_Samecont] = i;
+
+			//カウント
+			m_Samecont++;
+		}
+	}
+
+	//同数のステータスが存在する場合
+	if (m_Samecont > 0) {
+
+		//ランダムで一番大きいステータスを決める
+		m_Status_2 = StatusSame[RandmuBak.GetRandomNumbe(0, m_Samecont - 1)];
+
+		//リセット
+		m_Samecont = 0;
+	}
+
+
+	//一番と二番の差を算出
+	int m_StatusDiff = Status[m_Status_1] - Status[m_Status_2];
+
 	//学力一点突破
-	if (m_Status_1 == DP_SCHOLASTIC && Status[m_Status_1]>= 100) {
+	if (m_Status_1 == DP_SCHOLASTIC && m_StatusDiff >= DIFFERENCE_NUM) {
 		//文学少女
 		LastDetailNo = LT_BUNGAKU;
 		b_GameProgMamt->SetGallery_flg(LastDetailNo, true);
 		return;
 	}
 	//行動力一点突破
-	if (m_Status_1 == DP_ACTION&& Status[m_Status_1] >= 100) {
+	if (m_Status_1 == DP_ACTION&& m_StatusDiff >= DIFFERENCE_NUM) {
 		//お調子者
 		LastDetailNo = LT_OTYOUSI;
 		b_GameProgMamt->SetGallery_flg(LastDetailNo, true);
 		return;
 	}
 	//想像力一点突破
-	if (m_Status_1 == DP_IMAGINATION && Status[m_Status_1] >= 100) {
+	if (m_Status_1 == DP_IMAGINATION && m_StatusDiff >= DIFFERENCE_NUM) {
 		//厨二病
 		LastDetailNo = LT_TYUNI;
 		b_GameProgMamt->SetGallery_flg(LastDetailNo, true);
 		return;
 	}
 	//コミュ力一点突破
-	if (m_Status_1 == DP_COMMUNICATION && Status[m_Status_1] >= 100) {
+	if (m_Status_1 == DP_COMMUNICATION && m_StatusDiff >= DIFFERENCE_NUM) {
 		//神対応
 		LastDetailNo = LT_KAMITAIOU;
 		b_GameProgMamt->SetGallery_flg(LastDetailNo, true);
 		return;
 	}
 	//魅力一点突破
-	if (m_Status_1 == DP_CHARM && Status[m_Status_1] >= 100) {
+	if (m_Status_1 == DP_CHARM && m_StatusDiff >= DIFFERENCE_NUM) {
 		//スーパーレディ
 		LastDetailNo = LT_SUPERLADY;
 		b_GameProgMamt->SetGallery_flg(LastDetailNo, true);
@@ -293,6 +350,7 @@ void CGameClear::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* 
 
 	//素材ロード
 	Load();
+
 	//エラー状態でない場合
 	if (b_LoadSitu != LOAD_ERROR) {
 		//初期化完了
@@ -322,7 +380,7 @@ void CGameClear::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* 
 	//ゲーム画面からDP取得数受けとる
 	for (int i = 0; i < DP_COUNT; i++)
 	{
-		Status[i] = *(b_GameProgMamt->GetGame_DPNum()+i);
+		Status[i] = (*(b_GameProgMamt->GetGame_DPNum()+i)*2);
 	}
 
 	//文字用アルファ値
@@ -341,12 +399,9 @@ void CGameClear::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* 
 	//ステータスから最終容姿を判定する
 	StatusJudgement();
 
-
 	//BGM再生
 	b_MusicManager->BGMStart(BGMT_CLEAR);
 }
-
-
 
 //更新
 void CGameClear::Update(void)
@@ -420,12 +475,8 @@ void CGameClear::Update(void)
 //描画
 void CGameClear::Render(void)
 {
+	//最終容姿表示
 	m_BackTexture[LastDetailNo].Render(0, 0);
-
-	// チャートを描画
-	drawChart(PointsStatus, MOF_COLOR_RED);
-	drawChart(MemoryPoints1, MOF_COLOR_BLACK);
-	drawChart(MemoryPoints2, MOF_COLOR_BLACK);
 
 	//座標取得
 	Vector2 center(CHART_CENTER_X, CHART_CENTER_Y);
@@ -473,13 +524,13 @@ void CGameClear::RenderDebug(void)
 	//CGraphicsUtilities::RenderString(10, 100, MOF_COLOR_BLACK, "%d", gAlpha);
 
 	//中心点
-	CGraphicsUtilities::RenderFillCircle(CHART_CENTER_X, CHART_CENTER_Y, 2, MOF_COLOR_YELLOW);
+	//CGraphicsUtilities::RenderFillCircle(CHART_CENTER_X, CHART_CENTER_Y, 2, MOF_COLOR_YELLOW);
 
-	//円の描画
-	CGraphicsUtilities::RenderCircle(CHART_CENTER_X,
-		CHART_CENTER_Y,
-		CHART_SIZE,
-		MOF_COLOR_BLACK);
+	////円の描画
+	//CGraphicsUtilities::RenderCircle(CHART_CENTER_X,
+	//	CHART_CENTER_Y,
+	//	CHART_SIZE,
+	//	MOF_COLOR_BLACK);
 
 	for (int i = 0; i < ITEM_NUM; i++)
 	{

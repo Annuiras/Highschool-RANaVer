@@ -179,7 +179,7 @@ enum tag_BAR
 
 #pragma endregion
 
-#pragma region 最終容姿画面定数群
+#pragma region クリア画面定数群
 
 #define CHART_SIZE 248			// チャート半径
 #define CHART_CENTER_X 325	    // チャート中心座標 X
@@ -188,7 +188,9 @@ enum tag_BAR
 #define MAX_STATUS 100			// ステータス最大値
 #define ITEM_NUM 5				// ステータス個数
 
-#pragma endregion
+#define DIFFERENCE_NUM 15		// 一点突破用,2位との差これ以上の場合一点突破
+
+#pragma endregion 
 
 //最終容姿番号
 enum tag_LAST_TEXTURE_TYPE
