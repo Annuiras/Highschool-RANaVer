@@ -1,11 +1,15 @@
 #pragma once
 #include "Define.h"
 #include "SceneBase.h"
+#include "RandomValue.h"
 
 
 class CGameClear:public CSceneBase
 {
 private:
+
+	//乱数生成
+	RandomValue RandmuBak;
 
 	//背景
 	CTexture	m_BackTexture[15];
@@ -49,6 +53,9 @@ private:
 
 	// ステータスを収納する配列
 	int Status[DP_COUNT];
+
+	//同数のステータスを保存
+	int StatusSame[DP_COUNT];
 
 	//グラフ描画用配列
 	int StatusRender[ITEM_NUM];
