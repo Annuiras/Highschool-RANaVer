@@ -139,7 +139,8 @@ void CGallery::Load(void)
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("../");
 
-	if (!m_SelectTexture_s.Load("Select_s.png"))
+	//戻るボタン選択枠
+	if (!m_SelectTexture_s.Load("BackButton_Select.png"))
 	{
 		b_LoadSitu = LOAD_ERROR;
 		return;

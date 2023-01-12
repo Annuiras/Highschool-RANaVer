@@ -120,8 +120,8 @@ void COption::Load(void)
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("../");
 
-	//小さい選択枠
-	if (!m_Select_s.Load("Select_s.png"))
+	//戻るボタン選択枠
+	if (!m_Select_s.Load("BackButton_Select.png"))
 	{
 		b_LoadSitu = LOAD_ERROR;
 		return;

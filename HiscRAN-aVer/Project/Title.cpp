@@ -9,7 +9,8 @@ CTitle::CTitle() :
 	m_TitleTexture(),
 	m_TiTleUITexture(),
 	m_Scroll(0.0f),
-	Rondom(0.0f)
+	Rondom(0.0f),
+	isStop()
 {
 }
 
@@ -81,6 +82,9 @@ void CTitle::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effe
 	b_Fadein = FADE_IN;
 	m_BakAlph = 255;
 
+	isStop = false;
+	gAlpha = 0;
+
 	//ランダム数値を取得
 	Rondom = CUtilities::Random(0, 3);
 
@@ -104,6 +108,26 @@ void CTitle::Update(void)
 
 	//BGM再生
 	b_MusicManager->BGMStart(BGMT_TITLE);
+
+	//α値変更処理
+//ちかちかさせてる
+	if (!isStop)
+	{
+		gAlpha += 3;
+
+		if (gAlpha >= 255)
+		{
+			isStop = true;
+		}
+	}
+	else
+	{
+		gAlpha -= 3;
+		if (gAlpha <= 0)
+		{
+			isStop = false;
+		}
+	}
 
 	//エンターキーでセレクト画面へ
 	if (g_pInput->IsKeyPush(MOFKEY_RETURN))
@@ -169,7 +193,8 @@ void CTitle::Render(void)
 	m_TitleTexture.Render(g_pGraphics->GetTargetWidth() * 0.5 - m_TitleTexture.GetWidth() * 0.5, 40);
 
 	//真ん中にUI描画
-	m_TiTleUITexture.Render(g_pGraphics->GetTargetWidth() * 0.5 - m_TitleTexture.GetWidth() * 0.5, 500);
+	m_TiTleUITexture.Render(g_pGraphics->GetTargetWidth() * 0.5 - m_TitleTexture.GetWidth() * 0.5, 500, MOF_ARGB(gAlpha, 255, 255, 255));
+
 
 	//フェード用黒背景
 	CGraphicsUtilities::RenderFillRect(0, 0, WINDOWSIZE_WIDTH, WINDOWSIZE_HEIGHT,

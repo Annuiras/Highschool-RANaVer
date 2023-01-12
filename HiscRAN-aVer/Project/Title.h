@@ -33,6 +33,12 @@ private:
 	//ランダム用
 	int			Rondom;
 
+	//UIアルファ値
+	int gAlpha;
+
+	//UIフェードフラグ
+	bool isStop;
+
 	//背景α値
 	int m_BakAlph;
 
