@@ -351,6 +351,9 @@ void CGameClear::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* 
 	//素材ロード
 	Load();
 
+	//ステータスから最終容姿を判定する
+	StatusJudgement();
+
 	//エラー状態でない場合
 	if (b_LoadSitu != LOAD_ERROR) {
 		//初期化完了
@@ -394,10 +397,8 @@ void CGameClear::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* 
 	isStop = false;
 
 	//最終容姿番号
-	LastDetailNo = 0;
+	LastDetailNo = LT_ANEGO;
 
-	//ステータスから最終容姿を判定する
-	StatusJudgement();
 
 	//BGM再生
 	b_MusicManager->BGMStart(BGMT_CLEAR);
@@ -453,6 +454,176 @@ void CGameClear::Update(void)
 	}
 
 
+
+	//デバッグ用
+	if (g_pInput->IsKeyHold(MOFKEY_RCONTROL)) {
+
+		if (g_pInput->IsKeyPull(MOFKEY_1)) {
+
+			if (g_pInput->IsKeyHold(MOFKEY_RSHIFT)) {
+				//DP
+				Status[0] -= 1;
+
+			}
+			else
+			{
+				//DP
+				Status[0] += 1;
+
+			}
+		}
+		if (g_pInput->IsKeyPull(MOFKEY_2)) {
+			//DP
+			if (g_pInput->IsKeyHold(MOFKEY_RSHIFT)) {
+				//DP
+				Status[1] -= 1;
+
+			}
+			else
+			{
+				//DP
+				Status[1] += 1;
+
+			}
+		}
+		if (g_pInput->IsKeyPull(MOFKEY_3)) {
+			//DP
+			if (g_pInput->IsKeyHold(MOFKEY_RSHIFT)) {
+				//DP
+				Status[2] -= 1;
+
+			}
+			else
+			{
+				//DP
+				Status[2] += 1;
+
+			}
+		}
+		if (g_pInput->IsKeyPull(MOFKEY_4)) {
+			//DP
+			if (g_pInput->IsKeyHold(MOFKEY_RSHIFT)) {
+				//DP
+				Status[3] -= 1;
+
+			}
+			else
+			{
+				//DP
+				Status[3] += 1;
+
+			}
+		}
+		if (g_pInput->IsKeyPull(MOFKEY_5)) {
+			//DP
+			if (g_pInput->IsKeyHold(MOFKEY_RSHIFT)) {
+				//DP
+				Status[4] -= 1;
+
+			}
+			else
+			{
+				//DP
+				Status[4] += 1;
+
+			}
+		}
+
+	}
+	else
+	{
+		if (g_pInput->IsKeyHold(MOFKEY_1)) {
+
+			if (g_pInput->IsKeyHold(MOFKEY_RSHIFT)) {
+				//DP
+				Status[0] -= 1;
+
+			}
+			else 
+			{
+				//DP
+				Status[0] += 1;
+
+			}
+		}
+		if (g_pInput->IsKeyHold(MOFKEY_2)) {
+			//DP
+			if (g_pInput->IsKeyHold(MOFKEY_RSHIFT)) {
+				//DP
+				Status[1] -= 1;
+
+			}
+			else
+			{
+				//DP
+				Status[1] += 1;
+
+			}
+		}
+		if (g_pInput->IsKeyHold(MOFKEY_3)) {
+			//DP
+			if (g_pInput->IsKeyHold(MOFKEY_RSHIFT)) {
+				//DP
+				Status[2] -= 1;
+
+			}
+			else
+			{
+				//DP
+				Status[2] += 1;
+
+			}
+		}
+		if (g_pInput->IsKeyHold(MOFKEY_4)) {
+			//DP
+			if (g_pInput->IsKeyHold(MOFKEY_RSHIFT)) {
+				//DP
+				Status[3] -= 1;
+
+			}
+			else
+			{
+				//DP
+				Status[3] += 1;
+
+			}
+		}
+		if (g_pInput->IsKeyHold(MOFKEY_5)) {
+			//DP
+			if (g_pInput->IsKeyHold(MOFKEY_RSHIFT)) {
+				//DP
+				Status[4] -= 1;
+
+			}
+			else
+			{
+				//DP
+				Status[4] += 1;
+
+			}
+		}
+
+	}
+
+	//デバッグ用
+	if (g_pInput->IsKeyHold(MOFKEY_0)) {
+		for (int i = 0; i < ITEM_NUM; i++)
+		{
+			StatusRender[i] = 0;
+		}
+	}
+
+	if (g_pInput->IsKeyPull(MOFKEY_SPACE)) {
+
+		StatusJudgement();
+		for (int i = 0; i < ITEM_NUM; i++)
+		{
+			StatusRender[i] = 0;
+		}
+
+	}
+
+
 	//グラフがじわじわ動く
 	for (int i = 0; i < ITEM_NUM; i++)
 	{
@@ -503,7 +674,7 @@ void CGameClear::Render(void)
 		Chartcol[LastDetailNo], Chartcol[LastDetailNo], Chartcol[LastDetailNo]);
 
 
-	//半透明にしていく
+	//文字半透明にしていく
 	g_pGraphics->SetBlending(BLEND_NORMAL);
 	m_UITexture.Render(370, 2, MOF_ARGB(gAlpha, 255, 255, 255));
 
@@ -536,7 +707,7 @@ void CGameClear::RenderDebug(void)
 	{
 		//CGraphicsUtilities::RenderString(0, 30 * i, MOF_COLOR_BLACK, "%f", PointsStatus[i].x);
 		//CGraphicsUtilities::RenderString(150, 30 * i, MOF_COLOR_BLACK, "%f", PointsStatus[i].y);
-		CGraphicsUtilities::RenderString(100, 40 * i + 450, MOF_COLOR_BLACK, StatusName[i], Status[i]);
+		CGraphicsUtilities::RenderString(550, 40 * i + 450, MOF_COLOR_BLACK, StatusName[i], Status[i]);
 
 		CGraphicsUtilities::RenderLine((int)(CHART_CENTER_X),
 			(int)(CHART_CENTER_Y),
