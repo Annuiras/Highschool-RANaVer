@@ -52,7 +52,7 @@ private:
 	int m_WhiteBakAlph;
 
 	// ステータスを収納する配列
-	int Status[DP_COUNT];
+	float Status[DP_COUNT];
 
 	//同数のステータスを保存
 	int StatusSame[DP_COUNT];
@@ -76,7 +76,7 @@ private:
 	// ステータス用チャートのポリゴン座標を収納する配列
 	Vector2 MemoryPoints2[ITEM_NUM];
 
-	char* StatusName[ITEM_NUM] = { "1学力:%d","2行動力:%d","3想像力:%d","4コミュ力:%d","5魅力:%d" };
+	char* StatusName[ITEM_NUM] = { "1学力:%f","2行動力:%f","3想像力:%f","4コミュ力:%f","5魅力:%f" };
 
 public:
 	CGameClear();

@@ -1,10 +1,14 @@
 #pragma once
 #include "Define.h"
+#include "RandomValue.h"
 #include "SceneBase.h"
 
 class CDPDecision :public CSceneBase
 {
 private:
+
+	//乱数生成
+	RandomValue RandmuBak;
 
 	//画面説明
 	CTexture	m_ExTexture;
@@ -39,6 +43,10 @@ private:
 	//DP選択説明表示フラグ
 	//true:表示中
 	bool flagD;
+
+	//SPステージありフラグ
+	//true：SPあり
+	bool SP_flg;
 
 
 public:

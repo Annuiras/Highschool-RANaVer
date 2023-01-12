@@ -91,8 +91,20 @@ private:
 	//廊下終わり
 	CTexture m_BakEnd;
 
-	//SPステージテクスチャ
-	CTexture m_SPBak;
+	//SPステージ始まり
+	CTexture m_SPBak_Start;
+
+	//SPステージ１
+	CTexture m_SPBak_1;
+
+	//SPステージ２
+	CTexture m_SPBak_2;
+
+	//SPステージ３
+	CTexture m_SPBak_3;
+
+	//SPステージ終わり
+	CTexture m_SPBak_End;
 
 #pragma endregion
 
@@ -251,6 +263,10 @@ private:
 	//ステージ変化
 	bool				v_StageChangeflg;//変化フラグ true:変化済
 
+	//SPありフラグ
+	//true:あり
+	bool SP_flg;
+
 	//背景α値
 	int m_BakAVal;
 
@@ -259,6 +275,9 @@ private:
 	tag_StageSituation	m_SPSitua;
 
 	int					m_SPcountbak;
+
+	//DP目標設定画面で選んだDP番号
+	int DP_Deci_Type;
 
 	//SPフェードアウトフラグ
 	bool				m_SPflg;
@@ -273,10 +292,9 @@ public:
 	CStage();
 	~CStage();
 
-	//dpin[][]:DPの配置情報
-	//[]:マップパターンがいくつあるか
-	//[]:1マップパターンにいくつ構造体があるか
-	void Initialize(void);
+	//spflg:SPありフラグ
+	//dptype:DP目標設定画面で選んだDP番号
+	void Initialize(bool spflg,int dptype);
 
 	//SP内のDP配置をするための関数
 	void SPInitialize(void);

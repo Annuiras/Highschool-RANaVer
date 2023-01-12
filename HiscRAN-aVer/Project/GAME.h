@@ -34,6 +34,10 @@ private:
 	//4:魅力
 	int m_DPNum[DP_COUNT];
 
+	//SPステージ中で取得したDPの数
+	int m_SP_DPNum;
+
+
 	//ゲーム開始時のカウントダウンテクスチャ　仮素材
 	CTexture	m_StartThreeTexture;
 	CTexture	m_StartTwoTexture;

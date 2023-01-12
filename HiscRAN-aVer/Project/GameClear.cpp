@@ -377,11 +377,12 @@ void CGameClear::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* 
 		StatusRender[i] = 0;
 	}
 
-	//ゲーム画面からDP取得数受けとる
+	//ゲーム画面からステータスを受けとる
 	for (int i = 0; i < DP_COUNT; i++)
 	{
-		Status[i] = (*(b_GameProgMamt->GetGame_DPNum()+i)*2);
+		Status[i] = *(b_GameProgMamt->GetCal_Status()+i);
 	}
+
 
 	//文字用アルファ値
 	gAlpha = 0;

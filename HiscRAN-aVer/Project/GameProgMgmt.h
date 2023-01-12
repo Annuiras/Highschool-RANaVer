@@ -14,12 +14,19 @@ private:
 	//3:コミュ力
 	//4:魅力
 	int Game_DPNum[DP_COUNT];
+	int Game_SP_DPNum;
+
+	//算出したステータスを保存
+	int Game_CalStatus[DP_COUNT];
 
 	//ゲームオーバー原因フラグ
 	bool Game_Over_HP;
 
 	//DP目標設定画面：選択DP番号
 	int DPdec_type;
+
+	//DP目標設定画面：SPありフラグ
+	bool DPdec_SPflg;
 
 	//オプション画面：ボタン位置保存
 	//0:BGM
@@ -38,18 +45,29 @@ public:
 
 	//DP目標設定画面：選択DPをセット
 	void SetDPdec_type(int type);
-	//DP目標設定画面：選択DPをゲット
+	//ゲーム画面：選択DPをゲット
 	int GetDPdec_type(void);
+
+	//DP選択画面画面：SPフラグをセット
+	void SetDPdec_SPflg(bool b);
+	//ゲーム画面：SPフラグをゲット
+	bool GetDPdec_SPflg(void);
 
 	//ゲーム画面：ゲームオーバー原因フラグセット
 	void SetGame_Over_HP(bool b);
-	//ゲーム画面：ゲームオーバー原因フラグゲット
+	//ゲームオーバー画面：ゲームオーバー原因フラグゲット
 	bool GetGame_Over_HP(void);
+
+	//DP選択画面：ステータスを初期化
+	void InitializeStatus(void);
 
 	//ゲーム画面：DP取得数をセット
 	void SetGame_DPNum(int DP[]);
-	//ゲーム画面：DP取得数をゲット
-	int* GetGame_DPNum(void);
+	//ゲーム画面：SP_DP取得数をセット
+	void SetGame_SP_DPNum(int SPDP);
+
+	//クリア画面：DP取得数からステータスを返す
+	int* GetCal_Status(void);
 
 	//オプション画面：ボタン位置をセット
 	void SetOption_Button_Pos(float BGM,float SE);

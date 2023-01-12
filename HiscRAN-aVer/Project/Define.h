@@ -11,8 +11,11 @@
 //１ステージ内のマップパターン数
 #define SATAGE_MAP_PATTERN 15
 
-//SPアイテムあるマップパターンの出現位置(何マップ目)
-#define MAP_SP_ITEM_PATTERN_NUM 100
+//SP開始マップパターン数(何パターン目)
+#define MAP_SP_START_PATTERN 2
+
+//SPステージパターン数
+#define MAP_SP_LENGTH 5
 
 //ステージ変化する背景枚数
 #define SATGE_CHANGE_BAK 200
@@ -46,7 +49,15 @@ enum tag_DP_TYPE
 	DP_IMAGINATION,		//想像力
 	DP_COMMUNICATION,	//コミュ力
 	DP_CHARM,			//魅力
-	DP_COUNT			//総数（終端要素）	
+
+	DP_COUNT,			//種類総数（終端要素）	
+
+	DP_SP_SCHOLASTIC,	//SP学力
+	DP_SP_ACTION,		//SP行動力
+	DP_SP_IMAGINATION,	//SP想像力
+	DP_SP_COMMUNICATION,//SPコミュ力
+	DP_SP_CHARM,		//SP魅力
+
 };
 
 
@@ -188,9 +199,13 @@ enum tag_BAR
 #define MAX_STATUS 100			// ステータス最大値
 #define ITEM_NUM 5				// ステータス個数
 
-#define DIFFERENCE_NUM 15		// 一点突破用,2位との差これ以上の場合一点突破
+#define DIFFERENCE_NUM 15		// 一点突破用,2位との差これ以上の場合一点突破 
 
-#pragma endregion 
+#define DP_CONVERSION_STATUS 2	//通常DP倍率
+
+#define SP_DP_CONVERSION_STATUS 5	//SPステージDP倍率
+
+#pragma endregion
 
 //最終容姿番号
 enum tag_LAST_TEXTURE_TYPE
@@ -292,11 +307,8 @@ enum tag_EFFECTTYPE {
 //ステージの状態を定義
 enum class  tag_StageSituation
 {
-	STAGE_SP_YET,			//まだSPステージでない
-	STAGE_SP_START,			//SPが始まった時
+	STAGE_SP_YET,			//SPでない
 	STAGE_SP_STILL,			//SPの途中
-	STAGE_SP_IMMEDIATELY,	//SPを終えた直後
-	STAGE_SP_ALREADY		//SPを終えたあと
 };
 
 //メニューの種類を定義

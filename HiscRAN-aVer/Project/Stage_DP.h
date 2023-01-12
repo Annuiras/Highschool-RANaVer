@@ -240,16 +240,16 @@ DP_info s_stageDP[][DP_INFO_STRUCT] =
 		{2364,527,DP_IMAGINATION},
 		{10000,0,DP_COUNT}
 	},
-		//マップパターン15  SPアイテム出現
+		//マップパターン15  SPマップ
 	{
 		{300.0f, 350.0f, DP_CHARM},	
 		{ 700.0f,229.0f,	DP_CHARM },
-		{ 1500.0f,300.0f,DP_IMAGINATION },
-		{ 1775.0f,231.0f,DP_COMMUNICATION },
-		{ 2000.0f,66.0f,	DP_SCHOLASTIC },
+		{ 1500.0f,300.0f,DP_CHARM },
+		{ 1775.0f,231.0f,DP_CHARM },
+		{ 2000.0f,66.0f,	DP_CHARM },
 		{ 10000,0,DP_COUNT }
 	},
-		//マップパターン16  SP配置1
+		//マップパターン16  SPマップ
 	{
 		{250.0f,350.0f,DP_CHARM},
 		{536.0f,229.0f,	DP_CHARM},
@@ -258,31 +258,31 @@ DP_info s_stageDP[][DP_INFO_STRUCT] =
 		{1862.0f,66.0f,	DP_CHARM},
 		{10000,0,DP_COUNT}
 	},
-			//マップパターン17  SP配置2
+			//マップパターン17  SPマップ
 	{
-		{180.0f,350.0f,DP_ACTION},
-		{556.0f,229.0f,	DP_ACTION},
-		{584.0f,222.0f,DP_ACTION},
-		{1675.0f,231.0f,DP_ACTION},
-		{1762.0f,66.0f,	DP_ACTION},
+		{180.0f,350.0f,DP_CHARM},
+		{556.0f,229.0f,	DP_CHARM},
+		{584.0f,222.0f,DP_CHARM},
+		{1675.0f,231.0f,DP_CHARM},
+		{1762.0f,66.0f,	DP_CHARM},
 		{10000,0,DP_COUNT}
 	},
-			//マップパターン18  SP配置3
+			//マップパターン18  SPマップ
 	{
-		{270.0f, 350.0f, DP_ACTION},
-		{796.0f,229.0f,	DP_IMAGINATION },
+		{270.0f, 350.0f, DP_CHARM},
+		{796.0f,229.0f,	DP_CHARM },
 		{984.0f,222.0f,DP_CHARM },
-		{1375.0f,231.0f,DP_SCHOLASTIC },
-		{2162.0f,66.0f,	DP_COMMUNICATION },
+		{1375.0f,231.0f,DP_CHARM },
+		{2162.0f,66.0f,	DP_CHARM },
 		{10000,0,DP_COUNT }
 	},
-			//マップパターン19  SP配置4
+			//マップパターン19  SPマップ
 	{
-		{ 270.0f, 350.0f, DP_IMAGINATION},
+		{ 270.0f, 350.0f, DP_CHARM},
 		{ 796.0f,229.0f,	DP_CHARM },
-		{ 984.0f,222.0f,DP_ACTION },
-		{ 1375.0f,231.0f,DP_COMMUNICATION},
-		{ 2162.0f,66.0f,DP_ACTION },
+		{ 984.0f,222.0f,DP_CHARM },
+		{ 1375.0f,231.0f,DP_CHARM},
+		{ 2162.0f,66.0f,DP_CHARM },
 		{ 10000,0,DP_COUNT }
 	},
 			//マップパターン20  SP配置5

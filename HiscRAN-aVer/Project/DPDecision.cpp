@@ -3,13 +3,15 @@
 
 //コンストラクタ
 CDPDecision::CDPDecision() :
+	RandmuBak(),
 	m_BackTextureA(),
 	m_BackTextureC(),
 	m_TextTexture(),
 	m_SelectTexture(),
 	m_WhiteBakAlph(),
 	DPDecCnt(),
-	flagD(true)
+	flagD(true),
+	SP_flg()
 {
 
 }
@@ -97,6 +99,15 @@ void CDPDecision::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt*
 	//フェードイン
 	m_WhiteBakAlph = 255;
 	b_Fadein = FADE_IN;
+
+	//SPステージかどうかを判定
+	SP_flg =false;
+	if (RandmuBak.GetRandomNumbe(0, 5)==5) {
+		//五分の一の確率でSPステージ発生
+		SP_flg = true;
+	}
+	b_GameProgMamt->SetDPdec_SPflg(SP_flg);
+	b_GameProgMamt->InitializeStatus();
 }
 
 //更新
@@ -130,6 +141,12 @@ void CDPDecision::Update(void)
 	if (b_Fadein == FADE_OUT) {
 		m_WhiteBakAlph = FadeOut(m_WhiteBakAlph, true);
 		return;
+	}
+
+	if (g_pInput->IsKeyPush(MOFKEY_P))
+	{
+		SP_flg = true;
+		b_GameProgMamt->SetDPdec_SPflg(true);
 	}
 
 	//説明表示中
@@ -311,6 +328,17 @@ void CDPDecision::Render(void)
 void CDPDecision::RenderDebug(void)
 {
 	CGraphicsUtilities::RenderString(10, 300, "DPDecCnt:%d", DPDecCnt);
+
+	if (SP_flg) {
+		CGraphicsUtilities::RenderString(10, 330, "SPあり");
+
+	}
+	else
+	{
+		CGraphicsUtilities::RenderString(10, 330, "SPなし");
+
+	}
+
 }
 
 void CDPDecision::Release(void)

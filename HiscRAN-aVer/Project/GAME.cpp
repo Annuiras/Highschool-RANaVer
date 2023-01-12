@@ -10,7 +10,8 @@ CGAME::CGAME():
 	m_GameClearflg(),
 	m_StartTime(),
 	m_DPDeci(),
-	m_DPNum()
+	m_DPNum(),
+	m_SP_DPNum()
 {}
 
 CGAME::~CGAME()
@@ -76,7 +77,7 @@ void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec
 	g_Player.SetEffectManager(effec);
 
 	//ステージ初期化
-	g_Stage.Initialize();
+	g_Stage.Initialize(b_GameProgMamt->GetDPdec_SPflg(),b_GameProgMamt->GetDPdec_type());
 	g_Stage.SetMusicManager(musi);
 	g_Stage.SetEffectManager(effec);
 
@@ -133,6 +134,7 @@ void CGAME::Update(void)
 		if (m_GameClearflg) {
 			//DPの取得数を保存
 			b_GameProgMamt->SetGame_DPNum(m_DPNum);
+			b_GameProgMamt->SetGame_SP_DPNum(m_SP_DPNum);
 			m_bEnd = true;
 			m_NextScene = SCENENO_GAMECLEAR;
 
@@ -425,12 +427,15 @@ void CGAME::UPdeteCollisionDP(int dpt) {
 
 	b_MusicManager->SEStart(SE_T_DP_HIT);
 
-	m_DPNum[dpt]++;
 
 	switch (dpt)
 	{
 		//学力
 	case DP_SCHOLASTIC:
+
+		//追加
+		m_DPNum[DP_SCHOLASTIC]++;
+
 		//エフェクト再生
 		b_EffectManeger->Start(0, 0, EFC_GET_SCHOLASTIC);
 		b_EffectManeger->Start(0, 0, EFC_GET_SCHOLASTIC_AROOW);
@@ -438,6 +443,10 @@ void CGAME::UPdeteCollisionDP(int dpt) {
 
 		//行動力
 	case DP_ACTION:
+
+		//追加
+		m_DPNum[DP_ACTION]++;
+
 		//エフェクト再生
 		b_EffectManeger->Start(0, 0, EFC_GET_ACTION);
 		b_EffectManeger->Start(0, 0, EFC_GET_ACTION_AROOW);
@@ -445,6 +454,10 @@ void CGAME::UPdeteCollisionDP(int dpt) {
 
 		//想像力
 	case DP_IMAGINATION:
+
+		//追加
+		m_DPNum[DP_IMAGINATION]++;
+
 		//エフェクト再生
 		b_EffectManeger->Start(0, 0, EFC_GET_IMAGINATION);
 		b_EffectManeger->Start(0, 0, EFC_GET_IMAGINATION_AROOW);
@@ -452,6 +465,10 @@ void CGAME::UPdeteCollisionDP(int dpt) {
 
 		//コミュ力
 	case DP_COMMUNICATION:
+
+		//追加
+		m_DPNum[DP_COMMUNICATION]++;
+
 		//エフェクト再生
 		b_EffectManeger->Start(0, 0, EFC_GET_COMMUNICATION);
 		b_EffectManeger->Start(0, 0, EFC_GET_COMMUNICATION_AROOW);
@@ -459,10 +476,66 @@ void CGAME::UPdeteCollisionDP(int dpt) {
 
 		//魅力
 	case DP_CHARM:
+
+		//追加
+		m_DPNum[DP_CHARM]++;
+
 		//エフェクト再生
 		b_EffectManeger->Start(0, 0, EFC_GET_CHARM);
 		b_EffectManeger->Start(0, 0, EFC_GET_CHARM_AROOW);
 		break;
+
+	case DP_SP_SCHOLASTIC:
+
+		//追加
+		m_SP_DPNum++;
+
+		//エフェクト再生
+		b_EffectManeger->Start(0, 0, EFC_GET_SCHOLASTIC);
+		b_EffectManeger->Start(0, 0, EFC_GET_SCHOLASTIC_AROOW);
+		break;
+
+	case DP_SP_ACTION:
+
+		//追加
+		m_SP_DPNum++;
+
+		//エフェクト再生
+		b_EffectManeger->Start(0, 0, EFC_GET_ACTION);
+		b_EffectManeger->Start(0, 0, EFC_GET_ACTION_AROOW);
+		break;
+
+	case DP_SP_IMAGINATION:
+
+		//追加
+		m_SP_DPNum++;
+
+		//エフェクト再生
+		b_EffectManeger->Start(0, 0, EFC_GET_IMAGINATION);
+		b_EffectManeger->Start(0, 0, EFC_GET_IMAGINATION_AROOW);
+		break;
+
+	case DP_SP_COMMUNICATION:
+
+		//追加
+		m_SP_DPNum++;
+
+		//エフェクト再生
+		b_EffectManeger->Start(0, 0, EFC_GET_COMMUNICATION);
+		b_EffectManeger->Start(0, 0, EFC_GET_COMMUNICATION_AROOW);
+		break;
+
+	case DP_SP_CHARM:
+
+		//追加
+		m_SP_DPNum++;
+
+		//エフェクト再生
+		b_EffectManeger->Start(0, 0, EFC_GET_CHARM);
+		b_EffectManeger->Start(0, 0, EFC_GET_CHARM_AROOW);
+		break;
+
+
 	default:
 		break;
 	}
@@ -476,33 +549,6 @@ void CGAME::Render(void)
 
 	//プレイヤー描画
 	g_Player.Render();
-
-	//DP目標表示（仮）
-	//switch (m_DPDeci)
-	//{
-
-	//case 0:
-	//	CGraphicsUtilities::RenderString(0, 210, MOF_XRGB(80, 80, 80), "DP目標:学力");
-	//	break;
-	//case 1:
-	//	CGraphicsUtilities::RenderString(0, 210, MOF_XRGB(80, 80, 80), "DP目標:行動力");
-	//	break;
-
-	//case 2:
-	//	CGraphicsUtilities::RenderString(0, 210, MOF_XRGB(80, 80, 80), "DP目標:想像力");
-	//	break;
-
-	//case 3:
-	//	CGraphicsUtilities::RenderString(0, 210, MOF_XRGB(80, 80, 80), "DP目標:コミュ力");
-	//	break;
-
-	//case 4:
-	//	CGraphicsUtilities::RenderString(0, 210, MOF_XRGB(80, 80, 80), "DP目標:魅力");
-	//	break;
-
-	//default:
-	//	break;
-	//}
 
 
 	//ゲーム開始時のカウントダウンの表示
@@ -563,10 +609,41 @@ void CGAME::RenderDebug(void)
 		CGraphicsUtilities::RenderString(200 + i * 30, 0, MOF_COLOR_BLACK,"%d", m_DPNum[i]);
 	}
 
+	CGraphicsUtilities::RenderString(200, 30, MOF_COLOR_BLACK, "%d", m_SP_DPNum);
+	
+
 	//FPS表示
 	CGraphicsUtilities::RenderString(0, 150, MOF_XRGB(80, 80, 80), "FPS：%d", CUtilities::GetFPS());
 
 	g_Stage.RenderDebugging();
 	g_Player.RenderDebugging();
+
+	//DP目標表示（仮）
+	switch (m_DPDeci)
+	{
+
+		case 0:
+			CGraphicsUtilities::RenderString(0, 210, MOF_XRGB(80, 80, 80), "DP目標:学力");
+			break;
+		case 1:
+			CGraphicsUtilities::RenderString(0, 210, MOF_XRGB(80, 80, 80), "DP目標:行動力");
+			break;
+
+		case 2:
+			CGraphicsUtilities::RenderString(0, 210, MOF_XRGB(80, 80, 80), "DP目標:想像力");
+			break;
+
+		case 3:
+			CGraphicsUtilities::RenderString(0, 210, MOF_XRGB(80, 80, 80), "DP目標:コミュ力");
+			break;
+
+		case 4:
+			CGraphicsUtilities::RenderString(0, 210, MOF_XRGB(80, 80, 80), "DP目標:魅力");
+			break;
+
+		default:
+			break;
+	}
+
 }
 	

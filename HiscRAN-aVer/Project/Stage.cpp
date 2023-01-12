@@ -12,7 +12,11 @@ CStage::CStage() :
 
 	m_countbak(0),
 	m_BakStart(),
-	m_SPBak(),
+	m_SPBak_Start(),
+	m_SPBak_1(),
+	m_SPBak_2(),
+	m_SPBak_3(),
+	m_SPBak_End(),
 	m_dpcount(0),
 	m_barcount(0),
 	m_obcount(0),
@@ -21,6 +25,7 @@ CStage::CStage() :
 	m_BakAVal(0),
 	m_AdoptCount(0),
 	m_AlreadyUsedArray(),
+	SP_flg(),
 	m_bClear(false),
 	m_Scroll_Speed(0.0f)
 {}
@@ -68,7 +73,28 @@ bool CStage::Load() {
 		return false;
 	}
 
-	if (!m_SPBak.Load("スプライト-0001.png")) {
+	//SP最初の背景
+	if (!m_SPBak_Start.Load("スプライト-0001-SP0.png")) {
+		return false;
+	}
+
+	//SPステージ中の背景
+	if (!m_SPBak_1.Load("スプライト-0001-SP1.png")) {
+		return false;
+	}
+
+	//SPステージ中の背景
+	if (!m_SPBak_2.Load("スプライト-0001-SP2.png")) {
+		return false;
+	}
+
+	//SPステージ中の背景
+	if (!m_SPBak_3.Load("スプライト-0001-SP3.png")) {
+		return false;
+	}
+
+	//SP最後のの背景
+	if (!m_SPBak_End.Load("スプライト-0001-SP4.png")) {
 		return false;
 	}
 
@@ -283,13 +309,15 @@ bool CStage::Load() {
 		return true;
 }
 
-//dpin:DP配置情報
-//dpco:DP配置情報数
-//barin:足場の配置情報
-//barco:足場の情報数
-//obin:障害物の配置情報
-//obco:障害物の情報数
-void CStage::Initialize(void) {
+//初期化
+//spflg:SPありフラグ
+void CStage::Initialize(bool spflg, int dptype) {
+
+	//SPありフラグセット
+	SP_flg = spflg;
+
+	//DP目標設定画面で選んだDP番号セット
+	DP_Deci_Type = dptype;
 
 	//進行度バーアイコンの初期化
 	m_BarProgress = 0;
@@ -314,10 +342,9 @@ void CStage::Initialize(void) {
 
 	//SPステージ状態用
 	m_SPSitua = tag_StageSituation::STAGE_SP_YET;
+
 	//SP背景カウント
 	m_SPcountbak = 0;
-	//SPのaフラグ
-	m_SPflg = false;		
 
 
 	//マップパターンをランダム化
@@ -344,26 +371,49 @@ void CStage::Initialize(void) {
 				m_AdoptCount += 1;
 			}
 		}
+
+		//1ゲーム分のステージが用意出来たら終了
+		if (m_AdoptCount >= SATAGE_MAP_PATTERN) {
+			break;
+		}
+
 		//ランダムパターンをセット
 		int randam= RandmuBak.GetRandomNumbe(0, 14);
 
 		//まだ使用していない場合のみ採用(1=使用済み)
 		if (m_AlreadyUsedArray[randam] == 0)
 		{
-			//採用
-			m_StageComposition[m_AdoptCount] = randam;
 
-			//SPアイテムがあるマップを採用
-			if (m_AdoptCount == MAP_SP_ITEM_PATTERN_NUM)
+			//SPマップを採用
+			if (m_AdoptCount == MAP_SP_START_PATTERN&& SP_flg)
 			{
-				//15:SPアイテムがあるマップ
+				//SPマップパターン５枚分をセット
 				m_StageComposition[m_AdoptCount] = 15;
+				m_AdoptCount++;
+				m_StageComposition[m_AdoptCount] = 16;
+				m_AdoptCount++;
+				m_StageComposition[m_AdoptCount] = 17;
+				m_AdoptCount++;
+				m_StageComposition[m_AdoptCount] = 18;
+				m_AdoptCount++;
+				m_StageComposition[m_AdoptCount] = 19;
+
 				//使用したパターンの場所に１をセット
 				m_AlreadyUsedArray[15] = 1;
-			}
+				m_AlreadyUsedArray[16] = 1;
+				m_AlreadyUsedArray[17] = 1;
+				m_AlreadyUsedArray[18] = 1;
+				m_AlreadyUsedArray[19] = 1;
 
-			//使用したパターンの場所に１をセット
-			m_AlreadyUsedArray[randam] = 1;
+			}
+			else
+			{
+				//採用
+				m_StageComposition[m_AdoptCount] = randam;
+
+				//使用したパターンの場所に１をセット
+				m_AlreadyUsedArray[randam] = 1;
+			}
 		}			
 		//採用済カウント
 		m_AdoptCount = 0;
@@ -464,7 +514,7 @@ void CStage::SPInitialize(void)
 		if (m_AlreadyUsedArray[randam] == 0)
 		{
 			//SPの出現位置に合わせてSPステージ枚数分ずらしてます
-			m_StageComposition[m_AdoptCount + MAP_SP_ITEM_PATTERN_NUM + 1] = randam;
+			m_StageComposition[m_AdoptCount + MAP_SP_START_PATTERN + 1] = randam;
 			//使用したパターンの場所に１をセット
 			m_AlreadyUsedArray[randam] = 1;
 		}
@@ -494,6 +544,10 @@ void CStage::Update(CRectangle plrect) {
 		//背景カウント
 		m_countbak += 1;
 
+		if (m_countbak == MAP_SP_START_PATTERN*2&& SP_flg) {
+			m_SPSitua = tag_StageSituation::STAGE_SP_STILL;
+		}
+
 	}
 
 	//一時的な追加です
@@ -513,24 +567,24 @@ void CStage::Update(CRectangle plrect) {
 		m_BarProgress++;
 	}
 
-	//学年表示の表示位置の更新
-	//背景カウントが1枚、10枚、20枚になった時に学年画像のスライドイン、スライドアウトを行う。
-	if (m_countbak == 1 || m_countbak == 10 || m_countbak == 20) {
-		m_GradeOffset -= 5;
-		if (m_GradeOffset <= g_pGraphics->GetTargetWidth() - m_GradeOneTexture.GetWidth())
-		{
-			m_GradeOffset = g_pGraphics->GetTargetWidth() - m_GradeOneTexture.GetWidth();
-		}
-	}
-	else if (m_countbak != 1 && m_countbak != 10 && m_countbak != 20) {
-		if (m_GradeOffset >= g_pGraphics->GetTargetWidth() - m_GradeOneTexture.GetWidth()) {
-			m_GradeOffset += 5;
-			if (m_GradeOffset > g_pGraphics->GetTargetWidth())
-			{
-				m_GradeOffset = g_pGraphics->GetTargetWidth();
-			}
-		}
-	}
+	////学年表示の表示位置の更新
+	////背景カウントが1枚、10枚、20枚になった時に学年画像のスライドイン、スライドアウトを行う。
+	//if (m_countbak == 1 || m_countbak == 10 || m_countbak == 20) {
+	//	m_GradeOffset -= 5;
+	//	if (m_GradeOffset <= g_pGraphics->GetTargetWidth() - m_GradeOneTexture.GetWidth())
+	//	{
+	//		m_GradeOffset = g_pGraphics->GetTargetWidth() - m_GradeOneTexture.GetWidth();
+	//	}
+	//}
+	//else if (m_countbak != 1 && m_countbak != 10 && m_countbak != 20) {
+	//	if (m_GradeOffset >= g_pGraphics->GetTargetWidth() - m_GradeOneTexture.GetWidth()) {
+	//		m_GradeOffset += 5;
+	//		if (m_GradeOffset > g_pGraphics->GetTargetWidth())
+	//		{
+	//			m_GradeOffset = g_pGraphics->GetTargetWidth();
+	//		}
+	//	}
+	//}
 
 
 	//後ろに下げる
@@ -587,58 +641,8 @@ void CStage::Update(CRectangle plrect) {
 		ene_array[i].Update(m_Scroll_Speed);
 	}
 
-	//ステージ変化
-	if (m_countbak == SATGE_CHANGE_BAK) {
-
-		//フェードアウト済フラグ
-		if (!v_StageChangeflg) {
-			//フェードアウト
-			m_BakAVal -= 5;
-			if (m_BakAVal <= 0) {
-				//変化済
-				v_StageChangeflg = true;
-			}
-
-		}
-		else if (m_BakAVal < 255)
-		{
-			//フェードイン
-			m_BakAVal += 5;
-
-		}
-	}
-
-	//SP開始直後の処理 
-	if (m_SPSitua == tag_StageSituation::STAGE_SP_START)
-	{
-		//フェードアウト
-		if (m_BakAVal > 0 && !m_SPflg)
-		{
-			m_BakAVal -= 5;
-
-		}
-		//フェードイン
-		else if (m_BakAVal < 255)
-		{
-			//α値増加
-			m_BakAVal += 5;
-
-			//両背景セット
-			m_RandamuBakRight = 9;
-			m_RandamuBakLeft = m_RandamuBakRight;
-
-			//もう一回フェードアウトしないためにflgをfalseに
-			m_SPflg = true;	
-		}
-		else
-		{
-			//状態移行
-			m_SPSitua = tag_StageSituation::STAGE_SP_STILL;
-		}
-		
-	}
 	//SP中の処理
-	else if (m_SPSitua == tag_StageSituation::STAGE_SP_STILL)
+	if (m_SPSitua == tag_StageSituation::STAGE_SP_STILL)
 	{
 		//SPの背景カウント
 		if (m_BakScroll <= 0)
@@ -647,36 +651,12 @@ void CStage::Update(CRectangle plrect) {
 			m_SPcountbak += 1;
 		}
 		//SP背景カウント
-		else if (m_SPcountbak == 4)
+		if (m_SPcountbak == (MAP_SP_LENGTH*2))
 		{
-			m_SPSitua = tag_StageSituation::STAGE_SP_IMMEDIATELY;
-			m_SPflg = false;
+ 			m_SPSitua = tag_StageSituation::STAGE_SP_YET;
 		}
 
 	}
-	//SPが終了した直後の処理
-	else if (m_SPSitua == tag_StageSituation::STAGE_SP_IMMEDIATELY)
-	{
-		//フェードアウト
-		if (m_BakAVal > 0 && !m_SPflg)
-		{
-			m_BakAVal -= 5;
-		}
-		//フェードイン
-		else if (m_BakAVal < 255)
-		{
-			m_RandamuBakRight = 1;//本当はランダムにしたいけど、ランダムにすると描画バグるので1代入
-			m_RandamuBakLeft = m_RandamuBakRight;	//左も同時に描画
-			m_BakAVal += 5;
-			m_SPflg = true;		//flgをtrueにすることでフェードアウトしないようにする
-		}
-		if (m_BakAVal >= 255)
-		{
-			m_SPSitua = tag_StageSituation::STAGE_SP_ALREADY;	//フェードインしたタイミングで、SP終了
-		}
-
-	}
-
 
 	//クリアフラグ変更
 	if (m_countbak  == 31) {
@@ -697,12 +677,12 @@ void CStage::Render(void) {
 
 	//次の背景を用意
 	if (m_BakScroll <= 0) {
-		
+
 		//右側で表示していたものと同じものを左側で表示
 		m_RandamuBakLeft = m_RandamuBakRight;
 
 		//右側はランダムに数値を入れる
-		m_RandamuBakRight = RandmuBak.GetRandomNumbe(1,6);
+		m_RandamuBakRight = RandmuBak.GetRandomNumbe(1, 6);
 
 		//一番初めの背景
 		if (m_countbak == -1) {
@@ -710,20 +690,33 @@ void CStage::Render(void) {
 		}
 
 		//クリア時に一番最後の背景が表示されているように早めにセット
-		if (m_countbak == STAGE_CLEAR_BAK-2) {
-  			m_RandamuBakRight = 8;
+		if (m_countbak == STAGE_CLEAR_BAK - 2) {
+			m_RandamuBakRight = 8;
 		}
 
+
+
+		//SP中の処理
+		if (m_SPSitua == tag_StageSituation::STAGE_SP_STILL) {
+
+			//フェードインした後に描画される用にするための処理
+			if (m_SPcountbak == 1) {
+
+				//SP最初の背景
+				m_RandamuBakRight = 9;
+			}
+			else if (m_SPcountbak == (MAP_SP_LENGTH * 2) - 1)
+			{
+				//SP最後の背景
+				m_RandamuBakRight = 13;
+			}
+			else
+			{
+				//SP中の背景
+				m_RandamuBakRight = RandmuBak.GetRandomNumbe(10, 12);
+			}
+		}
 	}
-
-	//SP中の処理
-	if (m_SPSitua == tag_StageSituation::STAGE_SP_STILL) {
-
-		//フェードインした後に描画される用にするための処理
-		m_RandamuBakRight = 9;
-		m_RandamuBakLeft = m_RandamuBakRight;
-	}
-
 
 	//背景スクロール値＝背景画像の横幅：だんだん減る
 	//初期値X:背景スクロール値/背景横幅のあまり引く背景横幅 
@@ -771,7 +764,23 @@ void CStage::Render(void) {
 					break;
 
 				case 9:
-					m_SPBak.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
+					m_SPBak_Start.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
+					break;
+
+				case 10:
+					m_SPBak_1.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
+					break;
+
+				case 11:
+					m_SPBak_2.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
+					break;
+
+				case 12:
+					m_SPBak_3.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
+					break;
+
+				case 13:
+					m_SPBak_End.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
 					break;
 
 				default:
@@ -816,9 +825,24 @@ void CStage::Render(void) {
 				break;
 
 			case 9:
-				m_SPBak.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
+				m_SPBak_Start.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
 				break;
 
+			case 10:
+				m_SPBak_1.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
+				break;
+
+			case 11:
+				m_SPBak_2.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
+				break;
+
+			case 12:
+				m_SPBak_3.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
+				break;
+
+			case 13:
+				m_SPBak_End.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
+				break;
 
 			default:
 				break;
@@ -893,7 +917,11 @@ void CStage::Release(void) {
 	m_BakWindow.Release();
 	m_BakStairs.Release();
 	m_BakEnd.Release();
-	m_SPBak.Release();
+	m_SPBak_Start.Release();
+	m_SPBak_1.Release();
+	m_SPBak_2.Release();
+	m_SPBak_3.Release();
+	m_SPBak_End.Release();
 
 	//DPテクスチャ
 	dp_Textuer_Scholastic.Release();
@@ -974,6 +1002,17 @@ void CStage::RenderDebugging() {
 
 	CGraphicsUtilities::RenderString(40, 650, "%d", m_StageComposition[m_MapNo]);
 
+	if (SP_flg) {
+	CGraphicsUtilities::RenderString(40, 620, "SP：あり");
+
+	}
+	else
+	{
+		CGraphicsUtilities::RenderString(40, 620, "SP：なし");
+
+	}
+	
+
 #pragma endregion
 
 }
@@ -984,7 +1023,7 @@ void CStage::MapChange(void) {
 	//スクロールが切り替わる時かつそれぞれのマップパターン情報で終端要素にたどり着いているなら
 	if (m_StageScroll <= 0 &&
 		s_stageBAR[m_StageComposition[m_MapNo]][m_barcount].Type >= BAR_COUNT &&
-		s_stageDP[m_StageComposition[m_MapNo]][m_dpcount].Type >= DP_COUNT &&
+		s_stageDP[m_StageComposition[m_MapNo]][m_dpcount].Type == DP_COUNT &&
 		s_stageOB[m_StageComposition[m_MapNo]][m_obcount].Type >= OB_COUNT&&
 		s_stageENEMY[m_StageComposition[m_MapNo]][m_enecount].Type >= ENEMY_COUNT)
 	{
@@ -1073,9 +1112,22 @@ void CStage::OccurrenceDP(void) {
 				continue;
 			}
 
+			int type= DP_SCHOLASTIC;
+
+			if (SP_flg&&m_SPSitua== tag_StageSituation ::STAGE_SP_STILL) {
+
+				//SP中はSP中のDPに変換
+				type = DP_Deci_Type + 6;
+			}
+			else
+			{
+				//構成情報のタイプを参照
+				type = s_stageDP[m_StageComposition[m_MapNo]][m_dpcount].Type;
+			}
+
 			//表示テクスチャ準備
 			//出現位置とタイプを渡す
-			switch (s_stageDP[m_StageComposition[m_MapNo]][m_dpcount].Type)
+			switch (type)
 			{
 
 			case DP_SCHOLASTIC:
@@ -1098,10 +1150,30 @@ void CStage::OccurrenceDP(void) {
 				dp_array[i].SetTexture(&dp_Textuer_Charm);
 				break;
 
+			case DP_SP_SCHOLASTIC:
+				dp_array[i].SetTexture(&dp_Textuer_Scholastic);
+				break;
+
+			case DP_SP_ACTION:
+				dp_array[i].SetTexture(&dp_Textuer_Action);
+				break;
+
+			case DP_SP_IMAGINATION:
+				dp_array[i].SetTexture(&dp_Textuer_Imagination);
+				break;
+
+			case DP_SP_COMMUNICATION:
+				dp_array[i].SetTexture(&dp_Textuer_Communication);
+				break;
+
+			case DP_SP_CHARM:
+				dp_array[i].SetTexture(&dp_Textuer_Charm);
+				break;
+
 			default:
 				break;
 			}
-			dp_array[i].Start(s_stageDP[m_StageComposition[m_MapNo]][m_dpcount].Pos_y, s_stageDP[m_StageComposition[m_MapNo]][m_dpcount].Type);
+			dp_array[i].Start(s_stageDP[m_StageComposition[m_MapNo]][m_dpcount].Pos_y, type);
 			break;
 		}
 
