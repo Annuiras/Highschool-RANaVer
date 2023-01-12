@@ -212,6 +212,7 @@ private:
 	//ステージ構成を決める配列
 	int m_StageComposition[SATAGE_MAP_PATTERN] = { 1 };
 
+
 	//表示済みDP数
 	int m_dpcount;
 
@@ -230,6 +231,12 @@ private:
 	//ステージ用スクロール
 	float	m_StageScroll;
 
+	//背景構成
+	int m_BakComposition[(SATAGE_MAP_PATTERN * 2)+1];
+	//背景カウント
+	int m_countbak;
+
+
 	//中間背景用ランダム数値
 	//左側
 	int m_RandamuBakLeft;
@@ -242,8 +249,6 @@ private:
 	//採用済カウント
 	int m_AdoptCount;
 
-	//背景カウント
-	int m_countbak;
 
 	//スクロールスピード
 	float m_Scroll_Speed;

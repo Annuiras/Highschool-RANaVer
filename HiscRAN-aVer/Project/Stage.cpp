@@ -298,13 +298,13 @@ void CStage::Initialize(void) {
 	m_GradeOffset = g_pGraphics->GetTargetWidth();
 
 	//スクロール値初期化
-	m_BakScroll = 0.0f;
+	m_BakScroll = 1.0f;
 
 	//ステージスクロール値初期化
 	m_StageScroll = g_pGraphics->GetTargetWidth()*2;
 
 	//背景カウント初期化
-	m_countbak = -1;
+	m_countbak = 0;
 
 	//α値初期化
 	m_BakAVal = 255;
@@ -369,6 +369,30 @@ void CStage::Initialize(void) {
 		m_AdoptCount = 0;
 	}
 
+
+	for (int i = 0; i < SATAGE_MAP_PATTERN*2; i++)
+	{
+		int randamu=RandmuBak.GetRandomNumbe(1, 6);
+
+		if (i != 0&&randamu == m_BakComposition[i - 1]) {
+
+			if (randamu == 6) {
+				randamu = 1;
+			}
+			else
+			{
+				randamu++;
+			}
+		}
+
+		//↑同じ背景が連続しないようにするものなくてもよし
+		m_BakComposition[i] = randamu;
+
+	}
+	m_BakComposition[SATAGE_MAP_PATTERN * 2] = 8;
+	m_RandamuBakRight = 7;
+	m_RandamuBakLeft = m_BakComposition[0];
+
 	//初期化
 	for (int i = 0; i < MAP_INFO_PATTERN; i++)
 	{
@@ -410,8 +434,8 @@ void CStage::Initialize(void) {
 	m_Startflg = false;
 
 	//背景用ランダム数値初期化
-	m_RandamuBakLeft = RandmuBak.GetRandomNumbe(1, 6); 
-	m_RandamuBakRight = 0;
+	//m_RandamuBakLeft = RandmuBak.GetRandomNumbe(1, 6); 
+	//m_RandamuBakRight = 0;
 
 	//足場
 	for (int i = 0; i < BAR_VOLUME; i++)
@@ -488,11 +512,17 @@ void CStage::Update(CRectangle plrect) {
 	//背景カウント
 	if (m_BakScroll <= 0) {
 
-		//初期化
-		m_BakScroll = m_BakStart.GetWidth();
+		if (m_BakScroll == 0) {
 
+			//todo：０の時に停止すると背景が一枚分変わってしまうのが治らん
+			//バシバシわ起こらないけど
+			return;
+		}
 		//背景カウント
 		m_countbak += 1;
+
+		//初期化
+		m_BakScroll = m_BakStart.GetWidth();
 
 	}
 
@@ -532,9 +562,17 @@ void CStage::Update(CRectangle plrect) {
 		}
 	}
 
+	//クリアフラグ変更
+	if (m_countbak == 32) {
+		m_bClear = true;
+	}
+	else
+	{
 
-	//後ろに下げる
-	m_BakScroll -= m_Scroll_Speed;
+		//後ろに下げる
+		m_BakScroll -= m_Scroll_Speed;
+
+	}
 
 	//ステージ生成用スクロール値
 	m_StageScroll += m_Scroll_Speed;
@@ -678,10 +716,6 @@ void CStage::Update(CRectangle plrect) {
 	}
 
 
-	//クリアフラグ変更
-	if (m_countbak  == 31) {
-		m_bClear = true;
-	}
 
 }
 
@@ -701,18 +735,20 @@ void CStage::Render(void) {
 		//右側で表示していたものと同じものを左側で表示
 		m_RandamuBakLeft = m_RandamuBakRight;
 
-		//右側はランダムに数値を入れる
-		m_RandamuBakRight = RandmuBak.GetRandomNumbe(1,6);
+		//右側に数値を入れる
+		m_RandamuBakRight = m_BakComposition[m_countbak];
 
-		//一番初めの背景
-		if (m_countbak == -1) {
-			m_RandamuBakLeft = 7;
-		}
+		
 
-		//クリア時に一番最後の背景が表示されているように早めにセット
-		if (m_countbak == STAGE_CLEAR_BAK-2) {
-  			m_RandamuBakRight = 8;
-		}
+		////一番初めの背景
+		//if (m_countbak == -1) {
+		//	m_RandamuBakLeft = 7;
+		//}
+
+		////クリア時に一番最後の背景が表示されているように早めにセット
+		//if (m_countbak == STAGE_CLEAR_BAK-2) {
+		//m_RandamuBakRight = 8;
+		//}
 
 	}
 
@@ -809,6 +845,10 @@ void CStage::Render(void) {
 
 			case 6:
 				m_BakStairs.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
+				break;
+
+			case 7:
+				m_BakStart.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
 				break;
 
 			case 8:
