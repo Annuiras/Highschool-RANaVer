@@ -661,17 +661,33 @@ void CStage::Update(CRectangle plrect) {
 	//マップパターンの切り替え
 	MapChange();
 
-	//足場生成
-	OccurrenceBar();
+	//同じX座標の場合の判定
+	for (int i = 0; i < BAR_VOLUME; i++)
+	{
+		//足場生成
+		OccurrenceBar();
+	}
 
-	//ディテールポイント生成
-	OccurrenceDP();
+	//同じX座標の場合の判定
+	for (int i = 0; i < DP_VOLUME; i++)
+	{
+		//ディテールポイント生成
+		OccurrenceDP();
+	}
 
-	//障害物OB生成
-	OccurrenceOB();
+	//同じX座標の場合の判定
+	for (int i = 0; i < OB_VOLUME; i++)
+	{
+		//障害物OB生成
+		OccurrenceOB();
+	}
 
-	//敵生成
-	OccurrenceENE();
+	//同じX座標の場合の判定
+	for (int i = 0; i < ENEMY_VOLUME; i++)
+	{
+		//敵生成
+		OccurrenceENE();
+	}
 
 	//足場更新
 	for (int i = 0; i < BAR_VOLUME; i++)

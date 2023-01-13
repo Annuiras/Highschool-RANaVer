@@ -243,7 +243,13 @@ DP_info s_stageDP[][DP_INFO_STRUCT] =
 		//マップパターン15  SPマップ
 	{
 		{300.0f, 350.0f, DP_CHARM},	
-		{ 700.0f,229.0f,	DP_CHARM },
+		{ 300.0f,229.0f,	DP_CHARM },
+		{ 300.0f,489.0f,	DP_CHARM },
+		{ 300.0f,619.0f,	DP_CHARM },
+		{ 300.0f,749.0f,	DP_CHARM },
+		{ 300.0f,879.0f,	DP_CHARM },
+		{ 300.0f,909.0f,	DP_CHARM },
+
 		{ 1500.0f,300.0f,DP_CHARM },
 		{ 1775.0f,231.0f,DP_CHARM },
 		{ 2000.0f,66.0f,	DP_CHARM },
