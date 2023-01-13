@@ -139,7 +139,8 @@ void CGallery::Load(void)
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("../");
 
-	if (!m_SelectTexture_s.Load("Select_s.png"))
+	//戻るボタン選択枠
+	if (!m_SelectTexture_s.Load("BackButton_Select.png"))
 	{
 		b_LoadSitu = LOAD_ERROR;
 		return;
@@ -315,9 +316,6 @@ void CGallery::Render(void)
 	//左側本棚表示
 	m_LastApp.Render(60, 40);
 
-	//テキストボックス
-	m_Text.Render(766, 461);
-
 	//戻るボタン
 	m_BackButton.Render(60, 650);
 
@@ -338,75 +336,78 @@ void CGallery::Render(void)
 	if (galleryCnt == 15)
 	{
 		m_SelectTexture_s.Render(60, 650);
-		m_PickUp.Render(766, 50);
+
 	}
-	//本棚に選択囲み枠
 	else
 	{
-		//選択矩形
-		m_SelectTexture.Render(60 + (120 * (galleryCnt % 5)), 40 + ((galleryCnt / 5) * 200));
-	}
+		//テキストボックス背景
+		m_Text.Render(766, 461);
 
-	//最終容姿解放フラグ
-	if (S_LastParameter[galleryCnt].s_LastAddFlag)
-	{		
+		//最終容姿解放フラグ
+		if (S_LastParameter[galleryCnt].s_LastAddFlag)
+		{
 
-		//最終容姿背景
-		if (galleryCnt== LT_SUPERLADY) {
+			//最終容姿背景
+			if (galleryCnt == LT_SUPERLADY) {
 
-			//スーパーレディ
-			m_BakLastAp.Render(766, 50, m_BakLastRect[BL_SUPERLADY]);
-		}
-		else if(galleryCnt == LT_OTYOUSI)
-		{
-			//お調子者
-			m_BakLastAp.Render(766, 50, m_BakLastRect[BL_OTYOUSI]);
-		}
-		else if (galleryCnt == LT_BUNGAKU)
-		{
-			//文学少女
-			m_BakLastAp.Render(766, 50, m_BakLastRect[BL_BUNGAKU]);
-		}
-		else if (galleryCnt == LT_TYUNI)
-		{
-			//中二病
-			m_BakLastAp.Render(766, 50, m_BakLastRect[BL_TYUNI]);
-		}
-		else if (galleryCnt == LT_KAMITAIOU)
-		{
-			//神対応
-			m_BakLastAp.Render(766, 50, m_BakLastRect[BL_KAMITAIOU]);
+				//スーパーレディ
+				m_BakLastAp.Render(766, 50, m_BakLastRect[BL_SUPERLADY]);
+			}
+			else if (galleryCnt == LT_OTYOUSI)
+			{
+				//お調子者
+				m_BakLastAp.Render(766, 50, m_BakLastRect[BL_OTYOUSI]);
+			}
+			else if (galleryCnt == LT_BUNGAKU)
+			{
+				//文学少女
+				m_BakLastAp.Render(766, 50, m_BakLastRect[BL_BUNGAKU]);
+			}
+			else if (galleryCnt == LT_TYUNI)
+			{
+				//中二病
+				m_BakLastAp.Render(766, 50, m_BakLastRect[BL_TYUNI]);
+			}
+			else if (galleryCnt == LT_KAMITAIOU)
+			{
+				//神対応
+				m_BakLastAp.Render(766, 50, m_BakLastRect[BL_KAMITAIOU]);
+			}
+			else
+			{
+				//その他ノーマル
+				m_BakLastAp.Render(766, 50, m_BakLastRect[BL_NORMAL]);
+			}
+
+			//最終容姿を表示
+			S_LastParameter[galleryCnt].s_LastAppPic.Render(766, 50);
+
+			//説明テキスト表示矩形
+			CRectangle r_Text = { (400.f * (galleryCnt % 3)),(galleryCnt / 3) * 189.f,
+								400.f + (400 * (galleryCnt % 3)),189.f + (189 * (galleryCnt / 3))
+			};
+
+			//説明文
+			m_PickUpText.Render(766, 461, r_Text);
+
 		}
 		else
 		{
-			//その他ノーマル
-			m_BakLastAp.Render(766, 50, m_BakLastRect[BL_NORMAL]);
+			//最終容姿を表示せず別画像を表示
+			m_PickUp.Render(766, 50);
+
+			//説明テキスト表示矩形
+			CRectangle r_Text = { (400.f * (galleryCnt % 3)),(galleryCnt / 3) * 189.f,
+								400.f + (400 * (galleryCnt % 3)),189.f + (189 * (galleryCnt / 3)) };
+
+			//未解放時の表記にする
+			m_NotPickUpText.Render(766, 461, r_Text);
 		}
 
-		//最終容姿を表示
-		S_LastParameter[galleryCnt].s_LastAppPic.Render(766, 50);
-
-		//説明テキスト表示矩形
-		CRectangle r_Text = {(400.f * (galleryCnt % 3)),(galleryCnt / 3) * 189.f,
-							400.f+ (400 * (galleryCnt % 3)),189.f + (189 * (galleryCnt / 3)) 
-		};
-
-		//説明文
-		m_PickUpText.Render(766, 461, r_Text);
-
+		//本棚に選択囲み枠
+		m_SelectTexture.Render(60 + (120 * (galleryCnt % 5)), 40 + ((galleryCnt / 5) * 200));
 	}
-	else
-	{
-		//最終容姿を表示せず別画像を表示
-		m_PickUp.Render(766, 50);
 
-		//説明テキスト表示矩形
-		CRectangle r_Text = { (400.f * (galleryCnt % 3)),(galleryCnt / 3) * 189.f,
-							400.f + (400 * (galleryCnt % 3)),189.f + (189 * (galleryCnt / 3)) };
-
-		//未解放時の表記にする
-		m_NotPickUpText.Render(766, 461, r_Text);
-	}
 
 	//フェードアウト明転用
 	CGraphicsUtilities::RenderFillRect(0, 0, g_pGraphics->GetTargetWidth(), g_pGraphics->GetTargetHeight(), MOF_ARGB(m_BakAlph, 255, 255, 255));

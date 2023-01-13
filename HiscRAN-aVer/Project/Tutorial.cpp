@@ -84,8 +84,8 @@ void CTutorial::Load(void)
 		return;
 	}
 
-	//‘I‘ð˜g
-	if (!ButtonSelect.Load("Select_s.png"))
+	//–ß‚éƒ{ƒ^ƒ“‘I‘ð˜g
+	if (!ButtonSelect.Load("BackButton_Select.png"))
 	{
 		b_LoadSitu = LOAD_ERROR;
 		return;
