@@ -2,12 +2,20 @@
 #include "Define.h"
 #include "SceneBase.h"
 
+//ページ数
+#define P_Z 3
+
+//→見えない位置
+#define R_Not 1043
+//左見えない位置
+#define L_Not -557
+
 class CTutorial:public CSceneBase
 {
 private:
 
 	//説明テクスチャ
-	CTexture ExTextTexture;
+	CTexture ExTextTexture[P_Z];
 
 	//背景テクスチャ
 	CTexture BGTexture;
@@ -37,10 +45,13 @@ private:
 	int m_Scroll;
 
 	//座標値（X軸方向）
-	int gPosX;
+	int gPosX[P_Z];
 
 	//画像枚数カウント
 	int count;
+
+	//移動中フラグ
+	bool Is_Move;
 
 	//X軸方向にどれだけ動いたか
 	int MoveX;
@@ -49,7 +60,7 @@ private:
 	bool bShow;
 
 	//戻るボタンにカーソルがあるかないか
-	int TMenuCnt;
+	bool TMenuCnt;
 
 	//背景α値
 	int m_BakAlph;

@@ -6,7 +6,7 @@ CTutorial::CTutorial() :
 	BackButton(),
 	ButtonSelect(),
 	m_Scroll(0.0f),
-	gPosX(0.0f),
+	gPosX(),
 	count(0.0f),
 	MoveX(0.0f),
 	bShow(false),
@@ -27,7 +27,19 @@ void CTutorial::Load(void)
 	CUtilities::SetCurrentDirectoryA("Tutorial");
 
 	//説明テクスチャ
-	if (!ExTextTexture.Load("tutorialBG.png"))
+	if (!ExTextTexture[0].Load("無題685_20230113163526.png"))
+	{
+		b_LoadSitu = LOAD_ERROR;
+		return;
+	}
+
+	if (!ExTextTexture[1].Load("setumei.png"))
+	{
+		b_LoadSitu = LOAD_ERROR;
+		return;
+	}
+
+	if (!ExTextTexture[2].Load("無題685_20230113163526.png"))
 	{
 		b_LoadSitu = LOAD_ERROR;
 		return;
@@ -92,7 +104,7 @@ void CTutorial::Load(void)
 	}
 
 	//ロード完了
-	b_LoadSitu = LOAD_DONE;
+	b_LoadSitu = LOAD_COMP;
 
 }
 
@@ -102,9 +114,17 @@ void CTutorial::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* e
 	//初期化
 	m_Scroll = 0;
 	count = 0;
+	Is_Move = false;
 	MoveX = 0;
-	gPosX = 0;
+
+	for (int i = 0; i < P_Z; i++)
+	{
+		gPosX[i] = 1043;
+	}
+	gPosX[0] = 243;
+
 	bShow = false;
+	TMenuCnt = false;
 
 	//各マネージャーセット
 	b_GameProgMamt = mamt;
@@ -117,6 +137,12 @@ void CTutorial::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* e
 
 	//素材ロード
 	Load();
+
+	//エラー状態でない場合
+	if (b_LoadSitu != LOAD_ERROR) {
+		//初期化完了
+		b_LoadSitu = LOAD_DONE;
+	}
 
 	//現在のシーンセット
 	m_NowScene = SCENENO_TUTORIAL;
@@ -152,148 +178,67 @@ void CTutorial::Update(void)
 	//動いているフラグがFALSE（動いていないという意味になる）
 	//右矢印キーを押している
 	//だったら、カウントしてページ送りする
-	if (bShow == false && g_pInput->IsKeyPush(MOFKEY_RIGHT))
-	{
-		switch (count)
-		{
-		case -1:
-			count = count + 1;
-			MoveX = -20;
-			bShow = true;
-			TMenuCnt = 0;
-			break;
 
-		case 0:
-			count = count + 1;
-			MoveX = -20;
-			bShow = true;
-			TMenuCnt = 0;
-			break;
+	if (Is_Move) {
 
-		case 1:
-			count = count + 1;
-			MoveX = -20;
-			bShow = true;
-			TMenuCnt = 0;
-			break;
+		gPosX[count] -= MoveX;
+		gPosX[count + 1] -= MoveX;
 
-		case 2:
-			count = count + 1;
-			MoveX = -20;
-			bShow = true;
-			TMenuCnt = 0;
-			break;
-
-		case 3:
-			count = count + 1;
-			MoveX = -20;
-			bShow = true;
-			TMenuCnt = 0;
-			break;
-
-		case 4:
-			count = count + 1;
-			MoveX = -20;
-			bShow = true;
-			TMenuCnt = 0;
-			break;
-
-		case 5:
-			count = 5;
-			TMenuCnt = 1;
-			break;
+		//左移動の場合
+		if (gPosX[count] <= L_Not) {
+			Is_Move = false;
+			count++;
 		}
-	}
-	else if (bShow == false && g_pInput->IsKeyPush(MOFKEY_LEFT))
-	{
-		switch (count)
+		else if (gPosX[count+1] >= R_Not)
 		{
-		case -1:
-			count = -1;
-			TMenuCnt = 1;
-			break;
-
-		case 0:
-			count = count - 1;
-			MoveX = 20;
-			bShow = true;
-			TMenuCnt = 0;
-			break;
-
-		case 1:
-			count = count - 1;
-			MoveX = 20;
-			bShow = true;
-			TMenuCnt = 0;
-			break;
-
-		case 2:
-			count = count - 1;
-			MoveX = 20;
-			bShow = true;
-			TMenuCnt = 0;
-			break;
-
-		case 3:
-			count = count - 1;
-			MoveX = 20;
-			bShow = true;
-			TMenuCnt = 0;
-			break;
-
-		case 4:
-			count = count - 1;
-			MoveX = 20;
-			bShow = true;
-			TMenuCnt = 0;
-			break;
-
-		case 5:
-			count = count - 1;
-			MoveX = 20;
-			bShow = true;
-			TMenuCnt = 0;
-			break;
+			Is_Move = false;
+			MoveX = 0;
 		}
-	}
-	//矢印キー下を押した時、戻るボタンにカーソルを合わせる
-	else if (TMenuCnt == 0 && g_pInput->IsKeyPush(MOFKEY_DOWN))
-	{
-		TMenuCnt = 1;
-	}
-	//矢印キー上を押した時、カーソルを外す
-	else if (TMenuCnt == 1 && g_pInput->IsKeyPush(MOFKEY_UP))
-	{
 
-		TMenuCnt = 0;
-
-		if (count == 5)
+	}
+	else
+	{
+		if (g_pInput->IsKeyPush(MOFKEY_RIGHT))
 		{
-			count = count - 1;
-			MoveX = 20;
-			bShow = true;
+			if (count != P_Z - 1) {
+				Is_Move = true;
+				MoveX = 10;
+			}
 		}
-	}
+		else if (g_pInput->IsKeyPush(MOFKEY_LEFT))
+		{
+			if (count != 0) {
+				Is_Move = true;
+				MoveX = -10;
+				count--;
+			}
+		}
+		//矢印キー下を押した時、戻るボタンにカーソルを合わせる
+		else if (TMenuCnt == 0 && g_pInput->IsKeyPush(MOFKEY_DOWN))
+		{
+			TMenuCnt = true;
+		}
+		//矢印キー上を押した時、カーソルを外す
+		else if (TMenuCnt == 1 && g_pInput->IsKeyPush(MOFKEY_UP))
+		{
 
-	//実際に座標を動かす
-	m_Scroll += MoveX;
-	gPosX += MoveX;
+			TMenuCnt = false;
+
+			if (count == 5)
+			{
+				count = count - 1;
+				MoveX = 20;
+				bShow = true;
+			}
+		}
+
+	}
 
 	//1280×カウントの数値で止める
 	//カウントが-1もしくは4の場合は、戻るボタンに飛ぶのでそもそも移動がない
 	if (m_Scroll == -1280 * count || m_Scroll == 1280 * count || count == -1 || count == 5)
 	{
-		MoveX = 0;
-		bShow = false;
 
-		if (count == -1 || count == 0)
-		{
-			gPosX = 0;
-		}
-		else if (count == 4 || count == 5)
-		{
-			gPosX = -5120;
-		}
 	}
 
 	//エンターキーでモードセレクト画面へ
@@ -313,7 +258,11 @@ void CTutorial::Render(void)
 
 	CGraphicsUtilities::RenderFillRect(0, 0, g_pGraphics->GetTargetWidth(), g_pGraphics->GetTargetHeight(), MOF_COLOR_WHITE);
 
-	ExTextTexture.Render(gPosX, 18);
+	ExTextTexture[count].Render(gPosX[count], 90);
+
+	if (count != P_Z - 1) {
+		ExTextTexture[count + 1].Render(gPosX[count + 1], 90);
+	}
 
 	//背景画像描画
 	BGTexture.Render(0, 0);
@@ -371,7 +320,10 @@ void CTutorial::RenderDebug(void)
 //素材解放
 void CTutorial::Release(void)
 {
-	ExTextTexture.Release();
+	for (int i = 0; i < P_Z; i++)
+	{
+		ExTextTexture[i].Release();
+	}
 	BGTexture.Release();
 	ScreenTexture.Release();
 	CurtainBGTexture.Release();
