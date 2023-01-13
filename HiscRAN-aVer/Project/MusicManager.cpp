@@ -98,6 +98,11 @@ tag_LoadSituation CMusicMgmt::Load(void) {
 		//"Title_候補 (9).mp3",
 	#pragma endregion
 
+	#pragma region チュートリアル画面
+		"Tutorial_候補_2.mp3",
+	#pragma endregion
+
+
 	#pragma region ゲーム,オーバー,クリア画面
 		//"Stage_候補 (1).mp3",
 		"Stage_候補 (2).mp3",
