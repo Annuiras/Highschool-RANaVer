@@ -102,12 +102,11 @@ void CDPDecision::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt*
 
 	//SPステージかどうかを判定
 	SP_flg =false;
-	if (RandmuBak.GetRandomNumbe(0, 5)==5) {
+	if (RandmuBak.GetRandomNumbe(0, 5) == 5) {
 		//五分の一の確率でSPステージ発生
 		SP_flg = true;
 	}
-	b_GameProgMamt->SetDPdec_SPflg(SP_flg);
-	b_GameProgMamt->InitializeStatus();
+
 }
 
 //更新
@@ -145,8 +144,7 @@ void CDPDecision::Update(void)
 
 	if (g_pInput->IsKeyPush(MOFKEY_P))
 	{
-		SP_flg = true;
-		b_GameProgMamt->SetDPdec_SPflg(true);
+		SP_flg = !SP_flg;
 	}
 
 	//説明表示中
@@ -348,4 +346,9 @@ void CDPDecision::Release(void)
 	m_TextTexture.Release();
 	m_SelectTexture.Release();
 	m_ExTexture.Release();
+
+
+	b_GameProgMamt->SetDPdec_SPflg(SP_flg);
+	b_GameProgMamt->InitializeStatus();
+
 }

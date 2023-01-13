@@ -104,6 +104,7 @@ void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec
 	{
 		m_DPNum[i] = 0;
 	}
+	m_SP_DPNum = 0;
 	m_StartScale = 0.0f;
 
 	//åªç›ÇÃÉVÅ[Éì

@@ -12,10 +12,10 @@
 #define SATAGE_MAP_PATTERN 15
 
 //SP開始マップパターン数(何パターン目)
-#define MAP_SP_START_PATTERN 2
+#define MAP_SP_START_PATTERN 3
 
 //SPステージパターン数
-#define MAP_SP_LENGTH 5
+#define MAP_SP_LENGTH 4
 
 //ステージ変化する背景枚数
 #define SATGE_CHANGE_BAK 200

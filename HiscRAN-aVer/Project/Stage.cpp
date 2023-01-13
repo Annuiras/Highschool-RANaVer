@@ -326,13 +326,13 @@ void CStage::Initialize(bool spflg, int dptype) {
 	m_GradeOffset = g_pGraphics->GetTargetWidth();
 
 	//スクロール値初期化
-	m_BakScroll = 0.0f;
+	m_BakScroll = 1.0f;
 
 	//ステージスクロール値初期化
 	m_StageScroll = g_pGraphics->GetTargetWidth()*2;
 
 	//背景カウント初期化
-	m_countbak = -1;
+	m_countbak = 0;
 
 	//α値初期化
 	m_BakAVal = 255;
@@ -360,8 +360,9 @@ void CStage::Initialize(bool spflg, int dptype) {
 	//初期化
 	m_AdoptCount = 0;
 
+	//ステージ構成をセット
 	//低確率で同じステージが選択されてしまうため試行回数は多め
-	for (int z = 1; z < 100; z++)
+	for (int z = 1; z < 1000; z++)
 	{
 		for (int x = 0; x < MAP_INFO_PATTERN; x++)
 		{
@@ -377,46 +378,86 @@ void CStage::Initialize(bool spflg, int dptype) {
 			break;
 		}
 
-		//ランダムパターンをセット
-		int randam= RandmuBak.GetRandomNumbe(0, 14);
-
-		//まだ使用していない場合のみ採用(1=使用済み)
-		if (m_AlreadyUsedArray[randam] == 0)
+		//SPマップを採用
+		if (m_AdoptCount == MAP_SP_START_PATTERN && SP_flg)
 		{
+			int SPAdopCount = 0;
 
-			//SPマップを採用
-			if (m_AdoptCount == MAP_SP_START_PATTERN&& SP_flg)
+			//SPマップパターンをセット
+			for (int i = 0; i < 100; i++)
 			{
-				//SPマップパターン５枚分をセット
-				m_StageComposition[m_AdoptCount] = 15;
-				m_AdoptCount++;
-				m_StageComposition[m_AdoptCount] = 16;
-				m_AdoptCount++;
-				m_StageComposition[m_AdoptCount] = 17;
-				m_AdoptCount++;
-				m_StageComposition[m_AdoptCount] = 18;
-				m_AdoptCount++;
-				m_StageComposition[m_AdoptCount] = 19;
+				int SPrandmu = RandmuBak.GetRandomNumbe(15, 19);
+				if (m_AlreadyUsedArray[SPrandmu] == 0) {
 
-				//使用したパターンの場所に１をセット
-				m_AlreadyUsedArray[15] = 1;
-				m_AlreadyUsedArray[16] = 1;
-				m_AlreadyUsedArray[17] = 1;
-				m_AlreadyUsedArray[18] = 1;
-				m_AlreadyUsedArray[19] = 1;
+					m_StageComposition[m_AdoptCount+ SPAdopCount] = SPrandmu;
+					SPAdopCount++;
+					//使用したパターンの場所に１をセット
+					m_AlreadyUsedArray[SPrandmu] = 1;
+
+				}
+				//1SPステージ分のステージが用意出来たら終了
+				if (m_AdoptCount+ MAP_SP_LENGTH <= m_AdoptCount+ SPAdopCount) {
+					break;
+				}
 
 			}
-			else
+		}
+		else 
+		{
+			//ランダムパターンをセット
+			int randam= RandmuBak.GetRandomNumbe(0, 14);
+
+			//まだ使用していない場合のみ採用(1=使用済み)
+			if (m_AlreadyUsedArray[randam] == 0)
 			{
+
 				//採用
 				m_StageComposition[m_AdoptCount] = randam;
 
 				//使用したパターンの場所に１をセット
 				m_AlreadyUsedArray[randam] = 1;
-			}
-		}			
+			
+			}			
+
+		}
+
 		//採用済カウント
 		m_AdoptCount = 0;
+	}
+
+	//背景構成を
+	for (int i = 0; i < SATAGE_MAP_PATTERN*2; i++)
+	{
+		int randamu=RandmuBak.GetRandomNumbe(1, 6);
+
+		if (i != 0&&randamu == m_BakComposition[i - 1]) {
+
+			if (randamu == 6) {
+				randamu = 1;
+			}
+			else
+			{
+				randamu++;
+			}
+		}
+
+		//↑同じ背景が連続しないようにするものなくてもよし
+		m_BakComposition[i] = randamu;
+
+	}
+	m_BakComposition[SATAGE_MAP_PATTERN * 2] = 8;
+	m_RandamuBakRight = 7;
+	m_RandamuBakLeft = m_BakComposition[0];
+
+	if (SP_flg) {
+
+		m_BakComposition[(MAP_SP_START_PATTERN * 2)] = 9;
+
+		for (int i = 1; i < MAP_SP_LENGTH*2; i++)
+		{
+			m_BakComposition[(MAP_SP_START_PATTERN * 2) + i] = RandmuBak.GetRandomNumbe(10, 12);
+		}
+		m_BakComposition[(MAP_SP_START_PATTERN * 2)+(MAP_SP_LENGTH*2)-1] = 13;
 	}
 
 	//初期化
@@ -439,8 +480,8 @@ void CStage::Initialize(bool spflg, int dptype) {
 	//m_StageComposition[9] = 9;
 	//m_StageComposition[10] = 10;
 	//m_StageComposition[11] = 0;
-	//m_StageComposition[12] = 0;
-	//m_StageComposition[13] = 2;
+	//m_StageComposition[12] = 8;
+	//m_StageComposition[13] = 8;
 	//m_StageComposition[14] = 2;
 
 
@@ -460,8 +501,8 @@ void CStage::Initialize(bool spflg, int dptype) {
 	m_Startflg = false;
 
 	//背景用ランダム数値初期化
-	m_RandamuBakLeft = RandmuBak.GetRandomNumbe(1, 6); 
-	m_RandamuBakRight = 0;
+	//m_RandamuBakLeft = RandmuBak.GetRandomNumbe(1, 6); 
+	//m_RandamuBakRight = 0;
 
 	//足場
 	for (int i = 0; i < BAR_VOLUME; i++)
@@ -538,16 +579,23 @@ void CStage::Update(CRectangle plrect) {
 	//背景カウント
 	if (m_BakScroll <= 0) {
 
-		//初期化
-		m_BakScroll = m_BakStart.GetWidth();
+		if (m_BakScroll == 0) {
 
+			//todo：０の時に停止すると背景が一枚分変わってしまうのが治らん
+			//バシバシわ起こらないけど
+			//return;
+		}
 		//背景カウント
 		m_countbak += 1;
 
-		if (m_countbak == MAP_SP_START_PATTERN*2&& SP_flg) {
-			m_SPSitua = tag_StageSituation::STAGE_SP_STILL;
-		}
 
+		//初期化
+		m_BakScroll = m_BakStart.GetWidth();
+
+	}
+
+	if (m_countbak == (MAP_SP_START_PATTERN*2)+1&& SP_flg) {
+		m_SPSitua = tag_StageSituation::STAGE_SP_STILL;
 	}
 
 	//一時的な追加です
@@ -586,9 +634,17 @@ void CStage::Update(CRectangle plrect) {
 	//	}
 	//}
 
+	//クリアフラグ変更
+	if (m_countbak == 32) {
+		m_bClear = true;
+	}
+	else
+	{
 
-	//後ろに下げる
-	m_BakScroll -= m_Scroll_Speed;
+		//後ろに下げる
+		m_BakScroll -= m_Scroll_Speed;
+
+	}
 
 	//ステージ生成用スクロール値
 	m_StageScroll += m_Scroll_Speed;
@@ -658,12 +714,11 @@ void CStage::Update(CRectangle plrect) {
 
 	}
 
-	//クリアフラグ変更
-	if (m_countbak  == 31) {
-		m_bClear = true;
-	}
-
 }
+
+
+
+
 
 //描画
 void CStage::Render(void) {
@@ -682,40 +737,42 @@ void CStage::Render(void) {
 		m_RandamuBakLeft = m_RandamuBakRight;
 
 		//右側はランダムに数値を入れる
-		m_RandamuBakRight = RandmuBak.GetRandomNumbe(1, 6);
+		m_RandamuBakRight = m_BakComposition[m_countbak];
 
-		//一番初めの背景
-		if (m_countbak == -1) {
-			m_RandamuBakLeft = 7;
-		}
+		
 
-		//クリア時に一番最後の背景が表示されているように早めにセット
-		if (m_countbak == STAGE_CLEAR_BAK - 2) {
-			m_RandamuBakRight = 8;
-		}
+		////一番初めの背景
+		//if (m_countbak == -1) {
+		//	m_RandamuBakLeft = 7;
+		//}
+
+		////クリア時に一番最後の背景が表示されているように早めにセット
+		//if (m_countbak == STAGE_CLEAR_BAK-2) {
+		//m_RandamuBakRight = 8;
+		//}
 
 
 
-		//SP中の処理
-		if (m_SPSitua == tag_StageSituation::STAGE_SP_STILL) {
+		////SP中の処理
+		//if (m_SPSitua == tag_StageSituation::STAGE_SP_STILL) {
 
-			//フェードインした後に描画される用にするための処理
-			if (m_SPcountbak == 1) {
+		//	//SP開始時の背景セット
+		//	if (m_SPcountbak == 0) {
 
-				//SP最初の背景
-				m_RandamuBakRight = 9;
-			}
-			else if (m_SPcountbak == (MAP_SP_LENGTH * 2) - 1)
-			{
-				//SP最後の背景
-				m_RandamuBakRight = 13;
-			}
-			else
-			{
-				//SP中の背景
-				m_RandamuBakRight = RandmuBak.GetRandomNumbe(10, 12);
-			}
-		}
+		//		//SP最初の背景
+		//		m_RandamuBakRight = 9;
+		//	}
+		//	else if (m_SPcountbak == (MAP_SP_LENGTH * 2))
+		//	{
+		//		//SP最後の背景
+		//		m_RandamuBakRight = 13;
+		//	}
+		//	else
+		//	{
+		//		//SP中の背景
+		//		m_RandamuBakRight = RandmuBak.GetRandomNumbe(10, 12);
+		//	}
+		//}
 	}
 
 	//背景スクロール値＝背景画像の横幅：だんだん減る
@@ -818,6 +875,10 @@ void CStage::Render(void) {
 
 			case 6:
 				m_BakStairs.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
+				break;
+
+			case 7:
+				m_BakStart.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
 				break;
 
 			case 8:
@@ -1012,6 +1073,7 @@ void CStage::RenderDebugging() {
 
 	}
 	
+	CGraphicsUtilities::RenderString(40, 590, "%d", m_SPcountbak);
 
 #pragma endregion
 
