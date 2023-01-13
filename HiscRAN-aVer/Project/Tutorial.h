@@ -3,19 +3,21 @@
 #include "SceneBase.h"
 
 //ページ数
-#define P_Z 3
+#define PAGES_NUM 7
 
-//→見えない位置
-#define R_Not 1043
-//左見えない位置
-#define L_Not -557
+//説明画像固定位置
+#define PAGES_X 243
+#define PAGES_Y 90
+
+#define PAGES_SPEED 10
+
 
 class CTutorial:public CSceneBase
 {
 private:
 
 	//説明テクスチャ
-	CTexture ExTextTexture[P_Z];
+	CTexture ExTextTexture[PAGES_NUM];
 
 	//背景テクスチャ
 	CTexture BGTexture;
@@ -41,23 +43,17 @@ private:
 	//選択枠
 	CTexture ButtonSelect;
 
-	//スクロール値
-	int m_Scroll;
+	//ページごとのX座標
+	int gPosX[PAGES_NUM];
 
-	//座標値（X軸方向）
-	int gPosX[P_Z];
-
-	//画像枚数カウント
-	int count;
+	//現在のページ
+	int m_Cursor;
 
 	//移動中フラグ
 	bool Is_Move;
 
-	//X軸方向にどれだけ動いたか
+	//
 	int MoveX;
-
-	//見えてるか見えてないか
-	bool bShow;
 
 	//戻るボタンにカーソルがあるかないか
 	bool TMenuCnt;
