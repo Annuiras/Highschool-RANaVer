@@ -386,7 +386,7 @@ void CStage::Initialize(bool spflg, int dptype) {
 			//SPマップパターンをセット
 			for (int i = 0; i < 100; i++)
 			{
-				int SPrandmu = RandmuBak.GetRandomNumbe(15, 19);
+				int SPrandmu = RandmuBak.GetRandomNumbe(15, 16);
 				if (m_AlreadyUsedArray[SPrandmu] == 0) {
 
 					m_StageComposition[m_AdoptCount+ SPAdopCount] = SPrandmu;

@@ -102,7 +102,7 @@ void CDPDecision::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt*
 
 	//SPステージかどうかを判定
 	SP_flg =false;
-	if (RandmuBak.GetRandomNumbe(0, 5) == 5) {
+	if (RandmuBak.GetRandomNumbe(0, 5) == 50) {
 		//五分の一の確率でSPステージ発生
 		SP_flg = true;
 	}

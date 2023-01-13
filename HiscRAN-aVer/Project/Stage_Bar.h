@@ -88,6 +88,8 @@ BAR_info s_stageBAR[][BAR_INFO_STRUCT] =
 	},
 	//マップパターン16
 	{
+		{284.0f,420.0f,BAR_BIG},
+		{1568.0f,420.0f,BAR_BIG},
 		{10000,0,BAR_COUNT}
 	},
 	//マップパターン17

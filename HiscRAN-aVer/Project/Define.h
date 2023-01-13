@@ -12,10 +12,10 @@
 #define SATAGE_MAP_PATTERN 15
 
 //SP開始マップパターン数(何パターン目)
-#define MAP_SP_START_PATTERN 5
+#define MAP_SP_START_PATTERN 0
 
 //SPステージパターン数
-#define MAP_SP_LENGTH 3
+#define MAP_SP_LENGTH 2
 
 //ステージ変化する背景枚数
 #define SATGE_CHANGE_BAK 200
@@ -39,7 +39,7 @@
 
 //DP1パターンの要素数
 //（1マップ中にあるDP数＋1）
-#define DP_INFO_STRUCT 25
+#define DP_INFO_STRUCT 50
 
 //DPタイプ定義
 enum tag_DP_TYPE

@@ -2,7 +2,7 @@
 #include "Define.h"
 
 //ˆê‰æ–Ê‚É‘¶İ‚·‚éÅ‘åDP
-#define DP_VOLUME	20
+#define DP_VOLUME	40
 
 class DetailPoint
 {
