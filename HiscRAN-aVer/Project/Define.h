@@ -15,7 +15,7 @@
 #define MAP_SP_START_PATTERN 3
 
 //SPステージパターン数
-#define MAP_SP_LENGTH 4
+#define MAP_SP_LENGTH 2
 
 //ステージ変化する背景枚数
 #define SATGE_CHANGE_BAK 200
