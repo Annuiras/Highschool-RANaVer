@@ -348,11 +348,23 @@ void CGameClear::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* 
 	b_MusicManager = musi;
 	b_EffectManeger = effec;
 
+
+	//最終容姿番号
+	LastDetailNo = LT_ANEGO;
+
+
+	//文字用アルファ値
+	gAlpha = 0;
+
+	//フェードイン用アルファ値
+	m_WhiteBakAlph = 255;
+	m_BlackBakAlph = 0;
+	b_Fadein = FADE_IN;
+
+	isStop = false;
+
 	//素材ロード
 	Load();
-
-	//ステータスから最終容姿を判定する
-	StatusJudgement();
 
 	//エラー状態でない場合
 	if (b_LoadSitu != LOAD_ERROR) {
@@ -387,27 +399,17 @@ void CGameClear::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* 
 	}
 
 
-	//文字用アルファ値
-	gAlpha = 0;
+	//ステータスから最終容姿を判定する
+	StatusJudgement();
 
-	//フェードイン用アルファ値
-	m_WhiteBakAlph = 255;
-	m_BlackBakAlph = 0;
-	b_Fadein = FADE_IN;
-
-	isStop = false;
-
-	//最終容姿番号
-	LastDetailNo = LT_ANEGO;
-
-
-	//BGM再生
-	b_MusicManager->BGMStart(BGMT_CLEAR);
 }
 
 //更新
 void CGameClear::Update(void)
 {
+
+	//BGM再生
+	b_MusicManager->BGMStart(BGMT_CLEAR);
 
 	//フェードイン処理
 	if (b_Fadein == FADE_IN) {

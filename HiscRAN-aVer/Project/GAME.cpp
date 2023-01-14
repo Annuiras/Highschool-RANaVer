@@ -11,7 +11,8 @@ CGAME::CGAME():
 	m_StartTime(),
 	m_DPDeci(),
 	m_DPNum(),
-	m_SP_DPNum()
+	m_SP_DPNum(),
+	mB_Clearflg()
 {}
 
 CGAME::~CGAME()
@@ -133,6 +134,17 @@ void CGAME::Update(void)
 
 		//クリア画面
 		if (m_GameClearflg) {
+
+			//発表用にステータスを変更
+			if (mB_Clearflg) {
+
+				m_DPNum[0] = 36;
+				m_DPNum[1] = 33;
+				m_DPNum[2] = 32;
+				m_DPNum[3] = 31;
+				m_DPNum[4] = 15;
+
+			}
 			//DPの取得数を保存
 			b_GameProgMamt->SetGame_DPNum(m_DPNum);
 			b_GameProgMamt->SetGame_SP_DPNum(m_SP_DPNum);
@@ -256,6 +268,12 @@ void CGAME::Update(void)
 	if (g_pInput->IsKeyPush(MOFKEY_C))
 	{
 		m_GameClearflg = true;
+	}
+
+	if (g_pInput->IsKeyPush(MOFKEY_Q))
+	{
+		m_GameClearflg = true;
+		mB_Clearflg = true;
 	}
 
 	//Vでゲームオーバー画面

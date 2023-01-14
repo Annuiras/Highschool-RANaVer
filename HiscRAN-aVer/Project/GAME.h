@@ -16,10 +16,6 @@ private:
 	//DPと接触処理
 	void UPdeteCollisionDP(int dpt);
 
-	//メニュークラス
-	//CMenu			m_Menu;
-	//int				m_MenuItemCount = 2;
-
 	//プレイヤークラス
 	CPlayer g_Player;
 
@@ -63,7 +59,8 @@ private:
 	//クリアフラグ
 	bool m_GameClearflg;
 
-
+	//発表用デバック
+	bool mB_Clearflg;
 
 public:
 	CGAME();
