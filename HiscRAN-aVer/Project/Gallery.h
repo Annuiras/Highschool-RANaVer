@@ -62,14 +62,11 @@ private:
 		CTexture s_NotLastApp;
 	};
 
-	//最終容姿背景表示矩形
-	CRectangle m_BakLastRect[BL_COUNT];
-
 	//最終容姿パラメータ構造体
 	LastTexture S_LastParameter[16];
 
-	//最終容姿台紙
-	CTexture	m_PickUp;
+	//最終容姿背景表示矩形
+	CRectangle m_BakLastRect[BL_COUNT];
 
 	//解放済み最終容姿テキスト
 	CTexture	m_PickUpText;

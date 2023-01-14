@@ -10,7 +10,6 @@ CGallery::CGallery() :
 	m_LastApp(),
 	m_SelectTexture_s(),
 	m_BackButton(),
-	m_PickUp(),
 	m_Text(),
 	m_BakAlph()
 {
@@ -111,13 +110,6 @@ void CGallery::Load(void)
 
 	//未解放時のヒントアイコン
 	if (!m_NotPickUpText.Load("Collection_NotFoundText.png")) {
-		b_LoadSitu = LOAD_ERROR;
-		return;
-	}
-
-	//緑背景
-	if (!m_PickUp.Load("Picup.png"))
-	{
 		b_LoadSitu = LOAD_ERROR;
 		return;
 	}
@@ -393,8 +385,6 @@ void CGallery::Render(void)
 		}
 		else
 		{
-			//最終容姿を表示せず別画像を表示
-			m_PickUp.Render(766, 50);
 
 			//説明テキスト表示矩形
 			CRectangle r_Text = { (400.f * (galleryCnt % 3)),(galleryCnt / 3) * 189.f,
@@ -434,10 +424,8 @@ void CGallery::Release(void)
 	m_SelectTexture.Release();
 	m_SelectTexture_s.Release();
 	m_BackButton.Release();
-
 	m_LastApp.Release();
 	m_BakLastAp.Release();
-
 	m_PickUpText.Release();
 
 	for (int i = 0; i < 15; i++)
@@ -450,11 +438,10 @@ void CGallery::Release(void)
 		S_LastParameter[i].s_NotLastApp.Release();
 	}
 
-	m_PickUp.Release();
 	m_Text.Release();
 	m_NotPickUpText.Release();
 
-
+	//BGMストップ
 	b_MusicManager->BGMStop(BGMT_GALLERY);
 
 }

@@ -168,7 +168,7 @@ MofBool CGameApp::Update(void){
 	//Å‰‚ÌƒV[ƒ“‚ð¶¬
 	if (gpScene == nullptr) {
 
-		gpScene = new CTutorial();
+		gpScene = new CGallery();
 		gLoad.Thread_Load = thread{ [=] {gpScene->Load(); } };
 		gLoad.Initialize(0,100);
 	}
