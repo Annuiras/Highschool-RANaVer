@@ -39,213 +39,210 @@ bool CStage::Load() {
 #pragma region ステージ背景ロード
 
 	//リソース配置ディレクトリの設定
-	CUtilities::SetCurrentDirectoryA("Game/StageBak");
+	CUtilities::SetCurrentDirectoryA("StageBak");
 
-	if (!m_BakStart.Load("廊下始まり.png")) {
+	if (!m_BakStart.Load("HallStart.png")) {
 		return false;
 	}
 
-	if (!m_BakRdoor.Load("右扉.png")) {
+	if (!m_BakRdoor.Load("Door_R.png")) {
 		return false;
 	}
 
-	if (!m_BakRwall.Load("右壁.png")) {
+	if (!m_BakRwall.Load("Wall_R.png")) {
 		return false;
 	}
 
-	if (!m_Bakldoor.Load("左扉.png")) {
+	if (!m_Bakldoor.Load("Door_L.png")) {
 		return false;
 	}
 
-	if (!m_Baklwall.Load("左壁.png")) {
+	if (!m_Baklwall.Load("Wall_L.png")) {
 		return false;
 	}
 
-	if (!m_BakStairs.Load("階段.png")) {
+	if (!m_BakStairs.Load("Stairs.png")) {
 		return false;
 	}
 
-	if (!m_BakWindow.Load("二窓.png")) {
+	if (!m_BakWindow.Load("Window_2.png")) {
 		return false;
 	}
 
-	if (!m_BakEnd.Load("廊下終わり.png")) {
+	if (!m_BakEnd.Load("HallEnd.png")) {
 		return false;
 	}
 
 	//SP最初の背景
-	if (!m_SPBak_Start.Load("スプライト-0001-SP0.png")) {
+	if (!m_SPBak_Start.Load("SPStart.png")) {
 		return false;
 	}
 
 	//SPステージ中の背景
-	if (!m_SPBak_1.Load("スプライト-0001-SP1.png")) {
+	if (!m_SPBak_1.Load("SP1.png")) {
 		return false;
 	}
 
 	//SPステージ中の背景
-	if (!m_SPBak_2.Load("スプライト-0001-SP2.png")) {
+	if (!m_SPBak_2.Load("SP2.png")) {
 		return false;
 	}
 
 	//SPステージ中の背景
-	if (!m_SPBak_3.Load("スプライト-0001-SP3.png")) {
+	if (!m_SPBak_3.Load("SP3.png")) {
 		return false;
 	}
 
 	//SP最後のの背景
-	if (!m_SPBak_End.Load("スプライト-0001-SP4.png")) {
+	if (!m_SPBak_End.Load("SPEnd.png")) {
 		return false;
 	}
 
 	//リソース配置ディレクトリの設定
-	CUtilities::SetCurrentDirectoryA("../../");
+	CUtilities::SetCurrentDirectoryA("../");
 
 #pragma endregion
 
 #pragma region DPテクスチャロード
 
 	//リソース配置ディレクトリの設定
-	CUtilities::SetCurrentDirectoryA("Game/DetailPoint");
+	CUtilities::SetCurrentDirectoryA("DetailPoint");
 
 	//仮テクスチャ：学力
-	if (!dp_Textuer_Scholastic.Load("ハイスク　DP_0000_DP　学力.png")) {
+	if (!dp_Textuer_Scholastic.Load("DPScholastic.png")) {
 		return false;
 	}
 
 	//仮テクスチャ：行動力
-	if (!dp_Textuer_Action.Load("ハイスク　DP_0004_DP　行動力.png")) {
+	if (!dp_Textuer_Action.Load("DPAction.png")) {
 		return false;
 	}
 
 	//仮テクスチャ：想像力
-	if (!dp_Textuer_Imagination.Load("ハイスク　DP_0003_DP　想像力.png")) {
+	if (!dp_Textuer_Imagination.Load("DPImagination.png")) {
 		return false;
 	}
 
 	//仮テクスチャ：コミュ力
-	if (!dp_Textuer_Communication.Load("ハイスク　DP_0001_DP　コミュ力.png")) {
+	if (!dp_Textuer_Communication.Load("DPCommunication.png")) {
 		return false;
 	}
 
 	//仮テクスチャ：魅力
-	if (!dp_Textuer_Charm.Load("ハイスク　DP_0002_DP-魅力.png")) {
+	if (!dp_Textuer_Charm.Load("DPCharm.png")) {
 		return false;
 	}
 
 	//リソース配置ディレクトリの設定
-	CUtilities::SetCurrentDirectoryA("../../");
+	CUtilities::SetCurrentDirectoryA("../");
 
 #pragma endregion
 
 #pragma region 障害物テクスチャロード
 
 	//リソース配置ディレクトリの設定
-	CUtilities::SetCurrentDirectoryA("Game/Obstacle");
+	CUtilities::SetCurrentDirectoryA("Obstacle");
 
 	//テクスチャ：机
-	if (!ob_Textuer_Desk.Load("ハイスク素材２　障害物 机.png")) {
+	if (!ob_Textuer_Desk.Load("Desk.png")) {
 		return false;
 	}
 
 	//テクスチャ：ごみ箱
-	if (!ob_Textuer_TrachCan.Load("ハイスク_障害物_ゴミ箱.png")) {
+	if (!ob_Textuer_TrachCan.Load("TrachCan.png")) {
 		return false;
 	}
 
 	//テクスチャ：ロッカー
-	if (!ob_Textuer_Locker.Load("ハイスク素材２　障害物 ロッカー.png")) {
+	if (!ob_Textuer_Locker.Load("Locker.png")) {
 		return false;
 	}
 
 	//テクスチャ：教科書_国語
-	if (!ob_Textuer_TextBookNL.Load("ハイスク_障害物_国語.png")) {
+	if (!ob_Textuer_TextBookNL.Load("TextBookNL.png")) {
 		return false;
 	}
 
 	//テクスチャ：教科書_数学
-	if (!ob_Textuer_TextBookMATH.Load("ハイスク_障害物_数学.png")) {
+	if (!ob_Textuer_TextBookMATH.Load("TextBookMATH.png")) {
 		return false;
 	}
 
 	//テクスチャ：教科書_理科
-	if (!ob_Textuer_TextBookCHEM.Load("ハイスク_障害物_理科.png")) {
+	if (!ob_Textuer_TextBookCHEM.Load("TextBookCHEM.png")) {
 		return false;
 	}
 
 	//テクスチャ：教科書_社会
-	if (!ob_Textuer_TextBookSOC.Load("ハイスク_障害物_社会.png")) {
+	if (!ob_Textuer_TextBookSOC.Load("TextBookSOC.png")) {
 		return false;
 	}
 
 	//テクスチャ：教科書_英語
-	if (!ob_Textuer_TextBookENG.Load("ハイスク_障害物_英語.png")) {
+	if (!ob_Textuer_TextBookENG.Load("TextBookENG.png")) {
 		return false;
 	}
 
 	//テクスチャ：跳び箱
-	if (!ob_Textuer_VaultingHorse.Load("ハイスク_障害物＿跳び箱.png")) {
+	if (!ob_Textuer_VaultingHorse.Load("VaultingHorse.png")) {
 		return false;
 	}
 
 	//テクスチャ：セロハンテープ
-	if (!ob_Textuer_ScotchTape.Load("ハイスク_障害物_セロハンテープ.png")) {
+	if (!ob_Textuer_ScotchTape.Load("ScotchTape.png")) {
 		return false;
 	}
 
 	//テクスチャ：黒板消し
-	if (!ob_Textuer_BloackboardEraser.Load("ハイスク_障害物_黒板けし.png")) {
+	if (!ob_Textuer_BloackboardEraser.Load("BloackboardEraser.png")) {
 		return false;
 	}
 
 	//テクスチャ：スティックのり
-	if (!ob_Seaweed.Load("ハイスク_障害物_スティックのり.png")) {
+	if (!ob_Seaweed.Load("Seaweed.png")) {
 		return false;
 	}
 
 	//テクスチャ：スマホ1
-	if (!ob_Smartphone1.Load("ハイスク_障害物_スマホ１.png")) {
+	if (!ob_Smartphone1.Load("Smartphone1.png")) {
 		return false;
 	}
 
-	//テクスチャ：スマホ1
-	if (!ob_Eraser.Load("ハイスク_障害物_消しゴム横.png")) {
+	//テクスチャ：消しゴム
+	if (!ob_Eraser.Load("Eraser.png")) {
 		return false;
 	}
 
 	//テクスチャ：スマホ縦
-	if (!ob_SmartphoneVertical.Load("ハイスク_障害物_スマホ縦.png")) {
+	if (!ob_SmartphoneVertical.Load("SmartphoneVertical.png")) {
 		return false;
 	}
 
 
 	//リソース配置ディレクトリの設定
-	CUtilities::SetCurrentDirectoryA("../../");
+	CUtilities::SetCurrentDirectoryA("../");
 
 #pragma endregion
 
 #pragma region 足場テクスチャロード
 
 	//リソース配置ディレクトリの設定
-	CUtilities::SetCurrentDirectoryA("Game/Bar");
+	CUtilities::SetCurrentDirectoryA("Bar");
 
 	//仮テクスチャ：足場大
-	if (!bar_Textuer_Big.Load("ハイスク_障害物_鉛筆大.png")) {
+	if (!bar_Textuer_Big.Load("Big.png")) {
 		return false;
 	}
 
 	//仮テクスチャ：足場中
-	if (!bar_Textuer_Medium.Load("ハイスク_障害物_鉛筆_中.png")) {
+	if (!bar_Textuer_Medium.Load("Medium.png")) {
 		return false;
 	}
 
 	//リソース配置ディレクトリの設定
-	CUtilities::SetCurrentDirectoryA("../../");
+	CUtilities::SetCurrentDirectoryA("../");
 
 #pragma endregion
-
-	//リソース配置ディレクトリの設定
-	CUtilities::SetCurrentDirectoryA("Game");
 
 	//進行度バー、進行度中アイコン、アイコンの表示
 	if (!m_BarTextuer.Load("Game_Bar.png")) {
@@ -269,21 +266,18 @@ bool CStage::Load() {
 		return false;
 	}
 
-	//リソース配置ディレクトリの設定
-	CUtilities::SetCurrentDirectoryA("../");
-
 #pragma region 敵
 
 	//リソース配置ディレクトリの設定
-	CUtilities::SetCurrentDirectoryA("Game/Enemy");
+	CUtilities::SetCurrentDirectoryA("Character");
 
 	//敵1
-	if (!ene_Texture_1.Load("モーション.png"))
+	if (!ene_Texture_1.Load("Motion.png"))
 	{
 		return false;
 	}
 	//リソース配置ディレクトリの設定
-	CUtilities::SetCurrentDirectoryA("../../");
+	CUtilities::SetCurrentDirectoryA("../");
 
 	//敵アニメーションを用意
 	//仮置き

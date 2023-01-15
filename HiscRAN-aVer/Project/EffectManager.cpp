@@ -27,17 +27,17 @@ tag_LoadSituation CEffectMgmt::Load(void) {
 
 	//テクスチャの読み込み
 	char* name[] = {
-		"エフェクト学力.png",
-		"エフェクト行動力.png",
-		"エフェクト想像力.png",
-		"エフェクトコミュ力.png",
-		"エフェクト魅力.png",
+		"Scholastic_UP.png",
+		"Action_UP.png",
+		"Imagination_UP.png",
+		"Communication_UP.png",
+		"Charm_UP.png",
 
-		"エフェクト学力_Arrow.png",
-		"エフェクト行動力_Arrow.png",
-		"エフェクト想像力_Arrow.png",
-		"エフェクトコミュ力_Arrow.png",
-		"エフェクト魅力_Arrow.png",
+		"Scholastic_UP_Arrow.png",
+		"Action_UP_Arrow.png",
+		"Imagination_UP_Arrow.png",
+		"Communication_UP_Arrow.png",
+		"Charm_UP_Arrow.png",
 
 	};
 

@@ -135,6 +135,8 @@ void CLoad::RenderError(void)
 void CLoad::RenderDebug(void)
 {
 	CGraphicsUtilities::RenderString(0, 150, MOF_XRGB(80, 80, 80), "最低待機時間:%d", m_WaitingTime);
+	CGraphicsUtilities::RenderString(0, 180, MOF_XRGB(80, 80, 80), "アルファ値:%d", m_WhiteAlpha);
+
 	CGraphicsUtilities::RenderRect(m_StringRec, MOF_XRGB(80, 80, 80));
 
 }

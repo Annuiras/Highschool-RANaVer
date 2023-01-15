@@ -106,6 +106,7 @@ MofBool CGameApp::Update(void){
 		//ロード処理をスレッドに渡す
 		//戻り値を記録する
 		gLoad.Thread_Load = thread{ [] {Eff_Loadflg = g_EffectManeger.Load(); } };
+		gLoad.Initialize(0, 100);
 	}
 	//音声がロード前の場合
 	else 
@@ -114,6 +115,7 @@ MofBool CGameApp::Update(void){
 		//ロード処理をスレッドに渡す
 		//戻り値を記録する
 		gLoad.Thread_Load = thread{ [] {Mu_Loadflg=g_MusicManager.Load(); } };
+		gLoad.Initialize(0, 100);
 	}
 	else
 	//メニューがロード前の場合
@@ -122,6 +124,7 @@ MofBool CGameApp::Update(void){
 		//ロード処理をスレッドに渡す
 		//戻り値を記録する
 		gLoad.Thread_Load = thread{ [] {Me_Loadflg = g_Menu.Load(); } };
+		gLoad.Initialize(0, 100);
 
 	}
 
@@ -296,10 +299,15 @@ MofBool CGameApp::Render(void){
 	//シーン生成前
 	//シーンのロード前
 	//ロード画面終了前の場合
-	if(gpScene == nullptr||gpScene->GetLoadSitu()== LOAD_YET||!gLoad.IsLoadEnd())
+	if(gpScene == nullptr||gpScene->GetLoadSitu()== LOAD_YET|| !gLoad.IsLoadEnd())
 	{
 		//ロード画面
 		gLoad.RenderLoad();
+
+		if (gDebagflag)
+		{
+			gLoad.RenderDebug();
+		}
 	}
 	else
 	//シーンのロードでエラーが出た場合
@@ -316,10 +324,6 @@ MofBool CGameApp::Render(void){
 			if (gpScene != nullptr) {
 				//デバッグ描画
 				gpScene->RenderDebug();
-			}
-			else
-			{
-				gLoad.RenderDebug();
 			}
 		}
 

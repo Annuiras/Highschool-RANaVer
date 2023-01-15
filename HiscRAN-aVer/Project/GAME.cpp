@@ -23,6 +23,8 @@ CGAME::~CGAME()
 //素材読み込み
 void CGAME::Load(void)
 {
+	//リソース配置ディレクトリの設定
+	CUtilities::SetCurrentDirectoryA("Game");
 
 	if (!g_Player.Load()) {
 		b_LoadSitu = LOAD_ERROR;
@@ -33,24 +35,26 @@ void CGAME::Load(void)
 		return;
 	}
 
-	//リソース配置ディレクトリの設定
-	CUtilities::SetCurrentDirectoryA("Game");
 
 	//カウントダウン画像の読み込み
-	if (!m_StartThreeTexture.Load("ハイスク　カウントダウンロゴ無し　３.png")) {
+	if (!m_StartThreeTexture.Load("Countdown_3.png")) {
 		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
-	if (!m_StartTwoTexture.Load("ハイスク　カウントダウンロゴ無し　２.png")) {
+	if (!m_StartTwoTexture.Load("Countdown_2.png")) {
 		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
-	if (!m_StartOneTexture.Load("ハイスク　カウントダウンロゴ無し　１.png")) {
+	if (!m_StartOneTexture.Load("Countdown_1.png")) {
 		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
-	if (!m_StartGoTexture.Load("ハイスク_開始カウントダウン_GO.png")) {
+	if (!m_StartGoTexture.Load("Countdown_Go.png")) {
 		b_LoadSitu = LOAD_ERROR;
+		return;
 	}
 
 	//リソース配置ディレクトリの設定
