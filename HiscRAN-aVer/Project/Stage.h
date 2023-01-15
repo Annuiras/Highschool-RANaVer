@@ -100,9 +100,6 @@ private:
 	//SPステージ２
 	CTexture m_SPBak_2;
 
-	//SPステージ３
-	CTexture m_SPBak_3;
-
 	//SPステージ終わり
 	CTexture m_SPBak_End;
 

@@ -15,7 +15,6 @@ CStage::CStage() :
 	m_SPBak_Start(),
 	m_SPBak_1(),
 	m_SPBak_2(),
-	m_SPBak_3(),
 	m_SPBak_End(),
 	m_dpcount(0),
 	m_barcount(0),
@@ -85,11 +84,6 @@ bool CStage::Load() {
 
 	//SPステージ中の背景
 	if (!m_SPBak_2.Load("SP2.png")) {
-		return false;
-	}
-
-	//SPステージ中の背景
-	if (!m_SPBak_3.Load("SP3.png")) {
 		return false;
 	}
 
@@ -449,7 +443,7 @@ void CStage::Initialize(bool spflg, int dptype) {
 
 		for (int i = 1; i < MAP_SP_LENGTH*2; i++)
 		{
-			m_BakComposition[(MAP_SP_START_PATTERN * 2) + i] = RandmuBak.GetRandomNumbe(10, 12);
+			m_BakComposition[(MAP_SP_START_PATTERN * 2) + i] = RandmuBak.GetRandomNumbe(10, 11);
 		}
 		m_BakComposition[(MAP_SP_START_PATTERN * 2)+(MAP_SP_LENGTH*2)-1] = 13;
 	}
@@ -842,10 +836,6 @@ void CStage::Render(void) {
 					m_SPBak_2.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
 					break;
 
-				case 12:
-					m_SPBak_3.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
-					break;
-
 				case 13:
 					m_SPBak_End.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
 					break;
@@ -905,10 +895,6 @@ void CStage::Render(void) {
 
 			case 11:
 				m_SPBak_2.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
-				break;
-
-			case 12:
-				m_SPBak_3.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
 				break;
 
 			case 13:
@@ -991,7 +977,6 @@ void CStage::Release(void) {
 	m_SPBak_Start.Release();
 	m_SPBak_1.Release();
 	m_SPBak_2.Release();
-	m_SPBak_3.Release();
 	m_SPBak_End.Release();
 
 	//DPテクスチャ
