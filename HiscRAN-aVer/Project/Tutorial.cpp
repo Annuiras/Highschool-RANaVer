@@ -139,7 +139,8 @@ void CTutorial::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* e
 	for (int i = 0; i < PAGES_NUM; i++)
 	{
 		//初期位置セット
-		gPosX[i] = PAGES_X + ExTextTexture[0].GetWidth();
+		//300:ページとページの隙間
+		gPosX[i] = PAGES_X + ExTextTexture[0].GetWidth()+300;
 	}
 
 	//最初のページをセンターに
