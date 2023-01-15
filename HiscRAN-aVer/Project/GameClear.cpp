@@ -731,4 +731,7 @@ void CGameClear::Release(void)
 	//BGM停止
 	b_MusicManager->BGMStop(BGMT_CLEAR);
 
+	//ステータスを初期化
+	b_GameProgMamt->InitializeStatus();
+
 }

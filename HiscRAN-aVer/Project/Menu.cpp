@@ -113,7 +113,7 @@ void CMenu::Update(void)
 		m_Select--;
 
 		//SEÄ¶
-		m_MusicMamt->SEStart(SE_T_DP_HIT);
+		m_MusicMamt->SEStart(SE_T_MOOP_CURSORMOVE);
 
 		if (m_Select < 0)
 		{
@@ -125,7 +125,7 @@ void CMenu::Update(void)
 		m_Select++;
 
 		//SEÄ¶
-		m_MusicMamt->SEStart(SE_T_DP_HIT);
+		m_MusicMamt->SEStart(SE_T_MOOP_CURSORMOVE);
 
 		if (m_Select >= m_Count)
 		{
