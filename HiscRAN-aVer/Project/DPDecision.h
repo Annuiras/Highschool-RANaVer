@@ -11,29 +11,23 @@ private:
 	RandomValue RandmuBak;
 
 	//画面説明
-	CTexture	m_ExTexture;
+	CTexture	m_Screen_Ex;
 
 	//背景黒板
-	CTexture	m_BackTextureA;
+	CTexture	m_Back_BB;
 
 	//黒塗りキャラ
-	CTexture	m_BackTextureC;
+	CTexture	m_BackChara_B;
 
 	//説明文字
-	CTexture	m_TextTexture;
+	CTexture	m_Target_Text;
 
 	//選択枠
 	CTexture	m_SelectTexture;
-
-	//なんのDPを選んだかどうかのフラグ
-	//True:選んだ　False：選んでない
-	//[0]→想像力
-	//[1]→行動力
-	//[2]→魅力
-	//[3]→コミュ力
-	//[4]→学力
-	//bool m_SelectDP[5];
 	
+	//マグネット&名前
+	CTexture	m_BackMagnet_Name;
+
 	//フェードイン背景アルファ値
 	int m_WhiteBakAlph;
 

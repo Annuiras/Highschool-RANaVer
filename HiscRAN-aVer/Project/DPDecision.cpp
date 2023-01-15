@@ -4,10 +4,11 @@
 //コンストラクタ
 CDPDecision::CDPDecision() :
 	RandmuBak(),
-	m_BackTextureA(),
-	m_BackTextureC(),
-	m_TextTexture(),
+	m_Back_BB(),
+	m_BackChara_B(),
+	m_Target_Text(),
 	m_SelectTexture(),
+	m_BackMagnet_Name(),
 	m_WhiteBakAlph(),
 	DPDecCnt(),
 	flagD(true),
@@ -30,35 +31,43 @@ void CDPDecision::Load(void)
 	CUtilities::SetCurrentDirectoryA("DPDecision");
 
 	//背景黒板
-	if (!m_BackTextureA.Load("DPDecision_BGA.png"))
+	if (!m_Back_BB.Load("DPDecision_new_2.png"))
 	{
 		b_LoadSitu = LOAD_ERROR;
 		return;
 	}
 
 	//選択枠
-	if (!m_SelectTexture.Load("DPDecision_Select.png"))
+	if (!m_SelectTexture.Load("DPDecision_new_4.png"))
 	{
 		b_LoadSitu = LOAD_ERROR;
 		return;
 	}
 
 	//黒塗りキャラ
-	if (!m_BackTextureC.Load("DPDecision_BGC.png"))
+	if (!m_BackChara_B.Load("DPDecision_new_3.png"))
 	{
 		b_LoadSitu = LOAD_ERROR;
 		return;
 	}
 
-	//説明文字
-	if (!m_TextTexture.Load("DPDecision_Text.png"))
+	//マグネット&名前
+	if (!m_BackMagnet_Name.Load("DPDecision_new_1.png"))
+	{
+		b_LoadSitu = LOAD_ERROR;
+		return;
+	}
+
+
+	//目標文字
+	if (!m_Target_Text.Load("DPDecision_Text.png"))
 	{
 		b_LoadSitu = LOAD_ERROR;
 		return;
 	}
 
 	//画面説明
-	if (!m_ExTexture.Load("DPDecision_ExText.png"))
+	if (!m_Screen_Ex.Load("DPDecision_new_ExText.png"))
 	{
 		b_LoadSitu = LOAD_ERROR;
 		return;
@@ -142,6 +151,7 @@ void CDPDecision::Update(void)
 		return;
 	}
 
+	//SPフラグの切り替え
 	if (g_pInput->IsKeyPush(MOFKEY_P))
 	{
 		SP_flg = !SP_flg;
@@ -165,14 +175,14 @@ void CDPDecision::Update(void)
 		//メニュー決定時
 		if (b_MenuMamt->IsEnter())
 		{
-			//メニューのタイプ処理
+			//メニューのタイプ別処理
 			switch (b_MenuMamt->GetMenuType())
 			{
 			case MENUT_DPCONFIRM:
 				if (b_MenuMamt->GetSelect() == 0)
 				{
-					//DPの選択を記録
 					b_Fadein = FADE_OUT;
+					//DPの選択を記録
 					b_GameProgMamt->SetDPdec_type(DPDecCnt);
 					//メニュー非表示
 					b_MenuMamt->Hide();
@@ -262,6 +272,32 @@ void CDPDecision::Update(void)
 //描画
 void CDPDecision::Render(void)
 {
+	//背景黒板
+	m_Back_BB.Render(0, 0);
+
+	//黒塗りキャラ
+	m_BackChara_B.Render(0, 0);
+
+	//選択画像描画座標位置（X座標）
+	int PosSelectX = 399;
+
+	//選択画像描画座標位置（Y座標）
+	int PosSelectY = 350;
+
+	//表示位置、矩形を算出
+	int addX = DPDecCnt % 3;
+	int addY = DPDecCnt / 3;
+	//画像矩形
+	CRectangle recSelect(PosSelectX * addX, PosSelectY* addY, 
+						 PosSelectX+(PosSelectX * addX), PosSelectY+(PosSelectY * addY));
+
+	//選択枠
+	m_SelectTexture.Render(recSelect.Left, recSelect.Top, recSelect);
+
+	//マグネット&名前
+	m_BackMagnet_Name.Render(0, 0);
+
+
 	//配列の番号とDP名の対応は以下の通りです。
 	//[0]→想像力
 	//[1]→行動力
@@ -269,39 +305,21 @@ void CDPDecision::Render(void)
 	//[3]→コミュ力
 	//[4]→学力
 
-	//選択画像矩形
-	CRectangle recSelect[5] = { {0,0,300,300},{300,0,600,301},{600,0,900,300},{0,301,300,601},{300,301,600,601} };
-
-	//選択画像表示位置X
-	int	PosSelectX[5] = { 93,488,885,94,489 };
-	//選択画像表示位置Y
-	int PosSelectY[5] = { 46,45,46,371,375 };
-
-	//説明文字矩形
-	CRectangle recExText[5] = { {0,0,343,259},{344,0,687,259},{688,0,1031,259},{0,259,344,518},{343,259,708,519} };
-
 	//説明文字表示位置X
-	int	PosTextX[5] = { 867,867,867,867,850 };
+	int	PosTextX[5] = { 867,867,867,867,856 };
 	//説明文字表示位置Y
 	int PosTextY = 397;
-
-	//背景黒板
-	m_BackTextureA.Render(0, 0);
-
-	//選択枠
-	m_SelectTexture.Render(PosSelectX[DPDecCnt], PosSelectY[DPDecCnt], recSelect[DPDecCnt]);
-
-	//黒塗りキャラ
-	m_BackTextureC.Render(0, 0);
+	//説明文字矩形
+	CRectangle recExText[5] = { {0,0,343,259},{344,0,687,259},{688,0,1031,259},{0,259,344,518},{344,259,708,519} };
 
 	//説明文字
-	m_TextTexture.Render(PosTextX[DPDecCnt], PosTextY, recExText[DPDecCnt]);
+	m_Target_Text.Render(PosTextX[DPDecCnt], PosTextY,recExText[DPDecCnt]);
 
 	//初回表示時説明表示
 	if (flagD == true)
 	{
 		CGraphicsUtilities::RenderFillRect(0, 0, g_pGraphics->GetTargetWidth(), g_pGraphics->GetTargetHeight(), MOF_ARGB(100, 0, 0, 0));
-		m_ExTexture.Render(0, 124);
+		m_Screen_Ex.Render(0, 124);
 	}
 
 	//メニューの描画
@@ -341,14 +359,16 @@ void CDPDecision::RenderDebug(void)
 
 void CDPDecision::Release(void)
 {
-	m_BackTextureA.Release();
-	m_BackTextureC.Release();
-	m_TextTexture.Release();
+	//画像素材の解放
+	m_Back_BB.Release();
+	m_BackChara_B.Release();
+	m_Target_Text.Release();
 	m_SelectTexture.Release();
-	m_ExTexture.Release();
+	m_Screen_Ex.Release();
+	m_BackMagnet_Name.Release();
 
-
+	//SPフラグを保存
 	b_GameProgMamt->SetDPdec_SPflg(SP_flg);
-	b_GameProgMamt->InitializeStatus();
+
 
 }
