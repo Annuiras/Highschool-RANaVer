@@ -134,7 +134,7 @@ void CGameProgMgmt::SetGame_SP_DPNum(int SPDP)
 	
 }
 
-//ゲーム画面：DP取得数からステータスを返す
+//クリア画面：DP取得数からステータスを返す
 int* CGameProgMgmt::GetCal_Status(void)
 {
 	return Game_CalStatus;
@@ -155,7 +155,7 @@ float CGameProgMgmt::GetOption_Button_Pos(int i)
 	return Option_Button_Pos[i];
 }
 
-//ギャラリー画面：解放状況をセット
+//クリア画面：解放状況をセット
 //i:容姿番号
 //b:セットするフラグ
 void CGameProgMgmt::SetGallery_flg(int i, bool b)

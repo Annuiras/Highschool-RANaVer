@@ -117,35 +117,30 @@ void CGameClear::StatusJudgement(void)
 	if (m_Status_1 == DP_SCHOLASTIC && m_StatusDiff >= DIFFERENCE_NUM) {
 		//文学少女
 		LastDetailNo = LT_BUNGAKU;
-		b_GameProgMamt->SetGallery_flg(LastDetailNo, true);
 		return;
 	}
 	//行動力一点突破
 	if (m_Status_1 == DP_ACTION&& m_StatusDiff >= DIFFERENCE_NUM) {
 		//お調子者
 		LastDetailNo = LT_OTYOUSI;
-		b_GameProgMamt->SetGallery_flg(LastDetailNo, true);
 		return;
 	}
 	//想像力一点突破
 	if (m_Status_1 == DP_IMAGINATION && m_StatusDiff >= DIFFERENCE_NUM) {
 		//厨二病
 		LastDetailNo = LT_TYUNI;
-		b_GameProgMamt->SetGallery_flg(LastDetailNo, true);
 		return;
 	}
 	//コミュ力一点突破
 	if (m_Status_1 == DP_COMMUNICATION && m_StatusDiff >= DIFFERENCE_NUM) {
 		//神対応
 		LastDetailNo = LT_KAMITAIOU;
-		b_GameProgMamt->SetGallery_flg(LastDetailNo, true);
 		return;
 	}
 	//魅力一点突破
 	if (m_Status_1 == DP_CHARM && m_StatusDiff >= DIFFERENCE_NUM) {
 		//スーパーレディ
 		LastDetailNo = LT_SUPERLADY;
-		b_GameProgMamt->SetGallery_flg(LastDetailNo, true);
 		return;
 	}
 
@@ -157,28 +152,24 @@ void CGameClear::StatusJudgement(void)
 		if (m_Status_1 == DP_ACTION || m_Status_2 == DP_ACTION) {
 			//委員長
 			LastDetailNo = LT_IINTYOU;
-			b_GameProgMamt->SetGallery_flg(LastDetailNo, true);
 			return;
 		}
 		//と想像力
 		if (m_Status_1 == DP_IMAGINATION || m_Status_2 == DP_IMAGINATION) {
 			//図書室の長
 			LastDetailNo = LT_TOSYO;
-			b_GameProgMamt->SetGallery_flg(LastDetailNo, true);
 			return;
 		}
 		//とコミュ力
 		if (m_Status_1 == DP_COMMUNICATION || m_Status_2 == DP_COMMUNICATION) {
 			//人気者
 			LastDetailNo = LT_NINKIMONO;
-			b_GameProgMamt->SetGallery_flg(LastDetailNo, true);
 			return;
 		}
 		//と魅力
 		if (m_Status_1 == DP_CHARM || m_Status_2 == DP_CHARM) {
 			//高嶺の花
 			LastDetailNo = LT_TAKANE;
-			b_GameProgMamt->SetGallery_flg(LastDetailNo, true);
 			return;
 		}
 	}
@@ -190,21 +181,18 @@ void CGameClear::StatusJudgement(void)
 		if (m_Status_1 == DP_IMAGINATION || m_Status_2 == DP_IMAGINATION) {
 			//オタク
 			LastDetailNo = LT_OTAKU;
-			b_GameProgMamt->SetGallery_flg(LastDetailNo, true);
 			return;
 		}
 		//とコミュ力
 		if (m_Status_1 == DP_COMMUNICATION || m_Status_2 == DP_COMMUNICATION) {
 			//応援団長
 			LastDetailNo = LT_OUEN;
-			b_GameProgMamt->SetGallery_flg(LastDetailNo, true);
 			return;
 		}
 		//と魅力
 		if (m_Status_1 == DP_CHARM || m_Status_2 == DP_CHARM) {
 			//ヤンキー
 			LastDetailNo = LT_YABKI;
-			b_GameProgMamt->SetGallery_flg(LastDetailNo, true);
 			return;
 		}
 	}
@@ -216,14 +204,12 @@ void CGameClear::StatusJudgement(void)
 		if (m_Status_1 == DP_COMMUNICATION || m_Status_2 == DP_COMMUNICATION) {
 			//姉御
 			LastDetailNo = LT_ANEGO;
-			b_GameProgMamt->SetGallery_flg(LastDetailNo, true);
 			return;
 		}
 		//と魅力
 		if (m_Status_1 == DP_CHARM || m_Status_2 == DP_CHARM) {
 			//インフルエンサー
 			LastDetailNo = LT_INFLUENCER;
-			b_GameProgMamt->SetGallery_flg(LastDetailNo, true);
 			return;
 		}
 	}
@@ -235,14 +221,18 @@ void CGameClear::StatusJudgement(void)
 		if (m_Status_1 == DP_CHARM || m_Status_2 == DP_CHARM) {
 			//ギャル
 			LastDetailNo = LT_GYARU;
-			b_GameProgMamt->SetGallery_flg(LastDetailNo, true);
 			return;
 		}
 	}
 
 }
 
-//チャート土台作成
+//五角形を生成作成
+//引数
+//Status--ステータス値
+
+//戻り値
+//PointsStatus--
 void CGameClear::buildChart(int* Status, Vector2* PointsStatus)
 {
 	double kosu = ((double)360.0 / ITEM_NUM);
@@ -264,12 +254,15 @@ void CGameClear::buildChart(int* Status, Vector2* PointsStatus)
 		double x = cos_X * length;
 		double y = sinf(startRadian + radian * i) * length;
 
+		//保存
 		PointsStatus[i].x = (float)x;
 		PointsStatus[i].y = (float)y;
 
 	}
 }
 
+//デバック用
+//現在は使用していません
 //線の描画を行う
 void CGameClear::drawChart(Vector2* PointsStatus, MofU32 cl)
 {
@@ -326,14 +319,14 @@ void CGameClear::Load(void)
 		}
 	}
 
-	if (!m_UITexture.Load("GameClearUI.png"))
+	//リソース配置ディレクトリの設定
+	CUtilities::SetCurrentDirectoryA("../");
+
+	if (!m_UITexture.Load("BackButton_Select.png"))
 	{
 		b_LoadSitu = LOAD_ERROR;
 		return;
 	}
-
-	//リソース配置ディレクトリの設定
-	CUtilities::SetCurrentDirectoryA("../");
 
 	//ロード完了
 	b_LoadSitu = LOAD_COMP;
@@ -398,16 +391,17 @@ void CGameClear::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* 
 	isStop = false;
 
 	//最終容姿番号
-	LastDetailNo = LT_ANEGO;
+	LastDetailNo = LT_IINTYOU;
 
-
-	//BGM再生
-	b_MusicManager->BGMStart(BGMT_CLEAR);
+	//開始時刻
+	m_StartTime = timeGetTime();
 }
 
 //更新
 void CGameClear::Update(void)
 {
+	//BGM再生
+	b_MusicManager->BGMStart(BGMT_CLEAR);
 
 	//フェードイン処理
 	if (b_Fadein == FADE_IN) {
@@ -428,35 +422,39 @@ void CGameClear::Update(void)
 	}
 
 	//エンターキーでモードセレクト画面へ
-	if (g_pInput->IsKeyPush(MOFKEY_RETURN))
+	if (gAlpha>=255&&g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
 		b_Fadein = FADE_OUT;
 	}
 
 
-	//α値変更処理
-	//ちかちかさせてる
-	if (!isStop)
+	//カウントダウン判定
+	if (m_StartCount < 5 && timeGetTime() - m_StartTime > 1000)
 	{
-		gAlpha += 3;
+		//開始時刻
+		m_StartTime = timeGetTime();
 
-		if (gAlpha >= 255)
+		//カウント増加
+		m_StartCount++;
+
+		if (m_StartCount == 4)
 		{
 			isStop = true;
 		}
 	}
-	else
+
+	//α値変更処理
+	if (isStop)
 	{
-		gAlpha -= 3;
-		if (gAlpha <= 0)
+		gAlpha += 5;
+		if (gAlpha >= 255)
 		{
+			gAlpha = 255;
 			isStop = false;
 		}
 	}
 
-
-
-	//デバッグ用
+	//デバッグ用使いにく修正する
 	if (g_pInput->IsKeyHold(MOFKEY_RCONTROL)) {
 
 		if (g_pInput->IsKeyPull(MOFKEY_1)) {
@@ -614,8 +612,9 @@ void CGameClear::Update(void)
 		}
 	}
 
+	//デバック用
 	if (g_pInput->IsKeyPull(MOFKEY_SPACE)) {
-
+		//再判定
 		StatusJudgement();
 		for (int i = 0; i < ITEM_NUM; i++)
 		{
@@ -639,9 +638,11 @@ void CGameClear::Update(void)
 
 
 	// チャートを生成
+	//グラフ生成
 	buildChart(StatusRender, PointsStatus);
+
+	//デバック用
 	buildChart(Memory1, MemoryPoints1);
-	buildChart(Memory2, MemoryPoints2);
 }
 
 //描画
@@ -651,33 +652,33 @@ void CGameClear::Render(void)
 	m_BackTexture[LastDetailNo].Render(0, 0);
 
 	//座標取得
-	Vector2 center(CHART_CENTER_X, CHART_CENTER_Y);
-	Vector2 point1(PointsStatus[0].x+ CHART_CENTER_X, PointsStatus[0].y+ CHART_CENTER_Y);
-	Vector2 point2(PointsStatus[1].x+ CHART_CENTER_X, PointsStatus[1].y+ CHART_CENTER_Y);
-	Vector2 point3(PointsStatus[2].x + CHART_CENTER_X, PointsStatus[2].y + CHART_CENTER_Y);
-	Vector2 point4(PointsStatus[3].x + CHART_CENTER_X, PointsStatus[3].y + CHART_CENTER_Y);
-	Vector2 point5(PointsStatus[4].x + CHART_CENTER_X, PointsStatus[4].y + CHART_CENTER_Y);
+	Vector2 point[ITEM_NUM + 1];
 
-	//三角形を描いてグラフを塗りつぶす
-	CGraphicsUtilities::RenderFillTriangle(center, point1, point2, 
-		Chartcol[LastDetailNo], Chartcol[LastDetailNo], Chartcol[LastDetailNo]);
+	for (int i = 0; i < ITEM_NUM; i++)
+	{
+		point[i].x = PointsStatus[i].x + CHART_CENTER_X;
+		point[i].y = PointsStatus[i].y + CHART_CENTER_Y;
+	}
+	point[ITEM_NUM].x = CHART_CENTER_X;
+	point[ITEM_NUM].y = CHART_CENTER_Y;
 
-	CGraphicsUtilities::RenderFillTriangle(center, point2, point3, 
-		Chartcol[LastDetailNo], Chartcol[LastDetailNo], Chartcol[LastDetailNo]);
+	for (int i = 0; i < ITEM_NUM; i++)
+	{
+		//クリップ
+		int ynum = i+1;
+		if (ynum >= ITEM_NUM) {
+			ynum = ynum % ITEM_NUM;
+		}
 
-	CGraphicsUtilities::RenderFillTriangle(center, point3, point4, 
-		Chartcol[LastDetailNo], Chartcol[LastDetailNo], Chartcol[LastDetailNo]);
+		//三角形を描いてグラフを塗りつぶす
+		CGraphicsUtilities::RenderFillTriangle(point[ITEM_NUM], point[i], point[ynum],
+			Chartcol[LastDetailNo], Chartcol[LastDetailNo], Chartcol[LastDetailNo]);
 
-	CGraphicsUtilities::RenderFillTriangle(center, point4, point5, 
-		Chartcol[LastDetailNo], Chartcol[LastDetailNo], Chartcol[LastDetailNo]);
-
-	CGraphicsUtilities::RenderFillTriangle(center, point5, point1, 
-		Chartcol[LastDetailNo], Chartcol[LastDetailNo], Chartcol[LastDetailNo]);
+	}
 
 
-	//文字半透明にしていく
-	g_pGraphics->SetBlending(BLEND_NORMAL);
-	m_UITexture.Render(370, 2, MOF_ARGB(gAlpha, 255, 255, 255));
+	//戻るボタン
+	m_UITexture.Render(5, 650, MOF_ARGB(gAlpha, 255, 255, 255));
 
 	//フェードアウト明転用
 	CGraphicsUtilities::RenderFillRect(0, 0, g_pGraphics->GetTargetWidth(), g_pGraphics->GetTargetHeight(), MOF_ARGB(m_WhiteBakAlph, 255, 255, 255));
@@ -728,6 +729,9 @@ void CGameClear::Release(void)
 		m_BackTexture[i].Release();
 	}
 	
+	//フラグ解放保存
+	b_GameProgMamt->SetGallery_flg(LastDetailNo, true);
+
 	//BGM停止
 	b_MusicManager->BGMStop(BGMT_CLEAR);
 
