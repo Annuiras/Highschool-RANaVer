@@ -121,6 +121,8 @@ void CDPDecision::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt*
 //更新
 void CDPDecision::Update(void)
 {
+	//BGM再生
+	b_MusicManager->BGMStart(BGMT_DPDECISION);
 
 	//フェードイン処理
 	if (b_Fadein == FADE_IN) {
@@ -163,6 +165,9 @@ void CDPDecision::Update(void)
 		//エンターで非表示
 		if (g_pInput->IsKeyPush(MOFKEY_RETURN)) {
 			flagD = false;
+
+			//SE再生：カーソル移動
+			b_MusicManager->SEStart(SE_T_GALL_CURSORMOVE);
 		}		
 		return;
 	}
@@ -218,6 +223,9 @@ void CDPDecision::Update(void)
 	{
 		//DP選択確定メニュー表示
 		b_MenuMamt->Show(MENUT_DPCONFIRM);
+
+		//SE再生：決定時
+		b_MusicManager->SEStart(SE_T_DECISION);
 	}
 	else if(g_pInput->IsKeyPush(MOFKEY_ESCAPE))
 	{
@@ -232,6 +240,9 @@ void CDPDecision::Update(void)
 			if (DPDecCnt < DPDECISION_MENUCNT - 1)
 			{
 				DPDecCnt++;
+
+				//SE再生：カーソル移動
+				b_MusicManager->SEStart(SE_T_SE_DEC);
 			}
 		}
 		//矢印キー左で選択が左に行くようにする
@@ -240,6 +251,9 @@ void CDPDecision::Update(void)
 			if (DPDecCnt > 0)
 			{
 				DPDecCnt--;
+
+				//SE再生：カーソル移動
+				b_MusicManager->SEStart(SE_T_SE_DEC);
 			}
 		}
 		//矢印キー下で選択が下がるようにする
@@ -249,10 +263,16 @@ void CDPDecision::Update(void)
 			if (DPDecCnt < DPDECISION_MENUCNT - 1 && DPDecCnt < 2)
 			{
 				DPDecCnt += 3;
+
+				//SE再生：カーソル移動
+				b_MusicManager->SEStart(SE_T_SE_DEC);
 			}
 			else if (DPDecCnt == 3)
 			{
 				DPDecCnt = 3;
+
+				//SE再生：カーソル移動
+				b_MusicManager->SEStart(SE_T_SE_DEC);
 			}
 		}
 
@@ -263,6 +283,9 @@ void CDPDecision::Update(void)
 			if (DPDecCnt > 0 && DPDecCnt - 3 >= 0)
 			{
 				DPDecCnt -= 3;
+
+				//SE再生：カーソル移動
+				b_MusicManager->SEStart(SE_T_SE_DEC);
 			}
 		}
 
@@ -370,5 +393,6 @@ void CDPDecision::Release(void)
 	//SPフラグを保存
 	b_GameProgMamt->SetDPdec_SPflg(SP_flg);
 
-
+	//BGMストップ
+	b_MusicManager->BGMStop(BGMT_DPDECISION);
 }

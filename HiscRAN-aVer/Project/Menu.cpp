@@ -136,6 +136,7 @@ void CMenu::Update(void)
 	//Enter‚ÅŒˆ’è
 	if (g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
+		m_MusicMamt->SEStart(SE_T_DECISION);
 		m_bEnter = true;
 	}
 }

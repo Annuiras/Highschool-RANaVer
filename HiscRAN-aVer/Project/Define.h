@@ -250,6 +250,9 @@ enum tag_SE_TYPE {
 	SE_T_GAMEOVER,		//Gameover_候補
 	SE_T_GAMECLEAR,		//クリア_候補
 
+	//DP選択画面
+	SE_T_SE_DEC,	//DPカーソル移動時
+
 	//ギャラリー画面
 	SE_T_GALL_CURSORMOVE,		//ギャラリー_カーソル移動候補1
 
@@ -274,6 +277,9 @@ enum tag_BGM_TYPE
 	BGMT_STAGE,		//候補
 	//BGMT_STAGE_SP_1,	//SP候補
 	BGMT_CLEAR,			//クリア候補
+
+	//DP選択画面
+	BGMT_DPDECISION,
 
 	//ギャラリー画面
 	BGMT_GALLERY,		//候補

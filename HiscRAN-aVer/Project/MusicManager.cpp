@@ -47,6 +47,10 @@ tag_LoadSituation CMusicMgmt::Load(void) {
 		//"クリア_候補4.mp3",
 	#pragma endregion
 
+	#pragma region DP選択画面
+		"DPDecision_dec.mp3",
+	#pragma endregion
+
 	#pragma region ギャラリー画面
 		"Gallery_Cursor_Move.mp3",
 	#pragma endregion
@@ -117,6 +121,11 @@ tag_LoadSituation CMusicMgmt::Load(void) {
 		//"SP中_候補1.mp3",
 		"clear.mp3",
 	#pragma endregion
+
+	#pragma region DP選択画面
+		"DPDecision_BGM.mp3",
+	#pragma endregion
+
 
 	#pragma region ギャラリー画面
 		"Gallery.mp3",
