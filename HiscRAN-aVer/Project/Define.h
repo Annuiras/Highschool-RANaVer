@@ -17,9 +17,6 @@
 //SPステージパターン数
 #define MAP_SP_LENGTH 2
 
-//ステージ変化する背景枚数
-#define SATGE_CHANGE_BAK 200
-
 //ステージクリアの背景枚数
 #define STAGE_CLEAR_BAK 31
 
@@ -243,7 +240,6 @@ enum tag_SE_TYPE {
 	SE_T_JUMP,			//ジャンプ候補
 	SE_T_GREAT_JUMP,	//グレートジャンプ
 	SE_T_JUMP_LANDING,	//ジャンプ着地
-	SE_T_HALLDASH,		//学校の廊下を走る
 	SE_T_DP_HIT,		//DP_GET候補
 	//SE_T_HIT_LOCKER,	//障害物ロッカ_候補1
 	//SE_T_HIT_DESK1,		//障害物机_候補1
@@ -256,7 +252,6 @@ enum tag_SE_TYPE {
 
 	//ギャラリー画面
 	SE_T_GALL_CURSORMOVE,		//ギャラリー_カーソル移動候補1
-	SE_T_UNOPENED,			//未開放選択時_候補1
 
 	//モードセレクト,オプション画面
 	SE_T_MOOP_CURSORMOVE,	//モードセレクト、オプション画面カーソル移動_候補

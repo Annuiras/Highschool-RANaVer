@@ -29,10 +29,10 @@ bool CPlayer::Load(void) {
 
 
 	//リソース配置ディレクトリの設定
-	CUtilities::SetCurrentDirectoryA("PlayerCharacter");
+	CUtilities::SetCurrentDirectoryA("Character");
 
 	//キャラクター読み込み
-	if (!m_Texture.Load("走りとジャンプモーション2022_11_08.png")) {
+	if (!m_Texture.Load("Motion.png")) {
 		return false;
 	}
 
@@ -65,7 +65,7 @@ bool CPlayer::Load(void) {
 			"ジャンプ開始",
 			0,185,
 			160,185,
-			FALSE,{{5,0,2}}
+			FALSE,{{5,0,0}}
 		}
 	};
 	m_Motion.Create(anim, MOTION_COUNT);
@@ -158,8 +158,6 @@ void CPlayer::Update(void) {
 
 		UPdateCollisionGround(GROUND_Y);
 
-		if (!m_MusicMgmt->SEisPlay(SE_T_HALLDASH))
-			m_MusicMgmt->SEStart(SE_T_HALLDASH);
 	}
 
 	//下降中
