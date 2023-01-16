@@ -137,6 +137,7 @@
     <ClInclude Include="Obstacle.h" />
     <ClInclude Include="Option.h" />
     <ClInclude Include="RandomValue.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="SceneBase.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="Stage_Bar.h" />
@@ -145,6 +146,12 @@
     <ClInclude Include="Stage_Obstacle.h" />
     <ClInclude Include="Title.h" />
     <ClInclude Include="Tutorial.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Sample.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Resource\gameicon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
