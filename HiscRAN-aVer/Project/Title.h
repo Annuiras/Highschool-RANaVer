@@ -1,22 +1,23 @@
 #pragma once
 #include "SceneBase.h"
+#include "RandomValue.h"
 #include "Define.h"
 
 //スクロール速度
 #define		SCROLL_SPEED	1;
 
+//背景種類
+#define BACK_TYPE 5
+
 class CTitle :public CSceneBase
 {
 private:
 
-	//背景のテクスチャタイプ1
-	CTexture	m_BackTexture1;
+	//乱数生成
+	RandomValue RandmuBak;
 
-	//背景のテクスチャタイプ2
-	CTexture	m_BackTexture2;
-
-	//背景のテクスチャタイプ3
-	CTexture	m_BackTexture3;
+	//背景のテクスチャ
+	CTexture	m_BackTexture[BACK_TYPE];
 
 	//タイトルのテクスチャ
 	CTexture	m_TitleTexture;
@@ -41,6 +42,9 @@ private:
 
 	//背景α値
 	int m_BakAlph;
+
+	//背景識別番号
+	int m_Bak_Type[3];
 
 public:
 	CTitle();
