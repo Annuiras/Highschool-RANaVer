@@ -3,14 +3,15 @@
 
 //コンストラクタ
 CTitle::CTitle() :
-	m_BackTexture1(),
-	m_BackTexture2(),
-	m_BackTexture3(),
+	m_BackTexture(),
 	m_TitleTexture(),
 	m_TiTleUITexture(),
 	m_Scroll(0.0f),
 	Rondom(0.0f),
-	isStop()
+	gAlpha(),
+	isStop(),
+	m_BakAlph(),
+	m_Bak_Type()
 {
 }
 
@@ -25,26 +26,31 @@ void CTitle::Load(void)
 {
 
 	//リソース配置ディレクトリの設定
-	CUtilities::SetCurrentDirectoryA("Title");
+	CUtilities::SetCurrentDirectoryA("Game/StageBak");
 
 	//背景テクスチャの読み込み
-	if (!m_BackTexture1.Load("TitleBG1.png"))
+	char* name[BACK_TYPE] =
 	{
-		b_LoadSitu = LOAD_ERROR;
-		return;
+		"Stairs.png",
+		"Wall_L.png",
+		"Window_2.png",
+		"Door_R.png",
+		"Door_L.png"
+	};
+
+	for (int i = 0; i < BACK_TYPE; i++)
+	{
+		if (!m_BackTexture[i].Load(name[i]))
+		{
+			b_LoadSitu = LOAD_ERROR;
+			return;
+		}
 	}
 
-	if (!m_BackTexture2.Load("TitleBG2.png"))
-	{
-		b_LoadSitu = LOAD_ERROR;
-		return;
-	}
 
-	if (!m_BackTexture3.Load("TitleBG3.png"))
-	{
-		b_LoadSitu = LOAD_ERROR;
-		return;
-	}
+	CUtilities::SetCurrentDirectoryA("../../");
+
+	CUtilities::SetCurrentDirectoryA("Title");
 
 	//タイトルロゴ読み込み
 	if (!m_TitleTexture.Load("GameLogo_s.png"))
@@ -76,7 +82,7 @@ void CTitle::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effe
 
 
 	//初期化
-	m_Scroll = 0;
+	m_Scroll =200 /*m_BackTexture->GetWidth()*/;
 
 	//状態を設定
 	b_Fadein = FADE_IN;
@@ -86,7 +92,10 @@ void CTitle::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effe
 	gAlpha = 0;
 
 	//ランダム数値を取得
-	Rondom = CUtilities::Random(0, 3);
+	for (int i = 0; i < 3; i++)
+	{
+		m_Bak_Type[i] = RandmuBak.GetRandomNumbe(0, BACK_TYPE - 1);
+	}
 
 	//現在のシーン
 	m_NowScene = SCENENO_TITLE;	
@@ -96,9 +105,11 @@ void CTitle::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effe
 void CTitle::Update(void)
 {
 
+		//左にスクロールしていく
+		m_Scroll -= SCROLL_SPEED;		
+		//m_Scroll -=  + 10;
 
-	//左にスクロールしていく
-	m_Scroll -= SCROLL_SPEED;
+	
 
 	//フェードイン処理
 	if (b_Fadein == FADE_IN) {
@@ -153,41 +164,36 @@ void CTitle::Update(void)
 //描画
 void CTitle::Render(void)
 {
-	//ランダムの値ごとにテクスチャを変える
-	if (Rondom == 0)
-	{
-		//テクスチャの描画
-		int W = m_BackTexture1.GetWidth();
-		int scw = g_pGraphics->GetTargetWidth();
+	//テクスチャの描画
+	int W = m_BackTexture->GetWidth();
+	int scw = g_pGraphics->GetTargetWidth();
 
-		for (float x = ((int)m_Scroll % W) - W; x < scw; x += W)
-		{
-			m_BackTexture1.Render(x, 0.0f);
-		}
-	}
-	else if (Rondom == 1)
-	{
-		//テクスチャの描画
-		int W = m_BackTexture2.GetWidth();
-		int scw = g_pGraphics->GetTargetWidth();
+	if (m_Scroll <= 0) {
 
-		for (float x = ((int)m_Scroll % W) - W; x < scw; x += W)
-		{
-			m_BackTexture2.Render(x, 0.0f);
-		}
-	}
-	else if (Rondom == 2)
-	{
-		//テクスチャの描画
-		int W = m_BackTexture3.GetWidth();
-		int scw = g_pGraphics->GetTargetWidth();
+		//0以下で初期化
+		m_Scroll = m_BackTexture->GetWidth();
 
-		for (float x = ((int)m_Scroll % W) - W; x < scw; x += W)
-		{
-			m_BackTexture3.Render(x, 0.0f);
-		}
+		//次の背景を用意
+		m_Bak_Type[0] = m_Bak_Type[1];
+		m_Bak_Type[2] = RandmuBak.GetRandomNumbe(0, BACK_TYPE - 1);
+		m_Bak_Type[1] = m_Bak_Type[2];
+
 	}
 
+
+	for (float x = ((int)m_Scroll % W) - W; x < scw; x += W)
+	{
+		if (x > 0)
+		{
+			m_BackTexture[m_Bak_Type[1]].Render(x, 0.0f);
+
+		}
+		else
+		{
+			m_BackTexture[m_Bak_Type[0]].Render(x, 0.0f);
+		}
+	}
+	
 
 	//真ん中にLogo描画
 	m_TitleTexture.Render(g_pGraphics->GetTargetWidth() * 0.5 - m_TitleTexture.GetWidth() * 0.5, 40);
@@ -204,18 +210,24 @@ void CTitle::Render(void)
 void CTitle::RenderDebug(void)
 {
 	CGraphicsUtilities::RenderString(10, 10, "タイトル画面");
-	CGraphicsUtilities::RenderString(10, 40, "Enterキーで画面遷移");
+	CGraphicsUtilities::RenderString(10, 40, "Scroll%f",m_Scroll);
+	CGraphicsUtilities::RenderLine(m_Scroll, 0, m_Scroll, WINDOWSIZE_HEIGHT,MOF_COLOR_BLUE);
+
 }
 
 void CTitle::Release(void)
 {
-	m_BackTexture1.Release();
-	m_BackTexture2.Release();
-	m_BackTexture3.Release();
+	//素材解放
+	for (int i = 0; i < BACK_TYPE; i++)
+	{
+		m_BackTexture[i].Release();
+	}	
+	
 	m_TitleTexture.Release();
 	m_TiTleUITexture.Release();
 	gFont.Release();
 	gFont2.Release();
 
+	//BGM停止
 	b_MusicManager->BGMStop(BGMT_TITLE);
 }
