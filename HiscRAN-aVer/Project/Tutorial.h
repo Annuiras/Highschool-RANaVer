@@ -7,7 +7,7 @@
 
 //à–¾‰æ‘œŒÅ’èˆÊ’u
 #define PAGES_X 243
-#define PAGES_Y 90
+#define PAGES_Y 94
 
 #define PAGES_SPEED 10
 

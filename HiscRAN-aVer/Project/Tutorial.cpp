@@ -27,13 +27,13 @@ void CTutorial::Load(void)
 	//説明テクスチャ
 	char* name[PAGES_NUM] =
 	{
-		"無題685_20230113163526.png",
-		"setumei.png",
-		"無題685_20230113163526.png",
-		"setumei.png",
-		"無題685_20230113163526.png",
-		"setumei.png",
-		"無題685_20230113163526.png",
+		"Tutorial_1.png",
+		"Tutorial_2.png",
+		"Tutorial_3.png",
+		"Tutorial_4.png",
+		"Tutorial_5.png",
+		"Tutorial_6.png",
+		"Tutorial_7.png",
 	};
 
 	for (int i = 0; i < PAGES_NUM; i++)
@@ -140,7 +140,7 @@ void CTutorial::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* e
 	{
 		//初期位置セット
 		//300:ページとページの隙間
-		gPosX[i] = PAGES_X + ExTextTexture[0].GetWidth()+300;
+		gPosX[i] = PAGES_X + ExTextTexture[0].GetWidth()+150;
 	}
 
 	//最初のページをセンターに
