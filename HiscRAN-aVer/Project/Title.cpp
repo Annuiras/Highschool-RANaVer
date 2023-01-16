@@ -1,5 +1,6 @@
 #include "Title.h"
 
+//制作者：松浦 未羽 、田中 環
 
 //コンストラクタ
 CTitle::CTitle() :

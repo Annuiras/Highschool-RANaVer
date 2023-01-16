@@ -3,6 +3,8 @@
 #include "RandomValue.h"
 #include "Define.h"
 
+//制作者：松浦 未羽 、田中 環
+
 //スクロール速度
 #define		SCROLL_SPEED	1;
 

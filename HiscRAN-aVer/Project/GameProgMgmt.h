@@ -1,6 +1,8 @@
 #pragma once
 #include "Define.h"
 
+//制作者：田中 環
+
 //ゲーム情報受け渡しクラス
 class CGameProgMgmt
 {

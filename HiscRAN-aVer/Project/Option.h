@@ -3,6 +3,9 @@
 #include "SceneBase.h"
 #include "MusicManager.h"
 
+//制作者：松浦 未羽 、田中 環
+
+//オプションクラス
 class COption :public CSceneBase
 {
 private:

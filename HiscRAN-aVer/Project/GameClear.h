@@ -3,6 +3,8 @@
 #include "SceneBase.h"
 #include "RandomValue.h"
 
+//制作者：松浦 未羽 、田中 環
+
 //ゲームクリア画面
 class CGameClear:public CSceneBase
 {

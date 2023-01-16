@@ -3,6 +3,7 @@
 #include "RandomValue.h"
 #include "SceneBase.h"
 
+//§ìÒF¼‰Y –¢‰H A“c’† ŠÂ
 class CDPDecision :public CSceneBase
 {
 private:

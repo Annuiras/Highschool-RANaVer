@@ -1,6 +1,7 @@
 #pragma once
 #include "DetailPoint.h"
 
+//制作者：田中 環、石川 由妃、永井 悠太
 
 DetailPoint::DetailPoint() :
 	m_PosX(0.0f),

@@ -2,6 +2,7 @@
 #include "GAME.h"
 
 
+//制作者：田中 環、石川 由妃、永井 悠太
 
 
 CGAME::CGAME():
@@ -12,7 +13,10 @@ CGAME::CGAME():
 	m_DPDeci(),
 	m_DPNum(),
 	m_SP_DPNum(),
-	mB_Clearflg()
+	mB_Clearflg(),
+	m_BlackBakAlph(),
+	m_StartScale(),
+	m_WhiteBakAlph()
 {}
 
 CGAME::~CGAME()
@@ -142,12 +146,12 @@ void CGAME::Update(void)
 			//発表用にステータスを変更
 			if (mB_Clearflg) {
 
-				m_DPNum[0] = 36;
-				m_DPNum[1] = 33;
-				m_DPNum[2] = 32;
-				m_DPNum[3] = 31;
+				m_DPNum[0] = 24;
+				m_DPNum[1] = 50;
+				m_DPNum[2] = 20;
+				m_DPNum[3] = 25;
 				m_DPNum[4] = 15;
-
+				m_SP_DPNum = 0;
 			}
 			//DPの取得数を保存
 			b_GameProgMamt->SetGame_DPNum(m_DPNum);
@@ -272,6 +276,7 @@ void CGAME::Update(void)
 	if (g_pInput->IsKeyPush(MOFKEY_C))
 	{
 		m_GameClearflg = true;
+		mB_Clearflg = true;
 	}
 
 	if (g_pInput->IsKeyPush(MOFKEY_Q))

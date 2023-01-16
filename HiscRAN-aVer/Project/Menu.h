@@ -3,6 +3,8 @@
 #include "MusicManager.h"
 #include "Define.h"
 
+//制作者：松浦 未羽 、田中 環
+
 //メニュー管理クラスです
 class CMenu
 {

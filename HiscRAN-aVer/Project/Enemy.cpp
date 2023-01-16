@@ -1,5 +1,6 @@
 #include "Enemy.h"
 
+//制作者：田中 環、石川 由妃、永井 悠太
 
 CEnemy::CEnemy() :
 	m_PosX(0),

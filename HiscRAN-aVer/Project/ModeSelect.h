@@ -1,5 +1,7 @@
 #pragma once
 
+//§ìÒF¼‰Y –¢‰H A“c’† ŠÂ
+
 #include "SceneBase.h"
 #include	"Menu.h"
 #include "Define.h"

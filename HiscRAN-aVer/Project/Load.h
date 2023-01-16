@@ -2,6 +2,8 @@
 #include "Define.h"
 #include <thread>
 
+//制作者：田中 環
+
 using namespace std;
 
 //ロード画面クラス

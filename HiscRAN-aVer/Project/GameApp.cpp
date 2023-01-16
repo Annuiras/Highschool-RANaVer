@@ -22,7 +22,9 @@
 #include	"Menu.h"
 #include	"DPDecision.h"
 #include	"Load.h"
-//発表用です
+
+//制作者：田中 環
+
 //デバッグ
 bool		gDebagflag = false;
 

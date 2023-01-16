@@ -1,6 +1,7 @@
 #pragma once
 #include "Define.h"
 #include	"Effect.h"
+//制作者：田中 環、仲田 匠吾
 
 //エフェクト管理クラス
 class CEffectMgmt

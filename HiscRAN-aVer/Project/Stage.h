@@ -8,6 +8,8 @@
 #include "EffectManager.h"
 #include "MusicManager.h"
 
+//制作者：田中 環、石川 由妃、永井 悠太
+
 ////DPの出現位置情報用構造体
 typedef struct tag_DP_POS
 {

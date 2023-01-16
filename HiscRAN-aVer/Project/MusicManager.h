@@ -1,7 +1,9 @@
 #pragma once
 #include "Define.h"
 
+//制作者：田中 環
 
+//ミュージックマネージャークラス
 class CMusicMgmt
 {
 private:

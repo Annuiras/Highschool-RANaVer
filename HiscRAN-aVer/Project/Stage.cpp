@@ -7,6 +7,7 @@
 #include "Stage_Obstacle.h"
 #include "Stage_Enemy.h"
 
+//制作者：田中 環、石川 由妃、永井 悠太
 
 CStage::CStage() :
 

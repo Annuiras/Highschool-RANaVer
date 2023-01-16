@@ -5,6 +5,7 @@
 #include "EffectManager.h"
 #include "Menu.h"
 
+//§ìÒF“c’† ŠÂ
 
 class CSceneBase {
 protected:

@@ -2,6 +2,7 @@
 
 #include "Define.h"
 #include "SceneBase.h"
+//制作者：松浦 未羽 、田中 環
 
 //ギャラリー画面クラス
 class CGallery :public CSceneBase

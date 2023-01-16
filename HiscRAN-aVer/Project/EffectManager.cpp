@@ -1,6 +1,7 @@
 #include "EffectManager.h"
 
 #include	"EffectManager.h"
+//制作者：田中 環、仲田 匠吾
 
 /**
  * コンストラクタ

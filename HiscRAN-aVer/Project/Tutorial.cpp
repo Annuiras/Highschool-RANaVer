@@ -1,5 +1,7 @@
 #include "Tutorial.h"
 
+//§ìÒF¼‰Y –¢‰H A“c’† ŠÂ
+
 CTutorial::CTutorial() :
 	BGTexture(),
 	CurtainBGTexture(),
@@ -8,7 +10,9 @@ CTutorial::CTutorial() :
 	gPosX(),
 	m_Cursor(0.0f),
 	MoveX(0.0f),
-	TMenuCnt(0)
+	TMenuCnt(0),
+	m_BakAlph(),
+	Is_Move()
 {
 
 }

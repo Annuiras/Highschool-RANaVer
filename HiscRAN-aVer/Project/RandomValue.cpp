@@ -1,6 +1,7 @@
 #include "RandomValue.h"
 #include <random>
 
+//制作者：田中 環
 
 // ランダムシード
 std::random_device rnd;

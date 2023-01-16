@@ -2,7 +2,7 @@
 #include "Stage.h"
 #include <vector>
 
-//vectorを使った動的配列試したけどうまく宣言できなかった
+//制作者：田中 環、石川 由妃、永井 悠太
 
 
 //ステージのBAR配置情報

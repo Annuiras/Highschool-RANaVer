@@ -1,5 +1,7 @@
 #include "Load.h"
 
+//制作者：田中 環
+
 //ロード画面処理
 CLoad::CLoad():
 	m_Bak(),

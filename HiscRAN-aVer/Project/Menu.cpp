@@ -1,5 +1,7 @@
 #include "Menu.h"
 
+//制作者：松浦 未羽 、田中 環
+
 //コンストラクタ
 CMenu::CMenu() :
 	m_cx(0.0f),

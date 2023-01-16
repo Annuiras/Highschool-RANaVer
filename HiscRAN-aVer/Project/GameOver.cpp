@@ -1,5 +1,6 @@
 #include "GameOver.h"
 
+//§ìÒF¼‰Y –¢‰H A“c’† ŠÂ
 
 #define MenuCnt (2)
 

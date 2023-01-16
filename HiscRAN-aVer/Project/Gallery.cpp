@@ -3,6 +3,7 @@
 
 #define MenuCnt (15)
 
+//§ìÒF¼‰Y –¢‰H A“c’† ŠÂ
 
 
 CGallery::CGallery() :

@@ -1,5 +1,7 @@
 #include "MusicManager.h"
 
+//§ìÒF“c’† ŠÂ
+
 CMusicMgmt::CMusicMgmt()
 {}
 

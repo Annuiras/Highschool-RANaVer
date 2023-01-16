@@ -2,6 +2,8 @@
 
 #define MenuCnt (4)
 
+//§ìÒF¼‰Y –¢‰H A“c’† ŠÂ
+
 
 COption::COption() :
 	m_Font1(),

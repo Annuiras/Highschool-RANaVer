@@ -2,6 +2,8 @@
 #include "Define.h"
 #include "SceneBase.h"
 
+//制作者：松浦 未羽 、田中 環
+
 //ページ数
 #define PAGES_NUM 7
 

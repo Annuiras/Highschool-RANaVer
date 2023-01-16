@@ -1,5 +1,6 @@
 #include "GameClear.h"
 
+//制作者：松浦 未羽 、田中 環
 
 //コンストラクタ
 CGameClear::CGameClear() :
@@ -406,9 +407,6 @@ void CGameClear::Update(void)
 	//BGM再生
 	b_MusicManager->BGMStart(BGMT_CLEAR);
 
-	//BGM再生
-	b_MusicManager->BGMStart(BGMT_CLEAR);
-
 	//フェードイン処理
 	if (b_Fadein == FADE_IN) {
 		m_WhiteBakAlph = FadeIn(m_WhiteBakAlph, true);
@@ -460,7 +458,7 @@ void CGameClear::Update(void)
 		}
 	}
 
-	//デバッグ用使いにく修正する
+	//デバッグ用使いにくい修正する
 	if (g_pInput->IsKeyHold(MOFKEY_RCONTROL)) {
 
 		if (g_pInput->IsKeyPull(MOFKEY_1)) {
@@ -636,7 +634,7 @@ void CGameClear::Update(void)
 		if (Status[i]>= StatusRender[i])
 		{
 			if (Status[i] >= 100) {
-				StatusRender[i]+=5;
+				StatusRender[i]+=2;
 			}
 			StatusRender[i]++;
 		}

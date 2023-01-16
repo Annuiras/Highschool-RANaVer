@@ -3,6 +3,7 @@
 #include	"Mof.h"
 #include "Define.h"
 
+//制作者：田中 環、仲田 匠吾
 class CEffect
 {	
 private:

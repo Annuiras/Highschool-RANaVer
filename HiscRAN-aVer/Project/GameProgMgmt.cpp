@@ -1,5 +1,7 @@
 #include "GameProgMgmt.h"
 
+//§ìÒF“c’† ŠÂ
+
 CGameProgMgmt::CGameProgMgmt():
 Game_DPNum (),
 Game_SP_DPNum(),

@@ -1,5 +1,9 @@
 #pragma once
 #include	"Mof.h"
+//制作者：田中 環
+
+
+//定数宣言
 
 //画面のサイズ
 #define WINDOWSIZE_WIDTH 1280
@@ -12,7 +16,7 @@
 #define SATAGE_MAP_PATTERN 15
 
 //SP開始マップパターン数(何パターン目)
-#define MAP_SP_START_PATTERN 4
+#define MAP_SP_START_PATTERN 2
 
 //SPステージパターン数
 #define MAP_SP_LENGTH 2

@@ -1,5 +1,7 @@
 #pragma once
 
+//§ìÒF“c’† ŠÂ
+
 class RandomValue
 {
 

@@ -1,5 +1,6 @@
 #pragma once
 #include "SceneBase.h"
+//制作者：田中 環
 
 //フェードイン処理
 float CSceneBase::FadeIn(float A, bool b)
