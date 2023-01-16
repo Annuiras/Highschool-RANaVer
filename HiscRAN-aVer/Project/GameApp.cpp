@@ -22,7 +22,7 @@
 #include	"Menu.h"
 #include	"DPDecision.h"
 #include	"Load.h"
-
+//発表用です
 //デバッグ
 bool		gDebagflag = false;
 
