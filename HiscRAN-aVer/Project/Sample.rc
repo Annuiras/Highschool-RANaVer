@@ -52,7 +52,7 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_ICON1               ICON                    "C:\\ゲームプログラミング作業\\システム開発実習\\Annuiras\\Highschool-RANaVer\\HiscRAN-aVer\\Resource\\gameicon.ico"
+IDI_ICON1               ICON                    "..\Resource\gameicon.ico"
 
 #endif    // 日本語 (日本) resources
 /////////////////////////////////////////////////////////////////////////////
