@@ -54,8 +54,9 @@ bool CPlayer::Load(void) {
 	if (!m_HPFrame.Load("Game_HPFrame.png")) {
 		return false;
 	}
-	//仮置きです
-	float n = 2;
+
+	//アニメーション矩形変数
+	float AnimationSquare = 2;
 
 	//アニメーション
 	SpriteAnimationCreate anim[] = 
@@ -66,8 +67,8 @@ bool CPlayer::Load(void) {
 			"移動",
 			0,0,
 			160,185,
-			TRUE,{{n,0,0},{n,1,0},{n,2,0},{n,3,0},{n,4,0},{n,5,0},{n,6,0},{n,7,0},{n,8,0},{n,9,0},{n,10,0}
-			,{n,11,0},{n,12,0},{n,13,0},{n,14,0}}
+			TRUE,{{AnimationSquare,0,0},{AnimationSquare,1,0},{AnimationSquare,2,0},{AnimationSquare,3,0},{AnimationSquare,4,0},{AnimationSquare,5,0},{AnimationSquare,6,0},{AnimationSquare,7,0},{AnimationSquare,8,0},{AnimationSquare,9,0},{AnimationSquare,10,0}
+			,{AnimationSquare,11,0},{AnimationSquare,12,0},{AnimationSquare,13,0},{AnimationSquare,14,0}}
 
 		},
 		//ジャンプ
@@ -114,6 +115,7 @@ void CPlayer::Initialize(void) {
 void CPlayer::Update(void) {
 
 	//デバッグ用
+	//無敵になる
 	if (g_pInput->IsKeyPull(MOFKEY_M)) {
 		//無敵化
 		_unrivaled = _unrivaled ? !_unrivaled : !_unrivaled;
@@ -123,6 +125,7 @@ void CPlayer::Update(void) {
 	}
 
 	//デバック
+	//ダメージを食らう
 	if (g_pInput->IsKeyPull(MOFKEY_D)) {
 
 		//ダメージ処理
@@ -143,12 +146,17 @@ void CPlayer::Update(void) {
 		//SE再生
 		m_MusicMgmt->SEStart(SE_T_JUMP);
 
+		//ジャンプカウントを1増やす
 		m_JumpCount++;
+
+		//ジャンプフラグをFalseに
 		m_Jumpflg = false;
+
+		//モーションを変更する
 		m_Motion.ChangeMotion(MOTION_JUMPSTART);
 
 		//大小ジャンプ切り替え
-		//押している間に一定時間超えれば大ジャンプ
+		//スペースを押している間に一定時間超えれば大ジャンプ
 		if (m_JumpCount >= 10&& m_BSflg) {
    			m_MoveY = BIGJUMP;
 			m_BSflg = false;
@@ -200,22 +208,31 @@ void CPlayer::Update(void) {
 }
 
 //足場、障害物上と当たった場合
+//引数：float		y		当たった障害物のＹ座標
 void CPlayer::UPdateCollisionBra(float y) {
 
 	if (m_Jumpflg) {
+
+		//プレイヤーの位置を上に上げる
+		//障害物上にプレイヤーの足元がくるようにしている
 		m_PosY = y- PLAYER_HIT_Y;
 
 		m_MoveY = 0;
 
 		//ジャンプ終了後にクールタイム
 		m_JumpCount--;
+
+		//ジャンプカウントが10以上にならないようにする
 		if (m_JumpCount > 10)
 		{
 			m_JumpCount = 10;
 		}
 		else if (m_JumpCount <= 0)
 		{
+			//大ジャンプフラグをtrueにする
 			m_BSflg = true;
+
+			//ジャンプカウントを0にする
 			m_JumpCount = 0;
 		}
 

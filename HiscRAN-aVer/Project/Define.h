@@ -277,7 +277,7 @@ enum tag_BGM_TYPE
 	//入学説明画面
 	BGMT_TUTORIAL,
 
-	//ゲーム,オーバー,クリア画面
+	//ゲーム,クリア画面
 	BGMT_STAGE,		//候補
 	//BGMT_STAGE_SP_1,	//SP候補
 	BGMT_CLEAR,			//クリア候補

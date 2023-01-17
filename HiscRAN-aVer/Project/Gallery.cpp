@@ -76,6 +76,7 @@ void CGallery::Load(void)
 	"collection_NotFound_13.png",
 	"collection_NotFound_14.png"
 	};
+
 	for (int i = 0; i < 15; i++)
 	{
 		if (!S_LastParameter[i].s_NotLastApp.Load(NotFound_name[i])) {
@@ -103,6 +104,7 @@ void CGallery::Load(void)
 	"Picup14.png",
 	"Picup15.png"
 	};
+
 	for (int i = 0; i < 15; i++)
 	{
 		if (!S_LastParameter[i].s_LastAppPic.Load(Picup_name[i])) {
@@ -246,18 +248,13 @@ void CGallery::Update(void)
 	}
 
 
-	//Enterで戻るかは検討
+	//Enterで戻る
 	if (galleryCnt == 15 && g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
 		b_Fadein = FADE_OUT;
 	}
-	//F1キーでタイトル画面へ
-	if (g_pInput->IsKeyPush(MOFKEY_F1))
-	{
-		m_bEnd = true;
-		m_NextScene = SCENENO_TITLE;
-	}
 
+	
 	//矢印キー右で選択が右に行くようにする
 	if (g_pInput->IsKeyPush(MOFKEY_RIGHT))
 	{
@@ -415,6 +412,13 @@ void CGallery::Render(void)
 
 void CGallery::RenderDebug(void)
 {
+	//F1キーでタイトル画面へ
+	if (g_pInput->IsKeyPush(MOFKEY_F1))
+	{
+		m_bEnd = true;
+		m_NextScene = SCENENO_TITLE;
+	}
+
 	//矩形数確認用
 	CGraphicsUtilities::RenderString(10, 100, MOF_COLOR_BLACK, "galleryCnt:%d", galleryCnt);
 

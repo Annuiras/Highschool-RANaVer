@@ -7,7 +7,15 @@
 #include "Stage_Obstacle.h"
 #include "Stage_Enemy.h"
 
-//制作者：田中 環、石川 由妃、永井 悠太
+//////////////////////////////////////////////
+//	ステージ管理のプログラムです			//
+//									　　　　//
+//　作成者：田中 環、石川 由妃、永井 悠太　 //
+//									　　　　//
+//　リファクタリングした人：田中環　　　　　//
+//									　　　　//
+//　最終更新：2023/01/17			　　　　//
+//////////////////////////////////////////////
 
 CStage::CStage() :
 
@@ -198,7 +206,7 @@ bool CStage::Load() {
 		return false;
 	}
 
-	//テクスチャ：スマホ1
+	//テクスチャ：スマホ横
 	if (!ob_Smartphone1.Load("Smartphone1.png")) {
 		return false;
 	}
@@ -250,16 +258,6 @@ bool CStage::Load() {
 		return false;
 	}
 
-	//学年の表示　仮画像を使用中
-	if (!m_GradeOneTexture.Load("GradeOne.png")) {
-		return false;
-	}
-	if (!m_GradeTwoTexture.Load("GradeOne.png")) {
-		return false;
-	}
-	if (!m_GradeThreeTexture.Load("GradeOne.png")) {
-		return false;
-	}
 
 #pragma region 敵
 
@@ -414,11 +412,14 @@ void CStage::Initialize(bool spflg, int dptype) {
 		m_AdoptCount = 0;
 	}
 
-	//背景構成を
+	//背景構成を決める処理
 	for (int i = 0; i < SATAGE_MAP_PATTERN*2; i++)
 	{
+		//ランダムで種類を決定する
 		int randamu=RandmuBak.GetRandomNumbe(1, 6);
 
+		//一番最初以外で、同じ背景の場合
+		//違う背景にする処理
 		if (i != 0&&randamu == m_BakComposition[i - 1]) {
 
 			if (randamu == 6) {
@@ -434,10 +435,16 @@ void CStage::Initialize(bool spflg, int dptype) {
 		m_BakComposition[i] = randamu;
 
 	}
+
+	//背景構成の一番最後用の物を適用する
 	m_BakComposition[SATAGE_MAP_PATTERN * 2] = 8;
+
+	//右側から背景構成を読むための初期化
 	m_RandamuBakRight = 7;
 	m_RandamuBakLeft = m_BakComposition[0];
 
+	//スペシャルステージが発生する場合
+	//背景をスペシャルステージに変更する
 	if (SP_flg) {
 
 		m_BakComposition[(MAP_SP_START_PATTERN * 2)] = 9;
@@ -604,25 +611,6 @@ void CStage::Update(CRectangle plrect) {
 		m_BarProgress++;
 	}
 
-	////学年表示の表示位置の更新
-	////背景カウントが1枚、10枚、20枚になった時に学年画像のスライドイン、スライドアウトを行う。
-	//if (m_countbak == 1 || m_countbak == 10 || m_countbak == 20) {
-	//	m_GradeOffset -= 5;
-	//	if (m_GradeOffset <= g_pGraphics->GetTargetWidth() - m_GradeOneTexture.GetWidth())
-	//	{
-	//		m_GradeOffset = g_pGraphics->GetTargetWidth() - m_GradeOneTexture.GetWidth();
-	//	}
-	//}
-	//else if (m_countbak != 1 && m_countbak != 10 && m_countbak != 20) {
-	//	if (m_GradeOffset >= g_pGraphics->GetTargetWidth() - m_GradeOneTexture.GetWidth()) {
-	//		m_GradeOffset += 5;
-	//		if (m_GradeOffset > g_pGraphics->GetTargetWidth())
-	//		{
-	//			m_GradeOffset = g_pGraphics->GetTargetWidth();
-	//		}
-	//	}
-	//}
-
 	//クリアフラグ変更
 	if (m_countbak == 32) {
 		m_bClear = true;
@@ -744,40 +732,6 @@ void CStage::Render(void) {
 		//右側はランダムに数値を入れる
 		m_RandamuBakRight = m_BakComposition[m_countbak];
 
-		
-
-		////一番初めの背景
-		//if (m_countbak == -1) {
-		//	m_RandamuBakLeft = 7;
-		//}
-
-		////クリア時に一番最後の背景が表示されているように早めにセット
-		//if (m_countbak == STAGE_CLEAR_BAK-2) {
-		//m_RandamuBakRight = 8;
-		//}
-
-
-
-		////SP中の処理
-		//if (m_SPSitua == tag_StageSituation::STAGE_SP_STILL) {
-
-		//	//SP開始時の背景セット
-		//	if (m_SPcountbak == 0) {
-
-		//		//SP最初の背景
-		//		m_RandamuBakRight = 9;
-		//	}
-		//	else if (m_SPcountbak == (MAP_SP_LENGTH * 2))
-		//	{
-		//		//SP最後の背景
-		//		m_RandamuBakRight = 13;
-		//	}
-		//	else
-		//	{
-		//		//SP中の背景
-		//		m_RandamuBakRight = RandmuBak.GetRandomNumbe(10, 12);
-		//	}
-		//}
 	}
 
 	//背景スクロール値＝背景画像の横幅：だんだん減る
@@ -947,11 +901,6 @@ void CStage::Render(void) {
 	m_BarTextuer.Render(270, 25);
 	m_CharaProgressTextuer.Render(285 + m_BarProgress, 45);
 
-	//クリアフラグ表示
-	if (m_bClear)
-	{
-		//CGraphicsUtilities::RenderString(500, 350, MOF_XRGB(255, 0, 0), "クリア!\nF1でリスタート");
-	}
 }
 
 //解放
@@ -1072,6 +1021,12 @@ void CStage::RenderDebugging() {
 	CGraphicsUtilities::RenderString(40, 590, "%d", m_SPcountbak);
 
 #pragma endregion
+
+	//クリアフラグ表示
+	if (m_bClear)
+	{
+		//CGraphicsUtilities::RenderString(500, 350, MOF_XRGB(255, 0, 0), "クリア!\nF1でリスタート");
+	}
 
 }
 
