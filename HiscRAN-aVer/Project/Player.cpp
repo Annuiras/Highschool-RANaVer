@@ -113,6 +113,20 @@ void CPlayer::Update(void) {
 		_chare_A = _unrivaled ? 125 : 255;
 	}
 
+	//デバック
+	if (g_pInput->IsKeyPull(MOFKEY_D)) {
+
+		//ダメージ処理
+		m_HP--;
+
+		//ゲームオーバー更新
+		if (m_HP <= 0) {
+			m_deathflg = true;
+			m_HP = 0;
+			m_DamageWait = 0;
+		}
+
+	}
 
 	//ジャンプ処理
 	if (g_pInput->IsKeyHold(MOFKEY_SPACE) && m_BSflg) {
@@ -138,10 +152,6 @@ void CPlayer::Update(void) {
 		}
 	}
 
-	//一度ジャンプしたらfalse
-	if (g_pInput->IsKeyPull(MOFKEY_SPACE)) {
-		m_BSflg = false;
-	}
 
 	//重力反映
 	m_MoveY += GRAVITY;
@@ -249,13 +259,21 @@ void CPlayer::UPdateCollisionOB() {
 	{
 		return;
 	}
+
+	//SE再生
 	m_MusicMgmt->SEStart(SE_T_HIT);
+
+	//HP減らす
 	m_HP -= 1;
+
+	//無敵時間
 	m_DamageWait = INVINCIBLE_TIME;
 
+	//ゲームオーバー更新
 	if (m_HP <= 0) {
 		m_deathflg = true;
 		m_HP = 0;
+		m_DamageWait = 0;
 	}
 }
 
@@ -268,6 +286,7 @@ void CPlayer::UpdateClear(void)
 	//スピード反映
 	m_PosY += m_MoveY;
 
+	//横移動
 	m_PosX += 7;
 
 	//下降速度クリップ
