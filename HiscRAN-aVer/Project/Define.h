@@ -16,7 +16,7 @@
 #define SATAGE_MAP_PATTERN 15
 
 //SP開始マップパターン数(何パターン目)
-#define MAP_SP_START_PATTERN 2
+#define MAP_SP_START_PATTERN 1
 
 //SPステージパターン数
 #define MAP_SP_LENGTH 2
