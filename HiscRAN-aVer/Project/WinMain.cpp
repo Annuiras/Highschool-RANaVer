@@ -1,4 +1,5 @@
 #include	"GameApp.h"
+#include "resource.h"
 
 #ifdef		UNICODE
 int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow )
@@ -10,8 +11,13 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLi
 	Mof::LPFramework pFrame = new Mof::CDX11GameFramework(); 
 	Mof::WINDOWSGAMEFRAMEWORKINITIALIZEINFO Info;
 	Info.pApplication = new CGameApp();
+
 	Info.WindowCreateInfo.Width = 1280;
 	Info.WindowCreateInfo.Height = 720;
+
+	Info.WindowCreateInfo.hIcon = LoadIconA(hInstance, MAKEINTRESOURCE(IDI_ICON1));
+	Info.WindowCreateInfo.Title = "ハイスクールRAN";
+
 	pFrame->Initialize(&Info);
 	pFrame->Run();
 	MOF_SAFE_DELETE(pFrame);
