@@ -4,11 +4,20 @@
 #include "Define.h"
 #include "Player.h"
 #include "Stage.h"
-#include <thread>
+//#include <thread>
 
-//制作者：田中 環、石川 由妃、永井 悠太
+//////////////////////////////////////////////
+//	ゲーム管理のプログラムです　　　　　　　//
+//									　　　　//
+//　作成者：田中 環、石川 由妃、永井 悠太　 //
+//									　　　　//
+//　リファクタリングした人：田中環　　　　　//
+//									　　　　//
+//　最終更新：2023/01/17			　　　　//
+//////////////////////////////////////////////
 
-using namespace std;
+
+//using namespace std;
 
 class CGAME :public CSceneBase
 {
