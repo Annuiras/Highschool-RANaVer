@@ -10,13 +10,17 @@
 //　最終更新：2023/01/17		   　　　//
 ///////////////////////////////////////////
 
-#define MenuCnt (4)
 
-int MenuNow_Mode = 0;
 
 //コンストラクタ
 CModeSelect::CModeSelect() :
+	m_TutorialTextureSmall(),
+	m_TutorialTextureBig(),
+	m_TutorialBG(),
+	m_TutorialTextBox(),
 	m_TutorialTextTexture(),
+	MenuNow_Mode(),
+	m_BakAlph(),
 	m_Scroll(0.0f)
 {
 
@@ -94,7 +98,7 @@ void CModeSelect::Load()
 void  CModeSelect::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec, CMenu* menu)
 {
 	//画面下文字スクロール値初期化
-	m_Scroll = 0;
+	m_Scroll = 500;
 	
 	//各マネージャーセット
 	b_GameProgMamt = mamt;
@@ -106,7 +110,7 @@ void  CModeSelect::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt
 	Load();
 
 	//エラー状態でない場合
-	if (b_LoadSitu != LOAD_ERROR) {
+	if (b_LoadSitu == LOAD_COMP) {
 		//初期化完了
 		b_LoadSitu = LOAD_DONE;
 	}
@@ -120,6 +124,7 @@ void  CModeSelect::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt
 	//フェード状態
 	b_Fadein = FADE_IN;
 
+
 }
 
 
@@ -129,6 +134,10 @@ void CModeSelect::Update()
 	//BGM再生
 	b_MusicManager->BGMStart(BGMT_MOOP);
 
+	//リセット
+	if (m_Scroll <= -1845) {
+		m_Scroll = 1845;
+	}
 	//画面下文字スクロール
 	m_Scroll -= SCROLL_SPEED;
 
@@ -144,21 +153,25 @@ void CModeSelect::Update()
 		switch (MenuNow_Mode)
 		{
 		case 0:
+			//入学説明画面
 			m_bEnd = true;
 			m_NextScene = SCENENO_TUTORIAL;
 			break;
 
 		case 1:
+			//入学
 			m_bEnd = true;
 			m_NextScene = SCENENO_DPDECISION;
 			break;
 
 		case 2:
+			//図書室
 			m_bEnd = true;
 			m_NextScene = SCENENO_GALLERY;
 			break;
 
 		case 3:
+			//放送室
 			m_bEnd = true;
 			m_NextScene = SCENENO_OPTION;
 			break;
@@ -183,6 +196,7 @@ void CModeSelect::Update()
 		{
 			if (b_MenuMamt->GetSelect() == 0)
 			{
+				//アプリケーション終了
 				PostQuitMessage(0);
 			}
 
@@ -377,10 +391,15 @@ void CModeSelect::RenderDebug(void)
 {
 	CGraphicsUtilities::RenderString(10, 10, "モードセレクト画面");
 	CGraphicsUtilities::RenderString(10, 40, "Enterキーで画面遷移");
+	CGraphicsUtilities::RenderString(10, 70, "Scroll%f",m_Scroll);
+
+	CGraphicsUtilities::RenderLine(m_Scroll, 0, m_Scroll, WINDOWSIZE_HEIGHT, MOF_COLOR_BLUE);
 }
 
+//解放
 void CModeSelect::Release(void)
 {
+	//素材開放
 	m_TutorialTextureSmall.Release();
 	m_TutorialTextureBig.Release();
 	for (int i = 0; i < 4; i++) 
@@ -390,6 +409,7 @@ void CModeSelect::Release(void)
 	m_TutorialTextTexture.Release();
 	m_TutorialTextBox.Release();
 
+	//BGMストップ
 	b_MusicManager->BGMStop(BGMT_MOOP);
 
 }
