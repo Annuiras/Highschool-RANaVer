@@ -70,9 +70,6 @@ private:
 	//クリアフラグ
 	bool m_GameClearflg;
 
-	//発表用デバック
-	bool mB_Clearflg;
-
 public:
 	CGAME();
 	~CGAME();

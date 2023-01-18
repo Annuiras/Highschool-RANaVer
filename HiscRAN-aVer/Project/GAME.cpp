@@ -20,7 +20,6 @@ CGAME::CGAME():
 	m_DPDeci(),
 	m_DPNum(),
 	m_SP_DPNum(),
-	mB_Clearflg(),
 	m_BlackBakAlph(),
 	m_StartScale(),
 	m_WhiteBakAlph()
@@ -150,16 +149,6 @@ void CGAME::Update(void)
 		//クリア画面
 		if (m_GameClearflg) {
 
-			//発表用にステータスを変更
-			if (mB_Clearflg) {
-
-				m_DPNum[0] = 24;
-				m_DPNum[1] = 50;
-				m_DPNum[2] = 20;
-				m_DPNum[3] = 25;
-				m_DPNum[4] = 15;
-				m_SP_DPNum = 0;
-			}
 			//DPの取得数を保存
 			b_GameProgMamt->SetGame_DPNum(m_DPNum);
 			b_GameProgMamt->SetGame_SP_DPNum(m_SP_DPNum);
@@ -283,13 +272,6 @@ void CGAME::Update(void)
 	if (g_pInput->IsKeyPush(MOFKEY_C))
 	{
 		m_GameClearflg = true;
-		mB_Clearflg = true;
-	}
-
-	if (g_pInput->IsKeyPush(MOFKEY_Q))
-	{
-		m_GameClearflg = true;
-		mB_Clearflg = true;
 	}
 
 	//Vでゲームオーバー画面
@@ -348,15 +330,9 @@ void CGAME::Update(void)
 	//クリア時の処理
 	if (m_GameClearflg)
 	{
+		//フェードアウト
 		b_Fadein = FADE_OUT;
 
-		//クリア時にDPが一定数足りていない場合
-		//todo:0仮置きDPピック画面で選んだDPと比較する
-		//if (m_DPNum[m_DPDeci] < 10) {
-		//	//ゲームオーバーフラグをセット
-		//	m_GameOverflg = true;
-		//	m_GameClearflg = false;
-		//}
 		return;
 	}
 
@@ -412,10 +388,13 @@ void CGAME::Update(void)
 		//敵
 		for (int e = 0; e < ENEMY_VOLUME; e++)
 		{
+			//非表示のものは判定しない
 			if (!g_Stage.ene_array[e].Getshow())
 				continue;
 
 			if (g_Stage.ene_array[e].GetRect().CollisionRect(g_Stage.ob_array[i].GetTopBarRect())) {
+
+				//障害物の高さに調整
 				g_Stage.ene_array[e].SetPosY(g_Stage.ob_array[i].GetY());
 			}
 		}
@@ -460,6 +439,7 @@ void CGAME::Update(void)
 //dpt->DPの種類
 void CGAME::UPdeteCollisionDP(int dpt) {
 
+	//SE再生
 	b_MusicManager->SEStart(SE_T_DP_HIT);
 
 

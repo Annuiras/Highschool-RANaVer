@@ -129,6 +129,7 @@ CRectangle CEnemy::GetRect(void)
 }
 
 //YÀ•W‚ğ’²®
+//y:’²®‚·‚é‚xÀ•W
 void CEnemy::SetPosY(float y)
 {
 	m_PosY = y - ENEMY_SIZE_HEIGHT;
