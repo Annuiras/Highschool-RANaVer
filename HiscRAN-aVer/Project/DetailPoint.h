@@ -1,5 +1,3 @@
-#pragma once
-#include "Define.h"
 //////////////////////////////////////////////
 //	DPのプログラムです			　　　　　　//
 //									　　　　//
@@ -9,6 +7,10 @@
 //									　　　　//
 //　最終更新：2023/01/17			　　　　//
 //////////////////////////////////////////////
+
+#pragma once
+#include "Define.h"
+#include "Define_Game.h"
 
 //一画面に存在する最大DP
 #define DP_VOLUME	40

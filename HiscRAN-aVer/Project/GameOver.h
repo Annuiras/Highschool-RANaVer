@@ -1,8 +1,20 @@
+//////////////////////////////////////////////
+//	ゲームオーバー画面のプログラムです　　  //
+//									　　　　//
+//　作成者：松浦未羽　　　　　　　　　　 　 //
+//									　　　　//
+//　リファクタリングした人：田中環　　　　　//
+//									　　　　//
+//　最終更新：2023/01/17			　　　　//
+//////////////////////////////////////////////
+
 #pragma once
 #include "Define.h"
+#include "Define_Music.h"
 #include "SceneBase.h"
 
-//制作者：松浦 未羽 、田中 環
+//選択肢数
+#define MenuCnt (2)
 
 class CGameOver :public CSceneBase
 {
@@ -24,6 +36,10 @@ private:
 	//アルファ値
 	int m_BlackBakAlph;
 	int m_WhiteBakAlph;
+
+	//選択肢番号
+	int GameOverCount;
+
 
 	//ゲームオーバー原因フラグ
 	bool HPEND = false;

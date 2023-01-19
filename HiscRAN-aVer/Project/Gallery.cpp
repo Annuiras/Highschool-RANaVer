@@ -1,8 +1,3 @@
-#include "Gallery.h"
-
-
-#define MenuCnt (15)
-
 ////////////////////////////////////////
 //	ギャラリーのプログラムです　　　　//
 //									　//
@@ -13,14 +8,22 @@
 //　最終更新：2023/01/17			　//
 ////////////////////////////////////////
 
+#include "Gallery.h"
 
 CGallery::CGallery() :
 	m_BackTexture(),
 	m_LastApp(),
+	m_SelectTexture(),
 	m_SelectTexture_s(),
+	m_BakLastAp(),
+	S_LastParameter(),
+	m_BakLastRect(),
+	m_PickUpText(),
+	m_NotPickUpText(),
 	m_BackButton(),
 	m_Text(),
-	m_BakAlph()
+	m_BakAlph(),
+	m_galleryCnt()
 {
 
 }
@@ -210,7 +213,7 @@ void CGallery::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* ef
 	m_BakAlph = 255;
 
 	//カーソル初期化
-	galleryCnt = 0;
+	m_galleryCnt = 0;
 }
 
 //更新
@@ -244,12 +247,12 @@ void CGallery::Update(void)
 	//後日デバックに書き写し
 	if (g_pInput->IsKeyPush(MOFKEY_0))
 	{
-		S_LastParameter[galleryCnt].s_LastAddFlag = S_LastParameter[galleryCnt].s_LastAddFlag ? !S_LastParameter[galleryCnt].s_LastAddFlag : !S_LastParameter[galleryCnt].s_LastAddFlag;
+		S_LastParameter[m_galleryCnt].s_LastAddFlag = S_LastParameter[m_galleryCnt].s_LastAddFlag ? !S_LastParameter[m_galleryCnt].s_LastAddFlag : !S_LastParameter[m_galleryCnt].s_LastAddFlag;
 	}
 
 
 	//Enterで戻る
-	if (galleryCnt == 15 && g_pInput->IsKeyPush(MOFKEY_RETURN))
+	if (m_galleryCnt == 15 && g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
 		b_Fadein = FADE_OUT;
 	}
@@ -260,9 +263,9 @@ void CGallery::Update(void)
 	{
 		//SE再生被りなし調整可
 		b_MusicManager->SEStart(SE_T_GALL_CURSORMOVE);
-		if (galleryCnt < MenuCnt)
+		if (m_galleryCnt < MenuCnt)
 		{
-			galleryCnt++;
+			m_galleryCnt++;
 		}
 	}
 
@@ -270,9 +273,9 @@ void CGallery::Update(void)
 	if (g_pInput->IsKeyPush(MOFKEY_LEFT))
 	{
 		b_MusicManager->SEStart(SE_T_GALL_CURSORMOVE);
-		if (galleryCnt > 0)
+		if (m_galleryCnt > 0)
 		{
-			galleryCnt--;
+			m_galleryCnt--;
 		}
 	}
 
@@ -281,13 +284,13 @@ void CGallery::Update(void)
 	if (g_pInput->IsKeyPush(MOFKEY_DOWN))
 	{
 		b_MusicManager->SEStart(SE_T_GALL_CURSORMOVE);
-		if (galleryCnt < MenuCnt&& galleryCnt <= 10)
+		if (m_galleryCnt < MenuCnt&& m_galleryCnt <= 10)
 		{
-			galleryCnt += 5;
+			m_galleryCnt += 5;
 		}
-		else if (galleryCnt > 10)
+		else if (m_galleryCnt > 10)
 		{
-			galleryCnt = 15;
+			m_galleryCnt = 15;
 		}
 	}
 	//矢印キー上で選択が上がるようにする
@@ -295,9 +298,9 @@ void CGallery::Update(void)
 	if (g_pInput->IsKeyPush(MOFKEY_UP))
 	{
 		b_MusicManager->SEStart(SE_T_GALL_CURSORMOVE);
-		if (galleryCnt > 0 && galleryCnt - 5 >= 0)
+		if (m_galleryCnt > 0 && m_galleryCnt - 5 >= 0)
 		{
-			galleryCnt -= 5;
+			m_galleryCnt -= 5;
 		}
 	}
 
@@ -331,7 +334,7 @@ void CGallery::Render(void)
 
 	//選択時囲み枠の表示
 	//戻るボタン
-	if (galleryCnt == 15)
+	if (m_galleryCnt == 15)
 	{
 		m_SelectTexture_s.Render(60, 650);
 
@@ -342,31 +345,31 @@ void CGallery::Render(void)
 		m_Text.Render(766, 461);
 
 		//最終容姿解放フラグ
-		if (S_LastParameter[galleryCnt].s_LastAddFlag)
+		if (S_LastParameter[m_galleryCnt].s_LastAddFlag)
 		{
 
 			//最終容姿背景
-			if (galleryCnt == LT_SUPERLADY) {
+			if (m_galleryCnt == LT_SUPERLADY) {
 
 				//スーパーレディ
 				m_BakLastAp.Render(766, 50, m_BakLastRect[BL_SUPERLADY]);
 			}
-			else if (galleryCnt == LT_OTYOUSI)
+			else if (m_galleryCnt == LT_OTYOUSI)
 			{
 				//お調子者
 				m_BakLastAp.Render(766, 50, m_BakLastRect[BL_OTYOUSI]);
 			}
-			else if (galleryCnt == LT_BUNGAKU)
+			else if (m_galleryCnt == LT_BUNGAKU)
 			{
 				//文学少女
 				m_BakLastAp.Render(766, 50, m_BakLastRect[BL_BUNGAKU]);
 			}
-			else if (galleryCnt == LT_TYUNI)
+			else if (m_galleryCnt == LT_TYUNI)
 			{
 				//中二病
 				m_BakLastAp.Render(766, 50, m_BakLastRect[BL_TYUNI]);
 			}
-			else if (galleryCnt == LT_KAMITAIOU)
+			else if (m_galleryCnt == LT_KAMITAIOU)
 			{
 				//神対応
 				m_BakLastAp.Render(766, 50, m_BakLastRect[BL_KAMITAIOU]);
@@ -378,11 +381,11 @@ void CGallery::Render(void)
 			}
 
 			//最終容姿を表示
-			S_LastParameter[galleryCnt].s_LastAppPic.Render(766, 50);
+			S_LastParameter[m_galleryCnt].s_LastAppPic.Render(766, 50);
 
 			//説明テキスト表示矩形
-			CRectangle r_Text = { (400.f * (galleryCnt % 3)),(galleryCnt / 3) * 189.f,
-								400.f + (400 * (galleryCnt % 3)),189.f + (189 * (galleryCnt / 3))
+			CRectangle r_Text = { (400.f * (m_galleryCnt % 3)),(m_galleryCnt / 3) * 189.f,
+								400.f + (400 * (m_galleryCnt % 3)),189.f + (189 * (m_galleryCnt / 3))
 			};
 
 			//説明文
@@ -393,15 +396,15 @@ void CGallery::Render(void)
 		{
 
 			//説明テキスト表示矩形
-			CRectangle r_Text = { (400.f * (galleryCnt % 3)),(galleryCnt / 3) * 189.f,
-								400.f + (400 * (galleryCnt % 3)),189.f + (189 * (galleryCnt / 3)) };
+			CRectangle r_Text = { (400.f * (m_galleryCnt % 3)),(m_galleryCnt / 3) * 189.f,
+								400.f + (400 * (m_galleryCnt % 3)),189.f + (189 * (m_galleryCnt / 3)) };
 
 			//未解放時の表記にする
 			m_NotPickUpText.Render(766, 461, r_Text);
 		}
 
 		//本棚に選択囲み枠
-		m_SelectTexture.Render(60 + (120 * (galleryCnt % 5)), 40 + ((galleryCnt / 5) * 200));
+		m_SelectTexture.Render(60 + (120 * (m_galleryCnt % 5)), 40 + ((m_galleryCnt / 5) * 200));
 	}
 
 
@@ -420,7 +423,7 @@ void CGallery::RenderDebug(void)
 	}
 
 	//矩形数確認用
-	CGraphicsUtilities::RenderString(10, 100, MOF_COLOR_BLACK, "galleryCnt:%d", galleryCnt);
+	CGraphicsUtilities::RenderString(10, 100, MOF_COLOR_BLACK, "m_galleryCnt:%d", m_galleryCnt);
 
 	CGraphicsUtilities::RenderString(10, 10, "ギャラリー画面");
 	CGraphicsUtilities::RenderString(10, 40, "F1キーでタイトル画面へ遷移");

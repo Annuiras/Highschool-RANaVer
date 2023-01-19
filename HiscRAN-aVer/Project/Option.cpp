@@ -1,7 +1,3 @@
-#include "Option.h"
-
-#define MenuCnt (4)
-
 ///////////////////////////////////////////
 //　オプション画面のプログラムです   　　//
 //								   　　　//
@@ -12,6 +8,7 @@
 //　最終更新：2023/01/17		   　　　//
 ///////////////////////////////////////////
 
+#include "Option.h"
 
 COption::COption() :
 	m_Font1(),
@@ -365,7 +362,7 @@ void COption::Update(void)
 //描画
 void COption::Render(void)
 {
-
+	//背景画像
 	m_BG.Render(0, 0);
 
 	//土台描画

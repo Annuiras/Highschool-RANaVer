@@ -1,9 +1,23 @@
+///////////////////////////////////////////
+//　DP選択画面のプログラムです   　　  　//
+//								   　　　//
+//　作成者：松浦未羽  　　　　　　　　　 //
+//								   　　　//
+//　リファクタリングした人：田中環 　　　//
+//								   　　　//
+//　最終更新：2023/01/19		   　　　//
+///////////////////////////////////////////
+
 #pragma once
 #include "Define.h"
+#include "Define_Music.h"
+#include "Define_Menu.h"
 #include "RandomValue.h"
 #include "SceneBase.h"
 
-//制作者：松浦 未羽 、田中 環
+//選択肢数
+#define DPDECISION_MENUCNT 5
+
 class CDPDecision :public CSceneBase
 {
 private:

@@ -1,38 +1,26 @@
+////////////////////////////////////////
+//	ギャラリーのプログラムです　　　　//
+//									　//
+//　作成者：松浦未羽　　　　　		　//
+//									　//
+//　リファクタリングした人：田中環　　//
+//									　//
+//　最終更新：2023/01/17			　//
+////////////////////////////////////////
+
 #pragma once
-
 #include "Define.h"
+#include "Define_Gallery.h"
+#include "Define_Music.h"
 #include "SceneBase.h"
-//制作者：松浦 未羽 、田中 環
 
-//ギャラリー画面クラス
+//選択肢数
+#define MenuCnt (15)
+
+
 class CGallery :public CSceneBase
 {
 private:
-
-	//最終容姿背景種類
-	enum tag_BAKLAST_TYPE {
-
-		//ノーマル
-		BL_NORMAL,
-
-		//スーパーレディ
-		BL_SUPERLADY,
-
-		//お調子者
-		BL_OTYOUSI,
-
-		//文学少女
-		BL_BUNGAKU,
-
-		//中二病
-		BL_TYUNI,
-
-		//神対応
-		BL_KAMITAIOU,
-
-		//総数
-		BL_COUNT
-	}; 
 
 	//コレクション画面背景テクスチャ
 	CTexture	m_BackTexture;
@@ -85,7 +73,7 @@ private:
 	int m_BakAlph;
 
 	//カーソル番号
-	int galleryCnt = 0;
+	int m_galleryCnt;
 
 public:
 	CGallery();

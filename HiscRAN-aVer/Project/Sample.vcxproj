@@ -118,6 +118,12 @@
   <ItemGroup>
     <ClInclude Include="Bar.h" />
     <ClInclude Include="Define.h" />
+    <ClInclude Include="Define_Clear.h" />
+    <ClInclude Include="Define_Effect.h" />
+    <ClInclude Include="Define_Gallery.h" />
+    <ClInclude Include="Define_Game.h" />
+    <ClInclude Include="Define_Menu.h" />
+    <ClInclude Include="Define_Music.h" />
     <ClInclude Include="DPDecision.h" />
     <ClInclude Include="Effect.h" />
     <ClInclude Include="EffectManager.h" />

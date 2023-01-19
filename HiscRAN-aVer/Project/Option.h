@@ -1,9 +1,21 @@
+///////////////////////////////////////////
+//　オプション画面のプログラムです   　　//
+//								   　　　//
+//　作成者：松浦未羽  　　　　　　　　　 //
+//								   　　　//
+//　リファクタリングした人：田中環 　　　//
+//								   　　　//
+//　最終更新：2023/01/17		   　　　//
+///////////////////////////////////////////
+
 #pragma once
 #include "Define.h"
+#include "Define_Music.h"
 #include "SceneBase.h"
 #include "MusicManager.h"
 
-//制作者：松浦 未羽 、田中 環
+//選択肢数
+#define MenuCnt (4)
 
 //オプションクラス
 class COption :public CSceneBase

@@ -1,11 +1,3 @@
-#pragma once
-#include "Menu.h"
-#include "SceneBase.h"
-#include "Define.h"
-#include "Player.h"
-#include "Stage.h"
-//#include <thread>
-
 //////////////////////////////////////////////
 //	ゲーム管理のプログラムです　　　　　　　//
 //									　　　　//
@@ -16,8 +8,15 @@
 //　最終更新：2023/01/17			　　　　//
 //////////////////////////////////////////////
 
+#pragma once
+#include "SceneBase.h"
+#include "Define.h"
+#include "Define_Music.h"
+#include "Define_Menu.h"
+#include "Player.h"
+#include "Stage.h"
 
-//using namespace std;
+
 
 class CGAME :public CSceneBase
 {

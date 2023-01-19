@@ -1,9 +1,21 @@
+//////////////////////////////////////////////
+//	ゲームクリア画面のプログラムです　　　  //
+//									　　　　//
+//　作成者：松浦未羽　　　　　　　　　　 　 //
+//									　　　　//
+//　リファクタリングした人：田中環　　　　　//
+//									　　　　//
+//　最終更新：2023/01/17			　　　　//
+//////////////////////////////////////////////
+
 #pragma once
 #include "Define.h"
+#include "Define_Clear.h"
+#include "Define_Game.h"
+#include "Define_Gallery.h"
+#include "Define_Music.h"
 #include "SceneBase.h"
 #include "RandomValue.h"
-
-//制作者：松浦 未羽 、田中 環
 
 //ゲームクリア画面
 class CGameClear:public CSceneBase

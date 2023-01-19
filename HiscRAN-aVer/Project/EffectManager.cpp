@@ -1,5 +1,3 @@
-#include "EffectManager.h"
-
 //////////////////////////////////////////////
 //	エフェクトマネージャーのプログラムです　//
 //									　　　　//
@@ -10,11 +8,16 @@
 //　最終更新：2023/01/17			　　　　//
 //////////////////////////////////////////////
 
+#include "EffectManager.h"
+
 /**
  * コンストラクタ
  *
  */
-CEffectMgmt::CEffectMgmt() {
+CEffectMgmt::CEffectMgmt():
+	m_Effect(),
+	m_Texture()
+{
 }
 
 /**

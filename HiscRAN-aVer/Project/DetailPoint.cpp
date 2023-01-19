@@ -1,6 +1,3 @@
-#pragma once
-#include "DetailPoint.h"
-
 //////////////////////////////////////////////
 //	DPのプログラムです			　　　　　　//
 //									　　　　//
@@ -10,6 +7,9 @@
 //									　　　　//
 //　最終更新：2023/01/17			　　　　//
 //////////////////////////////////////////////
+
+#pragma once
+#include "DetailPoint.h"
 
 DetailPoint::DetailPoint() :
 	m_PosX(0.0f),

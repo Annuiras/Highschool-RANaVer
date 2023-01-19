@@ -1,8 +1,17 @@
+///////////////////////////////////////////
+//　チュートリアルのプログラムです   　　//
+//								   　　　//
+//　作成者：松浦未羽  　　　　　　　　　 //
+//								   　　　//
+//　リファクタリングした人：田中環 　　　//
+//								   　　　//
+//　最終更新：2023/01/17		   　　　//
+///////////////////////////////////////////
+
 #pragma once
 #include "Define.h"
+#include "Define_Music.h"
 #include "SceneBase.h"
-
-//制作者：松浦 未羽 、田中 環
 
 //ページ数
 #define PAGES_NUM 7
@@ -11,7 +20,8 @@
 #define PAGES_X 243
 #define PAGES_Y 94
 
-#define PAGES_SPEED 10
+//スクロールスピード
+#define PAGES_SPEED 20
 
 
 class CTutorial:public CSceneBase

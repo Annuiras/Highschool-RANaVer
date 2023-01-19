@@ -1,12 +1,3 @@
-#pragma once
-#include "Stage.h"
-#include "ctime"
-#include "string"
-#include "Stage_DP.h"
-#include "Stage_Bar.h"
-#include "Stage_Obstacle.h"
-#include "Stage_Enemy.h"
-
 //////////////////////////////////////////////
 //	ステージ管理のプログラムです			//
 //									　　　　//
@@ -16,6 +7,15 @@
 //									　　　　//
 //　最終更新：2023/01/17			　　　　//
 //////////////////////////////////////////////
+
+#pragma once
+#include "Stage.h"
+#include "ctime"
+#include "string"
+#include "Stage_DP.h"
+#include "Stage_Bar.h"
+#include "Stage_Obstacle.h"
+#include "Stage_Enemy.h"
 
 CStage::CStage() :
 

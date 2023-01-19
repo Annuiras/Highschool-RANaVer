@@ -1,5 +1,3 @@
-#include "GameOver.h"
-
 //////////////////////////////////////////////
 //	ゲームオーバー画面のプログラムです　　  //
 //									　　　　//
@@ -10,9 +8,9 @@
 //　最終更新：2023/01/17			　　　　//
 //////////////////////////////////////////////
 
-#define MenuCnt (2)
+#include "GameOver.h"
 
-int GameOverCount = 0;
+
 
 //コンストラクタ
 CGameOver::CGameOver() :
@@ -21,7 +19,17 @@ CGameOver::CGameOver() :
 	m_StartButton(),
 	m_TextBack(),
 	m_TextStart(),
-	Rondom(0.0f)
+	m_ENDText(),
+	Rondom(0.0f),
+	recHPENDTex(),
+	recDPENDTex(),
+	PosXHPEND(),
+	PosXDPEND(),
+	m_BlackBakAlph(),
+	m_WhiteBakAlph(),
+	GameOverCount(),
+	HPEND(),
+	DPEND()
 {
 }
 

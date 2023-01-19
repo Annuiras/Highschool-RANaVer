@@ -1,5 +1,3 @@
-#include "MusicManager.h"
-
 ///////////////////////////////////////////
 //　音源管理のプログラムです   　　　　　//
 //								   　　　//
@@ -10,7 +8,11 @@
 //　最終更新：2023/01/17		   　　　//
 ///////////////////////////////////////////
 
-CMusicMgmt::CMusicMgmt()
+#include "MusicManager.h"
+
+CMusicMgmt::CMusicMgmt():
+	m_Music_SE(),
+	m_Music_BGM()
 {}
 
 CMusicMgmt::~CMusicMgmt()

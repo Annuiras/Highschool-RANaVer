@@ -1,6 +1,6 @@
 #pragma once
-#include	"Define.h"
-#include	"GameProgMgmt.h"
+#include "Define.h"
+#include "GameProgMgmt.h"
 #include "MusicManager.h"
 #include "EffectManager.h"
 #include "Menu.h"

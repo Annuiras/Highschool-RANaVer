@@ -1,13 +1,3 @@
-#pragma once
-#include "Define.h"
-#include "RandomValue.h"
-#include "DetailPoint.h"
-#include "Bar.h"
-#include "Obstacle.h"
-#include "Enemy.h"
-#include "EffectManager.h"
-#include "MusicManager.h"
-
 //////////////////////////////////////////////
 //	ステージ管理のプログラムです			//
 //									　　　　//
@@ -17,6 +7,15 @@
 //									　　　　//
 //　最終更新：2023/01/17			　　　　//
 //////////////////////////////////////////////
+
+#pragma once
+#include "RandomValue.h"
+#include "DetailPoint.h"
+#include "Bar.h"
+#include "Obstacle.h"
+#include "Enemy.h"
+#include "EffectManager.h"
+#include "MusicManager.h"
 
 ////DPの出現位置情報用構造体
 typedef struct tag_DP_POS
