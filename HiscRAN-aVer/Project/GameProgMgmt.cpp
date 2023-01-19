@@ -33,7 +33,6 @@ void CGameProgMgmt::Initialize(void)
 	{
 		Game_DPNum[i] = 0;
 		Game_SP_DPNum = 0;
-		Game_CalStatus[i] = 0;
 	}
 	Game_Over_HP = false;
 	DPdec_type = 0;
@@ -79,18 +78,20 @@ int CGameProgMgmt::GetDPdec_type(void)
 		break;
 
 	default:
-		Game_dp = 100;
+		//エラー
+		Game_dp = -1;
 		break;
 	}
 	return Game_dp;
 }
 
-//DP目標設定画面：SPフラグを
+//DP目標設定画面：SPフラグをセット
 void CGameProgMgmt::SetDPdec_SPflg(bool b)
 {
 	DPdec_SPflg = b;
 }
 
+//ゲーム画面：SPフラグをゲット
 bool CGameProgMgmt::GetDPdec_SPflg(void)
 {
 	return DPdec_SPflg;
@@ -108,17 +109,6 @@ bool CGameProgMgmt::GetGame_Over_HP(void)
 	return Game_Over_HP;
 }
 
-//DP選択画面：ステータスを初期化
-void CGameProgMgmt::InitializeStatus(void)
-{	
-	//ステータスを初期化
-	for (int i = 0; i < DP_COUNT; i++)
-	{
-		Game_CalStatus[i] = 0;
-	}
-
-}
-
 //ゲーム画面：DP取得数をセット
 void CGameProgMgmt::SetGame_DPNum(int DP[])
 {
@@ -127,9 +117,6 @@ void CGameProgMgmt::SetGame_DPNum(int DP[])
 	{
 		//通常ステージ中に取得したDPの数を保存
 		Game_DPNum[i] = DP[i];
-
-		//ステータスに加算
-		Game_CalStatus[i] += Game_DPNum[i] * DP_CONVERSION_STATUS;
 	}
 }
 
@@ -137,17 +124,19 @@ void CGameProgMgmt::SetGame_DPNum(int DP[])
 void CGameProgMgmt::SetGame_SP_DPNum(int SPDP)
 {
 	//SP中に取得したDPの数を保存
-	Game_SP_DPNum = SPDP;
-
-	//ステータスに加算
-	Game_CalStatus[GetDPdec_type()] += Game_SP_DPNum * SP_DP_CONVERSION_STATUS;
-	
+	Game_SP_DPNum = SPDP;	
 }
 
-//クリア画面：DP取得数からステータスを返す
-int* CGameProgMgmt::GetCal_Status(void)
+//クリア画面：DP取得数を返す
+int* CGameProgMgmt::Get_DPNum(void)
 {
-	return Game_CalStatus;
+	return Game_DPNum;
+}
+
+//クリア画面：SP_DP取得数を返す
+int CGameProgMgmt::Get_SP_DPNum(void)
+{
+	return Game_SP_DPNum;
 }
 
 //オプション画面：ボタン位置をセット

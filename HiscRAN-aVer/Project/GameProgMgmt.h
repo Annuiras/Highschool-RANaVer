@@ -28,9 +28,6 @@ private:
 	int Game_DPNum[DP_COUNT];
 	int Game_SP_DPNum;
 
-	//算出したステータスを保存
-	int Game_CalStatus[DP_COUNT];
-
 	//ゲームオーバー原因フラグ
 	bool Game_Over_HP;
 
@@ -70,16 +67,16 @@ public:
 	//ゲームオーバー画面：ゲームオーバー原因フラグゲット
 	bool GetGame_Over_HP(void);
 
-	//DP選択画面：ステータスを初期化
-	void InitializeStatus(void);
-
 	//ゲーム画面：DP取得数をセット
 	void SetGame_DPNum(int DP[]);
 	//ゲーム画面：SP_DP取得数をセット
 	void SetGame_SP_DPNum(int SPDP);
 
-	//クリア画面：DP取得数からステータスを返す
-	int* GetCal_Status(void);
+	//クリア画面：DP取得数を返す
+	int* Get_DPNum(void);
+
+	//クリア画面：SP_DP取得数を返す
+	int Get_SP_DPNum(void);
 
 	//オプション画面：ボタン位置をセット
 	void SetOption_Button_Pos(float BGM,float SE);

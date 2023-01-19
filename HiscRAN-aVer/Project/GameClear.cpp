@@ -394,12 +394,14 @@ void CGameClear::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* 
 		StatusRender[i] = 0;
 	}
 
-	//ゲーム画面からステータスを受けとる
+	//ステータス計算
 	for (int i = 0; i < DP_COUNT; i++)
 	{
-		Status[i] = *(b_GameProgMamt->GetCal_Status()+i);
+		//ゲーム画面からDP数を受けとる
+		Status[i] = (*(b_GameProgMamt->Get_DPNum()+i)* DP_CONVERSION_STATUS);
 	}
-
+	//SP
+	Status[b_GameProgMamt->GetDPdec_type()] = b_GameProgMamt->Get_SP_DPNum() * SP_DP_CONVERSION_STATUS;
 
 	//ステータスから最終容姿を判定する
 	StatusJudgement();
@@ -746,8 +748,5 @@ void CGameClear::Release(void)
 
 	//BGM停止
 	b_MusicManager->BGMStop(BGMT_CLEAR);
-
-	//ステータスを初期化
-	b_GameProgMamt->InitializeStatus();
 
 }
