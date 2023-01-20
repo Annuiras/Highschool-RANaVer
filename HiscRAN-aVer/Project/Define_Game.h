@@ -18,7 +18,7 @@
 #define STAGE_CLEAR_BAK 31
 
 //ステージスクロールスピード
-#define STAGE_SPEED 7
+#define STAGE_SPEED 8
 
 //重力
 #define  GRAVITY	0.7f
