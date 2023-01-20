@@ -197,7 +197,7 @@ void CGAME::Update(void)
 		if (!g_Stage.GetClear())
 		{
 			//開始時刻
-			m_StartTime = timeGetTime();
+			m_StartTime = timeGetTime()+1000;
 		}
 		return;
 	}
@@ -283,6 +283,13 @@ void CGAME::Update(void)
 			{
 				//メニューを非表示
 				b_MenuMamt->Hide();
+
+				//カウントダウン開始
+				m_StartCount = 0;
+				m_StartTime = timeGetTime() + 1000;
+
+				//停止
+				g_Stage.GameStopPlayChange();
 			}
 		}
 		return;
