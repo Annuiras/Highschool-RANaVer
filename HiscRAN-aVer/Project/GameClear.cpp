@@ -401,7 +401,7 @@ void CGameClear::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* 
 		Status[i] = (*(b_GameProgMamt->Get_DPNum()+i)* DP_CONVERSION_STATUS);
 	}
 	//SP
-	Status[b_GameProgMamt->GetDPdec_type()] = b_GameProgMamt->Get_SP_DPNum() * SP_DP_CONVERSION_STATUS;
+	Status[b_GameProgMamt->GetDPdec_type()] += b_GameProgMamt->Get_SP_DPNum() * SP_DP_CONVERSION_STATUS;
 
 	//ステータスから最終容姿を判定する
 	StatusJudgement();

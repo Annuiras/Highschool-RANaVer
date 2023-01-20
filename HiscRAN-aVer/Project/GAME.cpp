@@ -192,6 +192,13 @@ void CGAME::Update(void)
 	//フェードイン処理
 	if (b_Fadein == FADE_IN) {
 		m_WhiteBakAlph = FadeIn(m_WhiteBakAlph, true);
+
+		//フェードイン終わり次第カウント開始
+		if (!g_Stage.GetClear())
+		{
+			//開始時刻
+			m_StartTime = timeGetTime();
+		}
 		return;
 	}
 
@@ -255,15 +262,6 @@ void CGAME::Update(void)
 			m_WhiteBakAlph = FadeOut(m_WhiteBakAlph, true);
 		}
 		return;
-	}
-
-
-	//ゲーム開始切り替え
-	//開始時にカウントダウン開始
-	if (g_pInput->IsKeyPush(MOFKEY_RETURN) && !g_Stage.GetClear())
-	{
-		//開始時刻
-		m_StartTime = timeGetTime();
 	}
 
 	//メニュー表示中

@@ -251,9 +251,6 @@ bool CStage::Load() {
 	if (!m_BarTextuer.Load("Game_Bar.png")) {
 		return false;
 	}
-	if (!m_CharaIconTexture.Load("Game_CharaIcon.png")) {
-		return false;
-	}
 	if (!m_CharaProgressTextuer.Load("Game_CharaProgress.png")) {
 		return false;
 	}
