@@ -343,7 +343,6 @@ void COption::Update(void)
 	}
 }
 
-
 void COption::UpdateDebug(void) {
 
 	//ê‡ñæï\é¶
