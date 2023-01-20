@@ -35,7 +35,7 @@ void CGAME::UpdateDebug(void)
 {
 
 	//ˆêŽž“I‚È’Ç‰Á‚Å‚·
-//ƒQ[ƒ€ˆêŽž’âŽ~
+	//ƒQ[ƒ€ˆêŽž’âŽ~
 	if (g_pInput->IsKeyPush(MOFKEY_0)) {
 		g_Stage.GameStopPlayChange();
 

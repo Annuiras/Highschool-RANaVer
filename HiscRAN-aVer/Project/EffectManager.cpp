@@ -50,6 +50,8 @@ tag_LoadSituation CEffectMgmt::Load(void) {
 		"Communication_UP_Arrow.png",
 		"Charm_UP_Arrow.png",
 
+		"Sweat_Motion.png",
+
 	};
 
 	for (int i = 0; i < EFC_TYPE_COUNT; i++)
@@ -146,8 +148,12 @@ void CEffectMgmt::Update(CRectangle plrec) {
 				case EFC_GET_COMMUNICATION_AROOW:
 				case EFC_GET_CHARM_AROOW:
 				m_Effect[type][mgmt].UpdateDP(plrec);
-
 				break;
+
+				case EFC_DAMAGE_HIT:
+					m_Effect[type][mgmt].UpdateDP(plrec);
+					break;
+
 			default:
 				break;
 			}

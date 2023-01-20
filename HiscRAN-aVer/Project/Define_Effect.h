@@ -28,5 +28,7 @@ enum tag_EFFECTTYPE {
 	EFC_GET_COMMUNICATION_AROOW,	//DPコミュ力取得↑矢印
 	EFC_GET_CHARM_AROOW,			//DP魅力取得↑矢印
 
+	EFC_DAMAGE_HIT,			//ダメージエフェクト
+
 	EFC_TYPE_COUNT,
 };
