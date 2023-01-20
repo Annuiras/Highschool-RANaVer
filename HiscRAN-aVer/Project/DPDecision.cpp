@@ -133,6 +133,9 @@ void CDPDecision::Update(void)
 	//BGM再生
 	b_MusicManager->BGMStart(BGMT_DPDECISION);
 
+	//デバック更新
+	UpdateDebug();
+
 	//フェードイン処理
 	if (b_Fadein == FADE_IN) {
 		m_WhiteBakAlph = FadeIn(m_WhiteBakAlph,true);
@@ -162,11 +165,6 @@ void CDPDecision::Update(void)
 		return;
 	}
 
-	//SPフラグの切り替え
-	if (g_pInput->IsKeyPush(MOFKEY_P))
-	{
-		SP_flg = !SP_flg;
-	}
 
 	//説明表示中
 	if (flagD == true)
@@ -299,6 +297,17 @@ void CDPDecision::Update(void)
 		}
 
 	}
+}
+
+void CDPDecision::UpdateDebug(void)
+{
+
+	//SPフラグの切り替え
+	if (g_pInput->IsKeyPush(MOFKEY_P))
+	{
+		SP_flg = !SP_flg;
+	}
+
 }
 
 //描画

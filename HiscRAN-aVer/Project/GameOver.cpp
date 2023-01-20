@@ -185,6 +185,10 @@ void CGameOver::Update(void)
 	}
 }
 
+void CGameOver::UpdateDebug(void)
+{
+}
+
 //•`‰æ
 void CGameOver::Render(void)
 {

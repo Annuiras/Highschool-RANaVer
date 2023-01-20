@@ -414,6 +414,8 @@ void CGameClear::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* 
 //更新
 void CGameClear::Update(void)
 {
+	UpdateDebug();
+
 	//BGM再生
 	b_MusicManager->BGMStart(BGMT_CLEAR);
 
@@ -467,6 +469,29 @@ void CGameClear::Update(void)
 			isStop = false;
 		}
 	}
+
+	//グラフがじわじわ動く
+	for (int i = 0; i < ITEM_NUM; i++)
+	{
+		if (Status[i]>= StatusRender[i])
+		{
+			if (Status[i] >= 100) {
+				StatusRender[i]+=2;
+			}
+			StatusRender[i]++;
+		}
+	}
+
+
+	// チャートを生成
+	//グラフ生成
+	buildChart(StatusRender, PointsStatus);
+
+	//デバック用
+	buildChart(Memory1, MemoryPoints1);
+}
+
+void CGameClear::UpdateDebug(void) {
 
 	//デバッグ用使いにくい修正する
 	if (g_pInput->IsKeyHold(MOFKEY_RCONTROL)) {
@@ -552,7 +577,7 @@ void CGameClear::Update(void)
 				Status[0] -= 1;
 
 			}
-			else 
+			else
 			{
 				//DP
 				Status[0] += 1;
@@ -637,28 +662,7 @@ void CGameClear::Update(void)
 
 	}
 
-
-	//グラフがじわじわ動く
-	for (int i = 0; i < ITEM_NUM; i++)
-	{
-		if (Status[i]>= StatusRender[i])
-		{
-			if (Status[i] >= 100) {
-				StatusRender[i]+=2;
-			}
-			StatusRender[i]++;
-		}
-	}
-
-
-	// チャートを生成
-	//グラフ生成
-	buildChart(StatusRender, PointsStatus);
-
-	//デバック用
-	buildChart(Memory1, MemoryPoints1);
 }
-
 //描画
 void CGameClear::Render(void)
 {

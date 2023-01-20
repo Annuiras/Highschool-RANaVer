@@ -219,6 +219,9 @@ void CGallery::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* ef
 //更新
 void CGallery::Update(void)
 {
+
+	UpdateDebug();
+
 	//BGM再生
 	b_MusicManager->BGMStart(BGMT_GALLERY);
 
@@ -241,15 +244,6 @@ void CGallery::Update(void)
 		m_BakAlph = FadeOut(m_BakAlph, true);
 		return;
 	}
-
-
-	//フラグ切り換え
-	//後日デバックに書き写し
-	if (g_pInput->IsKeyPush(MOFKEY_0))
-	{
-		S_LastParameter[m_galleryCnt].s_LastAddFlag = S_LastParameter[m_galleryCnt].s_LastAddFlag ? !S_LastParameter[m_galleryCnt].s_LastAddFlag : !S_LastParameter[m_galleryCnt].s_LastAddFlag;
-	}
-
 
 	//Enterで戻る
 	if (m_galleryCnt == 15 && g_pInput->IsKeyPush(MOFKEY_RETURN))
@@ -304,6 +298,19 @@ void CGallery::Update(void)
 		}
 	}
 
+
+}
+
+
+void CGallery::UpdateDebug(void) {
+
+
+	//フラグ切り換え
+	//後日デバックに書き写し
+	if (g_pInput->IsKeyPush(MOFKEY_0))
+	{
+		S_LastParameter[m_galleryCnt].s_LastAddFlag = S_LastParameter[m_galleryCnt].s_LastAddFlag ? !S_LastParameter[m_galleryCnt].s_LastAddFlag : !S_LastParameter[m_galleryCnt].s_LastAddFlag;
+	}
 
 }
 

@@ -51,6 +51,7 @@ public:
 							CEffectMgmt* effec,CMenu* menu) = 0;
 	virtual void Load() = 0;
 	virtual void Update() = 0;
+	virtual void UpdateDebug() = 0;
 	virtual void Render() = 0;
 	virtual void RenderDebug() = 0;
 	virtual void Release() = 0;

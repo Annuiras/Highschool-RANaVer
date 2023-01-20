@@ -114,12 +114,11 @@ void CTitle::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effe
 void CTitle::Update(void)
 {
 
-		//左にスクロールしていく
-		m_Scroll -= SCROLL_SPEED;		
-		//m_Scroll -=  + 10;
+	//左にスクロールしていく
+	m_Scroll -= SCROLL_SPEED;		
+	//m_Scroll -=  + 10;
 
 	
-
 	//フェードイン処理
 	if (b_Fadein == FADE_IN) {
 		m_BakAlph = FadeIn(m_BakAlph, true);
@@ -168,6 +167,10 @@ void CTitle::Update(void)
 		m_NextScene = SCENENO_SELECTMODE;
 	}
 
+}
+
+void CTitle::UpdateDebug(void)
+{
 }
 
 //描画

@@ -30,6 +30,62 @@ CGAME::~CGAME()
 
 }
 
+
+void CGAME::UpdateDebug(void)
+{
+
+	//一時的な追加です
+//ゲーム一時停止
+	if (g_pInput->IsKeyPush(MOFKEY_0)) {
+		g_Stage.GameStopPlayChange();
+
+	}
+
+	//Cでゲームクリア画面
+	if (g_pInput->IsKeyPush(MOFKEY_C))
+	{
+		m_GameClearflg = true;
+	}
+
+	//Vでゲームオーバー画面
+	else if (g_pInput->IsKeyPush(MOFKEY_V))
+	{
+		m_GameOverflg = true;
+	}
+
+	//一時的な追加です
+	//リスタート
+	if (g_pInput->IsKeyPush(MOFKEY_F1)) {
+
+		//初期化
+		Initialize(b_GameProgMamt, b_MusicManager, b_EffectManeger, b_MenuMamt);
+	}
+
+	//デバッグ用
+	if (g_pInput->IsKeyPush(MOFKEY_1)) {
+		//DP
+		UPdeteCollisionDP(DP_SCHOLASTIC);
+	}
+	if (g_pInput->IsKeyPush(MOFKEY_2)) {
+		//DP
+		UPdeteCollisionDP(DP_ACTION);
+	}
+	if (g_pInput->IsKeyPush(MOFKEY_3)) {
+		//DP
+		UPdeteCollisionDP(DP_IMAGINATION);
+	}
+	if (g_pInput->IsKeyPush(MOFKEY_4)) {
+		//DP
+		UPdeteCollisionDP(DP_COMMUNICATION);
+	}
+	if (g_pInput->IsKeyPush(MOFKEY_5)) {
+		//DP
+		UPdeteCollisionDP(DP_CHARM);
+	}
+
+
+}
+
 //素材読み込み
 void CGAME::Load(void)
 {
@@ -130,6 +186,8 @@ void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec
 //更新
 void CGAME::Update(void)
 {
+	//デバック
+	UpdateDebug();
 
 	//フェードイン処理
 	if (b_Fadein == FADE_IN) {
@@ -233,6 +291,7 @@ void CGAME::Update(void)
 	}
 	else if(g_pInput->IsKeyPush(MOFKEY_ESCAPE))
 	{
+		//ゲーム中断メニュー表示
 		b_MenuMamt->Show(MENUT_GAME_END);
 	}
 
@@ -259,55 +318,6 @@ void CGAME::Update(void)
 		if (m_StartScale >= 1.0f) {
 			m_StartScale = 1.0f;
 		}
-	}
-
-	//一時的な追加です
-	//ゲーム一時停止
-	if (g_pInput->IsKeyPush(MOFKEY_0)) {
-		g_Stage.GameStopPlayChange();
-
-	}
-
-	//Cでゲームクリア画面
-	if (g_pInput->IsKeyPush(MOFKEY_C))
-	{
-		m_GameClearflg = true;
-	}
-
-	//Vでゲームオーバー画面
-	else if (g_pInput->IsKeyPush(MOFKEY_V))
-	{
-		m_GameOverflg = true;
-	}
-
-	//一時的な追加です
-	//リスタート
-	if (g_pInput->IsKeyPush(MOFKEY_F1)) {
-
-		//初期化
-		Initialize(b_GameProgMamt, b_MusicManager, b_EffectManeger,b_MenuMamt);
-	}
-
-	//デバッグ用
-	if (g_pInput->IsKeyPush(MOFKEY_1)) {
-		//DP
-		UPdeteCollisionDP(DP_SCHOLASTIC);
-	}
-	if (g_pInput->IsKeyPush(MOFKEY_2)) {
-		//DP
-		UPdeteCollisionDP(DP_ACTION);
-	}
-	if (g_pInput->IsKeyPush(MOFKEY_3)) {
-		//DP
-		UPdeteCollisionDP(DP_IMAGINATION);
-	}
-	if (g_pInput->IsKeyPush(MOFKEY_4)) {
-		//DP
-		UPdeteCollisionDP(DP_COMMUNICATION);
-	}
-	if (g_pInput->IsKeyPush(MOFKEY_5)) {
-		//DP
-		UPdeteCollisionDP(DP_CHARM);
 	}
 
 

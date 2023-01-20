@@ -202,6 +202,9 @@ void COption::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* eff
 //更新
 void COption::Update(void)
 {
+
+	UpdateDebug();
+
 	//フェードイン処理
 	if (b_Fadein == FADE_IN) {
 		m_BakAlph = FadeIn(m_BakAlph, true);
@@ -221,25 +224,6 @@ void COption::Update(void)
 		return;
 	}
 
-	//F1キーでタイトル画面へ
-	if (g_pInput->IsKeyPush(MOFKEY_F1))
-	{
-		m_bEnd = true;
-		m_NextScene = SCENENO_TITLE;
-	}
-
-	//説明表示
-	if (g_pInput->IsKeyPush(MOFKEY_F3))
-	{
-		if (flag == true)
-		{
-			flag = false;
-		}
-		else
-		{
-			flag = true;
-		}
-	}
 
 	//戻るボタンでモードセレクト画面へ
 	//Enterで戻るかは検討中
@@ -357,6 +341,24 @@ void COption::Update(void)
 			ScreenSize = true;
 		}
 	}
+}
+
+
+void COption::UpdateDebug(void) {
+
+	//説明表示
+	if (g_pInput->IsKeyPush(MOFKEY_F3))
+	{
+		if (flag == true)
+		{
+			flag = false;
+		}
+		else
+		{
+			flag = true;
+		}
+	}
+
 }
 
 //描画

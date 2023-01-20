@@ -63,6 +63,9 @@ public:
 	~CDPDecision();
 	void Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec, CMenu* menu);
 	void Update(void);
+
+	void UpdateDebug(void);
+
 	void Render(void);
 	void RenderDebug(void);
 	void Load(void);

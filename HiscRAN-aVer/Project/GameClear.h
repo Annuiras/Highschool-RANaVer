@@ -106,6 +106,9 @@ public:
 	void buildChart(int* Status, Vector2* PointsStatus);
 	void drawChart(Vector2* PointsStatus, MofU32 cl);
 	void Update(void);
+
+	void UpdateDebug(void);
+
 	void Render(void);
 	void RenderDebug(void);
 	void Load(void);

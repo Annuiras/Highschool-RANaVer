@@ -52,7 +52,11 @@ public:
 	CModeSelect();
 	~CModeSelect();
 	void Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effecs, CMenu* menu);
+
 	void Update(void);
+
+	void UpdateDebug(void);
+
 	void Render(void);
 	void RenderDebug(void);
 	void Load(void);

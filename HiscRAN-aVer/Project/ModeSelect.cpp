@@ -238,6 +238,12 @@ void CModeSelect::Update()
 	}
 }
 
+
+void CModeSelect::UpdateDebug(void)
+{
+
+}
+
 void CModeSelect::Render(void)
 {
 	//‰æ‘œ‚ðØ‚èŽæ‚é‚½‚ß‚Ì‹éŒ`
@@ -411,3 +417,4 @@ void CModeSelect::Release(void)
 	b_MusicManager->BGMStop(BGMT_MOOP);
 
 }
+

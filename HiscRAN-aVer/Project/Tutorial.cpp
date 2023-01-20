@@ -389,3 +389,7 @@ void CTutorial::Release(void)
 	BackButton.Release();
 	ButtonSelect.Release();
 }
+
+void CTutorial::UpdateDebug(void)
+{
+}
