@@ -260,6 +260,8 @@ private:
 	int m_RandamuBakLeft;
 	//右側
 	int m_RandamuBakRight;
+	//保存用
+	int m_RandamuBakRightSave;
 
 	//使用済みパターン番号記録用配列
 	int	m_AlreadyUsedArray[MAP_INFO_PATTERN];

@@ -35,6 +35,7 @@ CStage::CStage() :
 	m_AlreadyUsedArray(),
 	SP_flg(),
 	m_bClear(false),
+	m_RandamuBakRightSave(),
 	m_Scroll_Speed(0.0f)
 {}
 
@@ -726,9 +727,20 @@ void CStage::Render(void) {
 		//右側で表示していたものと同じものを左側で表示
 		m_RandamuBakLeft = m_RandamuBakRight;
 
-		//右側はランダムに数値を入れる
+		//一時保存
+		m_RandamuBakRightSave = m_RandamuBakRight;
+
+		//右側に次の背景番号を入れる
 		m_RandamuBakRight = m_BakComposition[m_countbak];
 
+		//0で止まった,
+		//最後の背景以外
+		if (m_BakScroll == 0 && m_countbak < 30) {
+
+			//保存したものを採用
+			m_RandamuBakRight = m_RandamuBakRightSave;
+
+		}
 	}
 
 	//背景スクロール値＝背景画像の横幅：だんだん減る
