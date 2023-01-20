@@ -169,6 +169,10 @@ void CPlayer::Update(void) {
 		}
 	}
 
+	//è¨ÉWÉÉÉìòAë±ëjé~
+	if (g_pInput->IsKeyPull(MOFKEY_SPACE)) {
+		m_BSflg = false;
+	}
 
 	//èdóÕîΩâf
 	m_MoveY += GRAVITY;
