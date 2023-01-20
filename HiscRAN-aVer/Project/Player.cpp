@@ -140,6 +140,14 @@ void CPlayer::Update(void) {
 
 	}
 
+	if (g_pInput->IsKeyPull(MOFKEY_F)) {
+
+		//ダメージ処理
+		m_HP++;
+	}
+
+
+
 	//ジャンプ処理
 	if (g_pInput->IsKeyHold(MOFKEY_SPACE) && m_BSflg) {
 
@@ -291,6 +299,8 @@ void CPlayer::UPdateCollisionOB() {
 
 	//HP減らす
 	m_HP -= 1;
+
+	m_pEffectMgmt->Start(0,0,EFC_DAMAGE_HIT);
 
 	//無敵時間
 	m_DamageWait = INVINCIBLE_TIME;

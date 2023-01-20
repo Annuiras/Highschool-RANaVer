@@ -43,6 +43,7 @@ void CEffect::Initialize(int type) {
 	m_bShow = false;
 
 	float DP_coma = 2.8;
+	float S_coma = 3;
 
 	switch (type)
 	{
@@ -64,10 +65,27 @@ void CEffect::Initialize(int type) {
 
 				//DP取得エフェクト
 				{
-					"エフェクト",
+					"DP取得",
 					0,0,
 					200,200,
 					FALSE,{{DP_coma,0,0},{DP_coma,1,0},{DP_coma,2,0},{DP_coma,3,0},{DP_coma,4,0},{DP_coma,0,1},{DP_coma,1,1},{DP_coma,2,1},{DP_coma,3,1},{DP_coma,4,1},{DP_coma,0,2},{DP_coma,1,2},}
+				},
+			};
+			m_Motion.Create(anim, 1);
+			break;
+		}
+
+		case EFC_DAMAGE_HIT:
+		{
+			//アニメーションを作成
+			SpriteAnimationCreate anim[] = {
+
+				//ダメージエフェクト
+				{
+					"ダメージ",
+					0,0,
+					160,185,
+					FALSE,{{S_coma,0,0},{S_coma,1,0},{S_coma,2,0},{S_coma,3,0},{S_coma,4,0},{S_coma,6,0},{S_coma,7,0},{S_coma,8,0},{S_coma,9,0}}
 				},
 			};
 			m_Motion.Create(anim, 1);
