@@ -38,7 +38,10 @@ private:
 	//メニュー選択チェックマーク
 	CTexture	m_MenuCheck;
 
+	//描画位置変数(X座標)
 	float		m_cx;
+
+	//描画位置変数(Y座標)
 	float		m_cy;
 
 	//選択肢数

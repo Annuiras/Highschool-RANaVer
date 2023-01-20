@@ -129,7 +129,7 @@ void CTitle::Update(void)
 	b_MusicManager->BGMStart(BGMT_TITLE);
 
 	//α値変更処理
-//ちかちかさせてる
+	//ちかちかさせてる
 	if (!isStop)
 	{
 		gAlpha += 3;
@@ -192,7 +192,7 @@ void CTitle::Render(void)
 
 	}
 
-
+	//背景スクロール処理
 	for (float x = ((int)m_Scroll % W) - W; x < scw; x += W)
 	{
 		if (x > 0)
