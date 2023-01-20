@@ -24,12 +24,12 @@ CGameOver::CGameOver() :
 	recHPENDTex(),
 	recDPENDTex(),
 	PosXHPEND(),
-	PosXDPEND(),
+	//PosXDPEND(),
 	m_BlackBakAlph(),
 	m_WhiteBakAlph(),
 	GameOverCount(),
-	HPEND(),
-	DPEND()
+	HPEND()
+	//DPEND()
 {
 }
 
@@ -104,13 +104,15 @@ void CGameOver::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* e
 	m_WhiteBakAlph = 0;
 	b_Fadein = FADE_IN;
 
+	//ランダムで変数を決める
 	Rondom = CUtilities::Random(0, 3);
 
 	//現在のシーンセット
 	m_NowScene = SCENENO_GAMEOVER;
 
 	//ゲームオーバー原因をセット
-	DPEND = b_GameProgMamt->GetGame_Over_HP();
+	//今後復活するかもしれないのでコメントアウト
+	//DPEND = b_GameProgMamt->GetGame_Over_HP();
 
 }
 
@@ -146,7 +148,8 @@ void CGameOver::Update(void)
 		return;
 	}
 
-
+	//右矢印キーを押した時
+	//やめるにカーソルが行く
 	if (g_pInput->IsKeyPush(MOFKEY_RIGHT))
 	{
 		if (GameOverCount < MenuCnt - 1)
@@ -154,6 +157,8 @@ void CGameOver::Update(void)
 			GameOverCount++;
 		}
 	}
+	//左矢印キーを押した時
+	//初めからにカーソルが行く
 	else if (g_pInput->IsKeyPush(MOFKEY_LEFT))
 	{
 		if (GameOverCount > 0)
@@ -177,6 +182,11 @@ void CGameOver::Update(void)
 		m_NextScene = SCENENO_GAME;
 	}
 
+	
+}
+
+void CGameOver::UpdateDebug(void)
+{
 	//F1キーでタイトル画面へ
 	if (g_pInput->IsKeyPush(MOFKEY_F1))
 	{
@@ -185,23 +195,21 @@ void CGameOver::Update(void)
 	}
 }
 
-void CGameOver::UpdateDebug(void)
-{
-}
-
 //描画
 void CGameOver::Render(void)
 {
 	m_BackTexture.Render(0, 0);
 
+	//HPが無くなって死んだときの背景
 	if (HPEND)
 	{
 		m_ENDText.Render(PosXHPEND[Rondom], 140, recHPENDTex[Rondom]);
 	}
-	else 
+	//今後使うかもしれないのでコメントアウト
+	/*else 
 	{
 		m_ENDText.Render(PosXDPEND[Rondom], 140, recDPENDTex[Rondom]);
-	}
+	}*/
 
 	if (GameOverCount == 0)
 	{

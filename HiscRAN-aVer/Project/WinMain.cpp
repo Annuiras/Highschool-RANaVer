@@ -12,9 +12,11 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLi
 	Mof::WINDOWSGAMEFRAMEWORKINITIALIZEINFO Info;
 	Info.pApplication = new CGameApp();
 
+	//画面のサイズ変更
 	Info.WindowCreateInfo.Width = 1280;
 	Info.WindowCreateInfo.Height = 720;
 
+	//左上に表示されるアイコンと、名称を変更
 	Info.WindowCreateInfo.hIcon = LoadIconA(hInstance, MAKEINTRESOURCE(IDI_ICON1));
 	Info.WindowCreateInfo.Title = "ハイスクールRAN";
 

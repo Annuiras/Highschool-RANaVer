@@ -104,12 +104,14 @@ void COption::Load(void)
 		return;
 	}
 
+	//‘I‘ð‚µ‚Ä‚é‚©‚µ‚Ä‚È‚¢‚©‰æ‘œ
 	if (!m_Select_SE.Load("Option_Sse.png"))
 	{
 		b_LoadSitu = LOAD_ERROR;
 		return;
 	}
 
+	//‘I‘ð‚µ‚Ä‚é‚©‚µ‚Ä‚È‚¢‚©‰æ‘œ
 	if (!m_Select_Screen.Load("Option_Sscreen.png"))
 	{
 		b_LoadSitu = LOAD_ERROR;
