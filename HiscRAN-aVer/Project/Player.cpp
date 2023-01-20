@@ -77,7 +77,15 @@ bool CPlayer::Load(void) {
 			0,185,
 			160,185,
 			FALSE,{{5,0,0}}
+		},
+
+		{
+			"—Ž‰º",
+			0,185,
+			160,185,
+			FALSE,{{5,1,0}}
 		}
+
 	};
 	m_Motion.Create(anim, MOTION_COUNT);
 
@@ -190,7 +198,7 @@ void CPlayer::Update(void) {
 
 	//‰º~’†
 	if (m_MoveY > 1) {
-		m_Motion.ChangeMotion(MOTION_JUMPSTART);
+		m_Motion.ChangeMotion(MOTION_JUMPFALL);
 		m_Jumpflg = true;
 		m_BSflg = false;
 	}

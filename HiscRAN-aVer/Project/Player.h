@@ -74,6 +74,7 @@ private:
 	enum tag_MOTION {
 		MOTION_MOVE,		//移動
 		MOTION_JUMPSTART,	//ジャンプ開始
+		MOTION_JUMPFALL,	//落下時
 		MOTION_COUNT,		//総数
 	};
 
