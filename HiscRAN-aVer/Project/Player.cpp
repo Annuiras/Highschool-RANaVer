@@ -77,7 +77,15 @@ bool CPlayer::Load(void) {
 			0,185,
 			160,185,
 			FALSE,{{5,0,0}}
+		},
+
+		{
+			"落下",
+			0,185,
+			160,185,
+			FALSE,{{5,1,0}}
 		}
+
 	};
 	m_Motion.Create(anim, MOTION_COUNT);
 
@@ -200,11 +208,20 @@ void CPlayer::Update(void) {
 
 	}
 
-	//下降中
+	//落下時
 	if (m_MoveY > 1) {
-		m_Motion.ChangeMotion(MOTION_JUMPSTART);
+
+		//足場から降りた時に専用モーションに切り替え
+		//ジャンプ時はしない
+		if (m_Motion.GetMotionNo() == MOTION_MOVE) {
+			//落下時モーション
+			m_Motion.ChangeMotion(MOTION_JUMPFALL);
+
+		}
+		//足場に乗るための処理
 		m_Jumpflg = true;
 		m_BSflg = false;
+
 	}
 
 

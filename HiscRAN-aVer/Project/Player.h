@@ -57,7 +57,7 @@ private:
 	//死亡フラグ
 	bool				m_deathflg;
 
-	//ジャンプフラグ     上に加算されている間のフラグ
+	//ジャンプフラグ     上昇中フラグ
 	bool					m_Jumpflg;
 
 	//大小ジャンプフラグ 大ジャンプ:true
@@ -74,6 +74,7 @@ private:
 	enum tag_MOTION {
 		MOTION_MOVE,		//移動
 		MOTION_JUMPSTART,	//ジャンプ開始
+		MOTION_JUMPFALL,	//落下時
 		MOTION_COUNT,		//総数
 	};
 
