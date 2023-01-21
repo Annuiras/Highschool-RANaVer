@@ -323,7 +323,7 @@ void CGallery::Render(void)
 	m_BackTexture.Render(0, 0);
 
 	//左側本棚表示
-	m_LastApp.Render(60, 40);
+	m_LastApp.Render(58, 40);
 
 	//戻るボタン
 	m_BackButton.Render(60, 650);
@@ -335,7 +335,7 @@ void CGallery::Render(void)
 		if (S_LastParameter[i].s_LastAddFlag == false)
 		{
 			//未開放本テクスチャ
-			S_LastParameter[i].s_NotLastApp.Render(60 + (120 * (i % 5)), 40 + ((i / 5) * 200));
+			S_LastParameter[i].s_NotLastApp.Render(58 + (120 * (i % 5)), 40 + ((i / 5) * 200));
 		}
 
 	}
