@@ -159,6 +159,7 @@ void CPlayer::Update(void) {
 	//ƒWƒƒƒ“ƒvˆ—
 	if (g_pInput->IsKeyHold(MOFKEY_SPACE) && m_BSflg) {
 
+		m_MusicMgmt->SEStop(SE_T_FOOTSTEPS);
 		//SEÄ¶
 		m_MusicMgmt->SEStart(SE_T_JUMP);
 
@@ -188,6 +189,10 @@ void CPlayer::Update(void) {
 	//¬ƒWƒƒƒ“˜A‘±‘jŽ~
 	if (g_pInput->IsKeyPull(MOFKEY_SPACE)) {
 		m_BSflg = false;
+	}
+	//‘«‰¹Ä¶
+	if (m_Motion.GetMotionNo()== MOTION_MOVE&& !m_MusicMgmt->SEisPlay(SE_T_FOOTSTEPS)) {
+		m_MusicMgmt->SEStart(SE_T_FOOTSTEPS);
 	}
 
 	//d—Í”½‰f
@@ -221,6 +226,7 @@ void CPlayer::Update(void) {
 		//‘«ê‚Éæ‚é‚½‚ß‚Ìˆ—
 		m_Jumpflg = true;
 		m_BSflg = false;
+		m_MusicMgmt->SEStop(SE_T_FOOTSTEPS);
 
 	}
 
@@ -331,6 +337,8 @@ void CPlayer::UPdateCollisionOB() {
 		m_deathflg = true;
 		m_HP = 0;
 		m_DamageWait = 0;
+
+		m_MusicMgmt->SEStop(SE_T_GREAT_JUMP);
 	}
 }
 

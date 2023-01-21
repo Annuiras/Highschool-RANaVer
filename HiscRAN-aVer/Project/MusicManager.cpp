@@ -31,6 +31,9 @@ tag_LoadSituation CMusicMgmt::Load(void) {
 		"great_jump.mp3",
 		"jumpLanding.mp3",
 
+		//‘«‰¹
+		"Footsteps.mp3",
+
 		//ƒqƒbƒgŒn
 		//DP‚ðŠl“¾‚µ‚½‚Æ‚«‚ÌSE
 		"DP_GET.mp3",

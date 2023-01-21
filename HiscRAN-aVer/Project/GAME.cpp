@@ -298,6 +298,9 @@ void CGAME::Update(void)
 	{
 		//ゲーム中断メニュー表示
 		b_MenuMamt->Show(MENUT_GAME_END);
+
+		//SE停止
+		b_MusicManager->SEALLStop();
 	}
 
 	//カウントダウン判定

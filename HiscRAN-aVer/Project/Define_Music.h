@@ -17,9 +17,10 @@
 enum tag_SE_TYPE {
 
 	//ゲーム,オーバー,クリア画面
-	SE_T_JUMP,			//ジャンプ候補
+	SE_T_JUMP,			//ジャンプ
 	SE_T_GREAT_JUMP,	//グレートジャンプ
 	SE_T_JUMP_LANDING,	//ジャンプ着地
+	SE_T_FOOTSTEPS,		//足音
 	SE_T_DP_HIT,		//DP_GET候補
 	SE_T_HIT,			//被弾_候補
 	SE_T_GAMEOVER,		//Gameover_候補
