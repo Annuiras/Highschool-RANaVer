@@ -218,6 +218,7 @@ void COption::Update(void)
 		b_GameProgMamt->SetOption_Button_Pos(Botton_BGMPosy, Botton_SEPosy);
 		m_bEnd = true;
 		m_NextScene = SCENENO_SELECTMODE;
+		return;
 	}
 
 	//フェードアウト処理

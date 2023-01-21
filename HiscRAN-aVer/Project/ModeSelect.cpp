@@ -174,6 +174,7 @@ void CModeSelect::Update()
 			m_NextScene = SCENENO_OPTION;
 			break;
 		}
+		return;
 	}
 
 	//フェードアウト処理

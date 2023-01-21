@@ -236,6 +236,8 @@ void CGAME::Update(void)
 			m_bEnd = true;
 			m_NextScene = SCENENO_SELECTMODE;
 		}
+
+		return;
 	}
 
 	//フェードアウト処理

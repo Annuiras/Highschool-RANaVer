@@ -129,6 +129,7 @@ void CGameOver::Update(void)
 	//フェードアウト完了時
 	if (b_Fadein == FADE_NEXT) {
 		m_bEnd = true;
+		return;
 	}
 
 	//フェードアウト処理

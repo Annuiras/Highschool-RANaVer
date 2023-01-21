@@ -156,7 +156,7 @@ void CDPDecision::Update(void)
 			m_bEnd = true;
 			m_NextScene = SCENENO_GAME;
 		}
-
+		return;
 	}
 
 	//フェードアウト処理

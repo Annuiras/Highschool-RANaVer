@@ -25,7 +25,8 @@ CPlayer::CPlayer() :
 	m_BSflg(true),
 	m_MusicMgmt(),
 	m_pEffectMgmt(),
-	_unrivaled()
+	_unrivaled(),
+	_chare_A()
 {
 }
 
@@ -141,8 +142,11 @@ void CPlayer::Update(void) {
 
 		//ゲームオーバー更新
 		if (m_HP <= 0) {
+			//死亡フラグセット
 			m_deathflg = true;
 			m_HP = 0;
+
+			//無敵時間なし
 			m_DamageWait = 0;
 		}
 
@@ -159,7 +163,9 @@ void CPlayer::Update(void) {
 	//ジャンプ処理
 	if (g_pInput->IsKeyHold(MOFKEY_SPACE) && m_BSflg) {
 
+		//足音停止
 		m_MusicMgmt->SEStop(SE_T_FOOTSTEPS);
+
 		//SE再生
 		m_MusicMgmt->SEStart(SE_T_JUMP);
 
@@ -226,6 +232,8 @@ void CPlayer::Update(void) {
 		//足場に乗るための処理
 		m_Jumpflg = true;
 		m_BSflg = false;
+
+		//足音再生
 		m_MusicMgmt->SEStop(SE_T_FOOTSTEPS);
 
 	}
@@ -327,6 +335,7 @@ void CPlayer::UPdateCollisionOB() {
 	//HP減らす
 	m_HP -= 1;
 
+	//ダメージエフェクト再生
 	m_pEffectMgmt->Start(0,0,EFC_DAMAGE_HIT);
 
 	//無敵時間
@@ -334,11 +343,15 @@ void CPlayer::UPdateCollisionOB() {
 
 	//ゲームオーバー更新
 	if (m_HP <= 0) {
+
+		//死亡フラグセット
 		m_deathflg = true;
 		m_HP = 0;
+
+		//無敵時間なし
 		m_DamageWait = 0;
 
-		m_MusicMgmt->SEStop(SE_T_GREAT_JUMP);
+		m_MusicMgmt->SEStop(SE_T_FOOTSTEPS);
 	}
 }
 
@@ -362,6 +375,11 @@ void CPlayer::UpdateClear(void)
 	//地面よりも下か？
 	if (m_PosY + m_SrcRect.GetHeight() >= GROUND_Y) {
 		UPdateCollisionGround(GROUND_Y);
+	}
+
+	//足音再生
+	if (m_Motion.GetMotionNo() == MOTION_MOVE && !m_MusicMgmt->SEisPlay(SE_T_FOOTSTEPS)) {
+		m_MusicMgmt->SEStart(SE_T_FOOTSTEPS);
 	}
 
 	//アニメーション再生

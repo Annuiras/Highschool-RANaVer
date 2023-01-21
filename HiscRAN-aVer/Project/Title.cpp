@@ -165,6 +165,7 @@ void CTitle::Update(void)
 		//モードセレクトへ移動
 		m_bEnd = true;
 		m_NextScene = SCENENO_SELECTMODE;
+		return;
 	}
 
 }

@@ -429,6 +429,7 @@ void CGameClear::Update(void)
 	if (b_Fadein == FADE_NEXT) {
 		m_bEnd = true;
 		m_NextScene = SCENENO_SELECTMODE;
+		return;
 	}
 
 	//フェードアウト処理
