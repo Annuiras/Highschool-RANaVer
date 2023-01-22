@@ -49,6 +49,12 @@ private:
 	CTexture	m_StartTwoTexture;
 	CTexture	m_StartOneTexture;
 	CTexture	m_StartGoTexture;
+	
+	//ゲームクリア時のテキストテクスチャ
+	CTexture   m_ClearTexture;
+	//クリア用表示倍率
+	float m_ClearScale;
+
 
 	//ゲーム開始時のカウントダウン
 	DWORD	m_StartTime;

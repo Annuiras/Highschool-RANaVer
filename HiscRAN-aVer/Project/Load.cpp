@@ -39,6 +39,7 @@ void CLoad::Initialize(int A, int time)
 	//最低待機時間
 	m_WaitingTime = time;
 
+	m_Time = 0;
 
 	//フェードフラグ
 	m_Fadein = false;

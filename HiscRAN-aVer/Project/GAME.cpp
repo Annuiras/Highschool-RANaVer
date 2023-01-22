@@ -20,6 +20,8 @@ CGAME::CGAME():
 	m_DPDeci(),
 	m_DPNum(),
 	m_SP_DPNum(),
+	m_ClearTexture(),
+	m_ClearScale(),
 	m_BlackBakAlph(),
 	m_StartScale(),
 	m_WhiteBakAlph()
@@ -123,6 +125,11 @@ void CGAME::Load(void)
 		return;
 	}
 
+	if (!m_ClearTexture.Load("GameClear.png")) {
+		b_LoadSitu = LOAD_ERROR;
+		return;
+	}
+
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("../");
 
@@ -180,7 +187,6 @@ void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec
 
 	//現在のシーン
 	m_NowScene = SCENENO_GAME;
-
 }
 
 //更新
@@ -246,7 +252,14 @@ void CGAME::Update(void)
 		//クリア時
 		if (m_GameClearflg) {
 			//白
-			m_WhiteBakAlph = FadeOut(m_WhiteBakAlph, true);
+			m_WhiteBakAlph = FadeOut(m_WhiteBakAlph, true,1.0f);
+
+			//表示倍率加算
+			m_ClearScale += 0.01f;
+			if (m_ClearScale >= 0.25f) {
+				m_ClearScale = 0.25f;
+			}
+
 			//クリア時のキャラクター処理
 			g_Player.UpdateClear();
 
@@ -605,6 +618,13 @@ void CGAME::Render(void)
 			g_pGraphics->GetTargetHeight() / 2 - m_StartGoTexture.GetHeight() / 2 * m_StartScale, m_StartScale);
 	}
 
+	//クリアテキスト表示
+	if (m_GameClearflg) {
+		m_ClearTexture.RenderScale(g_pGraphics->GetTargetWidth() / 2 - m_ClearTexture.GetWidth() / 2 * m_ClearScale,
+			g_pGraphics->GetTargetHeight() / 2 - m_ClearTexture.GetHeight() / 2 * m_ClearScale, m_ClearScale);
+
+	}
+
 	//エフェクトの描画
 	b_EffectManeger->Render();
 
@@ -631,6 +651,8 @@ void CGAME::Release(void)
 	m_StartTwoTexture.Release();
 	m_StartOneTexture.Release();
 	m_StartGoTexture.Release();
+
+	m_ClearTexture.Release();
 
 	//BGM停止
 	b_MusicManager->BGMStop(BGMT_STAGE);

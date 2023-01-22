@@ -18,7 +18,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLi
 
 	//左上に表示されるアイコンと、名称を変更
 	Info.WindowCreateInfo.hIcon = LoadIconA(hInstance, MAKEINTRESOURCE(IDI_ICON1));
-	Info.WindowCreateInfo.Title = "ハイスクールRAN";
+	Info.WindowCreateInfo.Title = "ハイスクールRUN";
 
 	pFrame->Initialize(&Info);
 	pFrame->Run();

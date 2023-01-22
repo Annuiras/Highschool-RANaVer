@@ -178,7 +178,7 @@ MofBool CGameApp::Update(void){
 	//最初のシーンを生成
 	if (gpScene == nullptr) {
 
-		gpScene = new CTitle();
+		gpScene = new CGAME();
 		gLoad.Thread_Load = thread{ [=] {gpScene->Load(); } };
 		gLoad.Initialize(0,100);
 	}
@@ -192,6 +192,7 @@ MofBool CGameApp::Update(void){
 
 		//シーンの初期化
 		gpScene->Initialize(&g_GameProgMamt, &g_MusicManager, &g_EffectManeger,&g_Menu);
+
 
 		//フラグ更新
 		gpScene->SetLoadSitu(LOAD_DONE);
@@ -302,19 +303,24 @@ MofBool CGameApp::Render(void){
 	if (Eff_Loadflg == LOAD_ERROR || Mu_Loadflg == LOAD_ERROR) {
 		gLoad.RenderError();
 	}
+	
+	//シーンのロードでエラーが出た場合
+	if (gpScene != nullptr && gpScene->GetLoadSitu() == LOAD_ERROR) {
+		gLoad.RenderError();
+	}
 	else
+	if (gpScene == nullptr || gpScene->GetLoadSitu() == LOAD_YET || !gLoad.IsLoadEnd())
 	//シーン生成前
 	//シーンのロード前
 	//ロード画面終了前の場合
-	if(gpScene == nullptr||gpScene->GetLoadSitu()== LOAD_YET||!gLoad.IsLoadEnd())
 	{
 		//ロード画面
 		gLoad.RenderLoad();
-	}
-	else
-	//シーンのロードでエラーが出た場合
-	if (gpScene->GetLoadSitu() == LOAD_ERROR) {
-		gLoad.RenderError();
+
+		if (gDebagflag)
+		{
+			gLoad.RenderDebug();		
+		}
 	}
 	else
 	{
@@ -334,7 +340,6 @@ MofBool CGameApp::Render(void){
 		}
 
 	}
-
 
 	//描画の終了
 	g_pGraphics->RenderEnd();

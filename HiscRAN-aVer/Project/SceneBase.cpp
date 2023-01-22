@@ -4,19 +4,20 @@
 ////////////////////////////////////////////////////
 //　フェードインとフェードアウトのプログラムです　//
 //								   　　         　//
-//　作成者：田中環  　　　　　　　　　　          //
+//　作成者：田中環,仲田匠吾 　　　　　　          //
 //								   　　　         //
 //　リファクタリングした人：田中環 　　　         //
 //								   　　　         //
 //　最終更新：2023/01/17		   　　　         //
 ////////////////////////////////////////////////////
 
+
 //フェードイン処理
-float CSceneBase::FadeIn(float A, bool b)
+float CSceneBase::FadeIn(float A, bool b, float s)
 {
 	if (A >= 0) {
 
-		A -= FADE_OUT_SPEED;
+		A -= s;
 		if (A < 0) {
 			A = 0;
 			if (b) {
@@ -28,11 +29,11 @@ float CSceneBase::FadeIn(float A, bool b)
 }
 
 //フェードアウト処理
-float CSceneBase::FadeOut(float A, bool b)
+float CSceneBase::FadeOut(float A, bool b, float s)
 {
 	if (A <= 255) {
 
-		A += FADE_OUT_SPEED;
+		A += s;
 		if (A > 255) {
 			A = 255;
 			if (b) {
@@ -42,5 +43,3 @@ float CSceneBase::FadeOut(float A, bool b)
 	}
 	return A;
 }
-
-
