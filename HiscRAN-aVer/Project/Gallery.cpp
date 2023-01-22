@@ -220,8 +220,6 @@ void CGallery::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* ef
 void CGallery::Update(void)
 {
 
-	UpdateDebug();
-
 	//BGMÄ¶
 	b_MusicManager->BGMStart(BGMT_GALLERY);
 

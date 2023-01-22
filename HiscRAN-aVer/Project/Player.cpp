@@ -123,43 +123,6 @@ void CPlayer::Initialize(void) {
 //更新
 void CPlayer::Update(void) {
 
-	//デバッグ用
-	//無敵になる
-	if (g_pInput->IsKeyPull(MOFKEY_M)) {
-		//無敵化
-		_unrivaled = _unrivaled ? !_unrivaled : !_unrivaled;
-
-		//無敵中半透明に
-		_chare_A = _unrivaled ? 125 : 255;
-	}
-
-	//デバック
-	//ダメージを食らう
-	if (g_pInput->IsKeyPull(MOFKEY_D)) {
-
-		//ダメージ処理
-		m_HP--;
-
-		//ゲームオーバー更新
-		if (m_HP <= 0) {
-			//死亡フラグセット
-			m_deathflg = true;
-			m_HP = 0;
-
-			//無敵時間なし
-			m_DamageWait = 0;
-		}
-
-	}
-
-	if (g_pInput->IsKeyPull(MOFKEY_F)) {
-
-		//ダメージ処理
-		m_HP++;
-	}
-
-
-
 	//ジャンプ処理
 	if (g_pInput->IsKeyHold(MOFKEY_SPACE) && m_BSflg) {
 
@@ -247,6 +210,47 @@ void CPlayer::Update(void) {
 	{
 		m_DamageWait--;
 	}
+
+}
+
+void CPlayer::UpdateDebug(void)
+{
+
+	//デバッグ用
+//無敵になる
+	if (g_pInput->IsKeyPull(MOFKEY_M)) {
+		//無敵化
+		_unrivaled = _unrivaled ? !_unrivaled : !_unrivaled;
+
+		//無敵中半透明に
+		_chare_A = _unrivaled ? 125 : 255;
+	}
+
+	//デバック
+	//ダメージを食らう
+	if (g_pInput->IsKeyPull(MOFKEY_D)) {
+
+		//ダメージ処理
+		m_HP--;
+
+		//ゲームオーバー更新
+		if (m_HP <= 0) {
+			//死亡フラグセット
+			m_deathflg = true;
+			m_HP = 0;
+
+			//無敵時間なし
+			m_DamageWait = 0;
+		}
+
+	}
+
+	if (g_pInput->IsKeyPull(MOFKEY_F)) {
+
+		//ダメージ処理
+		m_HP++;
+	}
+
 
 }
 

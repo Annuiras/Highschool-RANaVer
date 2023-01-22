@@ -311,6 +311,9 @@ public:
 
 	void Update(CRectangle plrect);
 
+	//デバック更新
+	void UpdateDebug(void);
+
 	//素材ロード
 	bool Load(void);
 

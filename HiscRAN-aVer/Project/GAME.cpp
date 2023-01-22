@@ -85,7 +85,8 @@ void CGAME::UpdateDebug(void)
 		UPdeteCollisionDP(DP_CHARM);
 	}
 
-
+	g_Player.UpdateDebug();
+	g_Stage.UpdateDebug();
 }
 
 //素材読み込み
@@ -192,8 +193,6 @@ void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec
 //更新
 void CGAME::Update(void)
 {
-	//デバック
-	UpdateDebug();
 
 	//フェードイン処理
 	if (b_Fadein == FADE_IN) {

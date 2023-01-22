@@ -133,9 +133,6 @@ void CDPDecision::Update(void)
 	//BGM再生
 	b_MusicManager->BGMStart(BGMT_DPDECISION);
 
-	//デバック更新
-	UpdateDebug();
-
 	//フェードイン処理
 	if (b_Fadein == FADE_IN) {
 		m_WhiteBakAlph = FadeIn(m_WhiteBakAlph,true);

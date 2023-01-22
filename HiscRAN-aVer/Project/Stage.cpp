@@ -548,15 +548,6 @@ void CStage::Update(CRectangle plrect) {
 		m_SPSitua = tag_StageSituation::STAGE_SP_STILL;
 	}
 
-	//一時的な追加です
-	if (g_pInput->IsKeyPush(MOFKEY_RIGHT)) {
-		m_Scroll_Speed +=10;
-	}
-
-	//一時的な追加です
-	if (g_pInput->IsKeyPush(MOFKEY_LEFT)) {
-		m_Scroll_Speed -= 10;
-	}
 
 	//スクロール値が一定数増えると、アイコンの移動量を加算する
 	int i = m_StageScroll;
@@ -659,6 +650,20 @@ void CStage::Update(CRectangle plrect) {
  			m_SPSitua = tag_StageSituation::STAGE_SP_YET;
 		}
 
+	}
+
+}
+
+void CStage::UpdateDebug(void)
+{
+	//一時的な追加です
+	if (g_pInput->IsKeyPush(MOFKEY_RIGHT)) {
+		m_Scroll_Speed += 10;
+	}
+
+	//一時的な追加です
+	if (g_pInput->IsKeyPush(MOFKEY_LEFT)) {
+		m_Scroll_Speed -= 10;
 	}
 
 }

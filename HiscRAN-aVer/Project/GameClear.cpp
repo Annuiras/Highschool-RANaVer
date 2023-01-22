@@ -414,7 +414,6 @@ void CGameClear::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* 
 //XV
 void CGameClear::Update(void)
 {
-	UpdateDebug();
 
 	//BGMÄ¶
 	b_MusicManager->BGMStart(BGMT_CLEAR);

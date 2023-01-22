@@ -178,7 +178,7 @@ MofBool CGameApp::Update(void){
 	//最初のシーンを生成
 	if (gpScene == nullptr) {
 
-		gpScene = new CGAME();
+		gpScene = new CTitle();
 		gLoad.Thread_Load = thread{ [=] {gpScene->Load(); } };
 		gLoad.Initialize(0,100);
 	}
@@ -206,7 +206,7 @@ MofBool CGameApp::Update(void){
 	
 	//シーンの更新
 	gpScene->Update();
-	
+	gpScene->UpdateDebug();
 
 	//画面遷移完了した場合
 	if (gpScene->IsEnd()) {
