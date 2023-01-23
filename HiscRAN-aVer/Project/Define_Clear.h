@@ -21,8 +21,8 @@
 
 #define DIFFERENCE_NUM 15		// 一点突破用,2位との差が以上の場合一点突破 
 
-#define DP_CONVERSION_STATUS 2	//通常DP倍率
+#define DP_CONVERSION_STATUS 2.5	//通常DP倍率
 
-#define SP_DP_CONVERSION_STATUS 2	//SPステージDP倍率
+#define SP_DP_CONVERSION_STATUS 1	//SPステージDP倍率
 
 #pragma endregion
