@@ -86,15 +86,17 @@ public:
 	//フェードイン処理
 	//A:減少させる変数
 	//b:falseの場合フェード状態を変更しない
+	//s：フェードインスピード　デフォは FADE_OUT_SPEED
 	//値が255になるとフェード状態をFADE_NOTに移行させる
 	//return:減少させた値
-	float FadeIn(float A, bool b);
+	float FadeIn(float A, bool b, float s = FADE_OUT_SPEED);
 
 	//フェードアウト処理
 	//A:増加させる変数
 	//b:falseの場合フェード状態を変更しない
+ 	//s：フェードインスピード　デフォは FADE_OUT_SPEED
 	//値が255になるとフェード状態をFADE_NEXTに移行させる
 	//return:増加させた値
-	float FadeOut(float A, bool b);
+	float FadeOut(float A, bool b, float s = FADE_OUT_SPEED);
 
 };

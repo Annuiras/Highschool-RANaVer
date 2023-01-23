@@ -90,6 +90,9 @@ public:
 
 	//更新
 	void Update(void);
+	
+	//デバック更新
+	void UpdateDebug(void);
 
 	//クリア時の更新
 	void UpdateClear(void);

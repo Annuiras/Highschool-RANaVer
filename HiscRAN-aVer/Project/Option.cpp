@@ -204,9 +204,6 @@ void COption::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* eff
 //更新
 void COption::Update(void)
 {
-
-	UpdateDebug();
-
 	//フェードイン処理
 	if (b_Fadein == FADE_IN) {
 		m_BakAlph = FadeIn(m_BakAlph, true);

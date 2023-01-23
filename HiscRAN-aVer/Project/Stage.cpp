@@ -528,43 +528,6 @@ void CStage::Initialize(bool spflg, int dptype) {
 
 }
 
-//SP内のステージをセット配置
-void CStage::SPInitialize(void)
-{
-	//上のステージ内のDP配置と同じ処理
-	for (int z = 1; z < 100; z++)
-	{
-		for (int x = 0; x < MAP_INFO_PATTERN; x++)
-		{
-			if (m_AlreadyUsedArray[x] == 1)
-			{
-				//どこまで採用済みかカウント
-				m_AdoptCount += 1;
-			}
-		}
-		//SP内のDP用の処理  SP内のDP配置は2枚分だけ
-		int randam = RandmuBak.GetRandomNumbe(16, 17);
-
-		//未採用だった場合
-		if (m_AlreadyUsedArray[randam] == 0)
-		{
-			//SPの出現位置に合わせてSPステージ枚数分ずらしてます
-			m_StageComposition[m_AdoptCount + MAP_SP_START_PATTERN + 1] = randam;
-			//使用したパターンの場所に１をセット
-			m_AlreadyUsedArray[randam] = 1;
-		}
-		//採用済カウント
-		m_AdoptCount = 0;
-	}
-
-	//初期化
-	for (int i = 0; i < MAP_INFO_PATTERN; i++)
-	{
-		m_AlreadyUsedArray[i] = 0;
-	}
-
-}
-
 //更新
 //plrect:プレイヤーの当たり判定矩形
 void CStage::Update(CRectangle plrect) {
@@ -573,15 +536,8 @@ void CStage::Update(CRectangle plrect) {
 	//背景カウント
 	if (m_BakScroll <= 0) {
 
-		if (m_BakScroll == 0) {
-
-			//todo：０の時に停止すると背景が一枚分変わってしまうのが治らん
-			//バシバシわ起こらないけど
-			//return;
-		}
 		//背景カウント
 		m_countbak += 1;
-
 
 		//初期化
 		m_BakScroll = m_BakStart.GetWidth();
@@ -592,15 +548,6 @@ void CStage::Update(CRectangle plrect) {
 		m_SPSitua = tag_StageSituation::STAGE_SP_STILL;
 	}
 
-	//一時的な追加です
-	if (g_pInput->IsKeyPush(MOFKEY_RIGHT)) {
-		m_Scroll_Speed +=10;
-	}
-
-	//一時的な追加です
-	if (g_pInput->IsKeyPush(MOFKEY_LEFT)) {
-		m_Scroll_Speed -= 10;
-	}
 
 	//スクロール値が一定数増えると、アイコンの移動量を加算する
 	int i = m_StageScroll;
@@ -707,6 +654,20 @@ void CStage::Update(CRectangle plrect) {
 
 }
 
+void CStage::UpdateDebug(void)
+{
+	//一時的な追加です
+	if (g_pInput->IsKeyPush(MOFKEY_RIGHT)) {
+		m_Scroll_Speed += 10;
+	}
+
+	//一時的な追加です
+	if (g_pInput->IsKeyPush(MOFKEY_LEFT)) {
+		m_Scroll_Speed -= 10;
+	}
+
+}
+
 
 
 
@@ -733,6 +694,7 @@ void CStage::Render(void) {
 		//右側に次の背景番号を入れる
 		m_RandamuBakRight = m_BakComposition[m_countbak];
 
+		//0で停止した場合の背景バグの軽減
 		//0で止まった,
 		//最後の背景以外
 		if (m_BakScroll == 0 && m_countbak < 30) {

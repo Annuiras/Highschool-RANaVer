@@ -309,11 +309,10 @@ public:
 	//dptype:DP目標設定画面で選んだDP番号
 	void Initialize(bool spflg,int dptype);
 
-	//SP内のDP配置をするための関数
-	void SPInitialize(void);
-
-
 	void Update(CRectangle plrect);
+
+	//デバック更新
+	void UpdateDebug(void);
 
 	//素材ロード
 	bool Load(void);
