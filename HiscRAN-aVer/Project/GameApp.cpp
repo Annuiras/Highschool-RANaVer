@@ -206,7 +206,10 @@ MofBool CGameApp::Update(void){
 	
 	//シーンの更新
 	gpScene->Update();
-	gpScene->UpdateDebug();
+
+	if (gDebagflag) {
+		gpScene->UpdateDebug();
+	}
 
 	//画面遷移完了した場合
 	if (gpScene->IsEnd()) {

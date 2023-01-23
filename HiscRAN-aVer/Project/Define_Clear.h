@@ -19,7 +19,7 @@
 #define MAX_STATUS 100			// ステータス最大値
 #define ITEM_NUM 5				// ステータス個数
 
-#define DIFFERENCE_NUM 15		// 一点突破用,2位との差が以上の場合一点突破 
+#define DIFFERENCE_NUM 35		// 一点突破用,2位との差が以上の場合一点突破 
 
 #define DP_CONVERSION_STATUS 2.5	//通常DP倍率
 
