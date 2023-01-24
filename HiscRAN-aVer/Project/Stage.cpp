@@ -462,7 +462,7 @@ void CStage::Initialize(bool spflg, int dptype) {
 
 
 	//デバッグ用の指定コマンド、必要に応じていじってください
-	//m_StageComposition[0] = 14;
+	//m_StageComposition[0] = 6;
 	//m_StageComposition[1] = 1;
 	//m_StageComposition[2] = 2;
 	//m_StageComposition[3] = 3;
@@ -547,12 +547,12 @@ void CStage::Update(CRectangle plrect) {
 	//ステージ速度変更
 	//二年開始時
 	if (m_countbak == 10) {
-		//m_Scroll_Speed = STAGE_SPEED+0.5;
+		m_Scroll_Speed = STAGE_SPEED+0.5;
 	}
 
 	//三年開始時
 	if (m_countbak == 20) {
-		//m_Scroll_Speed = STAGE_SPEED+1;
+		m_Scroll_Speed = STAGE_SPEED+1;
 	}
 
 	//SPステージ開始
