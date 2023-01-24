@@ -544,16 +544,26 @@ void CStage::Update(CRectangle plrect) {
 
 	}
 
-	if (m_countbak == (MAP_SP_START_PATTERN*2)+1&& SP_flg) {
+	//背景がSP開始位置まで来たら
+	if (m_countbak == (MAP_SP_START_PATTERN * 2) + 1 && SP_flg) {
+
+		//SPフラグ更新
 		m_SPSitua = tag_StageSituation::STAGE_SP_STILL;
 	}
 
 
-	//スクロール値が一定数増えると、アイコンの移動量を加算する
-	int i = m_StageScroll;
-	if (i % 9 == 0)
-	{
+	//ToDo　進行度バー処理　（変更
+	//画像幅:1280 枚数:31 進行バー:680   1280*31/680=58
+	if (m_BarProgressCount + 58 < m_StageScroll) {
 		m_BarProgress++;
+		m_BarProgressCount = m_StageScroll;
+	}
+	//m_StageScrollがリセットされたとき
+	else if (m_BarProgressCount >= m_StageScroll) {
+		m_BarProgressCount = 0;
+	}									//2560は画像幅＊2
+	else if (m_BarProgressCount + 58 >= 2560) {
+		m_BarProgressCount = m_BarProgressCount + 58 - 2560;
 	}
 
 	//クリアフラグ変更

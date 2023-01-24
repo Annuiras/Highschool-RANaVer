@@ -249,6 +249,10 @@ private:
 	//ステージ用スクロール
 	float	m_StageScroll;
 
+	//ToDo　進行度バー変数　（追加
+	//進行度計算用
+	int m_BarProgressCount;
+
 	//背景構成
 	int m_BakComposition[(SATAGE_MAP_PATTERN * 2)+1];
 	//背景カウント
