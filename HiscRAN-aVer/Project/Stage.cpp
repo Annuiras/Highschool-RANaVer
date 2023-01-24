@@ -544,7 +544,16 @@ void CStage::Update(CRectangle plrect) {
 
 	}
 
-	if (m_countbak == (MAP_SP_START_PATTERN*2)+1&& SP_flg) {
+	//ステージ速度変更
+	if (m_countbak == 10) {
+		m_Scroll_Speed = 8;
+	}
+	if (m_countbak == 20) {
+		m_Scroll_Speed = 9;
+	}
+
+	//SPステージ開始
+	if (m_countbak == (MAP_SP_START_PATTERN * 2) + 1 && SP_flg) {
 		m_SPSitua = tag_StageSituation::STAGE_SP_STILL;
 	}
 
@@ -558,6 +567,7 @@ void CStage::Update(CRectangle plrect) {
 
 	//クリアフラグ変更
 	if (m_countbak == 32) {
+
 		m_bClear = true;
 	}
 	else
