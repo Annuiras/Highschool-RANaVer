@@ -545,11 +545,14 @@ void CStage::Update(CRectangle plrect) {
 	}
 
 	//ステージ速度変更
+	//二年開始時
 	if (m_countbak == 10) {
-		m_Scroll_Speed = 8;
+		//m_Scroll_Speed = STAGE_SPEED+0.5;
 	}
+
+	//三年開始時
 	if (m_countbak == 20) {
-		m_Scroll_Speed = 9;
+		//m_Scroll_Speed = STAGE_SPEED+1;
 	}
 
 	//SPステージ開始
