@@ -273,7 +273,7 @@ bool CStage::Load() {
 	//敵アニメーションを用意
 	//仮置き
 	float Encoma = 4;
-	MofS32 Enedan = 3;
+	MofS32 Enedan = 4;
 	//アニメーション
 	SpriteAnimationCreate EneAnim[] =
 	{
@@ -462,7 +462,7 @@ void CStage::Initialize(bool spflg, int dptype) {
 
 
 	//デバッグ用の指定コマンド、必要に応じていじってください
-	//m_StageComposition[0] = 14;
+	m_StageComposition[0] = 0;
 	//m_StageComposition[1] = 1;
 	//m_StageComposition[2] = 2;
 	//m_StageComposition[3] = 3;
@@ -561,7 +561,6 @@ void CStage::Update(CRectangle plrect) {
 	}
 
 
-	//ToDo　進行度バー処理　（変更
 	//画像幅:1280 枚数:31 進行バー:680   1280*31/680=58
 	if (m_BarProgressCount + 58 < m_StageScroll) {
 		m_BarProgress++;

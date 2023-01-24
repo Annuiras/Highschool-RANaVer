@@ -249,7 +249,6 @@ private:
 	//ステージ用スクロール
 	float	m_StageScroll;
 
-	//ToDo　進行度バー変数　（追加
 	//進行度計算用
 	int m_BarProgressCount;
 

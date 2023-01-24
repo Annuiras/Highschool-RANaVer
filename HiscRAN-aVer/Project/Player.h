@@ -72,10 +72,13 @@ private:
 
 	//モーション種類定義
 	enum tag_MOTION {
-		MOTION_MOVE,		//移動
-		MOTION_JUMPSTART,	//ジャンプ開始
-		MOTION_JUMPFALL,	//落下時
-		MOTION_COUNT,		//総数
+		MOTION_MOVE,			//移動
+		MOTION_JUMP,			//ジャンプ中
+		MOTION_FALL,			//落下時
+		MOTION_MOVE_DAMAGE,		//移動中のダメージ
+		MOTION_JUMP_DAMAGE,		//ジャンプ中ダメージ
+		MOTION_FALL_DAMAGE,		//落下中ダメージ
+		MOTION_COUNT,			//総数
 	};
 
 public:

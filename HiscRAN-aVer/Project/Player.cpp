@@ -42,17 +42,16 @@ bool CPlayer::Load(void) {
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("Character");
 
-	//キャラクター読み込み
-	if (!m_Texture.Load("Motion.png")) {
-		return false;
-	}
-
-
-	//HP表示テクスチャ読み込み
+	//HPテクスチャ読み込み
 	if (!m_HPTexture.Load("Game_HP.png")) {
 		return false;
 	}
 	if (!m_HPFrame.Load("Game_HPFrame.png")) {
+		return false;
+	}
+
+	//キャラクター読み込み
+	if (!m_Texture.Load("Motion.png")) {
 		return false;
 	}
 
@@ -62,9 +61,8 @@ bool CPlayer::Load(void) {
 	//アニメーション
 	SpriteAnimationCreate anim[] = 
 	{
-
+		//移動モーション
 		{
-			//モーション
 			"移動",
 			0,0,
 			160,185,
@@ -72,20 +70,48 @@ bool CPlayer::Load(void) {
 			,{AnimationSquare,11,0},{AnimationSquare,12,0},{AnimationSquare,13,0},{AnimationSquare,14,0}}
 
 		},
+
 		//ジャンプ
 		{
-			"ジャンプ開始",
+			"ジャンプ中",
 			0,185,
 			160,185,
 			FALSE,{{5,0,0}}
 		},
 
+		//落下中
 		{
 			"落下",
 			0,185,
 			160,185,
 			FALSE,{{5,1,0}}
-		}
+		},
+		
+		//移動中ダメージモーション
+		{
+			"移動中ダメージ",
+			0,555,
+			160,185,
+			TRUE,{{AnimationSquare,0,0},{AnimationSquare,1,0},{AnimationSquare,2,0},{AnimationSquare,3,0},{AnimationSquare,4,0},{AnimationSquare,5,0},{AnimationSquare,6,0},{AnimationSquare,7,0},{AnimationSquare,8,0},{AnimationSquare,9,0},{AnimationSquare,10,0}
+			,{AnimationSquare,11,0},{AnimationSquare,12,0},{AnimationSquare,13,0},{AnimationSquare,14,0}}
+
+		},
+
+		//ジャンプ中ダメージ
+		{
+			"ジャンプ中ダメージ",
+			0,185,
+			160,185,
+			FALSE,{{5,2,0}}
+		},
+
+		//落下中ダメージ
+		{
+			"落下",
+			0,185,
+			160,185,
+			FALSE,{{5,3,0}}
+		},
 
 	};
 	m_Motion.Create(anim, MOTION_COUNT);
@@ -139,7 +165,20 @@ void CPlayer::Update(void) {
 		m_Jumpflg = false;
 
 		//モーションを変更する
-		m_Motion.ChangeMotion(MOTION_JUMPSTART);
+		if (m_Motion.GetMotionNo() == MOTION_MOVE_DAMAGE|| m_Motion.GetMotionNo() == MOTION_JUMP_DAMAGE) {
+
+			//ジャンプダメージモーション
+ 			m_Motion.ChangeMotion(MOTION_JUMP_DAMAGE);
+			
+		}
+		else
+		{
+			//ジャンプモーション
+			m_Motion.ChangeMotion(MOTION_JUMP);
+			
+		}
+
+		//todo：ダメージ中の場合別処理
 
 		//大小ジャンプ切り替え
 		//スペースを押している間に一定時間超えれば大ジャンプ
@@ -159,6 +198,7 @@ void CPlayer::Update(void) {
 	if (g_pInput->IsKeyPull(MOFKEY_SPACE)) {
 		m_BSflg = false;
 	}
+
 	//足音再生
 	if (m_Motion.GetMotionNo()== MOTION_MOVE&& !m_MusicMgmt->SEisPlay(SE_T_FOOTSTEPS)) {
 		m_MusicMgmt->SEStart(SE_T_FOOTSTEPS);
@@ -169,7 +209,13 @@ void CPlayer::Update(void) {
 
 	//スピード反映
 	m_PosY += m_MoveY;
-	
+
+	//ダメージのインターバルを減らす
+	if (m_DamageWait > 0)
+	{
+		m_DamageWait--;
+	}
+
 	//下降速度クリップ
 	if (m_MoveY >= 20) {
 		m_MoveY = 20 - 0.1f;
@@ -187,11 +233,16 @@ void CPlayer::Update(void) {
 
 		//足場から降りた時に専用モーションに切り替え
 		//ジャンプ時はしない
+		if (m_Motion.GetMotionNo() == MOTION_MOVE_DAMAGE) {
+			//落下ダメージモーション
+			m_Motion.ChangeMotion(MOTION_FALL_DAMAGE);
+		}
+
 		if (m_Motion.GetMotionNo() == MOTION_MOVE) {
 			//落下時モーション
-			m_Motion.ChangeMotion(MOTION_JUMPFALL);
-
+ 			m_Motion.ChangeMotion(MOTION_FALL);
 		}
+		
 		//足場に乗るための処理
 		m_Jumpflg = true;
 		m_BSflg = false;
@@ -205,11 +256,6 @@ void CPlayer::Update(void) {
 	//アニメーション再生
 	m_Motion.AddTimer(CUtilities::GetFrameSecond());
 	m_SrcRect = m_Motion.GetSrcRect();
-	//ダメージのインターバルを減らす
-	if (m_DamageWait > 0)
-	{
-		m_DamageWait--;
-	}
 
 }
 
@@ -227,20 +273,27 @@ void CPlayer::UpdateDebug(void)
 	}
 
 	//デバック
-	//ダメージを食らう
+	//ダメージ判定
+	//＋左shiftでHPを減らす
 	if (g_pInput->IsKeyPull(MOFKEY_D)) {
 
-		//ダメージ処理
-		m_HP--;
+		if (g_pInput->IsKeyPull(MOFKEY_LSHIFT)) {
+			//ダメージ処理
+			m_HP--;
 
-		//ゲームオーバー更新
-		if (m_HP <= 0) {
-			//死亡フラグセット
-			m_deathflg = true;
-			m_HP = 0;
+			//ゲームオーバー更新
+			if (m_HP <= 0) {
+				//死亡フラグセット
+				m_deathflg = true;
+				m_HP = 0;
 
-			//無敵時間なし
-			m_DamageWait = 0;
+				//無敵時間なし
+				m_DamageWait = 0;
+			}
+		}
+		else
+		{
+			UPdateCollisionOB();
 		}
 
 	}
@@ -284,9 +337,21 @@ void CPlayer::UPdateCollisionBra(float y) {
 		}
 
 
-		//移動モーション
-		if (m_Motion.GetMotionNo() != MOTION_MOVE) {
-			m_Motion.ChangeMotion(MOTION_MOVE);
+		//着地時にモーション変更
+		//無敵時間中
+		if (m_DamageWait > 0) {
+
+			if (m_Motion.GetMotionNo() != MOTION_MOVE_DAMAGE) {
+				//ダメージモーション
+				m_Motion.ChangeMotion(MOTION_MOVE_DAMAGE);
+			}
+		}
+		else
+		{
+			if (m_Motion.GetMotionNo() != MOTION_MOVE) {
+				//移動モーションに変更
+				m_Motion.ChangeMotion(MOTION_MOVE);
+			}
 		}
 	}
 
@@ -317,11 +382,22 @@ void CPlayer::UPdateCollisionGround(float y) {
 		m_JumpCount = 0;
 	}
 
-	//移動モーション
-	if (m_Motion.GetMotionNo() != MOTION_MOVE) {
-		m_Motion.ChangeMotion(MOTION_MOVE);
-	}
+	//着地時にモーション変更
+	//無敵時間中
+	if (m_DamageWait > 0) {
 
+		if (m_Motion.GetMotionNo() != MOTION_MOVE_DAMAGE) {
+			//ダメージモーション
+			m_Motion.ChangeMotion(MOTION_MOVE_DAMAGE);
+		}
+	}
+	else
+	{
+		if (m_Motion.GetMotionNo() != MOTION_MOVE) {
+			//移動モーションに変更
+			m_Motion.ChangeMotion(MOTION_MOVE);
+		}
+	}
 }
 
 //障害物・敵と当たった場合
@@ -338,6 +414,22 @@ void CPlayer::UPdateCollisionOB() {
 
 	//HP減らす
 	m_HP -= 1;
+
+	//ダメージモーションに変更
+	switch (m_Motion.GetMotionNo())
+	{
+	case MOTION_MOVE:
+		m_Motion.ChangeMotion(MOTION_MOVE_DAMAGE);
+		break;
+
+	case MOTION_JUMP:
+		m_Motion.ChangeMotion(MOTION_JUMP_DAMAGE);
+		break;
+
+	case MOTION_FALL:
+		m_Motion.ChangeMotion(MOTION_FALL_DAMAGE);
+		break;
+	}
 
 	//ダメージエフェクト再生
 	m_pEffectMgmt->Start(0,0,EFC_DAMAGE_HIT);
@@ -456,9 +548,26 @@ void CPlayer::RenderDebugging() {
 			CGraphicsUtilities::RenderString(0, 90, MOF_XRGB(80, 80, 80), "現在モーション：MOTION_MOVE");
 			break;
 
-		case MOTION_JUMPSTART:
-			CGraphicsUtilities::RenderString(0, 90, MOF_XRGB(80, 80, 80), "現在モーション：MOTION_JUMPSTART");
+		case MOTION_JUMP:
+			CGraphicsUtilities::RenderString(0, 90, MOF_XRGB(80, 80, 80), "現在モーション：MOTION_JUMP");
 			break;
+
+		case MOTION_FALL:
+			CGraphicsUtilities::RenderString(0, 90, MOF_XRGB(80, 80, 80), "現在モーション：MOTION_FALL");
+			break;
+
+		case MOTION_MOVE_DAMAGE:
+			CGraphicsUtilities::RenderString(0, 90, MOF_XRGB(80, 80, 80), "現在モーション：MOTION_MOVE_DAMAGE");
+			break;
+
+		case MOTION_JUMP_DAMAGE:
+			CGraphicsUtilities::RenderString(0, 90, MOF_XRGB(80, 80, 80), "現在モーション：MOTION_JUMP_DAMAGE");
+			break;
+
+		case MOTION_FALL_DAMAGE:
+			CGraphicsUtilities::RenderString(0, 90, MOF_XRGB(80, 80, 80), "現在モーション：MOTION_FALL_DAMAGE");
+			break;
+
 	}
 
 	//CGraphicsUtilities::RenderString(0, 150, MOF_XRGB(80, 80, 80), "m_MoveY=%f", m_MoveY);
