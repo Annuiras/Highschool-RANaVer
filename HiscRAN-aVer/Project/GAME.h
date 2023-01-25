@@ -75,6 +75,10 @@ private:
 	//クリアフラグ
 	bool m_GameClearflg;
 
+	//デバック用
+	//フレーム停止
+	bool m_DStop, m_IsDStop;
+
 public:
 	CGAME();
 	~CGAME();

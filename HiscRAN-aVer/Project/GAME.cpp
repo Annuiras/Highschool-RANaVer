@@ -24,7 +24,9 @@ CGAME::CGAME():
 	m_ClearScale(),
 	m_BlackBakAlph(),
 	m_StartScale(),
-	m_WhiteBakAlph()
+	m_WhiteBakAlph(),
+	m_DStop(),
+	m_IsDStop()
 {}
 
 CGAME::~CGAME()
@@ -84,6 +86,19 @@ void CGAME::UpdateDebug(void)
 		//DP
 		UPdeteCollisionDP(DP_CHARM);
 	}
+
+	//停止解除
+	if (g_pInput->IsKeyPush(MOFKEY_E)) {
+
+		if (g_pInput->IsKeyHold(MOFKEY_LSHIFT)) {
+			//停止ON
+			m_IsDStop = !m_IsDStop;
+		}
+
+		m_DStop = false;
+	}
+
+
 
 	g_Player.UpdateDebug();
 	g_Stage.UpdateDebug();
@@ -174,7 +189,7 @@ void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec
 	m_BlackBakAlph = 0;
 	m_WhiteBakAlph = 255;
 
-	//デバッグ用
+	//クリア、オーバーフラグ初期化
 	m_GameClearflg = false;
 	m_GameOverflg = false;
 
@@ -183,8 +198,15 @@ void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec
 	{
 		m_DPNum[i] = 0;
 	}
+	//SODP初期化
 	m_SP_DPNum = 0;
+
+	
 	m_StartScale = 0.0f;
+
+	//デバック用
+	m_DStop = false;
+	m_IsDStop = false;
 
 	//現在のシーン
 	m_NowScene = SCENENO_GAME;
@@ -193,7 +215,11 @@ void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec
 //更新
 void CGAME::Update(void)
 {
-
+	//デバック1フレームで停止
+	if (m_DStop&& m_IsDStop) {
+		return;
+	}
+	
 	//フェードイン処理
 	if (b_Fadein == FADE_IN) {
 		m_WhiteBakAlph = FadeIn(m_WhiteBakAlph, true);
@@ -465,6 +491,9 @@ void CGAME::Update(void)
 
 	//エフェクトの更新
 	b_EffectManeger->Update(g_Player.GetRect());
+
+	//停止デバック用
+	m_DStop = true;
 }
 
 //DPと当たった場合

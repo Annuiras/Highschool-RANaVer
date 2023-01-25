@@ -523,7 +523,7 @@ void CPlayer::Render()
 	//–³“GŠÔ2ƒtƒŒ[ƒ€•`‰æ‚µ‚È‚¢
 	if (m_DamageWait % 4 >= 2)
 	{
-		return;
+		//return;
 	}
 
 	//•`‰æ‹éŒ`
