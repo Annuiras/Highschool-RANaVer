@@ -163,7 +163,7 @@ void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec
 	//カウントダウン用カウンタ初期化
 	m_StartCount = 0;
 
-
+	m_Stopflg = true;
 	//状態を設定
 	b_Fadein = FADE_IN;
 
@@ -193,6 +193,20 @@ void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec
 //更新
 void CGAME::Update(void)
 {
+
+	//ヒットストップの処理
+	if (m_GameOverflg && m_Stopflg)
+	{
+		m_Stopflg = false;
+		m_StopCount = 30;
+	}
+	if (m_StopCount > 0)
+	{
+		m_StopCount--;
+		return;
+	}
+
+
 
 	//フェードイン処理
 	if (b_Fadein == FADE_IN) {

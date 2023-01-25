@@ -75,6 +75,10 @@ private:
 	//クリアフラグ
 	bool m_GameClearflg;
 
+	//ヒットストップの変数追加
+	float			m_StopCount;
+	bool			m_Stopflg;
+
 public:
 	CGAME();
 	~CGAME();
