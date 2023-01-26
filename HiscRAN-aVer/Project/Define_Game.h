@@ -11,9 +11,9 @@
 ////////////////////////////////////////////////////////
 
 //マップパターン数
-#define MAP_INFO_PATTERN 21
+#define MAP_INFO_PATTERN 18
 
-//１ステージ内のマップパターン数
+//1ゲーム内のマップパターン数
 #define SATAGE_MAP_PATTERN 15
 
 //SP開始マップパターン数(何パターン目)
@@ -26,7 +26,13 @@
 #define STAGE_CLEAR_BAK 31
 
 //ステージスクロールスピード
-#define STAGE_SPEED 7
+#define STAGE_SPEED1 7
+
+//2年 ステージスクロールスピード
+#define STAGE_SPEED2 7.5
+
+//3年 ステージスクロールスピード
+#define STAGE_SPEED3 8.0
 
 //重力
 #define  GRAVITY	0.7f
@@ -164,7 +170,7 @@ enum tag_BAR
 
 //DP1パターンの要素数
 //（1マップ中にあるDP数＋1）
-#define DP_INFO_STRUCT 50
+#define DP_INFO_STRUCT 40
 
 //DPタイプ定義
 enum tag_DP_TYPE

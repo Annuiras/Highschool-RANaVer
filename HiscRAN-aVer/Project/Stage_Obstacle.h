@@ -91,16 +91,16 @@ OB_info s_stageOB[][OB_INFO_STRUCT] =
 		{10000,0,OB_COUNT}
 
 	},
-	//マップパターン9
+	//マップパターン9 S10
 	{
 		{10000,0,OB_COUNT}
 	},
-	//マップパターン10
+	//マップパターン10 S11
 	{
 		{1221.0f,460.0f,OB_SMARTPHONE1},
 		{10000,0,OB_COUNT}
 	},
-	//マップパターン11
+	//マップパターン11 S12
 	{
 		{629,519,OB_SCOTCHTAPE},
 		{949,519,OB_SCOTCHTAPE},
@@ -110,7 +110,7 @@ OB_info s_stageOB[][OB_INFO_STRUCT] =
 		{1684,259,OB_SMARTPHONEVERTICAL},
 		{10000,0,OB_COUNT}
 	},
-	//マップパターン12
+	//マップパターン12 S13
 	{
 
 		{438,507,OB_VAULTINGHORSE},
@@ -119,7 +119,7 @@ OB_info s_stageOB[][OB_INFO_STRUCT] =
 		{1943,570,OB_ERASER},
 		{10000,0,OB_COUNT}
 	},
-	//マップパターン13
+	//マップパターン13 S14
 	{
 
 		{474,382,OB_LOCKER},
@@ -127,35 +127,22 @@ OB_info s_stageOB[][OB_INFO_STRUCT] =
 		{1042,579,OB_BLOACKBOARDERASER},
 		{10000,0,OB_COUNT}
 	},
-	//マップパターン14
+	//マップパターン14 S15
 	{
 		{280,519,OB_TEXTBOOKSOC},
 		{411,519,OB_TEXTBOOKCHEM},
 		{10000,0,OB_COUNT}
 	},
-	//マップパターン15
+	//マップパターン15 SP1
 	{
 		{10000,0,OB_COUNT}
 	},
-	//マップパターン16
+	//マップパターン16 SP2
 	{
 		{10000,0,OB_COUNT}
 	},
-	//マップパターン17
+	//マップパターン17 最後
 	{
 		{10000,0,OB_COUNT}
 	},
-	//マップパターン18
-	{
-		{10000,0,OB_COUNT}
-	},
-	//マップパターン19
-	{
-		{10000,0,OB_COUNT}
-	},
-	//マップパターン20
-	{
-		{10000,0,OB_COUNT}
-	}
-
 };

@@ -53,7 +53,7 @@ typedef struct tag_ENEMY_POS
 	int	  Type;
 } ENEMY_info;
 
-//モーション種類定義
+//敵モーション種類定義
 enum tag_ENEMY_MOTION {
 	ENEMY_MOTION_MOVE,
 
@@ -228,8 +228,7 @@ private:
 	int m_MapNo;
 
 	//ステージ構成を決める配列
-	int m_StageComposition[SATAGE_MAP_PATTERN] = { 1 };
-
+	int m_StageComposition[SATAGE_MAP_PATTERN + 1];
 
 	//表示済みDP数
 	int m_dpcount;

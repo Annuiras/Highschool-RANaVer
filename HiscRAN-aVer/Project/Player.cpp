@@ -447,7 +447,12 @@ void CPlayer::UPdateCollisionOB() {
 		//無敵時間なし
 		m_DamageWait = 0;
 
+		//汗エフェクト
 		m_MusicMgmt->SEStop(SE_T_FOOTSTEPS);
+
+		//ダメージモーションを適応
+		m_SrcRect = m_Motion.GetSrcRect();
+
 	}
 }
 
@@ -523,7 +528,7 @@ void CPlayer::Render()
 	//無敵時間2フレーム描画しない
 	if (m_DamageWait % 4 >= 2)
 	{
-		//return;
+		return;
 	}
 
 	//描画矩形

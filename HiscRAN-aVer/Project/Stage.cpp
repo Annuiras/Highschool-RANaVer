@@ -271,8 +271,10 @@ bool CStage::Load() {
 	CUtilities::SetCurrentDirectoryA("../");
 
 	//敵アニメーションを用意
-	//仮置き
+
+	//コマ数
 	float Encoma = 4;
+	//段数
 	MofS32 Enedan = 4;
 	//アニメーション
 	SpriteAnimationCreate EneAnim[] =
@@ -331,16 +333,8 @@ void CStage::Initialize(bool spflg, int dptype) {
 	//SP背景カウント
 	m_SPcountbak = 0;
 
-
-	//マップパターンをランダム化
-	for (int i = 0; i < 15; i++)
-	{
-		m_StageComposition[i] = RandmuBak.GetRandomNumbe(0, 0);
-	}
-
 	//マップパターン添え字
 	m_MapNo = 0;
-
 
 	//初期化
 	m_AdoptCount = 0;
@@ -349,6 +343,11 @@ void CStage::Initialize(bool spflg, int dptype) {
 	//低確率で同じステージが選択されてしまうため試行回数は多め
 	for (int z = 1; z < 1000; z++)
 	{
+		//1ゲーム分のステージが用意出来たら終了
+		if (m_AdoptCount >= SATAGE_MAP_PATTERN) {
+			break;
+		}
+
 		for (int x = 0; x < MAP_INFO_PATTERN; x++)
 		{
 			if (m_AlreadyUsedArray[x] == 1)
@@ -358,23 +357,24 @@ void CStage::Initialize(bool spflg, int dptype) {
 			}
 		}
 
-		//1ゲーム分のステージが用意出来たら終了
-		if (m_AdoptCount >= SATAGE_MAP_PATTERN) {
-			break;
-		}
-
 		//SPマップを採用
 		if (m_AdoptCount == MAP_SP_START_PATTERN && SP_flg)
 		{
+			//SP採用数
 			int SPAdopCount = 0;
 
 			//SPマップパターンをセット
 			for (int i = 0; i < 100; i++)
 			{
+				//ランダム生成
 				int SPrandmu = RandmuBak.GetRandomNumbe(15, 16);
+
+				//仕様済みでない場合
 				if (m_AlreadyUsedArray[SPrandmu] == 0) {
 
+					//SPステージセット
 					m_StageComposition[m_AdoptCount+ SPAdopCount] = SPrandmu;
+					//増加
 					SPAdopCount++;
 					//使用したパターンの場所に１をセット
 					m_AlreadyUsedArray[SPrandmu] = 1;
@@ -389,7 +389,7 @@ void CStage::Initialize(bool spflg, int dptype) {
 		}
 		else 
 		{
-			//ランダムパターンをセット
+			//通常ステージの中からランダムパターンをセット
 			int randam= RandmuBak.GetRandomNumbe(0, 14);
 
 			//まだ使用していない場合のみ採用(1=使用済み)
@@ -409,6 +409,9 @@ void CStage::Initialize(bool spflg, int dptype) {
 		//採用済カウント
 		m_AdoptCount = 0;
 	}
+
+	//最後のマップ番号
+	m_StageComposition[15] = MAP_INFO_PATTERN-1;
 
 	//背景構成を決める処理
 	for (int i = 0; i < SATAGE_MAP_PATTERN*2; i++)
@@ -438,6 +441,7 @@ void CStage::Initialize(bool spflg, int dptype) {
 	m_BakComposition[SATAGE_MAP_PATTERN * 2] = 8;
 
 	//右側から背景構成を読むための初期化
+	//一番最初の背景
 	m_RandamuBakRight = 7;
 	m_RandamuBakLeft = m_BakComposition[0];
 
@@ -445,24 +449,28 @@ void CStage::Initialize(bool spflg, int dptype) {
 	//背景をスペシャルステージに変更する
 	if (SP_flg) {
 
+		//SP開始位置にSPステージ開始背景をセット
 		m_BakComposition[(MAP_SP_START_PATTERN * 2)] = 9;
 
-		for (int i = 1; i < MAP_SP_LENGTH*2; i++)
+		for (int i = 1; i < MAP_SP_LENGTH * 2; i++)
 		{
+			//SPステージ背景をランダムでセット
 			m_BakComposition[(MAP_SP_START_PATTERN * 2) + i] = RandmuBak.GetRandomNumbe(10, 11);
 		}
+
+		//SPステージ終わり背景をセット
 		m_BakComposition[(MAP_SP_START_PATTERN * 2)+(MAP_SP_LENGTH*2)-1] = 13;
 	}
 
-	//初期化
+	//使用済み背景記録を初期化
 	for (int i = 0; i < MAP_INFO_PATTERN; i++)
 	{
 		m_AlreadyUsedArray[i] = 0;
 	}
 
 
-	//デバッグ用の指定コマンド、必要に応じていじってください
-	m_StageComposition[0] = 0;
+	//デバッグ用のステージ指定コマンド、必要に応じていじってください
+	//m_StageComposition[0] = 0;
 	//m_StageComposition[1] = 1;
 	//m_StageComposition[2] = 2;
 	//m_StageComposition[3] = 3;
@@ -493,10 +501,6 @@ void CStage::Initialize(bool spflg, int dptype) {
 
 	//開始フラグ
 	m_Startflg = false;
-
-	//背景用ランダム数値初期化
-	//m_RandamuBakLeft = RandmuBak.GetRandomNumbe(1, 6); 
-	//m_RandamuBakRight = 0;
 
 	//足場
 	for (int i = 0; i < BAR_VOLUME; i++)
@@ -547,12 +551,12 @@ void CStage::Update(CRectangle plrect) {
 	//ステージ速度変更
 	//二年開始時
 	if (m_countbak == 10) {
-		//m_Scroll_Speed = STAGE_SPEED+0.5;
+		m_Scroll_Speed = STAGE_SPEED2;
 	}
 
 	//三年開始時
 	if (m_countbak == 20) {
-		//m_Scroll_Speed = STAGE_SPEED+1;
+		m_Scroll_Speed = STAGE_SPEED3;
 	}
 
 	//SPステージ開始
@@ -581,10 +585,8 @@ void CStage::Update(CRectangle plrect) {
 	}
 	else
 	{
-
 		//後ろに下げる
 		m_BakScroll -= m_Scroll_Speed;
-
 	}
 
 	//ステージ生成用スクロール値
@@ -594,37 +596,37 @@ void CStage::Update(CRectangle plrect) {
 	if (m_StageScroll >=g_pGraphics->GetTargetWidth()*2)
 	{
 		//スクロール値リセット
-
 		m_StageScroll = 0;
-
 	}
 
 	//マップパターンの切り替え
 	MapChange();
 
-	//同じX座標の場合の判定
-	for (int i = 0; i < BAR_VOLUME; i++)
+
+	//同じX座標の場合の複数回判定
+	for (int i = 0; i < 3; i++)
 	{
 		//足場生成
 		OccurrenceBar();
 	}
 
-	//同じX座標の場合の判定
-	for (int i = 0; i < DP_VOLUME; i++)
+
+	//同じX座標の場合の複数回判定
+	for (int i = 0; i < 10; i++)
 	{
 		//ディテールポイント生成
 		OccurrenceDP();
 	}
 
-	//同じX座標の場合の判定
-	for (int i = 0; i < OB_VOLUME; i++)
+	//同じX座標の場合の複数回判定
+	for (int i = 0; i < 5; i++)
 	{
 		//障害物OB生成
 		OccurrenceOB();
 	}
 
-	//同じX座標の場合の判定
-	for (int i = 0; i < ENEMY_VOLUME; i++)
+	//同じX座標の場合の複数回判定
+	for (int i = 0; i < 3; i++)
 	{
 		//敵生成
 		OccurrenceENE();
@@ -962,7 +964,7 @@ void CStage::RenderDebugging() {
 	//CGraphicsUtilities::RenderString(0, 180, MOF_XRGB(80, 80, 80), "ステージスクロール値%f", m_StageScroll);
 
 	//全体のパターン表示
-	for (int i = 0; i < 15; i++)
+	for (int i = 0; i < SATAGE_MAP_PATTERN+1; i++)
 	{
 		CGraphicsUtilities::RenderString(40*i, 680, "%d", m_StageComposition[i]);
 	}
@@ -973,11 +975,11 @@ void CStage::RenderDebugging() {
 		ob_array[i].RenderDebugging();
 	}
 
+	//DPデバック表示
 	for (int i = 0; i < OB_VOLUME; i++)
 	{
 		dp_array[i].RenderDebugging();
 	}
-
 
 	//足場描画
 	for (int i = 0; i < BAR_VOLUME; i++)
@@ -1030,16 +1032,19 @@ void CStage::MapChange(void) {
 		s_stageOB[m_StageComposition[m_MapNo]][m_obcount].Type >= OB_COUNT&&
 		s_stageENEMY[m_StageComposition[m_MapNo]][m_enecount].Type >= ENEMY_COUNT)
 	{
+		//表示済みカウント初期化
 		m_barcount = 0;
 		m_dpcount = 0;
 		m_obcount = 0;
 		m_enecount = 0;
+
+		//マップ番号を次に
 		m_MapNo += 1;
 
 		//最後のマップ足場パターン情報の場合
 		if (m_MapNo >= 15)
 		{
-			m_MapNo = 100;
+			m_MapNo = 15;
 		}
 	}
 }
@@ -1090,7 +1095,6 @@ void CStage::OccurrenceBar(void) {
 
 		//表示済み足場を加算
 		m_barcount++;
-
 	}
 
 }
@@ -1334,7 +1338,7 @@ void CStage::GameStopPlayChange()
 	else
 	{
 		m_Startflg = true;
-		m_Scroll_Speed = STAGE_SPEED;
+		m_Scroll_Speed = STAGE_SPEED1;
 	}
 }
 

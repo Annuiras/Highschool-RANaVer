@@ -65,7 +65,6 @@ private:
 	//DP目標設定画面で選んだDP番号
 	int m_DPDeci;
 
-
 	//フェード用アルファ値
 	int m_BlackBakAlph;
 	int m_WhiteBakAlph;
@@ -75,9 +74,10 @@ private:
 	//クリアフラグ
 	bool m_GameClearflg;
 
-	//デバック用
-	//フレーム停止
-	bool m_DStop, m_IsDStop;
+	//ヒットストップの変数追加
+	float			m_StopCount;
+	bool			m_Stopflg;
+
 
 public:
 	CGAME();
