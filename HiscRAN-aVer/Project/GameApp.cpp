@@ -180,7 +180,7 @@ MofBool CGameApp::Update(void){
 	//Å‰‚ÌƒV[ƒ“‚ð¶¬
 	if (gpScene == nullptr) {
 
-		gpScene = new CGAME();
+		gpScene = new CTitle();
 		gLoad.Thread_Load = thread{ [=] {gpScene->Load(); } };
 		gLoad.Initialize(0,100);
 	}
