@@ -36,6 +36,9 @@ private:
 	//経過時間
 	int m_Time;
 
+	//点のカウント
+	int m_PointCount;
+
 	//ロード画面待機時間終了フラグ
 	bool m_LoadTimeEnd;
 
