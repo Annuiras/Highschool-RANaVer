@@ -193,8 +193,21 @@ bool CStage::Load() {
 #pragma endregion
 
 	//todoロード
-	if (!m_DPDEcisionTexture.Load("mokuhixyou_souzourixyoku.png")) {
-		return false;
+
+	char* DPCIname[DP_COUNT] =
+	{
+		"mokuhixyou_gakurixyoku.png",
+		"mokuhixyou_koudourixyoku.png",
+		"mokuhixyou_souzourixyoku.png",
+		"mokuhixyou_komixyurixyoku.png",
+		"mokuhixyou_mirixyoku.png",
+	};
+
+	for (int i = 0; i < DP_COUNT; i++)
+	{
+		if (!m_DPDEcisionTexture[i].Load(DPCIname[i])) {
+			return false;
+		}
 	}
 
 	return true;
@@ -374,8 +387,8 @@ void CStage::Initialize(bool spflg, int dptype) {
 
 
 	//デバッグ用のステージ指定コマンド、必要に応じていじってください
-	//m_StageComposition[0] = 0;
-	//m_StageComposition[1] = 1;
+	//m_StageComposition[0] = 10;
+	//m_StageComposition[1] = 9;
 	//m_StageComposition[2] = 2;
 	//m_StageComposition[3] = 3;
 	//m_StageComposition[4] = 4;
@@ -686,7 +699,7 @@ void CStage::Render(void) {
 	m_CharaProgressTextuer.Render(285 + m_BarProgress, 45);
 
 	//todo表示
-	m_DPDEcisionTexture.Render(0, 0);
+	m_DPDEcisionTexture[DP_Deci_Type].Render(0, 0);
 
 }
 
@@ -729,7 +742,11 @@ void CStage::Release(void) {
 	ene_Texture_1.Release();
 
 	//todo 解放
-	m_DPDEcisionTexture.Release();
+	for (int i = 0; i < DP_COUNT; i++)
+	{
+		m_DPDEcisionTexture[i].Release();
+
+	}
 }
 
 //デバック描画

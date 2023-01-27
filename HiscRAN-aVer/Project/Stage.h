@@ -70,7 +70,7 @@ private:
 	CTexture m_GradeTwoTexture;
 	CTexture m_GradeThreeTexture;
 
-	CTexture m_DPDEcisionTexture;
+	CTexture m_DPDEcisionTexture[DP_COUNT];
 
 
 	//進行度表示用
@@ -156,6 +156,7 @@ private:
 	bool m_bClear;
 
 	//ゲーム開始フラグ
+	//true:開始中
 	bool					m_Startflg;
 
 public:
