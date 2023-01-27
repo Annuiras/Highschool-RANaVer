@@ -107,8 +107,10 @@ MofBool CGameApp::Update(void){
 	g_pInput->RefreshKey();
 
 	//デバッグ切り替え
-	if(g_pInput->IsKeyPush(MOFKEY_BACKSPACE))
-	gDebagRenderflg = gDebagRenderflg ? !gDebagRenderflg : !gDebagRenderflg;
+	if (g_pInput->IsKeyPush(MOFKEY_BACKSPACE)) {
+	//gDebagRenderflg = gDebagRenderflg ? !gDebagRenderflg : !gDebagRenderflg;
+
+	}
 
 	//ロード画面更新
 	gLoad.Update();
