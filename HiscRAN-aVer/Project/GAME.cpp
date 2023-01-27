@@ -332,8 +332,10 @@ void CGAME::Update(void)
 				m_StartCount = 0;
 				m_StartTime = timeGetTime() + 1000;
 
-				//í‚é~
-				g_Stage.GameStopPlayChange();
+				//çƒê∂íÜÇ»ÇÁí‚é~
+				if (g_Stage.GetGameStopPlay()) {
+					g_Stage.GameStopPlayChange();
+				}
 			}
 		}
 		return;
