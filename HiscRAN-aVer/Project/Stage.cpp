@@ -461,21 +461,21 @@ void CStage::Initialize(bool spflg, int dptype) {
 
 
 	//デバッグ用の指定コマンド、必要に応じていじってください
-	//m_StageComposition[0] = 14;
-	//m_StageComposition[1] = 1;
-	//m_StageComposition[2] = 2;
-	//m_StageComposition[3] = 3;
-	//m_StageComposition[4] = 4;
-	//m_StageComposition[5] = 5;
-	//m_StageComposition[6] = 6;
-	//m_StageComposition[7] = 7;
-	//m_StageComposition[8] = 8;
-	//m_StageComposition[9] = 9;
-	//m_StageComposition[10] = 10;
-	//m_StageComposition[11] = 0;
-	//m_StageComposition[12] = 8;
-	//m_StageComposition[13] = 8;
-	//m_StageComposition[14] = 2;
+	m_StageComposition[0] = 7;
+	m_StageComposition[1] = 7;
+	m_StageComposition[2] = 7;
+	m_StageComposition[3] = 7;
+	m_StageComposition[4] = 7;
+	m_StageComposition[5] = 7;
+	m_StageComposition[6] = 7;
+	m_StageComposition[7] = 7;
+	m_StageComposition[8] = 7;
+	m_StageComposition[9] = 7;
+	m_StageComposition[10] = 10;
+	m_StageComposition[11] = 0;
+	m_StageComposition[12] = 8;
+	m_StageComposition[13] = 8;
+	m_StageComposition[14] = 2;
 
 
 	//表示済みカウント初期化
