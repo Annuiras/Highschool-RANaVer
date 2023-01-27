@@ -189,11 +189,15 @@ bool CStage::Load() {
 		},
 	};
 	Enemy_Motion.Create(EneAnim, ENEMY_MOTION_COUNT);
-	return true;
 
 #pragma endregion
 
-		return true;
+	//todoロード
+	if (!m_DPDEcisionTexture.Load("mokuhixyou_souzourixyoku.png")) {
+		return false;
+	}
+
+	return true;
 }
 
 //初期化
@@ -681,6 +685,9 @@ void CStage::Render(void) {
 	m_BarTextuer.Render(270, 25);
 	m_CharaProgressTextuer.Render(285 + m_BarProgress, 45);
 
+	//todo表示
+	m_DPDEcisionTexture.Render(0, 0);
+
 }
 
 //解放
@@ -721,6 +728,8 @@ void CStage::Release(void) {
 	//敵テクスチャ
 	ene_Texture_1.Release();
 
+	//todo 解放
+	m_DPDEcisionTexture.Release();
 }
 
 //デバック描画

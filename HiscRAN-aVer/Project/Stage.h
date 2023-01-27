@@ -69,6 +69,10 @@ private:
 	CTexture m_GradeOneTexture;
 	CTexture m_GradeTwoTexture;
 	CTexture m_GradeThreeTexture;
+
+	CTexture m_DPDEcisionTexture;
+
+
 	//進行度表示用
 	int m_BarProgress;
 
