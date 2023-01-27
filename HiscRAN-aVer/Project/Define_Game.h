@@ -80,8 +80,6 @@
 //障害物タイプ定義
 enum tag_OBTYPE
 {
-	OB_DESK,				//机
-	OB_TWODESK,				//２段机
 	OB_TRACHCAN,			//ごみ箱
 	OB_LOCKER,				//ロッカー
 	OB_TEXTBOOKNL,			//教科書_国語
@@ -199,4 +197,67 @@ enum class  tag_StageSituation
 {
 	STAGE_SP_YET,			//SPでない
 	STAGE_SP_STILL,			//SPの途中
+};
+
+
+//ステージの背景種類を定義
+enum tag_StageBakType
+{
+	STAGE_BAKT_START,		//ステージ最初
+	STAGE_BAKT_RDOOR,		//ステージ右扉
+	STAGE_BAKT_RWALL,		//ステージ右壁
+	STAGE_BAKT_LDOOR,		//ステージ左扉
+	STAGE_BAKT_LWALL,		//ステージ左壁
+	STAGE_BAKT_WINDOW,		//ステージ二窓
+	STAGE_BAKT_SRAIRS,		//ステージ階段
+	STAGE_BAKT_END,			//ステージ終わり
+	STAGE_BAKT_SPSTART,		//SPステージ最初
+	STAGE_BAKT_SP1,			//SPステージ１
+	STAGE_BAKT_SP2,			//SPステージ２
+	STAGE_BAKT_SPEND,		//SPステージ終わり
+
+	STAGE_BAKT_COUNT,		//総数
+};
+
+////DPの出現位置情報用構造体
+typedef struct tag_DP_POS
+{
+	float Scroll;	//DP出現スクロール値
+	float Pos_y;	//DP出現Y座標
+	tag_DP_TYPE	Type;		//DPタイプ
+
+} DP_info;
+
+//障害物の出現位置情報用構造体
+typedef struct tag_OBSTAClE_POS
+{
+	float Scroll;	//障害物出現スクロール値
+	float Pos_y;	//障害物出現Y座標
+	tag_OBTYPE	Type;		//障害物タイプ
+
+} OB_info;
+
+
+//足場の出現位置情報用構造体
+typedef struct tag_BAR_POS
+{
+	float Scroll;	//足場出現スクロール値
+	float Pos_y;	//足場出現Y座標
+	tag_BAR	Type;		//足場タイプ（仮）
+
+} BAR_info;
+
+//敵の出現位置情報構造体
+typedef struct tag_ENEMY_POS
+{
+	float Scroll;
+	float Pos_y;
+	int	  Type;
+} ENEMY_info;
+
+//敵モーション種類定義
+enum tag_ENEMY_MOTION {
+	ENEMY_MOTION_MOVE,
+
+	ENEMY_MOTION_COUNT,
 };

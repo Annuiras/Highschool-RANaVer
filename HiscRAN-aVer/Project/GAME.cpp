@@ -200,10 +200,14 @@ void CGAME::Update(void)
 {
 
 	//ゲームオーバーフラグを受け取る
-	m_GameOverflg = g_Player.GetOver();
+	if (g_Player.GetOver()) {
+		m_GameOverflg = true;
+	}
 
 	//クリアフラグを受け取る
-	m_GameClearflg = g_Stage.GetClear();
+	if (g_Stage.GetClear()) {
+		m_GameClearflg = true;
+	}
 	
 
 	//ヒットストップの処理

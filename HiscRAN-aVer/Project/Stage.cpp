@@ -20,11 +20,7 @@
 CStage::CStage() :
 
 	m_countbak(0),
-	m_BakStart(),
-	m_SPBak_Start(),
-	m_SPBak_1(),
-	m_SPBak_2(),
-	m_SPBak_End(),
+	m_BakTex(),
 	m_dpcount(0),
 	m_barcount(0),
 	m_obcount(0),
@@ -45,183 +41,87 @@ CStage::~CStage() {
 
 bool CStage::Load() {
 
-#pragma region ステージ背景ロード
-
+	//ステージ背景ロード
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("StageBak");
 
-	if (!m_BakStart.Load("HallStart.png")) {
-		return false;
-	}
+	char* Bakname[STAGE_BAKT_COUNT] =
+	{
+		"HallStart.png",
+		"Door_R.png",
+		"Wall_R.png",
+		"Door_L.png",
+		"Wall_L.png",
+		"Stairs.png",
+		"Window_2.png",
+		"HallEnd.png",
+		"SPStart.png",
+		"SP1.png",
+		"SP2.png",
+		"SPEnd.png",
+	};
 
-	if (!m_BakRdoor.Load("Door_R.png")) {
-		return false;
-	}
-
-	if (!m_BakRwall.Load("Wall_R.png")) {
-		return false;
-	}
-
-	if (!m_Bakldoor.Load("Door_L.png")) {
-		return false;
-	}
-
-	if (!m_Baklwall.Load("Wall_L.png")) {
-		return false;
-	}
-
-	if (!m_BakStairs.Load("Stairs.png")) {
-		return false;
-	}
-
-	if (!m_BakWindow.Load("Window_2.png")) {
-		return false;
-	}
-
-	if (!m_BakEnd.Load("HallEnd.png")) {
-		return false;
-	}
-
-	//SP最初の背景
-	if (!m_SPBak_Start.Load("SPStart.png")) {
-		return false;
-	}
-
-	//SPステージ中の背景
-	if (!m_SPBak_1.Load("SP1.png")) {
-		return false;
-	}
-
-	//SPステージ中の背景
-	if (!m_SPBak_2.Load("SP2.png")) {
-		return false;
-	}
-
-	//SP最後のの背景
-	if (!m_SPBak_End.Load("SPEnd.png")) {
-		return false;
+	//ステージ背景ロード
+	for (int i = 0; i < STAGE_BAKT_COUNT; i++)
+	{
+		if (!m_BakTex[i].Load(Bakname[i])) {
+			return false;
+		}
 	}
 
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("../");
 
-#pragma endregion
 
-#pragma region DPテクスチャロード
-
+	//DPテクスチャロード
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("DetailPoint");
 
-	//仮テクスチャ：学力
-	if (!dp_Textuer_Scholastic.Load("DPScholastic.png")) {
-		return false;
-	}
+	char* DPname[DP_COUNT] =
+	{
+		"DPScholastic.png",
+		"DPAction.png",
+		"DPImagination.png",
+		"DPCommunication.png",
+		"DPCharm.png",
+	};
 
-	//仮テクスチャ：行動力
-	if (!dp_Textuer_Action.Load("DPAction.png")) {
-		return false;
+	for (int i = 0; i < DP_COUNT; i++)
+	{
+		if (!m_DPTex[i].Load(DPname[i])) {
+			return false;
+		}
 	}
-
-	//仮テクスチャ：想像力
-	if (!dp_Textuer_Imagination.Load("DPImagination.png")) {
-		return false;
-	}
-
-	//仮テクスチャ：コミュ力
-	if (!dp_Textuer_Communication.Load("DPCommunication.png")) {
-		return false;
-	}
-
-	//仮テクスチャ：魅力
-	if (!dp_Textuer_Charm.Load("DPCharm.png")) {
-		return false;
-	}
-
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("../");
 
-#pragma endregion
 
-#pragma region 障害物テクスチャロード
-
+	//障害物テクスチャロード
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("Obstacle");
 
-	//テクスチャ：机
-	if (!ob_Textuer_Desk.Load("Desk.png")) {
-		return false;
-	}
+	char* OBname[OB_COUNT] =
+	{
+		"TrachCan.png",
+		"Locker.png",
+		"TextBookNL.png",
+		"TextBookMATH.png",
+		"TextBookCHEM.png",
+		"TextBookSOC.png",
+		"TextBookENG.png",
+		"VaultingHorse.png",
+		"ScotchTape.png",
+		"BloackboardEraser.png",
+		"Seaweed.png",
+		"Smartphone1.png",
+		"Eraser.png",
+		"SmartphoneVertical.png",
+	};
 
-	//テクスチャ：ごみ箱
-	if (!ob_Textuer_TrachCan.Load("TrachCan.png")) {
-		return false;
+	for (int i = 0; i < OB_COUNT; i++)
+	{
+		ob_Textuer[i].Load(OBname[i]);
 	}
-
-	//テクスチャ：ロッカー
-	if (!ob_Textuer_Locker.Load("Locker.png")) {
-		return false;
-	}
-
-	//テクスチャ：教科書_国語
-	if (!ob_Textuer_TextBookNL.Load("TextBookNL.png")) {
-		return false;
-	}
-
-	//テクスチャ：教科書_数学
-	if (!ob_Textuer_TextBookMATH.Load("TextBookMATH.png")) {
-		return false;
-	}
-
-	//テクスチャ：教科書_理科
-	if (!ob_Textuer_TextBookCHEM.Load("TextBookCHEM.png")) {
-		return false;
-	}
-
-	//テクスチャ：教科書_社会
-	if (!ob_Textuer_TextBookSOC.Load("TextBookSOC.png")) {
-		return false;
-	}
-
-	//テクスチャ：教科書_英語
-	if (!ob_Textuer_TextBookENG.Load("TextBookENG.png")) {
-		return false;
-	}
-
-	//テクスチャ：跳び箱
-	if (!ob_Textuer_VaultingHorse.Load("VaultingHorse.png")) {
-		return false;
-	}
-
-	//テクスチャ：セロハンテープ
-	if (!ob_Textuer_ScotchTape.Load("ScotchTape.png")) {
-		return false;
-	}
-
-	//テクスチャ：黒板消し
-	if (!ob_Textuer_BloackboardEraser.Load("BloackboardEraser.png")) {
-		return false;
-	}
-
-	//テクスチャ：スティックのり
-	if (!ob_Seaweed.Load("Seaweed.png")) {
-		return false;
-	}
-
-	//テクスチャ：スマホ横
-	if (!ob_Smartphone1.Load("Smartphone1.png")) {
-		return false;
-	}
-
-	//テクスチャ：消しゴム
-	if (!ob_Eraser.Load("Eraser.png")) {
-		return false;
-	}
-
-	//テクスチャ：スマホ縦
-	if (!ob_SmartphoneVertical.Load("SmartphoneVertical.png")) {
-		return false;
-	}
-
 
 	//リソース配置ディレクトリの設定
 	CUtilities::SetCurrentDirectoryA("../");
@@ -417,7 +317,7 @@ void CStage::Initialize(bool spflg, int dptype) {
 	for (int i = 0; i < SATAGE_MAP_PATTERN*2; i++)
 	{
 		//ランダムで種類を決定する
-		int randamu=RandmuBak.GetRandomNumbe(1, 6);
+		int randamu=RandmuBak.GetRandomNumbe(STAGE_BAKT_RDOOR, STAGE_BAKT_SRAIRS);
 
 		//一番最初以外で、同じ背景の場合
 		//違う背景にする処理
@@ -438,11 +338,11 @@ void CStage::Initialize(bool spflg, int dptype) {
 	}
 
 	//背景構成の一番最後用の物を適用する
-	m_BakComposition[SATAGE_MAP_PATTERN * 2] = 8;
+	m_BakComposition[SATAGE_MAP_PATTERN * 2] = STAGE_BAKT_END;
 
 	//右側から背景構成を読むための初期化
 	//一番最初の背景
-	m_RandamuBakRight = 7;
+	m_RandamuBakRight = STAGE_BAKT_START;
 	m_RandamuBakLeft = m_BakComposition[0];
 
 	//スペシャルステージが発生する場合
@@ -450,16 +350,16 @@ void CStage::Initialize(bool spflg, int dptype) {
 	if (SP_flg) {
 
 		//SP開始位置にSPステージ開始背景をセット
-		m_BakComposition[(MAP_SP_START_PATTERN * 2)] = 9;
+		m_BakComposition[(MAP_SP_START_PATTERN * 2)] = STAGE_BAKT_SPSTART;
 
 		for (int i = 1; i < MAP_SP_LENGTH * 2; i++)
 		{
 			//SPステージ背景をランダムでセット
-			m_BakComposition[(MAP_SP_START_PATTERN * 2) + i] = RandmuBak.GetRandomNumbe(10, 11);
+			m_BakComposition[(MAP_SP_START_PATTERN * 2) + i] = RandmuBak.GetRandomNumbe(STAGE_BAKT_SP1, STAGE_BAKT_SP2);
 		}
 
 		//SPステージ終わり背景をセット
-		m_BakComposition[(MAP_SP_START_PATTERN * 2)+(MAP_SP_LENGTH*2)-1] = 13;
+		m_BakComposition[(MAP_SP_START_PATTERN * 2)+(MAP_SP_LENGTH*2)-1] = STAGE_BAKT_SPEND;
 	}
 
 	//使用済み背景記録を初期化
@@ -544,7 +444,7 @@ void CStage::Update(CRectangle plrect) {
 		m_countbak += 1;
 
 		//初期化
-		m_BakScroll = m_BakStart.GetWidth();
+		m_BakScroll = m_BakTex[0].GetWidth();
 
 	}
 
@@ -601,7 +501,6 @@ void CStage::Update(CRectangle plrect) {
 
 	//マップパターンの切り替え
 	MapChange();
-
 
 	//同じX座標の場合の複数回判定
 	for (int i = 0; i < 3; i++)
@@ -700,7 +599,7 @@ void CStage::Render(void) {
 	//テクスチャの描画
 	//乱数使ってるけど配列とかでもいいかも
 	//同じテクスチャを繰り返しで画面端を超えるまで行う
-	int h = m_BakStart.GetWidth();
+	int h = m_BakTex[0].GetWidth();
 	int sch = g_pGraphics->GetTargetWidth();
 
 	//次の背景を用意
@@ -736,123 +635,12 @@ void CStage::Render(void) {
 		if (x <= 0)
 		{
 			//最初と最後以外の中間を埋める背景
-			switch (m_RandamuBakLeft)
-			{
-
-				case 1:
-					m_BakRdoor.Render(x, 0.0f,MOF_ARGB(m_BakAVal,255,255,255));
-					break;
-
-				case 2:
-					m_BakRwall.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
-					break;
-
-				case 3:
-					m_Bakldoor.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
-					break;
-
-				case 4:
-					m_Baklwall.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
-					break;
-
-				case 5:
-					m_BakWindow.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
-					break;
-
-				case 6:
-					m_BakStairs.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
-					break;
-
-				case 7:
-					m_BakStart.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
-					break;
-
-				case 8:
-					m_BakEnd.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
-					break;
-
-				case 9:
-					m_SPBak_Start.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
-					break;
-
-				case 10:
-					m_SPBak_1.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
-					break;
-
-				case 11:
-					m_SPBak_2.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
-					break;
-
-				case 13:
-					m_SPBak_End.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
-					break;
-
-				default:
-					break;
-
-			}
-
+			m_BakTex[m_RandamuBakLeft].Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
 		}
 		else//出てくる画像
-		{
-			
+		{			
 			//最初と最後以外の中間を埋める背景
-			switch (m_RandamuBakRight)
-			{
-
-			case 1:
-				m_BakRdoor.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
-				break;
-
-			case 2:
-				m_BakRwall.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
-				break;
-
-			case 3:
-				m_Bakldoor.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
-				break;
-
-			case 4:
-				m_Baklwall.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
-				break;
-
-			case 5:
-				m_BakWindow.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
-				break;
-
-			case 6:
-				m_BakStairs.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
-				break;
-
-			case 7:
-				m_BakStart.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
-				break;
-
-			case 8:
-				m_BakEnd.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
-				break;
-
-			case 9:
-				m_SPBak_Start.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
-				break;
-
-			case 10:
-				m_SPBak_1.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
-				break;
-
-			case 11:
-				m_SPBak_2.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
-				break;
-
-			case 13:
-				m_SPBak_End.Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));
-				break;
-
-			default:
-				break;
-
-			}
-
+			m_BakTex[m_RandamuBakRight].Render(x, 0.0f, MOF_ARGB(m_BakAVal, 255, 255, 255));		
 		}
 	}
 
@@ -908,43 +696,23 @@ void CStage::Release(void) {
 	m_GradeThreeTexture.Release();
 
 	//ステージ背景
-	m_BakStart.Release();
-	m_BakRdoor.Release();
-	m_BakRwall.Release();
-	m_Bakldoor.Release();
-	m_Baklwall.Release();
-	m_BakWindow.Release();
-	m_BakStairs.Release();
-	m_BakEnd.Release();
-	m_SPBak_Start.Release();
-	m_SPBak_1.Release();
-	m_SPBak_2.Release();
-	m_SPBak_End.Release();
+
+	for (int i = 0; i < STAGE_BAKT_COUNT; i++)
+	{
+		m_BakTex[i].Release();
+	}
 
 	//DPテクスチャ
-	dp_Textuer_Scholastic.Release();
-	dp_Textuer_Action.Release();
-	dp_Textuer_Imagination.Release();
-	dp_Textuer_Communication.Release();
-	dp_Textuer_Charm.Release();
+	for (int i = 0; i < DP_COUNT; i++)
+	{
+		m_DPTex[i].Release();
+	}
 
 	//障害物テクスチャ
-	ob_Textuer_Desk.Release();
-	ob_Textuer_TwoDesk.Release();
-	ob_Textuer_TrachCan.Release();
-	ob_Textuer_Locker.Release();
-	ob_Textuer_TextBookNL.Release();
-	ob_Textuer_TextBookMATH.Release();
-	ob_Textuer_TextBookCHEM.Release();
-	ob_Textuer_TextBookSOC.Release();
-	ob_Textuer_TextBookENG.Release();
-	ob_Textuer_VaultingHorse.Release();
-	ob_Textuer_ScotchTape.Release();
-	ob_Textuer_BloackboardEraser.Release();
-	ob_Seaweed.Release();
-	ob_Smartphone1.Release();
-	ob_Eraser.Release();
-	ob_SmartphoneVertical.Release();
+	for (int i = 0; i < OB_COUNT; i++)
+	{
+		ob_Textuer[i].Release();
+	}
 
 	//足場テクスチャ
 	bar_Textuer_Medium.Release();
@@ -952,7 +720,6 @@ void CStage::Release(void) {
 
 	//敵テクスチャ
 	ene_Texture_1.Release();
-	ene_Texture_2.Release();
 
 }
 
@@ -1119,12 +886,12 @@ void CStage::OccurrenceDP(void) {
 				continue;
 			}
 
+			//初期化
 			int type= DP_SCHOLASTIC;
+			if (SP_flg && m_SPSitua == tag_StageSituation::STAGE_SP_STILL) {
 
-			if (SP_flg&&m_SPSitua== tag_StageSituation ::STAGE_SP_STILL) {
-
-				//SP中はSP中のDPに変換
-				type = DP_Deci_Type + 6;
+				//SP中はDP選択画面に変換
+				type = DP_Deci_Type;
 			}
 			else
 			{
@@ -1132,54 +899,18 @@ void CStage::OccurrenceDP(void) {
 				type = s_stageDP[m_StageComposition[m_MapNo]][m_dpcount].Type;
 			}
 
+			
+
 			//表示テクスチャ準備
 			//出現位置とタイプを渡す
-			switch (type)
-			{
+			dp_array[i].SetTexture(&m_DPTex[type]);
+			if (SP_flg && m_SPSitua == tag_StageSituation::STAGE_SP_STILL) {
 
-			case DP_SCHOLASTIC:
-				dp_array[i].SetTexture(&dp_Textuer_Scholastic);
-				break;
-
-			case DP_ACTION:
-				dp_array[i].SetTexture(&dp_Textuer_Action);
-				break;
-
-			case DP_IMAGINATION:
-				dp_array[i].SetTexture(&dp_Textuer_Imagination);
-				break;
-
-			case DP_COMMUNICATION:
-				dp_array[i].SetTexture(&dp_Textuer_Communication);
-				break;
-
-			case DP_CHARM:
-				dp_array[i].SetTexture(&dp_Textuer_Charm);
-				break;
-
-			case DP_SP_SCHOLASTIC:
-				dp_array[i].SetTexture(&dp_Textuer_Scholastic);
-				break;
-
-			case DP_SP_ACTION:
-				dp_array[i].SetTexture(&dp_Textuer_Action);
-				break;
-
-			case DP_SP_IMAGINATION:
-				dp_array[i].SetTexture(&dp_Textuer_Imagination);
-				break;
-
-			case DP_SP_COMMUNICATION:
-				dp_array[i].SetTexture(&dp_Textuer_Communication);
-				break;
-
-			case DP_SP_CHARM:
-				dp_array[i].SetTexture(&dp_Textuer_Charm);
-				break;
-
-			default:
-				break;
+				//SP中はSPDPに変換
+				type = DP_Deci_Type + 6;
 			}
+
+			//生成
 			dp_array[i].Start(s_stageDP[m_StageComposition[m_MapNo]][m_dpcount].Pos_y, type);
 			break;
 		}
@@ -1209,79 +940,9 @@ void CStage::OccurrenceOB(void) {
 			if (ob_array[i].Getshow()) {
 				continue;
 			}
-
 			//表示テクスチャ準備
 			//出現位置とタイプを渡す
-			switch (s_stageOB[m_StageComposition[m_MapNo]][m_obcount].Type)
-			{
-
-			case OB_DESK:
-				ob_array[i].SetTexture(&ob_Textuer_Desk);
-				break;
-
-			case OB_TWODESK:
- 				ob_array[i].SetTexture(&ob_Textuer_TwoDesk);
-				break;
-
-			case OB_TRACHCAN:
-				ob_array[i].SetTexture(&ob_Textuer_TrachCan);
-				break;
-
-			case OB_LOCKER:
-				ob_array[i].SetTexture(&ob_Textuer_Locker);
-				break;
-
-			case OB_TEXTBOOKNL:
-				ob_array[i].SetTexture(&ob_Textuer_TextBookNL);
-				break;
-
-			case OB_TEXTBOOKMATH:
-				ob_array[i].SetTexture(&ob_Textuer_TextBookMATH);
-				break;
-
-			case OB_TEXTBOOKCHEM:
-				ob_array[i].SetTexture(&ob_Textuer_TextBookCHEM);
-				break;
-
-			case OB_TEXTBOOKSOC:
-				ob_array[i].SetTexture(&ob_Textuer_TextBookSOC);
-				break;
-
-			case OB_TEXTBOOKENG:
-				ob_array[i].SetTexture(&ob_Textuer_TextBookENG);
-				break;
-
-			case OB_VAULTINGHORSE:
-				ob_array[i].SetTexture(&ob_Textuer_VaultingHorse);
-				break;
-
-			case OB_SCOTCHTAPE:
-				ob_array[i].SetTexture(&ob_Textuer_ScotchTape);
-				break;
-
-			case OB_BLOACKBOARDERASER:
-				ob_array[i].SetTexture(&ob_Textuer_BloackboardEraser);
-				break;
-
-			case OB_SEAWEED:
-				ob_array[i].SetTexture(&ob_Seaweed);
-				break;
-
-			case OB_SMARTPHONE1:
-				ob_array[i].SetTexture(&ob_Smartphone1);
-				break;
-
-			case OB_ERASER:
-				ob_array[i].SetTexture(&ob_Eraser);
-				break;
-
-			case OB_SMARTPHONEVERTICAL:
-				ob_array[i].SetTexture(&ob_SmartphoneVertical);
-				break;
-
-			default:
-				break;
-			}
+			ob_array[i].SetTexture(&ob_Textuer[s_stageOB[m_StageComposition[m_MapNo]][m_obcount].Type]);
 
 
 			//表示準備
