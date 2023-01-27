@@ -33,11 +33,6 @@ private:
 	CStage g_Stage;
 
 	//ステージ内で取得したDPの数
-	//0:学力
-	//1:行動力
-	//2:想像力
-	//3:コミュ力
-	//4:魅力
 	int m_DPNum[DP_COUNT];
 
 	//SPステージ中で取得したDPの数
@@ -84,9 +79,7 @@ public:
 	~CGAME();
 	void Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec, CMenu* menu);
 	void Update(void);
-
 	void UpdateDebug(void);
-
 	void Render(void);
 	void Load(void);
 	void Release(void);

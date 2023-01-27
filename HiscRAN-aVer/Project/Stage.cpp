@@ -241,9 +241,6 @@ void CStage::Initialize(bool spflg, int dptype) {
 	//α値初期化
 	m_BakAVal = 255;
 
-	//ステージ変化フラグ
-	v_StageChangeflg = false;		
-
 	//SPステージ状態用
 	m_SPSitua = tag_StageSituation::STAGE_SP_YET;
 
@@ -387,8 +384,8 @@ void CStage::Initialize(bool spflg, int dptype) {
 
 
 	//デバッグ用のステージ指定コマンド、必要に応じていじってください
-	//m_StageComposition[0] = 10;
-	//m_StageComposition[1] = 9;
+	//m_StageComposition[0] = 6;
+	//m_StageComposition[1] = 2;
 	//m_StageComposition[2] = 2;
 	//m_StageComposition[3] = 3;
 	//m_StageComposition[4] = 4;

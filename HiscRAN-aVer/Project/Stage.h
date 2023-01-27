@@ -130,9 +130,6 @@ private:
 	//スクロールスピード
 	float m_Scroll_Speed;
 
-	//ステージ変化
-	bool				v_StageChangeflg;//変化フラグ true:変化済
-
 	//SPありフラグ
 	//true:あり
 	bool SP_flg;

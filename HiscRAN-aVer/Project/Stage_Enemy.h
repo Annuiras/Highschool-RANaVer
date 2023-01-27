@@ -79,8 +79,9 @@ ENEMY_info s_stageENEMY[][ENEMY_INFO_STRUCT] =
 	},
 	//マップパターン14 S15
 	{
-		{1933,505,ENEMY_1},
-		{ 10000,0,ENEMY_COUNT}
+		{1213.0f,160.0f,ENEMY_1},
+		{2377.0f,505,ENEMY_1},
+		{10000,0,ENEMY_COUNT}
 	},
 	//マップパターン15 SP1
 	{
