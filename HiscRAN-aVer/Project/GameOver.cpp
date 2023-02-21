@@ -21,15 +21,9 @@ CGameOver::CGameOver() :
 	m_TextStart(),
 	m_ENDText(),
 	Rondom(0.0f),
-	recHPENDTex(),
-	recDPENDTex(),
-	PosXHPEND(),
-	//PosXDPEND(),
 	m_BlackBakAlph(),
 	m_WhiteBakAlph(),
-	GameOverCount(),
-	HPEND()
-	//DPEND()
+	GameOverCount()
 {
 }
 
@@ -109,10 +103,6 @@ void CGameOver::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* e
 
 	//現在のシーンセット
 	m_NowScene = SCENENO_GAMEOVER;
-
-	//ゲームオーバー原因をセット
-	//今後復活するかもしれないのでコメントアウト
-	//DPEND = b_GameProgMamt->GetGame_Over_HP();
 
 }
 
@@ -199,19 +189,13 @@ void CGameOver::UpdateDebug(void)
 //描画
 void CGameOver::Render(void)
 {
+	//背景
 	m_BackTexture.Render(0, 0);
 
-	//HPが無くなって死んだときの背景
-	if (HPEND)
-	{
-		m_ENDText.Render(PosXHPEND[Rondom], 140, recHPENDTex[Rondom]);
-	}
-	//今後使うかもしれないのでコメントアウト
-	/*else 
-	{
-		m_ENDText.Render(PosXDPEND[Rondom], 140, recDPENDTex[Rondom]);
-	}*/
-
+	//ゲームオーバーテキスト
+	m_ENDText.Render(PosXENDText[Rondom], 140, recENDText[Rondom]);
+	
+	//ボタン
 	if (GameOverCount == 0)
 	{
 		m_StartButton.Render(133, 260);

@@ -28,9 +28,6 @@ private:
 	int Game_DPNum[DP_COUNT];
 	int Game_SP_DPNum;
 
-	//ゲームオーバー原因フラグ
-	bool Game_Over_HP;
-
 	//DP目標設定画面：選択DP番号
 	int DPdec_type;
 
@@ -61,11 +58,6 @@ public:
 	void SetDPdec_SPflg(bool b);
 	//ゲーム画面：SPフラグをゲット
 	bool GetDPdec_SPflg(void);
-
-	//ゲーム画面：ゲームオーバー原因フラグセット
-	void SetGame_Over_HP(bool b);
-	//ゲームオーバー画面：ゲームオーバー原因フラグゲット
-	bool GetGame_Over_HP(void);
 
 	//ゲーム画面：DP取得数をセット
 	void SetGame_DPNum(int DP[]);
