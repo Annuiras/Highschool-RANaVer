@@ -17,48 +17,6 @@
 #include "EffectManager.h"
 #include "MusicManager.h"
 
-////DPの出現位置情報用構造体
-typedef struct tag_DP_POS
-{
-	float Scroll;	//DP出現スクロール値
-	float Pos_y;	//DP出現Y座標
-	tag_DP_TYPE	Type;		//DPタイプ
-
-} DP_info;
-
-//障害物の出現位置情報用構造体
-typedef struct tag_OBSTAClE_POS
-{	
-	float Scroll;	//障害物出現スクロール値
-	float Pos_y;	//障害物出現Y座標
-	tag_OBTYPE	Type;		//障害物タイプ
-
-} OB_info;
-
-
-//足場の出現位置情報用構造体
-typedef struct tag_BAR_POS
-{	
-	float Scroll;	//足場出現スクロール値
-	float Pos_y;	//足場出現Y座標
-	tag_BAR	Type;		//足場タイプ（仮）
-
-} BAR_info;
-
-//敵の出現位置情報構造体
-typedef struct tag_ENEMY_POS
-{
-	float Scroll;
-	float Pos_y;
-	int	  Type;
-} ENEMY_info;
-
-//モーション種類定義
-enum tag_ENEMY_MOTION {
-	ENEMY_MOTION_MOVE,
-
-	ENEMY_MOTION_COUNT,
-};
 
 class CStage
 {
@@ -73,118 +31,14 @@ private:
 	//SE・BGMマネージャー
 	CMusicMgmt* m_MusicMgmt;
 
+	//ステージテクスチャ
+	CTexture m_BakTex[STAGE_BAKT_COUNT];
 
-	#pragma region ステージテクスチャ
+	//DPテクスチャ
+	CTexture m_DPTex[DP_COUNT];
 
-	//廊下始まり
-	CTexture m_BakStart;
-
-	//右扉
-	CTexture m_BakRdoor;
-	
-	//右壁
-	CTexture m_BakRwall;
-
-	//左扉
-	CTexture m_Bakldoor;
-
-	//左壁
-	CTexture m_Baklwall;
-
-	//二窓
-	CTexture m_BakWindow;
-
-	//階段
-	CTexture m_BakStairs;
-
-	//廊下終わり
-	CTexture m_BakEnd;
-
-	//SPステージ始まり
-	CTexture m_SPBak_Start;
-
-	//SPステージ１
-	CTexture m_SPBak_1;
-
-	//SPステージ２
-	CTexture m_SPBak_2;
-
-	//SPステージ終わり
-	CTexture m_SPBak_End;
-
-#pragma endregion
-
-	#pragma region DPテクスチャ
-
-	//仮DPテクスチャ：学力
-	CTexture dp_Textuer_Scholastic;
-
-	//仮DPテクスチャ：行動力
-	CTexture dp_Textuer_Action;
-
-	//仮DPテクスチャ：想像力
-	CTexture dp_Textuer_Imagination;
-
-	//仮DPテクスチャ：コミュ力
-	CTexture dp_Textuer_Communication;
-
-	//仮DPテクスチャ：魅力
-	CTexture dp_Textuer_Charm;
-
-
-#pragma endregion
-
-	#pragma region 障害物テクスチャ
-
-	//テクスチャ：机
-	CTexture ob_Textuer_Desk;
-
-	//テクスチャ：２段机
-	CTexture ob_Textuer_TwoDesk;
-
-	//テクスチャ：ごみ箱
-	CTexture ob_Textuer_TrachCan;
-
-	//テクスチャ：ロッカー
-	CTexture ob_Textuer_Locker;
-
-	//テクスチャ：教科書_国語
-	CTexture ob_Textuer_TextBookNL;
-
-	//テクスチャ：教科書_数学
-	CTexture ob_Textuer_TextBookMATH;
-
-	//テクスチャ：教科書_理科
-	CTexture ob_Textuer_TextBookCHEM;
-
-	//テクスチャ：教科書_社会
-	CTexture ob_Textuer_TextBookSOC;
-
-	//テクスチャ：教科書_英語
-	CTexture ob_Textuer_TextBookENG;
-
-	//テクスチャ：跳び箱
-	CTexture ob_Textuer_VaultingHorse;
-
-	//テクスチャ：セロハンテープ
-	CTexture ob_Textuer_ScotchTape;
-
-	//テクスチャ：黒板消し
-	CTexture ob_Textuer_BloackboardEraser;
-
-	//テクスチャ：スティックのり
-	CTexture ob_Seaweed;
-
-	//テクスチャ：スマホ１
-	CTexture ob_Smartphone1;
-
-	//テクスチャ：消しゴム
-	CTexture ob_Eraser;
-
-	//テクスチャ：スマホ縦
-	CTexture ob_SmartphoneVertical;
-
-#pragma endregion
+	//障害物テクスチャ
+	CTexture ob_Textuer[OB_COUNT];
 
 	#pragma region 足場テクスチャ
 
@@ -200,13 +54,10 @@ private:
 
 	//敵テクスチャ : 敵1
 	CTexture ene_Texture_1;
-	//敵テクスチャ : 敵2
-	CTexture ene_Texture_2;
-
-#pragma endregion
 
 	//敵アニメーション
 	CSpriteMotionController Enemy_Motion;
+#pragma endregion
 
 	//進行度バー
 	CTexture m_BarTextuer;
@@ -218,6 +69,10 @@ private:
 	CTexture m_GradeOneTexture;
 	CTexture m_GradeTwoTexture;
 	CTexture m_GradeThreeTexture;
+
+	CTexture m_DPDEcisionTexture[DP_COUNT];
+
+
 	//進行度表示用
 	int m_BarProgress;
 
@@ -228,8 +83,7 @@ private:
 	int m_MapNo;
 
 	//ステージ構成を決める配列
-	int m_StageComposition[SATAGE_MAP_PATTERN] = { 1 };
-
+	int m_StageComposition[SATAGE_MAP_PATTERN + 1];
 
 	//表示済みDP数
 	int m_dpcount;
@@ -248,6 +102,9 @@ private:
 
 	//ステージ用スクロール
 	float	m_StageScroll;
+
+	//進行度計算用
+	int m_BarProgressCount;
 
 	//背景構成
 	int m_BakComposition[(SATAGE_MAP_PATTERN * 2)+1];
@@ -273,9 +130,6 @@ private:
 	//スクロールスピード
 	float m_Scroll_Speed;
 
-	//ステージ変化
-	bool				v_StageChangeflg;//変化フラグ true:変化済
-
 	//SPありフラグ
 	//true:あり
 	bool SP_flg;
@@ -299,6 +153,7 @@ private:
 	bool m_bClear;
 
 	//ゲーム開始フラグ
+	//true:開始中
 	bool					m_Startflg;
 
 public:

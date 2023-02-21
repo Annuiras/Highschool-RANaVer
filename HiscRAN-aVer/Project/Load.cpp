@@ -17,6 +17,7 @@ CLoad::CLoad():
 	m_ErBak(),
 	m_WaitingTime(),
 	m_Time(0),
+	m_PointCount(),
 	m_LoadTimeEnd(false),
 	m_WhiteAlpha(),
 	m_Fadein()
@@ -40,6 +41,8 @@ void CLoad::Initialize(int A, int time)
 	m_WaitingTime = time;
 
 	m_Time = 0;
+
+	m_PointCount = 0;
 
 	//フェードフラグ
 	m_Fadein = false;
@@ -97,15 +100,24 @@ void CLoad::Update()
 	//経過時間追加
 	m_Time++;
 
-	//点をすべて表示したら点をすべて消す
-	if (m_Time% 120==0) {
-		m_StringRec.Right -= 60;
-	}
 
 	//経過時間によって表示矩形を大きくして
 	//点が増えるように見せる
-	if (m_Time % 30 == 0) {
-		m_StringRec.Right += 15;
+	if (m_Time % 40 == 0) {
+
+		//点をすべて表示したら点をすべて消す
+		if (m_PointCount >= 3) {
+			m_StringRec.SetValue(0, 0, m_String.GetWidth() - 75, m_String.GetHeight());
+			m_PointCount = 0;
+			m_Time = 0;
+		}
+		else
+		{
+			m_StringRec.Right += 15;
+			m_PointCount++;
+
+		}
+
 	}
 
 	//透明かつ待機時間終了
@@ -147,7 +159,7 @@ void CLoad::RenderDebug(void)
 {
 	CGraphicsUtilities::RenderString(0, 150, MOF_XRGB(80, 80, 80), "最低待機時間:%d", m_WaitingTime);
 	CGraphicsUtilities::RenderString(0, 180, MOF_XRGB(80, 80, 80), "アルファ値:%d", m_WhiteAlpha);
-
+	CGraphicsUtilities::RenderString(0, 210, MOF_XRGB(80, 80, 80), "カウント:%d", m_PointCount);
 	CGraphicsUtilities::RenderRect(m_StringRec, MOF_XRGB(80, 80, 80));
 
 }

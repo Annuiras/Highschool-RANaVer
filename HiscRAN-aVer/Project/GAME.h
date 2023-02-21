@@ -33,11 +33,6 @@ private:
 	CStage g_Stage;
 
 	//ステージ内で取得したDPの数
-	//0:学力
-	//1:行動力
-	//2:想像力
-	//3:コミュ力
-	//4:魅力
 	int m_DPNum[DP_COUNT];
 
 	//SPステージ中で取得したDPの数
@@ -65,7 +60,6 @@ private:
 	//DP目標設定画面で選んだDP番号
 	int m_DPDeci;
 
-
 	//フェード用アルファ値
 	int m_BlackBakAlph;
 	int m_WhiteBakAlph;
@@ -75,14 +69,17 @@ private:
 	//クリアフラグ
 	bool m_GameClearflg;
 
+	//ヒットストップの変数追加
+	float			m_StopCount;
+	bool			m_Stopflg;
+
+
 public:
 	CGAME();
 	~CGAME();
 	void Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec, CMenu* menu);
 	void Update(void);
-
 	void UpdateDebug(void);
-
 	void Render(void);
 	void Load(void);
 	void Release(void);

@@ -163,7 +163,7 @@ void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec
 	//カウントダウン用カウンタ初期化
 	m_StartCount = 0;
 
-
+	m_Stopflg = true;
 	//状態を設定
 	b_Fadein = FADE_IN;
 
@@ -174,7 +174,7 @@ void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec
 	m_BlackBakAlph = 0;
 	m_WhiteBakAlph = 255;
 
-	//デバッグ用
+	//クリア、オーバーフラグ初期化
 	m_GameClearflg = false;
 	m_GameOverflg = false;
 
@@ -183,8 +183,13 @@ void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec
 	{
 		m_DPNum[i] = 0;
 	}
+	//SODP初期化
 	m_SP_DPNum = 0;
+
+	
 	m_StartScale = 0.0f;
+
+	//デバック用
 
 	//現在のシーン
 	m_NowScene = SCENENO_GAME;
@@ -193,6 +198,31 @@ void CGAME::Initialize(CGameProgMgmt* mamt, CMusicMgmt* musi, CEffectMgmt* effec
 //更新
 void CGAME::Update(void)
 {
+
+	//ゲームオーバーフラグを受け取る
+	if (g_Player.GetOver()) {
+		m_GameOverflg = true;
+	}
+
+	//クリアフラグを受け取る
+	if (g_Stage.GetClear()) {
+		m_GameClearflg = true;
+	}
+	
+
+	//ヒットストップの処理
+	if (m_GameOverflg && m_Stopflg)
+	{
+		m_Stopflg = false;
+		m_StopCount = 30;
+	}
+	if (m_StopCount > 0)
+	{
+		m_StopCount--;
+		return;
+	}
+
+
 
 	//フェードイン処理
 	if (b_Fadein == FADE_IN) {
@@ -302,8 +332,10 @@ void CGAME::Update(void)
 				m_StartCount = 0;
 				m_StartTime = timeGetTime() + 1000;
 
-				//停止
-				g_Stage.GameStopPlayChange();
+				//再生中なら停止
+				if (g_Stage.GetGameStopPlay()) {
+					g_Stage.GameStopPlayChange();
+				}
 			}
 		}
 		return;
@@ -362,16 +394,6 @@ void CGAME::Update(void)
 
 		return;
 	}
-
-	//クリアフラグを受け取る
-	if (g_Stage.GetClear()) {
-		m_GameClearflg = true;
-	}
-
-	//ゲームオーバーフラグを受け取る
-	if (g_Player.GetOver()) {
-		m_GameOverflg = true;
-	}
 	
 	//プレイヤー更新
 	g_Player.Update();
@@ -390,7 +412,16 @@ void CGAME::Update(void)
 
 			g_Player.UPdateCollisionBra(g_Stage.b_bar[i].GetY());
 		}
+		//敵
+		for (int e = 0; e < ENEMY_VOLUME; e++)
+		{
+			if (!g_Stage.ene_array[e].Getshow())
+				continue;
 
+			if (g_Stage.ene_array[e].GetRect().CollisionRect(g_Stage.b_bar[i].GetRect())) {
+				g_Stage.ene_array[e].SetPosY(g_Stage.b_bar[i].GetY());
+			}
+		}
 	}
 
 	//障害物との当たり判定
@@ -460,6 +491,7 @@ void CGAME::Update(void)
 
 	//エフェクトの更新
 	b_EffectManeger->Update(g_Player.GetRect());
+
 }
 
 //DPと当たった場合

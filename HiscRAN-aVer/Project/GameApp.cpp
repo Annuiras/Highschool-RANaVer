@@ -35,7 +35,9 @@
 
 
 //デバッグ
-bool		gDebagflag = false;
+bool		gDebagRenderflg = false;
+//フレーム停止
+bool m_DStop = false, m_IsDStop=false;
 
 //シーンベースクラスポインタ
 CSceneBase* gpScene = NULL;
@@ -105,8 +107,10 @@ MofBool CGameApp::Update(void){
 	g_pInput->RefreshKey();
 
 	//デバッグ切り替え
-	if(g_pInput->IsKeyPush(MOFKEY_BACKSPACE))
-	gDebagflag = gDebagflag ? !gDebagflag : !gDebagflag;
+	if (g_pInput->IsKeyPush(MOFKEY_BACKSPACE)) {
+	//gDebagRenderflg = gDebagRenderflg ? !gDebagRenderflg : !gDebagRenderflg;
+
+	}
 
 	//ロード画面更新
 	gLoad.Update();
@@ -204,12 +208,34 @@ MofBool CGameApp::Update(void){
 		return TRUE;
 	}
 	
-	//シーンの更新
-	gpScene->Update();
+	//デバック用停止フラグ
+	if (m_DStop || !m_IsDStop) {
 
-	if (gDebagflag) {
-		gpScene->UpdateDebug();
+		//シーンの更新
+		gpScene->Update();
+
+		//停止デバック用
+		m_DStop = false;
 	}
+
+	if (gDebagRenderflg) {
+		//デバック更新
+		gpScene->UpdateDebug();
+
+		//停止解除
+		if (g_pInput->IsKeyPush(MOFKEY_E)) {
+
+			if (g_pInput->IsKeyHold(MOFKEY_LSHIFT)) {
+				//停止ON
+				m_IsDStop = !m_IsDStop;
+			}
+
+			//再生
+			m_DStop = true;
+		}
+
+	}
+
 
 	//画面遷移完了した場合
 	if (gpScene->IsEnd()) {
@@ -320,7 +346,7 @@ MofBool CGameApp::Render(void){
 		//ロード画面
 		gLoad.RenderLoad();
 
-		if (gDebagflag)
+		if (gDebagRenderflg)
 		{
 			gLoad.RenderDebug();		
 		}
@@ -330,7 +356,7 @@ MofBool CGameApp::Render(void){
 		//シーン画面
 		gpScene->Render();
 
-		if (gDebagflag)
+		if (gDebagRenderflg)
 		{
 			if (gpScene != nullptr) {
 				//デバッグ描画
