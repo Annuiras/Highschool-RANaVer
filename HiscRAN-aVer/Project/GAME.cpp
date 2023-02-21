@@ -346,11 +346,6 @@ void CGAME::Update(void)
 	//ゲームオーバー時の場合フェードアウト
 	if (m_GameOverflg) {
 
-		//ゲームオーバー原因フラグを保存(HP)
-		if (g_Player.GetOver()) {
-			b_GameProgMamt->SetGame_Over_HP(true);
-		}
-
 		b_Fadein = FADE_OUT;
 	}
 

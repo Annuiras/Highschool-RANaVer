@@ -13,7 +13,6 @@
 CGameProgMgmt::CGameProgMgmt():
 Game_DPNum (),
 Game_SP_DPNum(),
-Game_Over_HP(),
 DPdec_type(),
 DPdec_SPflg(),
 Gallery_flg(),
@@ -34,7 +33,6 @@ void CGameProgMgmt::Initialize(void)
 		Game_DPNum[i] = 0;
 		Game_SP_DPNum = 0;
 	}
-	Game_Over_HP = false;
 	DPdec_type = 0;
 
 	for (int i = 0; i < 15; i++)
@@ -95,18 +93,6 @@ void CGameProgMgmt::SetDPdec_SPflg(bool b)
 bool CGameProgMgmt::GetDPdec_SPflg(void)
 {
 	return DPdec_SPflg;
-}
-
-//ゲーム画面：ゲームオーバー原因フラグセット
-void CGameProgMgmt::SetGame_Over_HP(bool b)
-{
-	Game_Over_HP = b;
-}
-
-//ゲーム画面：ゲームオーバー原因フラグゲット
-bool CGameProgMgmt::GetGame_Over_HP(void)
-{
-	return Game_Over_HP;
 }
 
 //ゲーム画面：DP取得数をセット
