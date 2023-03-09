@@ -290,7 +290,11 @@ void COption::Update(void)
 	//BGM’²ßƒ{ƒ^ƒ“‚Ìã‚°‰º‚°
 	if (OptionCnt == 0 && g_pInput->IsKeyHold(MOFKEY_UP) && Botton_BGMPosy >= 242)
 	{
-		Botton_BGMPosy -= 3.0;
+		int a = 542 - 242;
+		double b = VolumeBGM * 100;
+		double c = b / 100;
+		double d = c * a;
+		Botton_BGMPosy = 542 - d;
 	}
 	else if (OptionCnt == 0 && g_pInput->IsKeyHold(MOFKEY_DOWN) && Botton_BGMPosy <= 542)
 	{
