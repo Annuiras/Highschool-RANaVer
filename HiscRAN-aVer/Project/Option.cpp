@@ -288,17 +288,17 @@ void COption::Update(void)
 	}
 
 	//BGM調節ボタンの上げ下げ
-	if (OptionCnt == 0 && g_pInput->IsKeyHold(MOFKEY_UP) && Botton_BGMPosy >= 242)
+	if (OptionCnt == 0 && g_pInput->IsKeyHold(MOFKEY_UP))
 	{
 		int a = 542 - 242;
-		double b = VolumeBGM * 100;
-		double c = b / 100;
-		double d = c * a;
-		Botton_BGMPosy = 542 - d;
+		double b = VolumeBGM * a;
+		Botton_BGMPosy = 542 - b;
 	}
-	else if (OptionCnt == 0 && g_pInput->IsKeyHold(MOFKEY_DOWN) && Botton_BGMPosy <= 542)
+	else if (OptionCnt == 0 && g_pInput->IsKeyHold(MOFKEY_DOWN))
 	{
-		Botton_BGMPosy += 3.0;
+		int a = 542 - 242;
+		double b = VolumeBGM * a;
+		Botton_BGMPosy = 542 - b;
 	}
 
 
@@ -316,13 +316,17 @@ void COption::Update(void)
 	}
 
 	//SE調整ボタンの上げ下げ
-	if (OptionCnt == 1 && g_pInput->IsKeyHold(MOFKEY_UP) && Botton_SEPosy >= 242)
+	if (OptionCnt == 1 && g_pInput->IsKeyHold(MOFKEY_UP))
 	{
-		Botton_SEPosy -= 3.0;
+		int a = 542 - 242;
+		double b = VolumeSE * a;
+		Botton_SEPosy = 542 - b;
 	}
-	else if (OptionCnt == 1 && g_pInput->IsKeyHold(MOFKEY_DOWN) && Botton_SEPosy <= 542)
+	else if (OptionCnt == 1 && g_pInput->IsKeyHold(MOFKEY_DOWN))
 	{
-		Botton_SEPosy += 3.0;
+		int a = 542 - 242;
+		double b = VolumeSE * a;
+		Botton_SEPosy = 542 - b;
 	}
 
 	//SE再生
